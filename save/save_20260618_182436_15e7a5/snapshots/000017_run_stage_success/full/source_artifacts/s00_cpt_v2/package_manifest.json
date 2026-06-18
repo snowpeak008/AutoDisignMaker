@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "project": "程序自动开发流程工具",
+  "project_id": "devflow",
+  "package_id": "source:Concept",
+  "package_type": "Concept",
+  "package_type_id": "concept",
+  "source_id": "Concept",
+  "source_ids": [
+    "Concept"
+  ],
+  "stage": 0,
+  "stage_slug": "idea_intake",
+  "stage_title": "Initial Idea Intake",
+  "version": 2,
+  "generated_by": "src.plugins.adapters.design_export_adapter",
+  "design_summary": {
+    "domain_count": 16,
+    "domain_names": [
+      "立项与产品定位设计",
+      "核心体验设计",
+      "玩法系统设计",
+      "内容设计",
+      "经济与商业化设计",
+      "用户体验与界面设计",
+      "表现与感受设计",
+      "数值与平衡设计",
+      "社交与社区设计",
+      "留存与生命周期设计",
+      "活动与版本设计",
+      "数据指标与验证设计",
+      "合规、伦理与风险设计",
+      "设计文档与协作设计",
+      "发行与增长设计",
+      "上线准备设计"
+    ],
+    "node_count": 103,
+    "checklist_count": 515,
+    "option_group_count": 2574,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "data_source": "data\\design"
+  },
+  "created_at": "2026-06-18T18:34:57+08:00"
+}

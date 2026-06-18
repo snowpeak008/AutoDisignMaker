@@ -1,0 +1,123 @@
+[
+  {
+    "workspace_path": "gate_log.yaml",
+    "size_bytes": 407,
+    "sha256": "11b0630d9431c7d3bde0c614cb6cf0fd1552189ea547312fd3453f4099701a5a",
+    "stage": null,
+    "artifact_id": "",
+    "role": "gate_log",
+    "source_type": "gate_log",
+    "reference_manifest": "",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifact_layer/preflight_stage_00.json",
+    "size_bytes": 212,
+    "sha256": "ef4d8a843e200ca75881e5690a89cb78300f245d013f53b5b5050fa12e5d2080",
+    "stage": null,
+    "artifact_id": "",
+    "role": "workspace_file",
+    "source_type": "run_output",
+    "reference_manifest": "",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+    "size_bytes": 55,
+    "sha256": "483a2f9588e3a50ac58f192219967fc0c1944598433da0bf26903c931efeb8aa",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "operator_report",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/README.md",
+    "size_bytes": 253,
+    "sha256": "2e90a9db83aa8105c48b960b5413fa7044d56e2c21a6f28c4cd29860d2afeecf",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "operator_report",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/artifact_index.json",
+    "size_bytes": 2053,
+    "sha256": "d2c6d07583d6263a2ca423abc180f14b06d865b72d003739471aff3234bfac2c",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "stage_index",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/design_source_error.json",
+    "size_bytes": 360,
+    "sha256": "880189aaf6e281077d18ba7db81590f11761ef19bac0d01c70cd6080b767c23a",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/guidance/01_idea_intake.md",
+    "size_bytes": 309,
+    "sha256": "1d999cf53e324502f98d399e551bfdc8400b21eedf80aa0f6c7eed6b0c9bb3c4",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "guidance",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/guidance/step00.txt",
+    "size_bytes": 82,
+    "sha256": "470784d6f7a87faf26b25799001d05c7b83638a243e34b2a0dd1baceaba556d0",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "guidance",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/reference_manifest.json",
+    "size_bytes": 3839,
+    "sha256": "aec548d142724f055e95bbc1b37745a88cb50342dfd0996962643daee9a66502",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_00/validation_report.json",
+    "size_bytes": 1107,
+    "sha256": "788f93a915450955a0dde894ffa9bc973da59598c9949f3e1395bced23984f39",
+    "stage": 0,
+    "artifact_id": "stage_00.concept_bundle",
+    "role": "validation",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+    "latest_transaction_seq": 3
+  },
+  {
+    "workspace_path": "outputs/checkpoints/step_00_20260618_182436.json",
+    "size_bytes": 543,
+    "sha256": "72e2e38b53ee59ce41b57cb3bb6713fef942de7ba19bee5b9147ed56313ba6ef",
+    "stage": null,
+    "artifact_id": "",
+    "role": "workspace_file",
+    "source_type": "run_output",
+    "reference_manifest": "",
+    "latest_transaction_seq": 3
+  }
+]

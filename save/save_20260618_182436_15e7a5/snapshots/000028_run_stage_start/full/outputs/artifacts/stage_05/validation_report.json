@@ -1,0 +1,43 @@
+{
+  "step": 5,
+  "name": "program_review",
+  "title": "Program requirements review",
+  "status": "success",
+  "valid": true,
+  "timestamp": "2026-06-18T18:35:07",
+  "artifacts_dir": "outputs/artifacts/stage_05",
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "program_review"
+  ],
+  "imported_upstream_artifacts": [
+    {
+      "artifact_id": "stage_03.program_requirements_bundle",
+      "stage": "3",
+      "source": "outputs/artifacts/stage_03",
+      "target": "outputs/artifacts/stage_05/upstream/stage_03/stage_03_program_requirements_bundle/UPSTREAM_REFERENCE.json",
+      "reference_dir": "outputs/artifacts/stage_05/upstream/stage_03/stage_03_program_requirements_bundle",
+      "reference_manifest": "outputs/artifacts/stage_03/reference_manifest.json",
+      "artifact_index": "outputs/artifacts/stage_03/artifact_index.json",
+      "validation_report": "outputs/artifacts/stage_03/validation_report.json",
+      "file_count": 19
+    }
+  ],
+  "missing_upstream_artifacts": [],
+  "notes": [
+    "Optional current-project source artifact groups were not provided; validated upstream artifacts were used."
+  ],
+  "content_exists": true,
+  "ai_review_status": "passed",
+  "blocking_issues": 0,
+  "traceability_valid": true,
+  "scope_budget_valid": true,
+  "business_quality": {
+    "content_exists": true,
+    "blocking_issues": 0,
+    "ai_review_status": "passed",
+    "traceability_valid": true
+  }
+}

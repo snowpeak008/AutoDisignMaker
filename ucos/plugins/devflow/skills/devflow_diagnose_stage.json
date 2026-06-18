@@ -1,0 +1,48 @@
+{
+  "skill_id": "skill_devflow_diagnose_stage_v1",
+  "name": "devflow_diagnose_stage",
+  "type": "expert",
+  "level": 4,
+  "version": "1.0.0",
+  "status": "active",
+  "domain": "devflow",
+  "description": "DevFlow plugin expert skill: diagnoses why a stage failed by correlating validation_report.json, artifact_validation_layer.json, and source_artifacts/ manifests. Returns a structured action recommendation.",
+  "capabilities": [
+    "identify if failure is missing source_artifact vs execution error vs Unity path issue",
+    "cross-reference source_id requirements per stage from HANDOFF.md mapping",
+    "suggest concrete remediation steps specific to DevFlow governance rules"
+  ],
+  "dependencies": [
+    "skill_devflow_pipeline_expert_v1",
+    "skill_validate_stage_v1"
+  ],
+  "trigger_rule": {
+    "required_context_tags": ["devflow", "stage_execution"],
+    "required_inputs": ["target_stage"],
+    "confidence_threshold": 0.9
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "target_stage": {"type": "integer", "minimum": 0, "maximum": 15},
+      "save_id": {"type": "string"}
+    },
+    "required": ["target_stage"]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "root_cause": {"type": "string", "enum": ["missing_source_artifact", "execution_error", "unity_path", "unknown"]},
+      "missing_source_ids": {"type": "array", "items": {"type": "string"}},
+      "remediation_steps": {"type": "array", "items": {"type": "string"}},
+      "can_retry": {"type": "boolean"}
+    },
+    "required": ["root_cause", "remediation_steps"]
+  },
+  "anti_patterns": [
+    "do not create source_artifacts without package_manifest.json",
+    "do not retry stage without resolving missing_groups first"
+  ],
+  "episode_refs": ["ep_decision_004"],
+  "created_at": "2026-06-17T22:00:00+08:00"
+}

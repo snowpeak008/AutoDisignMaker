@@ -1,0 +1,2 @@
+Step 03 prompt: import and validate program requirements artifacts.
+

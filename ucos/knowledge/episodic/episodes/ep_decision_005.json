@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "ep_decision_005",
+  "title": "Decision 005 — 美术资产双层验收",
+  "domain": "devflow",
+  "goal": "美术资产必须先写入美术暂存区，经规格检查（路径/格式/尺寸/命名）+ 审美评审两层验收后才能集成到 Unity Assets，API 原图永久保留不直接作为运行时资产。",
+  "reason": "单层验收无法覆盖风格漂移、比例、材质等视觉质量问题，需要两层分离处理。",
+  "key_decisions": [
+    "美术资产必须先写入美术暂存区，经规格检查（路径/格式/尺寸/命名）+ 审美评审两层验收后才能集成到 Unity Assets，API 原图永久保留不直接作为运行时资产。"
+  ],
+  "outcome": {
+    "status": "success",
+    "result_summary": "美术资产必须先写入美术暂存区，经规格检查（路径/格式/尺寸/命名）+ 审美评审两层验收后才能集成到 Unity Assets，API 原图永久保留不直接作为运行时资产。"
+  },
+  "lessons": [],
+  "related_episodes": [],
+  "skill_ids": [],
+  "pattern_ids_extracted": [
+    "pat_92c38ea7"
+  ],
+  "failure_ids_extracted": [],
+  "reflection_done": true,
+  "created_at": "2026-06-17T15:00:42+00:00",
+  "source_files": [
+    "memory/decisions.md"
+  ]
+}

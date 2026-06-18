@@ -1,0 +1,194 @@
+[
+  {
+    "before": {
+      "workspace_path": "outputs/preflight/actual_development_preflight.json",
+      "size_bytes": 864,
+      "sha256": "664b078ff6968c11fd89d474c28d0b5835a5c66c5096a2370d74b452e2174a40",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "outputs/preflight/actual_development_preflight.json",
+      "size_bytes": 864,
+      "sha256": "68a53831442bb36c1d88256edbc22bc78464054275c6f96eb4e13778d34508ae",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "outputs/runtime_control/run_state.json",
+      "size_bytes": 192,
+      "sha256": "df011c43907dd2aec3e1dd3b1592c2c05752458965d96d27473b3e702957a415",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "outputs/runtime_control/run_state.json",
+      "size_bytes": 192,
+      "sha256": "1086c4abb4509496137502cee5e2a650606ebdb68eee9443f8be3d606e1a2280",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+      "size_bytes": 5811,
+      "sha256": "96deb127f4ff0ee11917a798f29683256457bd3733bb8d6057830c55aa950490",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+      "size_bytes": 5815,
+      "sha256": "fb96f581a68733f5f11ef83612dfee2a75ba54120b3dd3dfe3d96224228958db",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/human_approval.json",
+      "size_bytes": 198,
+      "sha256": "d3b195b061e3c8e6589d13ed90eabf2bee563071aafae2191b356fcf0df950d6",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/human_approval.json",
+      "size_bytes": 198,
+      "sha256": "7118b5144c33ccac776c9777c5663a6eea1a457d7bd9b3cb86462b48f32ba2df",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/operator_submission.json",
+      "size_bytes": 763,
+      "sha256": "8c1839077346e5440dd4c9f54b5c860f8ec9c64ea761d1c2ec56243aa0c7c5e1",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/operator_submission.json",
+      "size_bytes": 763,
+      "sha256": "5beedadd937e331101f8dea4fbbc86f456901b5a43471bc45e132a8507299461",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/package_manifest.json",
+      "size_bytes": 1285,
+      "sha256": "cf06864506a66573d89ddf74e91fc631b4abb585a5cf5c3be9bfcc017b7bbba5",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/package_manifest.json",
+      "size_bytes": 1285,
+      "sha256": "34b86059c8ffb5bf6e95beb7c124cb4fc10a80c3e85ebfad381f149866fb8bb1",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/selection_history.json",
+      "size_bytes": 242,
+      "sha256": "84b088a0e5bae191ff09d2d4c5a38e0992f22251f6cea77a129fc9810e6ff3db",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/selection_history.json",
+      "size_bytes": 242,
+      "sha256": "7f1ae5eec50e19132ee754a500c24cc39fe6f4725391f8f7f0b3f95493eaeff8",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/stage_input.md",
+      "size_bytes": 5811,
+      "sha256": "96deb127f4ff0ee11917a798f29683256457bd3733bb8d6057830c55aa950490",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 13
+    },
+    "after": {
+      "workspace_path": "source_artifacts/s00_cpt_v2/stage_input.md",
+      "size_bytes": 5815,
+      "sha256": "fb96f581a68733f5f11ef83612dfee2a75ba54120b3dd3dfe3d96224228958db",
+      "stage": null,
+      "artifact_id": "",
+      "role": "source_artifact",
+      "source_type": "source_artifact",
+      "reference_manifest": "",
+      "latest_transaction_seq": 14
+    }
+  }
+]

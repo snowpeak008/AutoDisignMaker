@@ -1,0 +1,1 @@
+"""No-CrewAI pipeline package."""

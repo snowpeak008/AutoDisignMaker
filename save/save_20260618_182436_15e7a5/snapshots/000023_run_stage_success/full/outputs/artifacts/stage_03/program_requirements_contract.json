@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:06",
+  "valid": true,
+  "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "requirement": "实现并验证“项目定位：AI-assisted design-to-development automation workspace”：merge structured design authoring, DevFlow stage orchestration, artifact validation, and UCOS memory into one movable project.",
+      "selection_id": "SEL-001",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:7"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“项目定位：AI-assisted design-to-development automation workspace”已按来源实现。"
+    },
+    {
+      "id": "REQ-002",
+      "requirement": "实现并验证“平台：Windows desktop application with Python CLI pipeline support”：run the GUI design tool and command-line development stages from the same project root.",
+      "selection_id": "SEL-002",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:11"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“平台：Windows desktop application with Python CLI pipeline support”已按来源实现。"
+    },
+    {
+      "id": "REQ-003",
+      "requirement": "实现并验证“目标玩家：game designers, technical designers, and Unity developers”：support repeated design decisions, validation, handoff, and implementation review.",
+      "selection_id": "SEL-003",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:15"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“目标玩家：game designers, technical designers, and Unity developers”已按来源实现。"
+    },
+    {
+      "id": "REQ-004",
+      "requirement": "实现并验证“商业模式：internal production tool and reusable automation framework”：prioritize correctness, traceability, migration safety, and local execution over marketing presentation.",
+      "selection_id": "SEL-004",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:19"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“商业模式：internal production tool and reusable automation framework”已按来源实现。"
+    },
+    {
+      "id": "REQ-005",
+      "requirement": "实现并验证“核心循环：load design knowledge -> choose structured decisions -> export Concept package -> run DevFlow stages -> review artifacts”：make each design-to-development handoff explicit and testable.",
+      "selection_id": "SEL-005",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:26"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“核心循环：load design knowledge -> choose structured decisions -> export Concept package -> run DevFlow stages -> review artifacts”已按来源实现。"
+    },
+    {
+      "id": "REQ-006",
+      "requirement": "实现并验证“压力来源：manual handoff drift, stale absolute paths, missing source packages, and unverifiable development outputs”：turn migration risks into validation checks before actual Unity project mutation.",
+      "selection_id": "SEL-006",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:30"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“压力来源：manual handoff drift, stale absolute paths, missing source packages, and unverifiable development outputs”已按来源实现。"
+    },
+    {
+      "id": "REQ-007",
+      "requirement": "实现并验证“奖励节奏：immediate stage summaries, validation reports, package manifests, and build artifacts”：give operators fast feedback after every design or development stage.",
+      "selection_id": "SEL-007",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:34"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“奖励节奏：immediate stage summaries, validation reports, package manifests, and build artifacts”已按来源实现。"
+    },
+    {
+      "id": "REQ-008",
+      "requirement": "实现并验证“system_layer：Design Engine”：load domain schemas, templates, prompt frameworks, and project templates from data/design.",
+      "selection_id": "SEL-008",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-008"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“system_layer：Design Engine”已按来源实现。"
+    },
+    {
+      "id": "REQ-009",
+      "requirement": "实现并验证“system_layer：DevFlow Orchestrator”：execute stages 00-15 with preflight, artifact generation, validation, and review gates.",
+      "selection_id": "SEL-009",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-009"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“system_layer：DevFlow Orchestrator”已按来源实现。"
+    },
+    {
+      "id": "REQ-010",
+      "requirement": "实现并验证“system_layer：Artifact Layer”：record stage outputs, manifests, validation reports, and review status.",
+      "selection_id": "SEL-010",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-010"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“system_layer：Artifact Layer”已按来源实现。"
+    },
+    {
+      "id": "REQ-011",
+      "requirement": "实现并验证“system_layer：UCOS Memory”：preserve migrated procedural, episodic, and framework knowledge for repeated runs.",
+      "selection_id": "SEL-011",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-011"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“system_layer：UCOS Memory”已按来源实现。"
+    },
+    {
+      "id": "REQ-012",
+      "requirement": "实现并验证“内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports”：keep authoring content and runtime artifacts separated while preserving legacy data.",
+      "selection_id": "SEL-012",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+      ],
+      "phase": "content_ops",
+      "system_ids": [
+        "SEL-012"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports”已按来源实现。"
+    },
+    {
+      "id": "REQ-013",
+      "requirement": "实现并验证“资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output”：make required runtime resources discoverable from .project_root.",
+      "selection_id": "SEL-013",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-013"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output”已按来源实现。"
+    },
+    {
+      "id": "REQ-014",
+      "requirement": "实现并验证“运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging”：support both interactive design work and repeatable command-line validation.",
+      "selection_id": "SEL-014",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-014"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging”已按来源实现。"
+    },
+    {
+      "id": "REQ-015",
+      "requirement": "实现并验证“表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports”：surface operational state without hiding machine-readable artifacts.",
+      "selection_id": "SEL-015",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-015"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports”已按来源实现。"
+    },
+    {
+      "id": "REQ-016",
+      "requirement": "实现并验证“技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging”：make the merged project relocatable and independently verifiable.",
+      "selection_id": "SEL-016",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-016"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging”已按来源实现。"
+    },
+    {
+      "id": "REQ-017",
+      "requirement": "实现并验证“生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable”：turn the original merge plan into a repeatable delivery workflow.",
+      "selection_id": "SEL-017",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+      ],
+      "phase": "core_playable",
+      "system_ids": [
+        "SEL-017"
+      ],
+      "acceptance": "可通过配置、运行流程或人工检查证明“生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable”已按来源实现。"
+    },
+    {
+      "id": "REQ-018",
+      "requirement": "实现并验证“影响：path independence, source package compatibility, legacy save preservation, stage contract stability, and Unity mutation boundary”：make the risky parts of the merge visible before full development execution.",
+      "selection_id": "SEL-018",
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:102"
+      ],
+      "phase": "core_playable",
+      "system_ids": [],
+      "acceptance": "可通过配置、运行流程或人工检查证明“影响：path independence, source package compatibility, legacy save preservation, stage contract stability, and Unity mutation boundary”已按来源实现。"
+    }
+  ],
+  "system_count": 10,
+  "resource_count": 1,
+  "program_structure_spec": "program_structure_spec.json"
+}

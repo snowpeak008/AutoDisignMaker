@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "questions": [
+    {
+      "question_ref": "project.position",
+      "domain": "项目愿景",
+      "decision": "项目定位",
+      "question": "当前项目以什么产品定位进入开发？",
+      "item_type": "项目定位"
+    },
+    {
+      "question_ref": "project.platform",
+      "domain": "项目愿景",
+      "decision": "平台",
+      "question": "当前项目首先面向什么平台？",
+      "item_type": "平台"
+    },
+    {
+      "question_ref": "project.target_players",
+      "domain": "项目愿景",
+      "decision": "目标玩家",
+      "question": "当前项目面向哪类玩家？",
+      "item_type": "目标玩家"
+    },
+    {
+      "question_ref": "project.business_model",
+      "domain": "项目愿景",
+      "decision": "商业模式",
+      "question": "当前项目采用什么商业模式？",
+      "item_type": "商业模式"
+    },
+    {
+      "question_ref": "core.loop",
+      "domain": "核心体验",
+      "decision": "核心循环",
+      "question": "玩家通过什么循环获得主要体验？",
+      "item_type": "核心循环"
+    },
+    {
+      "question_ref": "core.pressure_source",
+      "domain": "核心体验",
+      "decision": "压力来源",
+      "question": "主要压力来自哪里？",
+      "item_type": "压力来源"
+    },
+    {
+      "question_ref": "core.reward_rhythm",
+      "domain": "核心体验",
+      "decision": "奖励节奏",
+      "question": "奖励以什么节奏驱动玩家继续？",
+      "item_type": "奖励节奏"
+    },
+    {
+      "question_ref": "systems.top_level",
+      "domain": "系统图",
+      "decision": "顶层系统",
+      "question": "项目选择了哪些顶层系统？",
+      "item_type": "system_layer"
+    },
+    {
+      "question_ref": "content.objects",
+      "domain": "内容图",
+      "decision": "内容对象",
+      "question": "项目包含哪些内容对象？",
+      "item_type": "内容"
+    },
+    {
+      "question_ref": "resources.types",
+      "domain": "资源图",
+      "decision": "核心资源类型",
+      "question": "项目需要哪些资源或资产类型？",
+      "item_type": "资源"
+    },
+    {
+      "question_ref": "runtime.flows",
+      "domain": "运行时图",
+      "decision": "运行时流程",
+      "question": "项目有哪些关键运行时流程？",
+      "item_type": "运行时"
+    },
+    {
+      "question_ref": "presentation.feedback",
+      "domain": "表现层",
+      "decision": "反馈与界面表现",
+      "question": "项目需要哪些主要反馈或表现方式？",
+      "item_type": "表现"
+    },
+    {
+      "question_ref": "technology.constraints",
+      "domain": "技术层",
+      "decision": "技术约束和数据方案",
+      "question": "项目有哪些关键技术约束和数据方案？",
+      "item_type": "技术"
+    },
+    {
+      "question_ref": "production.method",
+      "domain": "生产层",
+      "decision": "生产推进方式",
+      "question": "项目采用哪些生产推进方式？",
+      "item_type": "生产"
+    },
+    {
+      "question_ref": "impact.analysis",
+      "domain": "影响分析",
+      "decision": "影响清单",
+      "question": "哪些变更类型需要显式影响分析？",
+      "item_type": "影响"
+    }
+  ]
+}

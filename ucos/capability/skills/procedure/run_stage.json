@@ -1,0 +1,47 @@
+{
+  "skill_id": "skill_run_stage_v1",
+  "name": "run_stage",
+  "type": "procedure",
+  "level": 2,
+  "version": "1.0.0",
+  "status": "active",
+  "domain": "devflow",
+  "description": "Runs a specific DevFlow pipeline stage via orchestrator.py with proper governance checks.",
+  "capabilities": [
+    "execute orchestrator.py --from-step N --stop-step N --auto-approve",
+    "verify stage prerequisites via source_artifacts/ before running",
+    "capture and surface exit code and stderr"
+  ],
+  "dependencies": [
+    "skill_run_command_v1",
+    "skill_read_file_v1"
+  ],
+  "trigger_rule": {
+    "required_context_tags": ["devflow", "stage_execution"],
+    "required_inputs": ["target_stage"],
+    "confidence_threshold": 0.8
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "target_stage": {"type": "integer", "minimum": 0, "maximum": 15},
+      "auto_approve": {"type": "boolean", "default": true}
+    },
+    "required": ["target_stage"]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "exit_code": {"type": "integer"},
+      "stdout": {"type": "string"},
+      "stderr": {"type": "string"}
+    },
+    "required": ["exit_code"]
+  },
+  "anti_patterns": [
+    "do not call step*.py modules directly — always go through orchestrator.py",
+    "do not run stages out of sequence without explicit user instruction"
+  ],
+  "episode_refs": [],
+  "created_at": "2026-06-17T22:00:00+08:00"
+}

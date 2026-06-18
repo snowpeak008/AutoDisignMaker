@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/plan.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "plan_id",
+    "goal_id",
+    "tasks",
+    "created_at",
+    "fact_snapshot_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

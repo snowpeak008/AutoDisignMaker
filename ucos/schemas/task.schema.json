@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/task.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "task_id",
+    "title",
+    "required_skills",
+    "dependencies",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,126 @@
+{
+  "step": 8,
+  "timestamp": "2026-06-18T18:35:10",
+  "stage_dir": "outputs/artifacts/stage_08",
+  "artifacts": [
+    {
+      "id": "stage_08.art_plan_bundle",
+      "stage": 8,
+      "kind": "source_placeholder_or_import",
+      "depends_on": [
+        "stage_06.art_review_bundle"
+      ],
+      "tasks": [
+        {
+          "id": "stage_08.resolve_art_plan",
+          "type": "import_or_declare_missing",
+          "description": "Import art plans or record missing source artifact."
+        },
+        {
+          "id": "stage_08.generate_art_plan",
+          "type": "deterministic_generation",
+          "description": "Generate art plan index, art task breakdown, and art structure spec."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Naming_Convention.md"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "stage_08.resolve_art_plan",
+      "type": "import_or_declare_missing",
+      "description": "Import art plans or record missing source artifact.",
+      "artifact_id": "stage_08.art_plan_bundle"
+    },
+    {
+      "id": "stage_08.generate_art_plan",
+      "type": "deterministic_generation",
+      "description": "Generate art plan index, art task breakdown, and art structure spec.",
+      "artifact_id": "stage_08.art_plan_bundle"
+    }
+  ],
+  "file_manifest": [
+    {
+      "path": "ART-001.md",
+      "size_bytes": 535,
+      "sha256": "fd9954d9f95a152be3d26b906ee3ade35c38657ecf1e0a816202acb61f356b50"
+    },
+    {
+      "path": "art_plan_index.md",
+      "size_bytes": 549,
+      "sha256": "d628054888d3323e58f5c826fd032b92238da753969b1c6ebd948161507c7f7a"
+    },
+    {
+      "path": "art_structure_spec.md",
+      "size_bytes": 124,
+      "sha256": "51f7d9e2b2e99dbb3b76725ad8dec943568cd266465dd546a784a0112e873d32"
+    },
+    {
+      "path": "art_task_breakdown.json",
+      "size_bytes": 1741,
+      "sha256": "6662f39f4a593909b19331524293eeb8068d50f8c32dfb61c614de5ba97ac7ac"
+    },
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 3526,
+      "sha256": "d8096a839993746b7e04b7c81a4809044c6d8267c8b71e0e31b18b49f5dc6fbc"
+    },
+    {
+      "path": "guidance/09_art_plan.md",
+      "size_bytes": 167,
+      "sha256": "302120a91d422a6852661c961ff0372fee49e9ace697073c4557ad584d6bc657"
+    },
+    {
+      "path": "guidance/step08.txt",
+      "size_bytes": 68,
+      "sha256": "ebdddbee1c14b7fa6b5a7ecb6a4b9d7fe193d1cb780faf7c9fb876fce2de4e28"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 57,
+      "sha256": "b6224cc6b87faa24fae935ac989622d0371103f3bfd141821e68e0acff0bee1d"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 252,
+      "sha256": "94c91b64ec1411d8d57273f4b88d01e8e0c7aa70f2a3eac241b8396a7d4b30a0"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 14876,
+      "sha256": "85c33935ceba26e14c9e8871321c0626051bec382033e40962d9caa76201fb43"
+    },
+    {
+      "path": "upstream/stage_06/stage_06_art_review_bundle/UPSTREAM_REFERENCE.json",
+      "size_bytes": 5102,
+      "sha256": "bca603e771f5a4e9de377ad0fa5495183b63c5e4024b87bc700ca0120dc68555"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1488,
+      "sha256": "24249cc01758816529d8c846b49380aa332f595317257ef8b694fc7767056191"
+    },
+    {
+      "path": "validation_report_art_plan.json",
+      "size_bytes": 41,
+      "sha256": "2569cb8548b6d21101062ec429b8e9192a0da2d6213ee38ed104f18f3d4217e9"
+    }
+  ]
+}

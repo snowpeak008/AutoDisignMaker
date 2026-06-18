@@ -1,0 +1,701 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:33:47",
+  "stage": {
+    "number": 1,
+    "name": "demo",
+    "title": "Gameplay framework",
+    "artifact_root": "outputs/artifacts/stage_01"
+  },
+  "artifacts": [
+    {
+      "id": "stage_01.gameplay_framework_bundle",
+      "stage": 1,
+      "kind": "framework_graph_bundle",
+      "depends_on": [
+        "stage_00.concept_bundle"
+      ],
+      "tasks": [
+        {
+          "id": "stage_01.import_framework_history",
+          "type": "import_or_reference",
+          "description": "Import gameplay framework history when provided or reference validated stage 00 outputs."
+        },
+        {
+          "id": "stage_01.generate_framework_graphs",
+          "type": "deterministic_generation",
+          "description": "Generate gameplay framework, core loop, system boundary, full feature scope, implementation phase map, system relation graph, and resource flow graph."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Design_Decisions.md",
+        "knowledge/Frozen_Contracts.md"
+      ]
+    }
+  ],
+  "inputs": {
+    "source_artifacts": [],
+    "upstream_artifacts": [
+      {
+        "artifact_id": "stage_00.concept_bundle",
+        "stage": 0,
+        "stage_dir": "outputs/artifacts/stage_00",
+        "reference_record": "outputs/artifacts/stage_01/upstream/stage_00/stage_00_concept_bundle/UPSTREAM_REFERENCE.json",
+        "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+        "artifact_index": "outputs/artifacts/stage_00/artifact_index.json",
+        "validation_report": "outputs/artifacts/stage_00/validation_report.json",
+        "file_count": 30,
+        "files": [
+          {
+            "path": "artifact_index.json",
+            "stage_path": "outputs/artifacts/stage_00/artifact_index.json",
+            "role": "stage_index",
+            "size_bytes": 6122,
+            "sha256": "befa5ee464e65cbfa9173128792d0a9617be1ab152c9c58fc30eabe85f4d0220",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "artifact_layer_manifest.json",
+            "stage_path": "outputs/artifacts/stage_00/artifact_layer_manifest.json",
+            "role": "artifact_layer",
+            "size_bytes": 6985,
+            "sha256": "2362a54d3de59112480a1bb9edb470708f92f4be02f4fb3530d382ad7fee2379",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "artifact_reviews.json",
+            "stage_path": "outputs/artifacts/stage_00/artifact_reviews.json",
+            "role": "validation",
+            "size_bytes": 1361,
+            "sha256": "9522c827c382b3884b42163b872f65c6065c5bb3815d8ba3cfffa05fa77fbd10",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "artifact_validation_layer.json",
+            "stage_path": "outputs/artifacts/stage_00/artifact_validation_layer.json",
+            "role": "validation",
+            "size_bytes": 1618,
+            "sha256": "7a3e5300695ce885eb815d17e8311022a23dc89f1cfe0f2403a609bf5071b037",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "design_extraction.json",
+            "stage_path": "outputs/artifacts/stage_00/design_extraction.json",
+            "role": "stage_file",
+            "size_bytes": 32051,
+            "sha256": "70987f38004cd0cd7d1a058961a872c608ce23ae028e8d03563056e5b404dbf4",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "design_source_manifest.json",
+            "stage_path": "outputs/artifacts/stage_00/design_source_manifest.json",
+            "role": "stage_file",
+            "size_bytes": 478,
+            "sha256": "6f374cb25ec19b9bb037b8c1e336adda895b00b0b251bc6b83513f31390cb243",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "full_scope_catalog.json",
+            "stage_path": "outputs/artifacts/stage_00/full_scope_catalog.json",
+            "role": "stage_file",
+            "size_bytes": 15061,
+            "sha256": "6d2dbdc2d46f75f7a7670fa4e626205212e78d26d7a79a1c5182d4eee647b45a",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "guidance/01_idea_intake.md",
+            "stage_path": "outputs/artifacts/stage_00/guidance/01_idea_intake.md",
+            "role": "guidance",
+            "size_bytes": 309,
+            "sha256": "1d999cf53e324502f98d399e551bfdc8400b21eedf80aa0f6c7eed6b0c9bb3c4",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "guidance/step00.txt",
+            "stage_path": "outputs/artifacts/stage_00/guidance/step00.txt",
+            "role": "guidance",
+            "size_bytes": 82,
+            "sha256": "470784d6f7a87faf26b25799001d05c7b83638a243e34b2a0dd1baceaba556d0",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "implementation_phase_map.json",
+            "stage_path": "outputs/artifacts/stage_00/implementation_phase_map.json",
+            "role": "stage_file",
+            "size_bytes": 6808,
+            "sha256": "d7b2c310c138c6a86a8fe1b171739ab19327610ac6d691aae143ccc0cf439784",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/attachments/autodesignmaker_concept.md",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/attachments/autodesignmaker_concept.md",
+            "role": "source_import",
+            "size_bytes": 5811,
+            "sha256": "96deb127f4ff0ee11917a798f29683256457bd3733bb8d6057830c55aa950490",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/creative_points.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/creative_points.json",
+            "role": "source_import",
+            "size_bytes": 215,
+            "sha256": "fb02039df0a7ba581563bb0de3fdf6e9b144947052de3b864ee8071b0c7a1df0",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/human_approval.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/human_approval.json",
+            "role": "source_import",
+            "size_bytes": 198,
+            "sha256": "d3b195b061e3c8e6589d13ed90eabf2bee563071aafae2191b356fcf0df950d6",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/human_review.md",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/human_review.md",
+            "role": "source_import",
+            "size_bytes": 84,
+            "sha256": "62f5afddaca5049d0920c9a50dcc5a18fdd596ae54bebd03f04fe49861df7a34",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/open_questions.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/open_questions.json",
+            "role": "source_import",
+            "size_bytes": 229,
+            "sha256": "8a23b770fd4939f9ccb5201ffb7f0b213c8c5e605a864287cb86dd1037e74852",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/operator_submission.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/operator_submission.json",
+            "role": "source_import",
+            "size_bytes": 763,
+            "sha256": "8c1839077346e5440dd4c9f54b5c860f8ec9c64ea761d1c2ec56243aa0c7c5e1",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/package_manifest.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/package_manifest.json",
+            "role": "source_import",
+            "size_bytes": 1285,
+            "sha256": "cf06864506a66573d89ddf74e91fc631b4abb585a5cf5c3be9bfcc017b7bbba5",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/prototype_candidates.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/prototype_candidates.json",
+            "role": "source_import",
+            "size_bytes": 225,
+            "sha256": "928fc7942d068a7139fd2d92c1a1694c1a28ece577997d00c789999cce34542e",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/selected_play_prototype.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/selected_play_prototype.json",
+            "role": "source_import",
+            "size_bytes": 218,
+            "sha256": "be33e635bce2119856de7253a09a953d7955be1fc3b9c4c920cc71fb8b91d8f5",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/selected_play_prototype.md",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/selected_play_prototype.md",
+            "role": "source_import",
+            "size_bytes": 80,
+            "sha256": "26427bfa5e7dec9ba469c178bef9d0530d9ed37b73bdebb4186d33a9a8aa83dc",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/selection_history.json",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/selection_history.json",
+            "role": "source_import",
+            "size_bytes": 242,
+            "sha256": "84b088a0e5bae191ff09d2d4c5a38e0992f22251f6cea77a129fc9810e6ff3db",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "imported/concept/Concept_v2/stage_input.md",
+            "stage_path": "outputs/artifacts/stage_00/imported/concept/Concept_v2/stage_input.md",
+            "role": "source_import",
+            "size_bytes": 5811,
+            "sha256": "96deb127f4ff0ee11917a798f29683256457bd3733bb8d6057830c55aa950490",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "main_design_source.json",
+            "stage_path": "outputs/artifacts/stage_00/main_design_source.json",
+            "role": "stage_file",
+            "size_bytes": 502,
+            "sha256": "5058031e153c2ab8c38ed54f1e908ad13b66be625eb5936bd105ba2d42f1c92e",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "open_questions.json",
+            "stage_path": "outputs/artifacts/stage_00/open_questions.json",
+            "role": "stage_file",
+            "size_bytes": 172,
+            "sha256": "480d8c3b8824a7d181ef0b8a321ec114572c620dfcfb42a49fb8b2b4448ddfce",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "option_coverage_report.json",
+            "stage_path": "outputs/artifacts/stage_00/option_coverage_report.json",
+            "role": "stage_file",
+            "size_bytes": 9264,
+            "sha256": "f1e25abcfcb4b6b66aa469332ac1fb64702ab8a97f5092ab30d9c4c84f14a5ed",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "option_taxonomy.json",
+            "stage_path": "outputs/artifacts/stage_00/option_taxonomy.json",
+            "role": "stage_file",
+            "size_bytes": 3404,
+            "sha256": "f6ae5bf24489951fc2fd04072768507cbc9ad10f801099f2c4451ba0cce31a20",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "project_option_selection.json",
+            "stage_path": "outputs/artifacts/stage_00/project_option_selection.json",
+            "role": "stage_file",
+            "size_bytes": 12363,
+            "sha256": "41551d7d5129364cd4bb4904c93f8540893a748303d08f7bb90317d51a7550e2",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "README.md",
+            "stage_path": "outputs/artifacts/stage_00/README.md",
+            "role": "operator_report",
+            "size_bytes": 250,
+            "sha256": "3033d8fb171068784efd9ad1ed304f465da419a31153c64223d7ac2a363db590",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "source_digest.md",
+            "stage_path": "outputs/artifacts/stage_00/source_digest.md",
+            "role": "stage_file",
+            "size_bytes": 6888,
+            "sha256": "b9e0e39b37153fc8af8c1b83e51975b514aa54e4025a6bead33b874b4ca5ea47",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          },
+          {
+            "path": "validation_report.json",
+            "stage_path": "outputs/artifacts/stage_00/validation_report.json",
+            "role": "validation",
+            "size_bytes": 1674,
+            "sha256": "4381c17d4371c155fab1c8fcd9260feeedb4bd9db0f8bf66d1907f77cdbcb2fc",
+            "source_manifest": "outputs/artifacts/stage_00/reference_manifest.json"
+          }
+        ]
+      }
+    ],
+    "missing_required_groups": [],
+    "optional_missing_groups": [
+      "gameplay_framework_history"
+    ],
+    "missing_upstream_artifacts": []
+  },
+  "files": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 4929,
+      "sha256": "f1e3e6d7a7b27ce4536896c598558f8becb4835fe6f357bb9b0765b380018902",
+      "stage_path": "outputs/artifacts/stage_01/artifact_index.json",
+      "role": "stage_index"
+    },
+    {
+      "path": "artifact_layer_manifest.json",
+      "size_bytes": 5688,
+      "sha256": "6eb6a8febe6e77328b3a6511b9b6e5ccff150329f52b130a7fbe2cee8ca18791",
+      "stage_path": "outputs/artifacts/stage_01/artifact_layer_manifest.json",
+      "role": "artifact_layer"
+    },
+    {
+      "path": "artifact_reviews.json",
+      "size_bytes": 1377,
+      "sha256": "5f434c174363e86caaaadf9a845039f9e21578981c5615665d0c0ea56e8c7097",
+      "stage_path": "outputs/artifacts/stage_01/artifact_reviews.json",
+      "role": "validation"
+    },
+    {
+      "path": "artifact_validation_layer.json",
+      "size_bytes": 1629,
+      "sha256": "1368ab1946cde890d67d66ae23c104dca57b0ecedd755268ba7bc4576cc5b28d",
+      "stage_path": "outputs/artifacts/stage_01/artifact_validation_layer.json",
+      "role": "validation"
+    },
+    {
+      "path": "core_loop.json",
+      "size_bytes": 1207,
+      "sha256": "b7892f8975c6b5daf066856b60be1175804151854dc389932f0aec013d18ca4d",
+      "stage_path": "outputs/artifacts/stage_01/core_loop.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "core_playable_slice.json",
+      "size_bytes": 5996,
+      "sha256": "84a08e20c89852a079d5b16b8c168b5643fd4a8f65b39baa8247d848e451417a",
+      "stage_path": "outputs/artifacts/stage_01/core_playable_slice.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "full_feature_scope.json",
+      "size_bytes": 15061,
+      "sha256": "35cacd5e534e8b9188003bf6d1fcdd74a1d03579aea23587bb32b8d84ae1a98a",
+      "stage_path": "outputs/artifacts/stage_01/full_feature_scope.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "gameplay_framework.md",
+      "size_bytes": 6395,
+      "sha256": "3ddd5392f7f630b69e7847ca91d4d9e709c80551ab527a3616078e3f31098225",
+      "stage_path": "outputs/artifacts/stage_01/gameplay_framework.md",
+      "role": "stage_file"
+    },
+    {
+      "path": "guidance/02_gameplay_framework.md",
+      "size_bytes": 259,
+      "sha256": "b6a83ee5ea5f3303d5c6e1fbea924143507a2e64c4c9ce29259a9169077bbcb9",
+      "stage_path": "outputs/artifacts/stage_01/guidance/02_gameplay_framework.md",
+      "role": "guidance"
+    },
+    {
+      "path": "guidance/step01.txt",
+      "size_bytes": 82,
+      "sha256": "a424830ba87116fb451597d0763546e772460f266c24a6c82a752dd9770a34b9",
+      "stage_path": "outputs/artifacts/stage_01/guidance/step01.txt",
+      "role": "guidance"
+    },
+    {
+      "path": "implementation_phase_map.json",
+      "size_bytes": 6808,
+      "sha256": "a54771d9498d3ec48e9650ec5bc7b5915dfdebd83c7b4a5e15056013bc773c5f",
+      "stage_path": "outputs/artifacts/stage_01/implementation_phase_map.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "open_questions.json",
+      "size_bytes": 13796,
+      "sha256": "f5882a3681e2b561c742c7ce6b72f7cdee9b5e7ebd4e082a2888033fb22cd8d7",
+      "stage_path": "outputs/artifacts/stage_01/open_questions.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "option_coverage_report.json",
+      "size_bytes": 9264,
+      "sha256": "2c9e6a93cb6a5e0c5b62f6d715d22e68e0682e287b8274afb29c416d5065794f",
+      "stage_path": "outputs/artifacts/stage_01/option_coverage_report.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 74,
+      "sha256": "30bfec4b2bb395c97dd6c0c31f1865d5be43686fb104d3174e8bab732783cb2f",
+      "stage_path": "outputs/artifacts/stage_01/OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "role": "operator_report"
+    },
+    {
+      "path": "project_option_selection.json",
+      "size_bytes": 12363,
+      "sha256": "3a1e1b3bc4fce77e9e81a2140ee6bb6d202f53bbcff04d5c77b097123d359903",
+      "stage_path": "outputs/artifacts/stage_01/project_option_selection.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 279,
+      "sha256": "ffda0064ed8c833c1e315efd6620b37b5bff0b3cd6ff0876502ff77c92794e16",
+      "stage_path": "outputs/artifacts/stage_01/README.md",
+      "role": "operator_report"
+    },
+    {
+      "path": "resource_flow_graph.json",
+      "size_bytes": 543,
+      "sha256": "50194ca9f294ffd0eafca736f900cc220c36ad3a48eb9fa5e8fa798e9d81d1b8",
+      "stage_path": "outputs/artifacts/stage_01/resource_flow_graph.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "resource_flow_graph.mmd",
+      "size_bytes": 1234,
+      "sha256": "faec5c8952c93e1cc1edeae94e5cca98d9d5bb3873ec7bbb7eb25a5a0597fedf",
+      "stage_path": "outputs/artifacts/stage_01/resource_flow_graph.mmd",
+      "role": "stage_file"
+    },
+    {
+      "path": "system_boundary.json",
+      "size_bytes": 18752,
+      "sha256": "2544670fb8415cff57f4efb1cb7622b8bd3af92886f87fd9dd22be17d5c33acd",
+      "stage_path": "outputs/artifacts/stage_01/system_boundary.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "system_relation_graph.json",
+      "size_bytes": 18739,
+      "sha256": "6399160f4539f29d4816a857a23bf4cb14a59336bfd9dade3c68e47b5c2ffe10",
+      "stage_path": "outputs/artifacts/stage_01/system_relation_graph.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "system_relation_graph.mmd",
+      "size_bytes": 1088,
+      "sha256": "245351164cab77ec5b2dc4ba8001cb6e2f6fce41cdeb6054fe8b2877b30cf4d6",
+      "stage_path": "outputs/artifacts/stage_01/system_relation_graph.mmd",
+      "role": "stage_file"
+    },
+    {
+      "path": "upstream/stage_00/stage_00_concept_bundle/UPSTREAM_REFERENCE.json",
+      "size_bytes": 11695,
+      "sha256": "afa08bbf8c023b73ae0efa4f692462068b2d9eace312f1094ec022e7e10cd969",
+      "stage_path": "outputs/artifacts/stage_01/upstream/stage_00/stage_00_concept_bundle/UPSTREAM_REFERENCE.json",
+      "role": "upstream_reference"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1586,
+      "sha256": "8e3ed64bfa8f4b9dd5e94062fb58b612abe6bbb55a7359e2f271575a2dfe4bf7",
+      "stage_path": "outputs/artifacts/stage_01/validation_report.json",
+      "role": "validation"
+    }
+  ],
+  "relations": [
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/artifact_index.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/artifact_layer_manifest.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/artifact_reviews.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/artifact_validation_layer.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/design_extraction.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/design_source_manifest.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/full_scope_catalog.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/guidance/01_idea_intake.md",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/guidance/step00.txt",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/implementation_phase_map.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/attachments/autodesignmaker_concept.md",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/creative_points.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/human_approval.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/human_review.md",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/open_questions.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/operator_submission.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/package_manifest.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/prototype_candidates.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/selected_play_prototype.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/selected_play_prototype.md",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/selection_history.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/imported/concept/Concept_v2/stage_input.md",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/main_design_source.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/open_questions.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/option_coverage_report.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/option_taxonomy.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/project_option_selection.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/README.md",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/source_digest.md",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_00/validation_report.json",
+      "to": "outputs/artifacts/stage_01/reference_manifest.json",
+      "upstream_artifact_id": "stage_00.concept_bundle",
+      "upstream_stage": 0
+    },
+    {
+      "type": "artifact_dependency",
+      "from_artifact_id": "stage_00.concept_bundle",
+      "to_artifact_id": "stage_01.gameplay_framework_bundle"
+    }
+  ],
+  "summary": {
+    "local_file_count": 23,
+    "source_file_count": 0,
+    "upstream_artifact_count": 1,
+    "upstream_file_count": 30,
+    "relation_count": 31
+  },
+  "updated_at": "2026-06-18T18:33:47"
+}

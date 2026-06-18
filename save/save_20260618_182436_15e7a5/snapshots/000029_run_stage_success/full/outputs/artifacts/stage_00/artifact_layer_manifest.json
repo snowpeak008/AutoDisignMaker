@@ -1,0 +1,200 @@
+{
+  "step": 0,
+  "timestamp": "2026-06-18T18:35:04",
+  "stage_dir": "outputs/artifacts/stage_00",
+  "artifacts": [
+    {
+      "id": "stage_00.concept_bundle",
+      "stage": 0,
+      "kind": "design_import_bundle",
+      "depends_on": [],
+      "tasks": [
+        {
+          "id": "stage_00.import_concept",
+          "type": "import_or_design_doc",
+          "description": "Import concept artifacts when provided, otherwise use the current project design document."
+        },
+        {
+          "id": "stage_00.generate_design_machine_files",
+          "type": "deterministic_generation",
+          "description": "Generate design source manifest, extraction, option coverage, project selections, open questions, scope catalog, and phase map."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Frozen_Contracts.md",
+        "knowledge/Naming_Convention.md"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "stage_00.import_concept",
+      "type": "import_or_design_doc",
+      "description": "Import concept artifacts when provided, otherwise use the current project design document.",
+      "artifact_id": "stage_00.concept_bundle"
+    },
+    {
+      "id": "stage_00.generate_design_machine_files",
+      "type": "deterministic_generation",
+      "description": "Generate design source manifest, extraction, option coverage, project selections, open questions, scope catalog, and phase map.",
+      "artifact_id": "stage_00.concept_bundle"
+    }
+  ],
+  "file_manifest": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 6122,
+      "sha256": "f600b17238a16f7841f1616bd2b79843d221a23a09250effbbba08f795e63966"
+    },
+    {
+      "path": "design_extraction.json",
+      "size_bytes": 32079,
+      "sha256": "b314a39d0ab76fcb493bedec925f97bacb1632edd4e215896a53188896e00590"
+    },
+    {
+      "path": "design_source_manifest.json",
+      "size_bytes": 478,
+      "sha256": "bcc5dec5934eb7d11a4b79cc599c22c48b7ca0363f5000413e37d0edca954cf6"
+    },
+    {
+      "path": "full_scope_catalog.json",
+      "size_bytes": 15073,
+      "sha256": "0f79dc08f1e7ec6bbbf7d26b59dad1e2b2b5c588261fc77491f0b8aaa2e042de"
+    },
+    {
+      "path": "guidance/01_idea_intake.md",
+      "size_bytes": 309,
+      "sha256": "1d999cf53e324502f98d399e551bfdc8400b21eedf80aa0f6c7eed6b0c9bb3c4"
+    },
+    {
+      "path": "guidance/step00.txt",
+      "size_bytes": 82,
+      "sha256": "470784d6f7a87faf26b25799001d05c7b83638a243e34b2a0dd1baceaba556d0"
+    },
+    {
+      "path": "implementation_phase_map.json",
+      "size_bytes": 6808,
+      "sha256": "a701924baa5e169ece2ef70973bc109bb0379a3712cc9b9f4a5e268d8cf085dc"
+    },
+    {
+      "path": "imported/concept/Concept_v2/attachments/autodesignmaker_concept.md",
+      "size_bytes": 5815,
+      "sha256": "fb96f581a68733f5f11ef83612dfee2a75ba54120b3dd3dfe3d96224228958db"
+    },
+    {
+      "path": "imported/concept/Concept_v2/creative_points.json",
+      "size_bytes": 215,
+      "sha256": "fb02039df0a7ba581563bb0de3fdf6e9b144947052de3b864ee8071b0c7a1df0"
+    },
+    {
+      "path": "imported/concept/Concept_v2/human_approval.json",
+      "size_bytes": 198,
+      "sha256": "7118b5144c33ccac776c9777c5663a6eea1a457d7bd9b3cb86462b48f32ba2df"
+    },
+    {
+      "path": "imported/concept/Concept_v2/human_review.md",
+      "size_bytes": 84,
+      "sha256": "62f5afddaca5049d0920c9a50dcc5a18fdd596ae54bebd03f04fe49861df7a34"
+    },
+    {
+      "path": "imported/concept/Concept_v2/open_questions.json",
+      "size_bytes": 229,
+      "sha256": "8a23b770fd4939f9ccb5201ffb7f0b213c8c5e605a864287cb86dd1037e74852"
+    },
+    {
+      "path": "imported/concept/Concept_v2/operator_submission.json",
+      "size_bytes": 763,
+      "sha256": "5beedadd937e331101f8dea4fbbc86f456901b5a43471bc45e132a8507299461"
+    },
+    {
+      "path": "imported/concept/Concept_v2/package_manifest.json",
+      "size_bytes": 1285,
+      "sha256": "34b86059c8ffb5bf6e95beb7c124cb4fc10a80c3e85ebfad381f149866fb8bb1"
+    },
+    {
+      "path": "imported/concept/Concept_v2/prototype_candidates.json",
+      "size_bytes": 225,
+      "sha256": "928fc7942d068a7139fd2d92c1a1694c1a28ece577997d00c789999cce34542e"
+    },
+    {
+      "path": "imported/concept/Concept_v2/selected_play_prototype.json",
+      "size_bytes": 218,
+      "sha256": "be33e635bce2119856de7253a09a953d7955be1fc3b9c4c920cc71fb8b91d8f5"
+    },
+    {
+      "path": "imported/concept/Concept_v2/selected_play_prototype.md",
+      "size_bytes": 80,
+      "sha256": "26427bfa5e7dec9ba469c178bef9d0530d9ed37b73bdebb4186d33a9a8aa83dc"
+    },
+    {
+      "path": "imported/concept/Concept_v2/selection_history.json",
+      "size_bytes": 242,
+      "sha256": "7f1ae5eec50e19132ee754a500c24cc39fe6f4725391f8f7f0b3f95493eaeff8"
+    },
+    {
+      "path": "imported/concept/Concept_v2/stage_input.md",
+      "size_bytes": 5815,
+      "sha256": "fb96f581a68733f5f11ef83612dfee2a75ba54120b3dd3dfe3d96224228958db"
+    },
+    {
+      "path": "main_design_source.json",
+      "size_bytes": 502,
+      "sha256": "a1dd647836c2b6543b7dc649d34a3370fb52905d8cd23b0ac62033b6f79d4744"
+    },
+    {
+      "path": "open_questions.json",
+      "size_bytes": 172,
+      "sha256": "3e326f392b92f9b52ada356c48754ac49f3bedf36d8ac019fbc9a4659cf817b6"
+    },
+    {
+      "path": "option_coverage_report.json",
+      "size_bytes": 9264,
+      "sha256": "0cebcfbebd789c9053e9f6c8ef9b98b287b5cd08a130ee321ac5f3729117da58"
+    },
+    {
+      "path": "option_taxonomy.json",
+      "size_bytes": 3404,
+      "sha256": "f6ae5bf24489951fc2fd04072768507cbc9ad10f801099f2c4451ba0cce31a20"
+    },
+    {
+      "path": "project_option_selection.json",
+      "size_bytes": 12375,
+      "sha256": "3778020c36d329af6f0f97cccdf9a384ade2496666e190bf5ad0e30ac6393b88"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 250,
+      "sha256": "3033d8fb171068784efd9ad1ed304f465da419a31153c64223d7ac2a363db590"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 17812,
+      "sha256": "ea2e71a23dec657a5e53396c7d9a90240f51382892a66f44f028dbe2e9514d7f"
+    },
+    {
+      "path": "source_digest.md",
+      "size_bytes": 6890,
+      "sha256": "87768e420e7afcef6d0077ec1347e399f2c2a268069f2ddf884bf5d4481dfc3c"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1674,
+      "sha256": "7d5bf6c703fc0cbe1ac3bc17f4d1deeff37043e3b98191ebfa211974482057ca"
+    }
+  ]
+}

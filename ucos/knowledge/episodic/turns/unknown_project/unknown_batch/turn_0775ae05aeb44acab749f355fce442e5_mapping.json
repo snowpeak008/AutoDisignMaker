@@ -1,0 +1,25 @@
+{
+  "basedOnTurnId": "turn_0775ae05aeb44acab749f355fce442e5",
+  "projectStateHash": "a5d14b2b2e5fa29a118afa3dae33a2fba755068eeeec48434f5afd5f0a5e6ce0",
+  "currentProjectStateHash": "a5d14b2b2e5fa29a118afa3dae33a2fba755068eeeec48434f5afd5f0a5e6ce0",
+  "stale": false,
+  "response": {
+    "schemaVersion": "1.0",
+    "mode": "mapping",
+    "assistantMessage": "",
+    "inferences": []
+  },
+  "validationResult": {
+    "ok": true,
+    "errors": []
+  },
+  "backend": {
+    "sessionId": "019ec1cb-390c-7082-a9d3-746f97c876f0",
+    "durationSeconds": 29.02344930000254,
+    "firstEventSeconds": 0.18626669999503065,
+    "responseChars": 78,
+    "rawEventCount": 6
+  },
+  "turnId": "turn_0775ae05aeb44acab749f355fce442e5_mapping",
+  "updatedAt": "2026-06-14T00:23:30"
+}

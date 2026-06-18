@@ -1,0 +1,101 @@
+{
+  "turnId": "smoke_ai_l5_prompt",
+  "createdAt": "2026-06-15T15:03:14",
+  "projectMemoryId": "project_4eaafae6df4e4247aa3443e837f97dab",
+  "evaluationBatchId": "batch_473b0b132cdd44d8b99fb013b0883f7a",
+  "userText": "input_control_decision",
+  "schemaMode": "turn",
+  "outputMode": "interview_turn",
+  "forceOutput": false,
+  "forceReadinessCheck": false,
+  "routerDecision": {
+    "candidateNodeIds": [
+      "product_vision_decision",
+      "input_control_decision",
+      "target_player_decision",
+      "settlement_system_decision",
+      "session_rhythm_decision"
+    ],
+    "candidateNodes": [
+      {
+        "id": "product_vision_decision",
+        "name": "项目愿景决策",
+        "domain": "product_positioning_design",
+        "roleClass": "meta_planning",
+        "designEntityTarget": false
+      },
+      {
+        "id": "input_control_decision",
+        "name": "操作与控制决策",
+        "domain": "gameplay_system_design",
+        "roleClass": "system_concrete",
+        "designEntityTarget": true
+      },
+      {
+        "id": "target_player_decision",
+        "name": "目标用户决策",
+        "domain": "product_positioning_design",
+        "roleClass": "meta_planning",
+        "designEntityTarget": false
+      },
+      {
+        "id": "settlement_system_decision",
+        "name": "结算系统决策",
+        "domain": "gameplay_system_design",
+        "roleClass": "system_concrete",
+        "designEntityTarget": true
+      },
+      {
+        "id": "session_rhythm_decision",
+        "name": "会话节奏决策",
+        "domain": "core_experience_design",
+        "roleClass": "meta_planning",
+        "designEntityTarget": false
+      }
+    ],
+    "degradations": []
+  },
+  "projectStateHash": "8f2f57ee2230e98fb21a0cd4ec47ee01676aa14e8de664d9b7b910f5021294eb",
+  "promptMeter": {
+    "turnId": "smoke_ai_l5_prompt",
+    "createdAt": "2026-06-15T15:03:14",
+    "schemaMode": "turn",
+    "outputMode": "interview_turn",
+    "promptChars": 12704,
+    "promptEstimatedTokens": 3176,
+    "sectionChars": {
+      "turnId": 20,
+      "task": 37,
+      "promptFramework": 1217,
+      "schemaMode": 6,
+      "outputMode": 16,
+      "sessionPolicy": 142,
+      "projectSummary": 475,
+      "projectDigest": 657,
+      "conversationSummary": 293,
+      "routeOverview": 125,
+      "routerDecision": 892,
+      "questionGroupCount": 1,
+      "evaluationBatchId": 40,
+      "projectMemoryId": 42,
+      "forceReadinessCheck": 5,
+      "memoryInfluence": 64,
+      "recentMessages": 2,
+      "frameworkContext": 7848,
+      "userMessage": 24,
+      "turnRequirements": 175
+    },
+    "degradations": [],
+    "responseSchemaEmptyFieldsRemoved": [
+      "fullProjectOutput",
+      "optionDifferences"
+    ],
+    "codexSessionId": "smoke-session",
+    "sessionAccumulatedTurns": 0,
+    "questionGroupCount": 0
+  },
+  "packedPromptSha256": "05c11058af16d1eab5f910a8d3a321748b6d8780e68f12efb2e25f478289ab75",
+  "packedPromptChars": 12704,
+  "packedPromptPreview": "以下为当前锁定的 AI 提问提示词框架。它只约束 AI 如何提问、解释、映射和判断置信度；不得修改设计选项框架。\nframeworkVersion: 1\nmanifestHash: f811d9ad8ef940cb9ba0dc1f27d0b1dbb22d02ed5bfeaf060e9bcdd43abf2c27\n规则、项目摘要、候选节点和本轮输出 schema 见下方 JSON；只返回符合 schema 的 JSON。\n\n请基于下面 JSON 上下文继续同一个 AI 访谈线程，并只返回符合 output schema 的 JSON。\n\n{\"conversationSummary\":{\"confirmedIntent\":[],\"lastUserCorrections\":[],\"mdaProgress\":{\"aesthetics\":\"in_progress\",\"constraints\":\"pending\",\"dynamics\":\"pending\",\"evidence\":\"pending\",\"mechanics\":\"pending\"},\"nodeNotes\":{},\"openQuestions\":[],\"rejectedAssumptions\":[],\"schemaVersion\":\"1.0\",\"updatedAt\":\"2026-06-15T15:03:13\"},\"evaluationBatchId\":\"batch_473b0b132cdd44d8b99fb013b0883f7a\",\"forceReadinessCheck\":false,\"frameworkContext\":[{\"description\":\"确认项目愿景、目标用户、市场定位、商业目标、项目范围、平台场景和品牌资产。\",\"id\":\"product_positioning_design\",\"name\":\"立项与产品定位设计\",\"nodes\":[{\"checklist\":[{\"id\":\"he_xin_ti_yan_cheng_nuo\",\"label\":\"核心体验承诺\",\"optionGroups\":[{\"designQuestion\":\"玩家最终会反复获得哪种核心感受？\",\"id\":\"core_feeling_type\",\"label\":\"核心感受类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"ti_yan_bian_jie_ding_yi\",\"label\":\"体验边界定义\",\"optionGroups\":[{\"designQuestion\":\"这个边界限制的是哪类体验承诺？\",\"id\":\"boundary_type\",\"label\":\"边界类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"cha_yi_hua_fang_xiang\",\"label\":\"差异化方向\",\"optionGroups\":[{\"designQuestion\":\"项目要在哪个维度和同类不同？\",\"id\":\"differentiation_axis\",\"label\":\"差异化维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"she_ji_mu_biao_you_xian_ji\",\"label\":\"设计目标优先级\",\"optionGroups\":[{\"designQuestion\":\"目标冲突时主要比较哪些维度？\",\"id\":\"priority_dimension\",\"label\":\"优先级维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认项目核心体验承诺、边界、差异化和不做范围。\",\"domain\":\"product_positioning_design\",\"id\":\"product_vision_decision\",\"name\":\"项目愿景决策\",\"roleClass\":\"meta_planning\"},{\"checklist\":[{\"id\":\"wan_jia_hua_xiang\",\"label\":\"玩家画像\",\"optionGroups\":[{\"designQuestion\":\"",
+  "updatedAt": "2026-06-15T15:03:14"
+}

@@ -1,0 +1,147 @@
+{
+  "step": 3,
+  "timestamp": "2026-06-18T18:35:06",
+  "stage_dir": "outputs/artifacts/stage_03",
+  "artifacts": [
+    {
+      "id": "stage_03.program_requirements_bundle",
+      "stage": 3,
+      "kind": "program_requirements_bundle",
+      "depends_on": [
+        "stage_02.design_freeze_bundle"
+      ],
+      "tasks": [
+        {
+          "id": "stage_03.import_program_requirements",
+          "type": "import_or_generate",
+          "description": "Import program requirements when provided or generate them from the frozen traced design."
+        },
+        {
+          "id": "stage_03.generate_traceability_matrix",
+          "type": "deterministic_generation",
+          "description": "Generate systems, entities, contracts, acceptance criteria, structure spec, program requirements contract, and traceability matrix."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Frozen_Contracts.md",
+        "knowledge/Runtime_Standards.md"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "stage_03.import_program_requirements",
+      "type": "import_or_generate",
+      "description": "Import program requirements when provided or generate them from the frozen traced design.",
+      "artifact_id": "stage_03.program_requirements_bundle"
+    },
+    {
+      "id": "stage_03.generate_traceability_matrix",
+      "type": "deterministic_generation",
+      "description": "Generate systems, entities, contracts, acceptance criteria, structure spec, program requirements contract, and traceability matrix.",
+      "artifact_id": "stage_03.program_requirements_bundle"
+    }
+  ],
+  "file_manifest": [
+    {
+      "path": "acceptance_criteria.md",
+      "size_bytes": 4764,
+      "sha256": "c2e458db3c0675eb2064bc5db1c2a92f4c798cd4333a7a08651d38b66121876e"
+    },
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 4269,
+      "sha256": "00579808d6c76347087ef88e2af2d30459caa6f409931dec8e0978dc9a2f66e5"
+    },
+    {
+      "path": "contracts.md",
+      "size_bytes": 2197,
+      "sha256": "400309a3d6661856598040a6f7151a6f2ee220601480c30d327d415b7290b929"
+    },
+    {
+      "path": "entities.md",
+      "size_bytes": 3589,
+      "sha256": "7abc66191cad0a75be0b9dcbbdbbce132d64c5579d014cf1a7e9c8b53cad8ef1"
+    },
+    {
+      "path": "guidance/04_program_requirements.md",
+      "size_bytes": 194,
+      "sha256": "5dd23a8660ad07a053fd8cbabef3eceae9c3461cd8566943d90bc111136c56da"
+    },
+    {
+      "path": "guidance/step03.txt",
+      "size_bytes": 69,
+      "sha256": "7ee296bdd7800b3b795fc35c9396159e57a506341d2d194f027c02cb4da40c25"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 68,
+      "sha256": "0d47fbf0fa7b8f7e9dca36a050cd403d3a6e9a0ccd3453b2fa3154fba8fa7252"
+    },
+    {
+      "path": "program_requirements.md",
+      "size_bytes": 5842,
+      "sha256": "631356a8d26191116b6de95aa9b7e872a75ae8a6a89296ca7f95db0b616a722a"
+    },
+    {
+      "path": "program_requirements_contract.json",
+      "size_bytes": 12572,
+      "sha256": "7ad7285845ce018bade077329ed9c96d638b04e6e364db08ac1911732b49dd35"
+    },
+    {
+      "path": "program_structure_spec.json",
+      "size_bytes": 9568,
+      "sha256": "d31eed14e123e66015254ed4f6d8a42175a3e4d54a607ff3210b4e3f8a481355"
+    },
+    {
+      "path": "program_structure_spec.md",
+      "size_bytes": 2073,
+      "sha256": "5ee4f428475229f182d1ea0e9a3e4cee2d6085c85a934cc42d773fd87856480f"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 275,
+      "sha256": "53d95fbcafa060ae44340953c3cc0692d134c7ee0fa2d30d389b3bdbc185624f"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 21167,
+      "sha256": "63024c205b2c51abdd6c2ed5718b70efc5d39c024b30573309dac1a522030775"
+    },
+    {
+      "path": "systems.md",
+      "size_bytes": 2332,
+      "sha256": "029f1124973fe5981329b7c99b99dd70536a7aa0ffcf6555c9d0941618f5822b"
+    },
+    {
+      "path": "traceability_matrix.json",
+      "size_bytes": 5097,
+      "sha256": "dae9d8ea547116c8c0503a241ea1ffa8782e1c51c3425883ef0ca70ff7b02fd6"
+    },
+    {
+      "path": "upstream/stage_02/stage_02_design_freeze_bundle/UPSTREAM_REFERENCE.json",
+      "size_bytes": 7649,
+      "sha256": "91301fa1858df7156d14386df46b7e7c0d69b5dd69ca18264362442385b39beb"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1474,
+      "sha256": "993f60fe4f14f41561c5450ae30e15923a088fc1beb43b3b653f2b3f567a2b43"
+    }
+  ]
+}

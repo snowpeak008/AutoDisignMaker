@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "objectives": [
+    "Build a reusable cognitive substrate for DevFlow and future AI workflows.",
+    "Keep decisions traceable to explicit facts and constraints."
+  ],
+  "updated_at": "2026-06-17T13:13:29+00:00"
+}

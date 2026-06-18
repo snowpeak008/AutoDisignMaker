@@ -1,0 +1,58 @@
+{
+  "turnId": "smoke_partition_prompt",
+  "createdAt": "2026-06-13T22:25:39",
+  "projectMemoryId": "project_db51955f863f425e9609dfb571906021",
+  "evaluationBatchId": "batch_8ee99e73e874440f9665c02d7a086930",
+  "userText": "请基于当前访谈生成 AI 全项目输出。",
+  "schemaMode": "partial_output",
+  "outputMode": "partial_project_output",
+  "partition": {
+    "index": 1,
+    "count": 4,
+    "domainIds": [
+      "product_positioning_design",
+      "economy_monetization_design",
+      "social_community_design",
+      "compliance_risk_design"
+    ],
+    "policy": "只输出这些 domainIds 下节点的 projectState patch，不要补全其他领域。"
+  },
+  "projectStateHash": "9826b0ef62096456e296b4b3ef5743d97e4aad0795fec4900b1ad566bc72765a",
+  "promptMeter": {
+    "turnId": "smoke_partition_prompt",
+    "createdAt": "2026-06-13T22:25:39",
+    "schemaMode": "partial_output",
+    "outputMode": "partial_project_output",
+    "promptChars": 213305,
+    "promptEstimatedTokens": 53326,
+    "sectionChars": {
+      "turnId": 24,
+      "task": 54,
+      "promptFramework": 1217,
+      "schemaMode": 16,
+      "outputMode": 24,
+      "partition": 206,
+      "projectSummary": 391,
+      "projectDigest": 489,
+      "conversationSummary": 293,
+      "routeOverview": 161,
+      "questionGroupCount": 1,
+      "evaluationBatchId": 40,
+      "projectMemoryId": 42,
+      "recentMessages": 2,
+      "domainProjectState": 50570,
+      "frameworkContext": 158838,
+      "userMessage": 21,
+      "partialOutputRequirements": 326
+    },
+    "degradations": [],
+    "responseSchemaEmptyFieldsRemoved": [],
+    "codexSessionId": "",
+    "sessionAccumulatedTurns": 0,
+    "questionGroupCount": 0
+  },
+  "packedPromptSha256": "81cd1f791e95fb22c082bfb8aea1885ae9c9a1f94606daa47b0fa9af75c83478",
+  "packedPromptChars": 213305,
+  "packedPromptPreview": "以下为当前锁定的 AI 提问提示词框架。它只约束 AI 如何提问、解释、映射和判断置信度；不得修改设计选项框架。\nframeworkVersion: 1\nmanifestHash: f811d9ad8ef940cb9ba0dc1f27d0b1dbb22d02ed5bfeaf060e9bcdd43abf2c27\n规则、项目摘要、候选节点和本轮输出 schema 见下方 JSON；只返回符合 schema 的 JSON。\n\n请基于下面 JSON 上下文继续同一个 AI 访谈线程，并只返回符合 output schema 的 JSON。\n\n{\"conversationSummary\":{\"confirmedIntent\":[],\"lastUserCorrections\":[],\"mdaProgress\":{\"aesthetics\":\"in_progress\",\"constraints\":\"pending\",\"dynamics\":\"pending\",\"evidence\":\"pending\",\"mechanics\":\"pending\"},\"nodeNotes\":{},\"openQuestions\":[],\"rejectedAssumptions\":[],\"schemaVersion\":\"1.0\",\"updatedAt\":\"2026-06-13T22:25:39\"},\"domainProjectState\":{\"nodes\":{\"brand_ip_asset_decision\":{\"checklist\":{\"chan_pin_ming_ming_fang_xiang\":false,\"chang_qi_zi_chan_bian_jie\":false,\"jue_se_huo_fu_hao_zi_chan\":false,\"pin_pai_ti_yan_cheng_nuo\":false,\"shi_jue_shi_bie_zi_chan\":false},\"checklistOptions\":{\"chan_pin_ming_ming_fang_xiang\":{\"positioning_expression_mechanic\":{\"primary\":\"\",\"selected\":[]},\"positioning_market_signal\":{\"primary\":\"\",\"selected\":[]},\"positioning_migration_dynamic\":{\"primary\":\"\",\"selected\":[]},\"positioning_promise\":{\"primary\":\"\",\"selected\":[]},\"positioning_scope_boundary\":{\"primary\":\"\",\"selected\":[]}},\"chang_qi_zi_chan_bian_jie\":{\"positioning_expression_mechanic\":{\"primary\":\"\",\"selected\":[]},\"positioning_market_signal\":{\"primary\":\"\",\"selected\":[]},\"positioning_migration_dynamic\":{\"primary\":\"\",\"selected\":[]},\"positioning_promise\":{\"primary\":\"\",\"selected\":[]},\"positioning_scope_boundary\":{\"primary\":\"\",\"selected\":[]}},\"jue_se_huo_fu_hao_zi_chan\":{\"positioning_expression_mechanic\":{\"primary\":\"\",\"selected\":[]},\"positioning_market_signal\":{\"primary\":\"\",\"selected\":[]},\"positioning_migration_dynamic\":{\"primary\":\"\",\"selected\":[]},\"positioning_promise\":{\"primary\":\"\",\"selected\":[]},\"positioning_scope_boundary\":{\"primary\":\"\",\"selected\":[]}},\"pin_pai_ti_yan_cheng_nuo\":{\"positioning_expression_mechanic\":{\"primary\":\"\",\"selected\":[]},\"positioning_market_signal\":{\"primary\":\"\",\"selected\":[]},\"positioning_migration_dynamic\":{\"prim",
+  "updatedAt": "2026-06-13T22:25:39"
+}

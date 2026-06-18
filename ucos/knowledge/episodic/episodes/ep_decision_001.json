@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "ep_decision_001",
+  "title": "Decision 001 — 使用确定性流水线替代 Agent Runtime",
+  "domain": "devflow",
+  "goal": "整个工具围绕 0→15 单向确定性流水线运转，不使用 CrewAI、LangChain 等 Agent Runtime。",
+  "reason": "Agent Runtime 不确定性太高，无法满足每阶段产物的严格 JSON 验收规则。",
+  "key_decisions": [
+    "整个工具围绕 0→15 单向确定性流水线运转，不使用 CrewAI、LangChain 等 Agent Runtime。"
+  ],
+  "outcome": {
+    "status": "success",
+    "result_summary": "整个工具围绕 0→15 单向确定性流水线运转，不使用 CrewAI、LangChain 等 Agent Runtime。"
+  },
+  "lessons": [],
+  "related_episodes": [],
+  "skill_ids": [],
+  "pattern_ids_extracted": [
+    "pat_beb63aa3"
+  ],
+  "failure_ids_extracted": [],
+  "reflection_done": true,
+  "created_at": "2026-06-17T15:00:42+00:00",
+  "source_files": [
+    "memory/decisions.md"
+  ]
+}

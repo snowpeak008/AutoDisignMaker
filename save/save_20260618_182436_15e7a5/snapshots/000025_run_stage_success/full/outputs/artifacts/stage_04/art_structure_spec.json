@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:07",
+  "valid": true,
+  "project_type": "Unity",
+  "allowed_roots": [
+    "Assets/Art/",
+    "Assets/UI/",
+    "Assets/VFX/",
+    "Assets/Audio/",
+    "Assets/Textures/"
+  ],
+  "asset_path_map": [
+    {
+      "asset_id": "ASSET-001",
+      "asset_type": "ui",
+      "target_path": "Assets/UI/",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:11"
+    },
+    {
+      "asset_id": "ASSET-002",
+      "asset_type": "art_asset",
+      "target_path": "Assets/Art/",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+    },
+    {
+      "asset_id": "ASSET-003",
+      "asset_type": "ui",
+      "target_path": "Assets/UI/",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+    },
+    {
+      "asset_id": "ASSET-004",
+      "asset_type": "art_asset",
+      "target_path": "Assets/Art/",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+    }
+  ],
+  "output_file_rules": [
+    "Art outputs must stay under declared Unity art roots.",
+    "Stage 09 must align art requirements with program tasks by source trace.",
+    "Stage 10 cannot write art files unless Stage 07 explicitly declares them as program outputs."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "failure_id": "fail_issue_001",
+  "title": "Issue 001 — Stage 10 程序开发执行验收未通过",
+  "status": "open",
+  "severity": "high",
+  "domain": "devflow",
+  "failure": "活跃存档\"错误测试\"在 Stage 9 之后停止，Stage 10 未通过验收，具体阻断原因未确认。需查看 `outputs/artifacts/stage_10/validation_report.json` 和 `artifact_validation_layer.json`。",
+  "reason": "",
+  "diagnosis_steps": [],
+  "solution": "",
+  "prevention": "",
+  "source_file": "memory/known-issues.md",
+  "source_episode": "",
+  "related_pattern_ids": [],
+  "created_at": "2026-06-17T15:00:42+00:00",
+  "resolved_at": null
+}

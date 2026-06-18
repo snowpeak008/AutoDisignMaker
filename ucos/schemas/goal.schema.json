@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/goal.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "goal_id",
+    "title",
+    "domain",
+    "description",
+    "success_criteria",
+    "created_at",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

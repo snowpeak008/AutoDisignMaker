@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "seq": 22,
+  "event": "run_stage_start",
+  "stage": 4,
+  "timestamp": "2026-06-18T18:35:07",
+  "message": "",
+  "file_count": 139,
+  "added": 0,
+  "modified": 1,
+  "removed": 0
+}

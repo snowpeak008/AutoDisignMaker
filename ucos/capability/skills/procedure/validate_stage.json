@@ -1,0 +1,50 @@
+{
+  "skill_id": "skill_validate_stage_v1",
+  "name": "validate_stage",
+  "type": "procedure",
+  "level": 2,
+  "version": "1.0.0",
+  "status": "active",
+  "domain": "devflow",
+  "description": "Validates a DevFlow stage's artifact outputs by reading validation_report.json and artifact_validation_layer.json, then returning a structured diagnosis.",
+  "capabilities": [
+    "read outputs/artifacts/stage_NN/validation_report.json",
+    "read outputs/artifacts/stage_NN/artifact_validation_layer.json",
+    "check artifact_index.json status field",
+    "identify missing_groups and report specific blockers",
+    "determine if blocker is missing source_artifact vs execution error"
+  ],
+  "dependencies": [
+    "skill_read_file_v1",
+    "skill_validate_schema_v1"
+  ],
+  "trigger_rule": {
+    "required_context_tags": ["devflow", "stage_execution"],
+    "required_inputs": ["target_stage"],
+    "confidence_threshold": 0.8
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "target_stage": {"type": "integer", "minimum": 0, "maximum": 15},
+      "save_id": {"type": "string"}
+    },
+    "required": ["target_stage"]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "validation_status": {"type": "string", "enum": ["success", "failed", "missing"]},
+      "missing_groups": {"type": "array", "items": {"type": "string"}},
+      "error_summary": {"type": "string"},
+      "recommended_action": {"type": "string"}
+    },
+    "required": ["validation_status"]
+  },
+  "anti_patterns": [
+    "do not mark a stage as passed without checking all 6 required artifact files",
+    "do not skip validation and proceed to next stage"
+  ],
+  "episode_refs": [],
+  "created_at": "2026-06-17T22:00:00+08:00"
+}

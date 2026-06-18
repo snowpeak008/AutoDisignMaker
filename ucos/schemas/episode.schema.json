@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/episode.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "episode_id",
+    "title",
+    "domain",
+    "goal",
+    "outcome",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

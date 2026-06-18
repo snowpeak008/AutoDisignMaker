@@ -1,0 +1,44 @@
+{
+  "step": 1,
+  "name": "demo",
+  "title": "Gameplay framework",
+  "status": "success",
+  "valid": true,
+  "timestamp": "2026-06-18T18:33:47",
+  "artifacts_dir": "outputs/artifacts/stage_01",
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "gameplay_framework_history"
+  ],
+  "imported_upstream_artifacts": [
+    {
+      "artifact_id": "stage_00.concept_bundle",
+      "stage": "0",
+      "source": "outputs/artifacts/stage_00",
+      "target": "outputs/artifacts/stage_01/upstream/stage_00/stage_00_concept_bundle/UPSTREAM_REFERENCE.json",
+      "reference_dir": "outputs/artifacts/stage_01/upstream/stage_00/stage_00_concept_bundle",
+      "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+      "artifact_index": "outputs/artifacts/stage_00/artifact_index.json",
+      "validation_report": "outputs/artifacts/stage_00/validation_report.json",
+      "file_count": 30
+    }
+  ],
+  "missing_upstream_artifacts": [],
+  "notes": [
+    "Current-project framework revisions are imported; downstream should use the latest version by artifact_index ordering.",
+    "Optional current-project source artifact groups were not provided; validated upstream artifacts were used."
+  ],
+  "content_exists": true,
+  "ai_review_status": "passed",
+  "blocking_issues": 0,
+  "traceability_valid": true,
+  "scope_budget_valid": true,
+  "business_quality": {
+    "content_exists": true,
+    "system_nodes": 10,
+    "resource_nodes": 1,
+    "open_questions": 35
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "selected_id": "ADM-CONCEPT-001",
+  "candidates": [
+    {
+      "id": "ADM-CONCEPT-001",
+      "title": "AutoDesignMaker design-to-development workflow",
+      "selected": true
+    }
+  ]
+}

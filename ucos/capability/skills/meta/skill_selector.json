@@ -1,0 +1,43 @@
+{
+  "skill_id": "skill_skill_selector_v1",
+  "name": "skill_selector",
+  "type": "meta",
+  "level": 5,
+  "version": "1.0.0",
+  "status": "active",
+  "domain": "general",
+  "description": "Bootstrap skill for skill_selector.",
+  "capabilities": [
+    "skill",
+    "select"
+  ],
+  "dependencies": [],
+  "trigger_rule": {
+    "required_context_tags": [
+      "devflow",
+      "pipeline"
+    ],
+    "required_inputs": [
+      "target_stage"
+    ],
+    "confidence_threshold": 0.7
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "target_stage": {
+        "type": "string"
+      }
+    },
+    "required": [
+    "target_stage"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "anti_patterns": [],
+  "episode_refs": []
+}

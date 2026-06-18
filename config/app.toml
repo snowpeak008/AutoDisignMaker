@@ -1,0 +1,44 @@
+[project]
+name = "AutoDesignMaker"
+version = "1.0.0"
+description = "AI-powered game design and development automation tool"
+
+[paths]
+workspace = "workspace"
+data = "data"
+design_data = "data/design"
+ucos = "ucos"
+memory = "memory"
+
+[model]
+provider = "openai"
+base_url = "https://vip.auto-code.net/v1"
+model = "gpt-5.5"
+max_tokens = 350000
+temperature = 0.7
+timeout = 300
+
+[unity]
+project_path = ""
+editor_path = ""
+
+[ui]
+theme = "clam"
+font_family = "Microsoft YaHei UI"
+font_size = 9
+window_width = 1560
+window_height = 940
+
+[dev]
+hot_reload = true
+debug = true
+log_level = "DEBUG"
+
+[plugins]
+manifest_path = "src/plugins/plugin_manifest.json"
+auto_discover = true
+
+[export]
+default_format = "markdown"
+include_metadata = true
+

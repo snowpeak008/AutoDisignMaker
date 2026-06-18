@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "nodes": [
+    "stage_00",
+    "stage_01",
+    "stage_02",
+    "stage_03",
+    "stage_04",
+    "stage_05",
+    "stage_06",
+    "stage_07",
+    "stage_08",
+    "stage_09",
+    "stage_10",
+    "stage_11",
+    "stage_12",
+    "stage_13",
+    "stage_14",
+    "stage_15"
+  ],
+  "edges": [
+    {
+      "from": "stage_00",
+      "to": "stage_01",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_01",
+      "to": "stage_02",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_02",
+      "to": "stage_03",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_03",
+      "to": "stage_04",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_04",
+      "to": "stage_05",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_05",
+      "to": "stage_06",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_06",
+      "to": "stage_07",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_07",
+      "to": "stage_08",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_08",
+      "to": "stage_09",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_09",
+      "to": "stage_10",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_10",
+      "to": "stage_11",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_11",
+      "to": "stage_12",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_12",
+      "to": "stage_13",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_13",
+      "to": "stage_14",
+      "type": "precedes"
+    },
+    {
+      "from": "stage_14",
+      "to": "stage_15",
+      "type": "precedes"
+    }
+  ]
+}

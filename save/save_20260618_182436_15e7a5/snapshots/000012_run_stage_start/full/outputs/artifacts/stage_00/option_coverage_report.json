@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:32:52",
+  "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+  "total_questions": 15,
+  "answered_questions": 15,
+  "unanswered_questions": 0,
+  "questions": [
+    {
+      "question_ref": "project.position",
+      "domain": "项目愿景",
+      "decision": "项目定位",
+      "question": "当前项目以什么产品定位进入开发？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-001",
+          "label": "AI-assisted design-to-development automation workspace",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:7",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "project.platform",
+      "domain": "项目愿景",
+      "decision": "平台",
+      "question": "当前项目首先面向什么平台？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-002",
+          "label": "Windows desktop application with Python CLI pipeline support",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:11",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "project.target_players",
+      "domain": "项目愿景",
+      "decision": "目标玩家",
+      "question": "当前项目面向哪类玩家？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-003",
+          "label": "game designers, technical designers, and Unity developers",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:15",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "project.business_model",
+      "domain": "项目愿景",
+      "decision": "商业模式",
+      "question": "当前项目采用什么商业模式？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-004",
+          "label": "internal production tool and reusable automation framework",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:19",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "core.loop",
+      "domain": "核心体验",
+      "decision": "核心循环",
+      "question": "玩家通过什么循环获得主要体验？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-005",
+          "label": "load design knowledge -> choose structured decisions -> export Concept package -> run DevFlow stages -> review artifacts",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:26",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "core.pressure_source",
+      "domain": "核心体验",
+      "decision": "压力来源",
+      "question": "主要压力来自哪里？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-006",
+          "label": "manual handoff drift, stale absolute paths, missing source packages, and unverifiable development outputs",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:30",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "core.reward_rhythm",
+      "domain": "核心体验",
+      "decision": "奖励节奏",
+      "question": "奖励以什么节奏驱动玩家继续？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-007",
+          "label": "immediate stage summaries, validation reports, package manifests, and build artifacts",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:34",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "systems.top_level",
+      "domain": "系统图",
+      "decision": "顶层系统",
+      "question": "项目选择了哪些顶层系统？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-008",
+          "label": "Design Engine",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41",
+          "confidence": "explicit"
+        },
+        {
+          "code": "sel-009",
+          "label": "DevFlow Orchestrator",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45",
+          "confidence": "explicit"
+        },
+        {
+          "code": "sel-010",
+          "label": "Artifact Layer",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49",
+          "confidence": "explicit"
+        },
+        {
+          "code": "sel-011",
+          "label": "UCOS Memory",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "content.objects",
+      "domain": "内容图",
+      "decision": "内容对象",
+      "question": "项目包含哪些内容对象？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-012",
+          "label": "design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "resources.types",
+      "domain": "资源图",
+      "decision": "核心资源类型",
+      "question": "项目需要哪些资源或资产类型？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-013",
+          "label": "Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "runtime.flows",
+      "domain": "运行时图",
+      "decision": "运行时流程",
+      "question": "项目有哪些关键运行时流程？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-014",
+          "label": "GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "presentation.feedback",
+      "domain": "表现层",
+      "decision": "反馈与界面表现",
+      "question": "项目需要哪些主要反馈或表现方式？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-015",
+          "label": "Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "technology.constraints",
+      "domain": "技术层",
+      "decision": "技术约束和数据方案",
+      "question": "项目有哪些关键技术约束和数据方案？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-016",
+          "label": "root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "production.method",
+      "domain": "生产层",
+      "decision": "生产推进方式",
+      "question": "项目采用哪些生产推进方式？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-017",
+          "label": "migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95",
+          "confidence": "explicit"
+        }
+      ]
+    },
+    {
+      "question_ref": "impact.analysis",
+      "domain": "影响分析",
+      "decision": "影响清单",
+      "question": "哪些变更类型需要显式影响分析？",
+      "answered": true,
+      "selected_options": [
+        {
+          "code": "sel-018",
+          "label": "path independence, source package compatibility, legacy save preservation, stage contract stability, and Unity mutation boundary",
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:102",
+          "confidence": "explicit"
+        }
+      ]
+    }
+  ]
+}

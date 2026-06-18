@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:24:36",
+  "transaction_seq": 2,
+  "files": [
+    {
+      "workspace_path": "outputs/dependency_graph.json",
+      "size_bytes": 6504,
+      "sha256": "811ed796b466802484453899c8cbad51adb55972e98e864e3a5fc21bd5b0f5a3",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 2
+    },
+    {
+      "workspace_path": "outputs/preflight/actual_development_preflight.json",
+      "size_bytes": 864,
+      "sha256": "bfd6c9d2304d0e9fb36cab0791b973bfc09e343f5bde32a17ac12f72d70f21a2",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 2
+    },
+    {
+      "workspace_path": "outputs/runtime_control/run_state.json",
+      "size_bytes": 192,
+      "sha256": "2349a7abd534a9f945ac8213715d4dcf6303c838ff191e5f398291e29220565e",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 2
+    }
+  ]
+}

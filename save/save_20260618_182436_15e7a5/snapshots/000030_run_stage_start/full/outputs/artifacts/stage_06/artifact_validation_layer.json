@@ -1,0 +1,56 @@
+{
+  "step": 6,
+  "timestamp": "2026-06-18T18:35:08",
+  "status": "success",
+  "phase": "validation",
+  "validations": [
+    {
+      "artifact_id": "stage_06.art_review_bundle",
+      "status": "pass",
+      "results": [
+        {
+          "name": "validator_first_contract",
+          "status": "pass",
+          "severity": "info",
+          "message": "Artifact declares validators, reviewers, and tasks."
+        },
+        {
+          "name": "stage_files_validator",
+          "status": "pass",
+          "severity": "info",
+          "message": "Stage files satisfy the migrated contract."
+        },
+        {
+          "name": "review_report_validator",
+          "status": "pass",
+          "severity": "info",
+          "message": "Review report passed."
+        },
+        {
+          "name": "manifest_validator",
+          "status": "pass",
+          "severity": "info",
+          "message": "Artifact layer manifest declares artifacts and tasks."
+        },
+        {
+          "name": "reference_manifest_validator",
+          "status": "pass",
+          "severity": "info",
+          "message": "Reference manifest declares files, inputs, and relations."
+        },
+        {
+          "name": "knowledge_refs_validator",
+          "status": "pass",
+          "severity": "info",
+          "message": "Knowledge references exist."
+        },
+        {
+          "name": "dependency_status_validator",
+          "status": "pass",
+          "severity": "info",
+          "message": "Upstream artifact validations passed."
+        }
+      ]
+    }
+  ]
+}

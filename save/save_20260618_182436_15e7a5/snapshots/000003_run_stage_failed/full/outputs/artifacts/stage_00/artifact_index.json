@@ -1,0 +1,65 @@
+{
+  "step": 0,
+  "name": "idea_intake",
+  "title": "Idea intake",
+  "timestamp": "2026-06-18T18:24:36",
+  "artifact_root": "outputs/artifacts/stage_00",
+  "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+  "guidance_docs": [
+    "outputs/artifacts/stage_00/guidance/01_idea_intake.md",
+    "outputs/artifacts/stage_00/guidance/step00.txt"
+  ],
+  "imported": false,
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "concept"
+  ],
+  "imported_upstream_artifacts": [],
+  "missing_upstream_artifacts": [],
+  "manifest": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 1156,
+      "sha256": "cdf458078416dd4ee63a360ab38aa62e58ccb42f32a385143fb8891550fc65ed"
+    },
+    {
+      "path": "design_source_error.json",
+      "size_bytes": 360,
+      "sha256": "880189aaf6e281077d18ba7db81590f11761ef19bac0d01c70cd6080b767c23a"
+    },
+    {
+      "path": "guidance/01_idea_intake.md",
+      "size_bytes": 309,
+      "sha256": "1d999cf53e324502f98d399e551bfdc8400b21eedf80aa0f6c7eed6b0c9bb3c4"
+    },
+    {
+      "path": "guidance/step00.txt",
+      "size_bytes": 82,
+      "sha256": "470784d6f7a87faf26b25799001d05c7b83638a243e34b2a0dd1baceaba556d0"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 55,
+      "sha256": "483a2f9588e3a50ac58f192219967fc0c1944598433da0bf26903c931efeb8aa"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 253,
+      "sha256": "2e90a9db83aa8105c48b960b5413fa7044d56e2c21a6f28c4cd29860d2afeecf"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 3525,
+      "sha256": "e330925c8bc77ed9999b566680011d79266ba440f7643f6d12f5e7a5a26778c0"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1107,
+      "sha256": "788f93a915450955a0dde894ffa9bc973da59598c9949f3e1395bced23984f39"
+    }
+  ],
+  "updated_at": "2026-06-18T18:24:36",
+  "development_plan_outputs": true
+}

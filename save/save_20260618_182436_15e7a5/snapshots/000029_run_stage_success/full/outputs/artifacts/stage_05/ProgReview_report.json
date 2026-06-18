@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:07",
+  "verdict": "PASS",
+  "allowed_to_enter_plan": true,
+  "blocking_items": [],
+  "warning_items": [
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-001",
+      "message": "Requirement is source-traced but not tied to a system node."
+    },
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-002",
+      "message": "Requirement is source-traced but not tied to a system node."
+    },
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-003",
+      "message": "Requirement is source-traced but not tied to a system node."
+    },
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-004",
+      "message": "Requirement is source-traced but not tied to a system node."
+    },
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-005",
+      "message": "Requirement is source-traced but not tied to a system node."
+    },
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-006",
+      "message": "Requirement is source-traced but not tied to a system node."
+    },
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-007",
+      "message": "Requirement is source-traced but not tied to a system node."
+    },
+    {
+      "id": "PROGREQ-NO-SYSTEM",
+      "requirement_id": "REQ-018",
+      "message": "Requirement is source-traced but not tied to a system node."
+    }
+  ],
+  "weak_relation_items": [],
+  "missing_items": []
+}

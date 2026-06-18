@@ -1,0 +1,116 @@
+{
+  "step": 5,
+  "timestamp": "2026-06-18T18:35:07",
+  "stage_dir": "outputs/artifacts/stage_05",
+  "artifacts": [
+    {
+      "id": "stage_05.program_review_bundle",
+      "stage": 5,
+      "kind": "source_placeholder_or_import",
+      "depends_on": [
+        "stage_03.program_requirements_bundle"
+      ],
+      "tasks": [
+        {
+          "id": "stage_05.resolve_program_review",
+          "type": "import_or_declare_missing",
+          "description": "Import program review or record missing source artifact."
+        },
+        {
+          "id": "stage_05.generate_program_review",
+          "type": "deterministic_review",
+          "description": "Review generated program requirements for blockers, warnings, weak relations, missing items, and plan readiness."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Runtime_Standards.md"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "stage_05.resolve_program_review",
+      "type": "import_or_declare_missing",
+      "description": "Import program review or record missing source artifact.",
+      "artifact_id": "stage_05.program_review_bundle"
+    },
+    {
+      "id": "stage_05.generate_program_review",
+      "type": "deterministic_review",
+      "description": "Review generated program requirements for blockers, warnings, weak relations, missing items, and plan readiness.",
+      "artifact_id": "stage_05.program_review_bundle"
+    }
+  ],
+  "file_manifest": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 3259,
+      "sha256": "d367e7720912d2c7f677da50a69b06ac6a3727341fa73b26018ab170cc7d72f0"
+    },
+    {
+      "path": "guidance/06_program_review.md",
+      "size_bytes": 189,
+      "sha256": "1e601388e376e691d233b8b6ceb1178e2cd3c981e53f52f15cc900dbb86d3731"
+    },
+    {
+      "path": "guidance/step05.txt",
+      "size_bytes": 76,
+      "sha256": "26cd95e4470de21e952289c24f4ee762b0a5d1b5fabf115f75c38f066bbfe336"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 62,
+      "sha256": "efa8bbfa86dfd8623d56812f76b5411abb9950997758dcabf73fbe66ddeb172a"
+    },
+    {
+      "path": "ProgReview_report.json",
+      "size_bytes": 1551,
+      "sha256": "8e4951c9098ff0d96ea1f2f296e5d5d97f965b0323cbd8651ea349fc0fa12ff4"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 276,
+      "sha256": "56ca819e11e5b4508e7e12b049b2ee6efce2d6b88d3a47258e05a4e384944be5"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 18813,
+      "sha256": "9f1b73bcf131bfa1b9278ef3a7a4198401e6b9c726c92d2442a1160fd2425679"
+    },
+    {
+      "path": "review.md",
+      "size_bytes": 115,
+      "sha256": "d2075e74be85c957a4ee638965bf62178ef4fe2f47dd771ce8fed29b95ffc6c8"
+    },
+    {
+      "path": "upstream/stage_03/stage_03_program_requirements_bundle/UPSTREAM_REFERENCE.json",
+      "size_bytes": 7263,
+      "sha256": "313a397b6b4035959a25c0353f93a32bd559a0cc603b5d0776ea69761d589abe"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1522,
+      "sha256": "ffae050e148ac2ce1248b9d53ee0d2d820b5c7ecc6e2104494c3ae40124a952f"
+    },
+    {
+      "path": "verdict.md",
+      "size_bytes": 26,
+      "sha256": "49d8627e3e37d9276ca4d75f3c65e306e067c270f1bab1addc7221a42c501158"
+    }
+  ]
+}

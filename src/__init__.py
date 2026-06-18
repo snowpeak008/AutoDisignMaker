@@ -1,0 +1,2 @@
+"""AutoDesignMaker application package."""
+

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:11",
+  "valid": true,
+  "allowed_roots": [
+    "Assets/Scripts/",
+    "Assets/Config/",
+    "Assets/Tests/EditMode/",
+    "Assets/Tests/PlayMode/",
+    "Assets/Scenes/"
+  ],
+  "blockers": []
+}

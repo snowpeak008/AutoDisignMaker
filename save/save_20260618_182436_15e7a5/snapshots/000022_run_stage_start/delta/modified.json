@@ -1,0 +1,26 @@
+[
+  {
+    "before": {
+      "workspace_path": "outputs/runtime_control/run_state.json",
+      "size_bytes": 192,
+      "sha256": "68431462d6595fd6c4915a4b37fe28a8e5cf7037779fd6bdb2b958977b54bdcd",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 21
+    },
+    "after": {
+      "workspace_path": "outputs/runtime_control/run_state.json",
+      "size_bytes": 192,
+      "sha256": "54c1ec16b5e6a868dc3872e7ece2feb5818c3e14375619f71e5ab8b8225c3309",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 22
+    }
+  }
+]

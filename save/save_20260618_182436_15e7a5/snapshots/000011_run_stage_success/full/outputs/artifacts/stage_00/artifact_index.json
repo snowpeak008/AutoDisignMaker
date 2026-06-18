@@ -1,0 +1,177 @@
+{
+  "step": 0,
+  "name": "idea_intake",
+  "title": "Idea intake",
+  "timestamp": "2026-06-18T18:32:52",
+  "artifact_root": "outputs/artifacts/stage_00",
+  "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+  "guidance_docs": [
+    "outputs/artifacts/stage_00/guidance/01_idea_intake.md",
+    "outputs/artifacts/stage_00/guidance/step00.txt"
+  ],
+  "imported": true,
+  "imported_sources": [
+    {
+      "group": "concept",
+      "source_ids": [
+        "Concept",
+        "source:Concept",
+        "concept"
+      ],
+      "package_id": "source:Concept",
+      "package_type": "Concept",
+      "package_manifest": "source_artifacts/s00_cpt_v2/package_manifest.json",
+      "source": "source_artifacts/s00_cpt_v2",
+      "target": "outputs/artifacts/stage_00/imported/concept/Concept_v2"
+    }
+  ],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [],
+  "imported_upstream_artifacts": [],
+  "missing_upstream_artifacts": [],
+  "manifest": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 3707,
+      "sha256": "8411e7d34f7b6ec0c942154b720d5ec0918d110c60264b78c7e4fa7d3780cf2d"
+    },
+    {
+      "path": "design_extraction.json",
+      "size_bytes": 32051,
+      "sha256": "70987f38004cd0cd7d1a058961a872c608ce23ae028e8d03563056e5b404dbf4"
+    },
+    {
+      "path": "design_source_manifest.json",
+      "size_bytes": 478,
+      "sha256": "6f374cb25ec19b9bb037b8c1e336adda895b00b0b251bc6b83513f31390cb243"
+    },
+    {
+      "path": "full_scope_catalog.json",
+      "size_bytes": 15061,
+      "sha256": "6d2dbdc2d46f75f7a7670fa4e626205212e78d26d7a79a1c5182d4eee647b45a"
+    },
+    {
+      "path": "guidance/01_idea_intake.md",
+      "size_bytes": 309,
+      "sha256": "1d999cf53e324502f98d399e551bfdc8400b21eedf80aa0f6c7eed6b0c9bb3c4"
+    },
+    {
+      "path": "guidance/step00.txt",
+      "size_bytes": 82,
+      "sha256": "470784d6f7a87faf26b25799001d05c7b83638a243e34b2a0dd1baceaba556d0"
+    },
+    {
+      "path": "implementation_phase_map.json",
+      "size_bytes": 6808,
+      "sha256": "d7b2c310c138c6a86a8fe1b171739ab19327610ac6d691aae143ccc0cf439784"
+    },
+    {
+      "path": "imported/concept/Concept_v2/attachments/autodesignmaker_concept.md",
+      "size_bytes": 5811,
+      "sha256": "96deb127f4ff0ee11917a798f29683256457bd3733bb8d6057830c55aa950490"
+    },
+    {
+      "path": "imported/concept/Concept_v2/creative_points.json",
+      "size_bytes": 215,
+      "sha256": "fb02039df0a7ba581563bb0de3fdf6e9b144947052de3b864ee8071b0c7a1df0"
+    },
+    {
+      "path": "imported/concept/Concept_v2/human_approval.json",
+      "size_bytes": 198,
+      "sha256": "d3b195b061e3c8e6589d13ed90eabf2bee563071aafae2191b356fcf0df950d6"
+    },
+    {
+      "path": "imported/concept/Concept_v2/human_review.md",
+      "size_bytes": 84,
+      "sha256": "62f5afddaca5049d0920c9a50dcc5a18fdd596ae54bebd03f04fe49861df7a34"
+    },
+    {
+      "path": "imported/concept/Concept_v2/open_questions.json",
+      "size_bytes": 229,
+      "sha256": "8a23b770fd4939f9ccb5201ffb7f0b213c8c5e605a864287cb86dd1037e74852"
+    },
+    {
+      "path": "imported/concept/Concept_v2/operator_submission.json",
+      "size_bytes": 763,
+      "sha256": "8c1839077346e5440dd4c9f54b5c860f8ec9c64ea761d1c2ec56243aa0c7c5e1"
+    },
+    {
+      "path": "imported/concept/Concept_v2/package_manifest.json",
+      "size_bytes": 1285,
+      "sha256": "cf06864506a66573d89ddf74e91fc631b4abb585a5cf5c3be9bfcc017b7bbba5"
+    },
+    {
+      "path": "imported/concept/Concept_v2/prototype_candidates.json",
+      "size_bytes": 225,
+      "sha256": "928fc7942d068a7139fd2d92c1a1694c1a28ece577997d00c789999cce34542e"
+    },
+    {
+      "path": "imported/concept/Concept_v2/selected_play_prototype.json",
+      "size_bytes": 218,
+      "sha256": "be33e635bce2119856de7253a09a953d7955be1fc3b9c4c920cc71fb8b91d8f5"
+    },
+    {
+      "path": "imported/concept/Concept_v2/selected_play_prototype.md",
+      "size_bytes": 80,
+      "sha256": "26427bfa5e7dec9ba469c178bef9d0530d9ed37b73bdebb4186d33a9a8aa83dc"
+    },
+    {
+      "path": "imported/concept/Concept_v2/selection_history.json",
+      "size_bytes": 242,
+      "sha256": "84b088a0e5bae191ff09d2d4c5a38e0992f22251f6cea77a129fc9810e6ff3db"
+    },
+    {
+      "path": "imported/concept/Concept_v2/stage_input.md",
+      "size_bytes": 5811,
+      "sha256": "96deb127f4ff0ee11917a798f29683256457bd3733bb8d6057830c55aa950490"
+    },
+    {
+      "path": "main_design_source.json",
+      "size_bytes": 502,
+      "sha256": "5058031e153c2ab8c38ed54f1e908ad13b66be625eb5936bd105ba2d42f1c92e"
+    },
+    {
+      "path": "open_questions.json",
+      "size_bytes": 172,
+      "sha256": "480d8c3b8824a7d181ef0b8a321ec114572c620dfcfb42a49fb8b2b4448ddfce"
+    },
+    {
+      "path": "option_coverage_report.json",
+      "size_bytes": 9264,
+      "sha256": "f1e25abcfcb4b6b66aa469332ac1fb64702ab8a97f5092ab30d9c4c84f14a5ed"
+    },
+    {
+      "path": "option_taxonomy.json",
+      "size_bytes": 3404,
+      "sha256": "f6ae5bf24489951fc2fd04072768507cbc9ad10f801099f2c4451ba0cce31a20"
+    },
+    {
+      "path": "project_option_selection.json",
+      "size_bytes": 12363,
+      "sha256": "41551d7d5129364cd4bb4904c93f8540893a748303d08f7bb90317d51a7550e2"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 250,
+      "sha256": "3033d8fb171068784efd9ad1ed304f465da419a31153c64223d7ac2a363db590"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 15041,
+      "sha256": "d2903ba8ed5a6fbe6d7bee13aee6d7d6791046ef05f5adb232139a22a1f51aca"
+    },
+    {
+      "path": "source_digest.md",
+      "size_bytes": 6888,
+      "sha256": "b9e0e39b37153fc8af8c1b83e51975b514aa54e4025a6bead33b874b4ca5ea47"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1674,
+      "sha256": "4381c17d4371c155fab1c8fcd9260feeedb4bd9db0f8bf66d1907f77cdbcb2fc"
+    }
+  ],
+  "updated_at": "2026-06-18T18:32:52",
+  "development_plan_outputs": true
+}

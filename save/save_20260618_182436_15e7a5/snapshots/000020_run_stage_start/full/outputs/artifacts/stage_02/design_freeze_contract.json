@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:05",
+  "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+  "frozen": true,
+  "source_rule": "current_project_design_doc_or_approved_repair_patch_only",
+  "untraced_system_count": 0,
+  "blocking_issue_count": 0,
+  "allowed_repair_patch_count": 0
+}

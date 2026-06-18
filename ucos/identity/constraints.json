@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "forbidden_actions": [
+    {
+      "action": "edit_generated_files",
+      "targets": [
+        "CLAUDE.md",
+        "AGENTS.md",
+        "README.md"
+      ],
+      "reason": "由 ucos_sync.py 生成"
+    },
+    {
+      "action": "delete_registry",
+      "targets": [
+        "artifact_layer/registry.json"
+      ],
+      "reason": "产物依赖图权威来源"
+    },
+    {
+      "action": "restore_deprecated",
+      "targets": [
+        "*_crew.py"
+      ],
+      "reason": "已废弃架构"
+    },
+    {
+      "action": "bypass_orchestrator",
+      "targets": [
+        "outputs/"
+      ],
+      "reason": "必须通过治理入口"
+    }
+  ]
+}

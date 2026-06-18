@@ -1,0 +1,59 @@
+{
+  "basedOnTurnId": "turn_a0ced1143fd64786acbf0a20e3741d31",
+  "projectStateHash": "ca8c130402023375c3fa8c3d7fc5f34cb934b90d0308e168e21c386a58e7ebd6",
+  "currentProjectStateHash": "ca8c130402023375c3fa8c3d7fc5f34cb934b90d0308e168e21c386a58e7ebd6",
+  "stale": false,
+  "response": {
+    "schemaVersion": "1.0",
+    "mode": "mapping",
+    "assistantMessage": "",
+    "inferences": [
+      {
+        "nodeId": "randomness_system_decision",
+        "itemId": "ke_kong_sui_ji",
+        "groupId": "gameplay_failure_boundary",
+        "optionIds": [],
+        "confidence": 0.78,
+        "reason": "用户明确选择“一局里攒到关键件再爆发”，说明随机构筑需要支持玩家等待、追求关键组件并在成型后爆发。",
+        "applicabilityScore": 0.86,
+        "applicabilityReason": "肉鸽 Build 是当前核心体验，关键件获取与成型节奏直接决定随机性规则。",
+        "notApplicable": false
+      },
+      {
+        "nodeId": "settlement_system_decision",
+        "itemId": "cheng_fa_jie_suan",
+        "groupId": "gameplay_failure_boundary",
+        "optionIds": [],
+        "confidence": 0.64,
+        "reason": "用户说明极限压力主要来自血量和消耗品快撑不住，但还没有说明死亡时具体损失或撤离失败惩罚。",
+        "applicabilityScore": 0.82,
+        "applicabilityReason": "搜打撤结构需要明确成功撤离与失败惩罚，当前回答只提供了压力来源。",
+        "notApplicable": false
+      },
+      {
+        "nodeId": "target_player_decision",
+        "itemId": "wan_jia_neng_li_jia_she",
+        "groupId": "reading_and_ui_load",
+        "optionIds": [],
+        "confidence": 0.78,
+        "reason": "用户要求顺滑移动、短距离无敌帧闪避、躲技能和及时爽快的技能反馈，说明目标玩家能接受一定动作操作要求。",
+        "applicabilityScore": 0.81,
+        "applicabilityReason": "操作能力假设会影响闪避容错、怪物技能设计和战斗输入复杂度。",
+        "notApplicable": false
+      }
+    ]
+  },
+  "validationResult": {
+    "ok": true,
+    "errors": []
+  },
+  "backend": {
+    "sessionId": "019ec1cf-d63b-7f71-a156-7098a0172428",
+    "durationSeconds": 37.01903300000413,
+    "firstEventSeconds": 0.18333050000364892,
+    "responseChars": 986,
+    "rawEventCount": 6
+  },
+  "turnId": "turn_a0ced1143fd64786acbf0a20e3741d31_mapping",
+  "updatedAt": "2026-06-14T00:28:40"
+}

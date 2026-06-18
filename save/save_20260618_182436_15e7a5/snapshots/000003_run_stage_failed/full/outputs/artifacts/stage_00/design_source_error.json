@@ -1,0 +1,11 @@
+{
+  "content_exists": false,
+  "message": "Stage 00 has no submitted Concept source package.",
+  "source_error": {
+    "code": "STAGE00_CONCEPT_SOURCE_MISSING",
+    "fix": "在步骤 0 填写人工输入，或提交一个 .md/.txt 主设计文档附件。"
+  },
+  "blocking_issues": 1,
+  "ai_review_status": "blocked",
+  "traceability_valid": false
+}

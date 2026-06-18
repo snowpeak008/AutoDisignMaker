@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:33:47",
+  "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+  "resources": [
+    {
+      "id": "RES-001",
+      "name": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67",
+      "producers": [],
+      "consumers": [],
+      "storage": "none"
+    }
+  ],
+  "flows": []
+}

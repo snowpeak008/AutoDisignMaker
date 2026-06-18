@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "autonomy_level": 1,
+  "levels": {
+    "0": "只读+建议，任何写操作需人工确认",
+    "1": "自动写 Working/STM；Semantic 写入 staging 区，需人工 merge",
+    "2": "全自动写入，定期 human review"
+  },
+  "auto_write_tiers": [
+    "working",
+    "short_term"
+  ],
+  "staged_write_tiers": [
+    "semantic"
+  ],
+  "human_review_interval_days": 7
+}

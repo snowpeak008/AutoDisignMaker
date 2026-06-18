@@ -1,0 +1,787 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:04",
+  "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+  "source_package": "source_artifacts/s00_cpt_v2",
+  "source_input_type": "concept_attachment",
+  "layers": [
+    {
+      "number": 1,
+      "title": "项目愿景",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:5",
+      "selections": [
+        {
+          "id": "SEL-001",
+          "layer_number": 1,
+          "layer_title": "项目愿景",
+          "layer_status": "Submitted / accepted",
+          "item_type": "项目定位",
+          "option": "AI-assisted design-to-development automation workspace",
+          "label": "项目定位：AI-assisted design-to-development automation workspace",
+          "purpose": "merge structured design authoring, DevFlow stage orchestration, artifact validation, and UCOS memory into one movable project.",
+          "dependencies": [
+            "design_tool data domains",
+            "DevFlow orchestrator",
+            "plugin manifest"
+          ],
+          "unlocks": [
+            "核心循环",
+            "技术层",
+            "生产层"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:7"
+        },
+        {
+          "id": "SEL-002",
+          "layer_number": 1,
+          "layer_title": "项目愿景",
+          "layer_status": "Submitted / accepted",
+          "item_type": "平台",
+          "option": "Windows desktop application with Python CLI pipeline support",
+          "label": "平台：Windows desktop application with Python CLI pipeline support",
+          "purpose": "run the GUI design tool and command-line development stages from the same project root.",
+          "dependencies": [
+            "Tkinter runtime",
+            "Python environment",
+            "project settings"
+          ],
+          "unlocks": [
+            "运行时流程"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:11"
+        },
+        {
+          "id": "SEL-003",
+          "layer_number": 1,
+          "layer_title": "项目愿景",
+          "layer_status": "Submitted / accepted",
+          "item_type": "目标玩家",
+          "option": "game designers, technical designers, and Unity developers",
+          "label": "目标玩家：game designers, technical designers, and Unity developers",
+          "purpose": "support repeated design decisions, validation, handoff, and implementation review.",
+          "dependencies": [
+            "domain schema coverage",
+            "artifact reports"
+          ],
+          "unlocks": [
+            "内容对象",
+            "资源类型"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:15"
+        },
+        {
+          "id": "SEL-004",
+          "layer_number": 1,
+          "layer_title": "项目愿景",
+          "layer_status": "Submitted / accepted",
+          "item_type": "商业模式",
+          "option": "internal production tool and reusable automation framework",
+          "label": "商业模式：internal production tool and reusable automation framework",
+          "purpose": "prioritize correctness, traceability, migration safety, and local execution over marketing presentation.",
+          "dependencies": [
+            "portable paths",
+            "deterministic exports"
+          ],
+          "unlocks": [
+            "影响分析"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:19"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "核心体验",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:24",
+      "selections": [
+        {
+          "id": "SEL-005",
+          "layer_number": 2,
+          "layer_title": "核心体验",
+          "layer_status": "Submitted / accepted",
+          "item_type": "核心循环",
+          "option": "load design knowledge -> choose structured decisions -> export Concept package -> run DevFlow stages -> review artifacts",
+          "label": "核心循环：load design knowledge -> choose structured decisions -> export Concept package -> run DevFlow stages -> review artifacts",
+          "purpose": "make each design-to-development handoff explicit and testable.",
+          "dependencies": [
+            "data/design",
+            "source_artifacts",
+            "outputs/artifacts"
+          ],
+          "unlocks": [
+            "stage 00 intake",
+            "stage validation"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:26"
+        },
+        {
+          "id": "SEL-006",
+          "layer_number": 2,
+          "layer_title": "核心体验",
+          "layer_status": "Submitted / accepted",
+          "item_type": "压力来源",
+          "option": "manual handoff drift, stale absolute paths, missing source packages, and unverifiable development outputs",
+          "label": "压力来源：manual handoff drift, stale absolute paths, missing source packages, and unverifiable development outputs",
+          "purpose": "turn migration risks into validation checks before actual Unity project mutation.",
+          "dependencies": [
+            "path manager",
+            "preflight checks"
+          ],
+          "unlocks": [
+            "migration audit"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:30"
+        },
+        {
+          "id": "SEL-007",
+          "layer_number": 2,
+          "layer_title": "核心体验",
+          "layer_status": "Submitted / accepted",
+          "item_type": "奖励节奏",
+          "option": "immediate stage summaries, validation reports, package manifests, and build artifacts",
+          "label": "奖励节奏：immediate stage summaries, validation reports, package manifests, and build artifacts",
+          "purpose": "give operators fast feedback after every design or development stage.",
+          "dependencies": [
+            "artifact indexes",
+            "save records"
+          ],
+          "unlocks": [
+            "release packaging"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:34"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "系统图",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:39",
+      "selections": [
+        {
+          "id": "SEL-008",
+          "layer_number": 3,
+          "layer_title": "系统图",
+          "layer_status": "Submitted / accepted",
+          "item_type": "system_layer",
+          "option": "Design Engine",
+          "label": "system_layer：Design Engine",
+          "purpose": "load domain schemas, templates, prompt frameworks, and project templates from data/design.",
+          "dependencies": [
+            "16 domains",
+            "103 nodes",
+            "515 checklist entries"
+          ],
+          "unlocks": [
+            "design stage D1-D4"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+        },
+        {
+          "id": "SEL-009",
+          "layer_number": 3,
+          "layer_title": "系统图",
+          "layer_status": "Submitted / accepted",
+          "item_type": "system_layer",
+          "option": "DevFlow Orchestrator",
+          "label": "system_layer：DevFlow Orchestrator",
+          "purpose": "execute stages 00-15 with preflight, artifact generation, validation, and review gates.",
+          "dependencies": [
+            "orchestrator.py",
+            "stages",
+            "steps",
+            "tools"
+          ],
+          "unlocks": [
+            "development stage plugins"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+        },
+        {
+          "id": "SEL-010",
+          "layer_number": 3,
+          "layer_title": "系统图",
+          "layer_status": "Submitted / accepted",
+          "item_type": "system_layer",
+          "option": "Artifact Layer",
+          "label": "system_layer：Artifact Layer",
+          "purpose": "record stage outputs, manifests, validation reports, and review status.",
+          "dependencies": [
+            "outputs/artifacts",
+            "artifact_layer"
+          ],
+          "unlocks": [
+            "traceability validation"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49"
+        },
+        {
+          "id": "SEL-011",
+          "layer_number": 3,
+          "layer_title": "系统图",
+          "layer_status": "Submitted / accepted",
+          "item_type": "system_layer",
+          "option": "UCOS Memory",
+          "label": "system_layer：UCOS Memory",
+          "purpose": "preserve migrated procedural, episodic, and framework knowledge for repeated runs.",
+          "dependencies": [
+            "ucos",
+            "memory",
+            "migrated save archives"
+          ],
+          "unlocks": [
+            "runtime context recall"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "内容图",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:58",
+      "selections": [
+        {
+          "id": "SEL-012",
+          "layer_number": 4,
+          "layer_title": "内容图",
+          "layer_status": "Submitted / accepted",
+          "item_type": "内容",
+          "option": "design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+          "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+          "purpose": "keep authoring content and runtime artifacts separated while preserving legacy data.",
+          "dependencies": [
+            "立项与产品定位设计",
+            "核心体验设计",
+            "玩法系统设计",
+            "内容设计",
+            "经济与商业化设计",
+            "用户体验与界面设计",
+            "表现与感受设计",
+            "数值与平衡设计",
+            "and 8 more"
+          ],
+          "unlocks": [
+            "package manifests and migration reports"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "资源图",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:65",
+      "selections": [
+        {
+          "id": "SEL-013",
+          "layer_number": 5,
+          "layer_title": "资源图",
+          "layer_status": "Submitted / accepted",
+          "item_type": "资源",
+          "option": "Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+          "label": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+          "purpose": "make required runtime resources discoverable from .project_root.",
+          "dependencies": [
+            "Design Engine",
+            "DevFlow Orchestrator",
+            "Artifact Layer",
+            "UCOS Memory"
+          ],
+          "unlocks": [
+            "portable local execution"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "运行时图",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:72",
+      "selections": [
+        {
+          "id": "SEL-014",
+          "layer_number": 6,
+          "layer_title": "运行时图",
+          "layer_status": "Submitted / accepted",
+          "item_type": "运行时",
+          "option": "GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+          "label": "运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+          "purpose": "support both interactive design work and repeatable command-line validation.",
+          "dependencies": [
+            "src/main.py",
+            "src/gui_app.py",
+            "scripts/build.py"
+          ],
+          "unlocks": [
+            "release verification"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "表现层",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:79",
+      "selections": [
+        {
+          "id": "SEL-015",
+          "layer_number": 7,
+          "layer_title": "表现层",
+          "layer_status": "Submitted / accepted",
+          "item_type": "表现",
+          "option": "Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+          "label": "表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+          "purpose": "surface operational state without hiding machine-readable artifacts.",
+          "dependencies": [
+            "design_tool UI",
+            "artifact reports"
+          ],
+          "unlocks": [
+            "manual review and debugging"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "技术层",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:86",
+      "selections": [
+        {
+          "id": "SEL-016",
+          "layer_number": 8,
+          "layer_title": "技术层",
+          "layer_status": "Submitted / accepted",
+          "item_type": "技术",
+          "option": "root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+          "label": "技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+          "purpose": "make the merged project relocatable and independently verifiable.",
+          "dependencies": [
+            "src/core",
+            "src/plugins",
+            "scripts"
+          ],
+          "unlocks": [
+            "packaged executable"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "生产层",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:93",
+      "selections": [
+        {
+          "id": "SEL-017",
+          "layer_number": 9,
+          "layer_title": "生产层",
+          "layer_status": "Submitted / accepted",
+          "item_type": "生产",
+          "option": "migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+          "label": "生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+          "purpose": "turn the original merge plan into a repeatable delivery workflow.",
+          "dependencies": [
+            "migration report",
+            "stage reports",
+            "test results"
+          ],
+          "unlocks": [
+            "handoff-ready project"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "影响分析",
+      "status": "Submitted / accepted",
+      "source_ref": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:100",
+      "selections": [
+        {
+          "id": "SEL-018",
+          "layer_number": 10,
+          "layer_title": "影响分析",
+          "layer_status": "Submitted / accepted",
+          "item_type": "影响",
+          "option": "path independence, source package compatibility, legacy save preservation, stage contract stability, and Unity mutation boundary",
+          "label": "影响：path independence, source package compatibility, legacy save preservation, stage contract stability, and Unity mutation boundary",
+          "purpose": "make the risky parts of the merge visible before full development execution.",
+          "dependencies": [
+            "hardcoded-path scan",
+            "preflight-only run",
+            "formal stage 00 intake"
+          ],
+          "unlocks": [
+            "controlled downstream stage execution"
+          ],
+          "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:102"
+        }
+      ]
+    }
+  ],
+  "selections": [
+    {
+      "id": "SEL-001",
+      "layer_number": 1,
+      "layer_title": "项目愿景",
+      "layer_status": "Submitted / accepted",
+      "item_type": "项目定位",
+      "option": "AI-assisted design-to-development automation workspace",
+      "label": "项目定位：AI-assisted design-to-development automation workspace",
+      "purpose": "merge structured design authoring, DevFlow stage orchestration, artifact validation, and UCOS memory into one movable project.",
+      "dependencies": [
+        "design_tool data domains",
+        "DevFlow orchestrator",
+        "plugin manifest"
+      ],
+      "unlocks": [
+        "核心循环",
+        "技术层",
+        "生产层"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:7"
+    },
+    {
+      "id": "SEL-002",
+      "layer_number": 1,
+      "layer_title": "项目愿景",
+      "layer_status": "Submitted / accepted",
+      "item_type": "平台",
+      "option": "Windows desktop application with Python CLI pipeline support",
+      "label": "平台：Windows desktop application with Python CLI pipeline support",
+      "purpose": "run the GUI design tool and command-line development stages from the same project root.",
+      "dependencies": [
+        "Tkinter runtime",
+        "Python environment",
+        "project settings"
+      ],
+      "unlocks": [
+        "运行时流程"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:11"
+    },
+    {
+      "id": "SEL-003",
+      "layer_number": 1,
+      "layer_title": "项目愿景",
+      "layer_status": "Submitted / accepted",
+      "item_type": "目标玩家",
+      "option": "game designers, technical designers, and Unity developers",
+      "label": "目标玩家：game designers, technical designers, and Unity developers",
+      "purpose": "support repeated design decisions, validation, handoff, and implementation review.",
+      "dependencies": [
+        "domain schema coverage",
+        "artifact reports"
+      ],
+      "unlocks": [
+        "内容对象",
+        "资源类型"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:15"
+    },
+    {
+      "id": "SEL-004",
+      "layer_number": 1,
+      "layer_title": "项目愿景",
+      "layer_status": "Submitted / accepted",
+      "item_type": "商业模式",
+      "option": "internal production tool and reusable automation framework",
+      "label": "商业模式：internal production tool and reusable automation framework",
+      "purpose": "prioritize correctness, traceability, migration safety, and local execution over marketing presentation.",
+      "dependencies": [
+        "portable paths",
+        "deterministic exports"
+      ],
+      "unlocks": [
+        "影响分析"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:19"
+    },
+    {
+      "id": "SEL-005",
+      "layer_number": 2,
+      "layer_title": "核心体验",
+      "layer_status": "Submitted / accepted",
+      "item_type": "核心循环",
+      "option": "load design knowledge -> choose structured decisions -> export Concept package -> run DevFlow stages -> review artifacts",
+      "label": "核心循环：load design knowledge -> choose structured decisions -> export Concept package -> run DevFlow stages -> review artifacts",
+      "purpose": "make each design-to-development handoff explicit and testable.",
+      "dependencies": [
+        "data/design",
+        "source_artifacts",
+        "outputs/artifacts"
+      ],
+      "unlocks": [
+        "stage 00 intake",
+        "stage validation"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:26"
+    },
+    {
+      "id": "SEL-006",
+      "layer_number": 2,
+      "layer_title": "核心体验",
+      "layer_status": "Submitted / accepted",
+      "item_type": "压力来源",
+      "option": "manual handoff drift, stale absolute paths, missing source packages, and unverifiable development outputs",
+      "label": "压力来源：manual handoff drift, stale absolute paths, missing source packages, and unverifiable development outputs",
+      "purpose": "turn migration risks into validation checks before actual Unity project mutation.",
+      "dependencies": [
+        "path manager",
+        "preflight checks"
+      ],
+      "unlocks": [
+        "migration audit"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:30"
+    },
+    {
+      "id": "SEL-007",
+      "layer_number": 2,
+      "layer_title": "核心体验",
+      "layer_status": "Submitted / accepted",
+      "item_type": "奖励节奏",
+      "option": "immediate stage summaries, validation reports, package manifests, and build artifacts",
+      "label": "奖励节奏：immediate stage summaries, validation reports, package manifests, and build artifacts",
+      "purpose": "give operators fast feedback after every design or development stage.",
+      "dependencies": [
+        "artifact indexes",
+        "save records"
+      ],
+      "unlocks": [
+        "release packaging"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:34"
+    },
+    {
+      "id": "SEL-008",
+      "layer_number": 3,
+      "layer_title": "系统图",
+      "layer_status": "Submitted / accepted",
+      "item_type": "system_layer",
+      "option": "Design Engine",
+      "label": "system_layer：Design Engine",
+      "purpose": "load domain schemas, templates, prompt frameworks, and project templates from data/design.",
+      "dependencies": [
+        "16 domains",
+        "103 nodes",
+        "515 checklist entries"
+      ],
+      "unlocks": [
+        "design stage D1-D4"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+    },
+    {
+      "id": "SEL-009",
+      "layer_number": 3,
+      "layer_title": "系统图",
+      "layer_status": "Submitted / accepted",
+      "item_type": "system_layer",
+      "option": "DevFlow Orchestrator",
+      "label": "system_layer：DevFlow Orchestrator",
+      "purpose": "execute stages 00-15 with preflight, artifact generation, validation, and review gates.",
+      "dependencies": [
+        "orchestrator.py",
+        "stages",
+        "steps",
+        "tools"
+      ],
+      "unlocks": [
+        "development stage plugins"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+    },
+    {
+      "id": "SEL-010",
+      "layer_number": 3,
+      "layer_title": "系统图",
+      "layer_status": "Submitted / accepted",
+      "item_type": "system_layer",
+      "option": "Artifact Layer",
+      "label": "system_layer：Artifact Layer",
+      "purpose": "record stage outputs, manifests, validation reports, and review status.",
+      "dependencies": [
+        "outputs/artifacts",
+        "artifact_layer"
+      ],
+      "unlocks": [
+        "traceability validation"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49"
+    },
+    {
+      "id": "SEL-011",
+      "layer_number": 3,
+      "layer_title": "系统图",
+      "layer_status": "Submitted / accepted",
+      "item_type": "system_layer",
+      "option": "UCOS Memory",
+      "label": "system_layer：UCOS Memory",
+      "purpose": "preserve migrated procedural, episodic, and framework knowledge for repeated runs.",
+      "dependencies": [
+        "ucos",
+        "memory",
+        "migrated save archives"
+      ],
+      "unlocks": [
+        "runtime context recall"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+    },
+    {
+      "id": "SEL-012",
+      "layer_number": 4,
+      "layer_title": "内容图",
+      "layer_status": "Submitted / accepted",
+      "item_type": "内容",
+      "option": "design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "purpose": "keep authoring content and runtime artifacts separated while preserving legacy data.",
+      "dependencies": [
+        "立项与产品定位设计",
+        "核心体验设计",
+        "玩法系统设计",
+        "内容设计",
+        "经济与商业化设计",
+        "用户体验与界面设计",
+        "表现与感受设计",
+        "数值与平衡设计",
+        "and 8 more"
+      ],
+      "unlocks": [
+        "package manifests and migration reports"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "id": "SEL-013",
+      "layer_number": 5,
+      "layer_title": "资源图",
+      "layer_status": "Submitted / accepted",
+      "item_type": "资源",
+      "option": "Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "label": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "purpose": "make required runtime resources discoverable from .project_root.",
+      "dependencies": [
+        "Design Engine",
+        "DevFlow Orchestrator",
+        "Artifact Layer",
+        "UCOS Memory"
+      ],
+      "unlocks": [
+        "portable local execution"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+    },
+    {
+      "id": "SEL-014",
+      "layer_number": 6,
+      "layer_title": "运行时图",
+      "layer_status": "Submitted / accepted",
+      "item_type": "运行时",
+      "option": "GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+      "label": "运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+      "purpose": "support both interactive design work and repeatable command-line validation.",
+      "dependencies": [
+        "src/main.py",
+        "src/gui_app.py",
+        "scripts/build.py"
+      ],
+      "unlocks": [
+        "release verification"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+    },
+    {
+      "id": "SEL-015",
+      "layer_number": 7,
+      "layer_title": "表现层",
+      "layer_status": "Submitted / accepted",
+      "item_type": "表现",
+      "option": "Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+      "label": "表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+      "purpose": "surface operational state without hiding machine-readable artifacts.",
+      "dependencies": [
+        "design_tool UI",
+        "artifact reports"
+      ],
+      "unlocks": [
+        "manual review and debugging"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+    },
+    {
+      "id": "SEL-016",
+      "layer_number": 8,
+      "layer_title": "技术层",
+      "layer_status": "Submitted / accepted",
+      "item_type": "技术",
+      "option": "root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+      "label": "技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+      "purpose": "make the merged project relocatable and independently verifiable.",
+      "dependencies": [
+        "src/core",
+        "src/plugins",
+        "scripts"
+      ],
+      "unlocks": [
+        "packaged executable"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+    },
+    {
+      "id": "SEL-017",
+      "layer_number": 9,
+      "layer_title": "生产层",
+      "layer_status": "Submitted / accepted",
+      "item_type": "生产",
+      "option": "migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+      "label": "生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+      "purpose": "turn the original merge plan into a repeatable delivery workflow.",
+      "dependencies": [
+        "migration report",
+        "stage reports",
+        "test results"
+      ],
+      "unlocks": [
+        "handoff-ready project"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+    },
+    {
+      "id": "SEL-018",
+      "layer_number": 10,
+      "layer_title": "影响分析",
+      "layer_status": "Submitted / accepted",
+      "item_type": "影响",
+      "option": "path independence, source package compatibility, legacy save preservation, stage contract stability, and Unity mutation boundary",
+      "label": "影响：path independence, source package compatibility, legacy save preservation, stage contract stability, and Unity mutation boundary",
+      "purpose": "make the risky parts of the merge visible before full development execution.",
+      "dependencies": [
+        "hardcoded-path scan",
+        "preflight-only run",
+        "formal stage 00 intake"
+      ],
+      "unlocks": [
+        "controlled downstream stage execution"
+      ],
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:102"
+    }
+  ]
+}

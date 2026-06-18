@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/stm_entry.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "stm_id",
+    "type",
+    "title",
+    "content",
+    "source",
+    "importance",
+    "created_at",
+    "last_accessed",
+    "current_relevance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

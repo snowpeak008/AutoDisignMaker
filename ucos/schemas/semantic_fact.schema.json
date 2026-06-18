@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/semantic_fact.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "fact_id",
+    "type",
+    "fact",
+    "source",
+    "confidence",
+    "review_required",
+    "version",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

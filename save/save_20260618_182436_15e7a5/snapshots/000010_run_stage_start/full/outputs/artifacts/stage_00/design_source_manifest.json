@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:32:52",
+  "sources": [
+    {
+      "path": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+      "sha256": "96deb127f4ff0ee11917a798f29683256457bd3733bb8d6057830c55aa950490",
+      "size_bytes": 5811,
+      "line_count": 105,
+      "role": "current_project_design_doc",
+      "source_package": "source_artifacts/s00_cpt_v2",
+      "source_input_type": "concept_attachment"
+    }
+  ]
+}

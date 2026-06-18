@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "edges": {
+    "skill_read_file_v1": [],
+    "skill_write_file_v1": [],
+    "skill_search_v1": [],
+    "skill_summarize_v1": [],
+    "skill_generate_json_v1": [],
+    "skill_validate_schema_v1": [],
+    "skill_diff_compare_v1": [],
+    "skill_extract_facts_v1": [],
+    "skill_tag_classify_v1": [],
+    "skill_run_command_v1": [],
+    "skill_skill_selector_v1": [
+      "skill_search_v1"
+    ],
+    "skill_workflow_composer_v1": [
+      "skill_skill_selector_v1"
+    ]
+  },
+  "updated_at": "2026-06-17T13:13:29+00:00"
+}

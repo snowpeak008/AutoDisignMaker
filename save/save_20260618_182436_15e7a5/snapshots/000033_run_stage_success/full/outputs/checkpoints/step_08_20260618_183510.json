@@ -1,0 +1,32 @@
+{
+  "step": 8,
+  "name": "art_plan",
+  "title": "Art plan",
+  "status": "success",
+  "valid": true,
+  "timestamp": "2026-06-18T18:35:10",
+  "artifacts_dir": "outputs/artifacts/stage_08",
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "art_plans"
+  ],
+  "imported_upstream_artifacts": [
+    {
+      "artifact_id": "stage_06.art_review_bundle",
+      "stage": "6",
+      "source": "outputs/artifacts/stage_06",
+      "target": "outputs/artifacts/stage_08/upstream/stage_06/stage_06_art_review_bundle/UPSTREAM_REFERENCE.json",
+      "reference_dir": "outputs/artifacts/stage_08/upstream/stage_06/stage_06_art_review_bundle",
+      "reference_manifest": "outputs/artifacts/stage_06/reference_manifest.json",
+      "artifact_index": "outputs/artifacts/stage_06/artifact_index.json",
+      "validation_report": "outputs/artifacts/stage_06/validation_report.json",
+      "file_count": 13
+    }
+  ],
+  "missing_upstream_artifacts": [],
+  "notes": [
+    "Optional current-project source artifact groups were not provided; validated upstream artifacts were used."
+  ]
+}

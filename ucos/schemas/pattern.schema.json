@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/pattern.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "pattern_id",
+    "name",
+    "category",
+    "domain",
+    "problem",
+    "solution",
+    "source_episodes",
+    "confidence",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

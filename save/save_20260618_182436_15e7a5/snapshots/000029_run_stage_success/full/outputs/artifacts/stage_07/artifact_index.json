@@ -1,0 +1,117 @@
+{
+  "step": 7,
+  "name": "design_to_plan",
+  "title": "Program plan",
+  "timestamp": "2026-06-18T18:35:09",
+  "artifact_root": "outputs/artifacts/stage_07",
+  "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+  "guidance_docs": [
+    "outputs/artifacts/stage_07/guidance/08_program_plan.md",
+    "outputs/artifacts/stage_07/guidance/step07.txt"
+  ],
+  "imported": true,
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "program_plans"
+  ],
+  "imported_upstream_artifacts": [
+    {
+      "artifact_id": "stage_05.program_review_bundle",
+      "stage": "5",
+      "source": "outputs/artifacts/stage_05",
+      "target": "outputs/artifacts/stage_07/upstream/stage_05/stage_05_program_review_bundle/UPSTREAM_REFERENCE.json",
+      "reference_dir": "outputs/artifacts/stage_07/upstream/stage_05/stage_05_program_review_bundle",
+      "reference_manifest": "outputs/artifacts/stage_05/reference_manifest.json",
+      "artifact_index": "outputs/artifacts/stage_05/artifact_index.json",
+      "validation_report": "outputs/artifacts/stage_05/validation_report.json",
+      "file_count": 13
+    }
+  ],
+  "missing_upstream_artifacts": [],
+  "manifest": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 2012,
+      "sha256": "24f1221fbd9e6fa7672db781b4d0e59a3176bea43c98e79c3d4390aa81d8cb12"
+    },
+    {
+      "path": "build_config.json",
+      "size_bytes": 99,
+      "sha256": "bc40a76f7c67bc8d417086f6f97d870df20dda322f4622e7cfef00d8adb46117"
+    },
+    {
+      "path": "config_schema.json",
+      "size_bytes": 380,
+      "sha256": "e789cf62f8e5efca6b50bee7bc76579ce46d0ad3cfda219bc039268771bfe920"
+    },
+    {
+      "path": "guidance/08_program_plan.md",
+      "size_bytes": 179,
+      "sha256": "6c5b51a5723c0da63900ecfbde9ba13b034d001c4cd0c98611b74ef758e483e5"
+    },
+    {
+      "path": "guidance/step07.txt",
+      "size_bytes": 73,
+      "sha256": "986d25ea670bd615679399ae856c4358fbf5d03f50343a7d43a77220f99051c6"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 61,
+      "sha256": "40c9bbb78b61a2e1d210172f1d1c8ba7fc2593927e56a5820e530507d1a2ae11"
+    },
+    {
+      "path": "phase_task_map.json",
+      "size_bytes": 28526,
+      "sha256": "b78847974cd572beb1590f1575e6f3d1697d74397da2e84a06128404561978ca"
+    },
+    {
+      "path": "PLAN-content_ops.md",
+      "size_bytes": 229,
+      "sha256": "797fdaf9b60953f112d1fbe6d854d8e0e1cd79ef0a83777e3c186af30c807151"
+    },
+    {
+      "path": "PLAN-core_playable.md",
+      "size_bytes": 3483,
+      "sha256": "091a14a51ef5c7a615baf27649fc799abbce8561a92a3010c049aef90259a649"
+    },
+    {
+      "path": "program_plan_index.md",
+      "size_bytes": 3484,
+      "sha256": "95f2bc1be8114d62f4cfde8a12616aec4075d4c927ca2ae390444b32a5250548"
+    },
+    {
+      "path": "program_structure_spec.md",
+      "size_bytes": 199,
+      "sha256": "0fa058118a336c274b455a237aed5e228f54af5a463865f1e5cc06a1f9c771a0"
+    },
+    {
+      "path": "program_task_breakdown.json",
+      "size_bytes": 30257,
+      "sha256": "a407762d15c22570b203d41377739cb383b4639e5d51a35ea95ac5af2a01564d"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 260,
+      "sha256": "8f665f49d39630be9e46102d048d18685452fae560c8cbb0615b7092b0246cff"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 13677,
+      "sha256": "968d81aaea3cc00431ce14558c94b2972d5304f98b2d80c91c64fd2dabcd8c71"
+    },
+    {
+      "path": "upstream/stage_05/stage_05_program_review_bundle/UPSTREAM_REFERENCE.json",
+      "size_bytes": 5125,
+      "sha256": "25b78f0e02722893d6c6716eb0b0ed91aca8d91278370570629dcb082f414039"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1511,
+      "sha256": "30303d6dc52e9ef68af14c75e0f1b6856cfd0b8e50d0003d2ae28e70d33e5543"
+    }
+  ],
+  "updated_at": "2026-06-18T18:35:09",
+  "development_plan_outputs": true
+}

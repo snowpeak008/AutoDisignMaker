@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "plugin_id": "devflow",
+  "domain": "devflow",
+  "skills_path": "skills",
+  "knowledge_path": "knowledge",
+  "schemas_path": "schemas",
+  "status": "active"
+}

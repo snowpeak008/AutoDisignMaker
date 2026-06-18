@@ -1,0 +1,36 @@
+{
+  "step": 0,
+  "name": "idea_intake",
+  "title": "Idea intake",
+  "status": "content_missing",
+  "valid": false,
+  "timestamp": "2026-06-18T18:24:36",
+  "artifacts_dir": "outputs/artifacts/stage_00",
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "concept"
+  ],
+  "imported_upstream_artifacts": [],
+  "missing_upstream_artifacts": [],
+  "notes": [
+    "No source artifact directory or upstream stage artifact matched this stage; generated metadata only."
+  ],
+  "content_exists": false,
+  "ai_review_status": "blocked",
+  "blocking_issues": 1,
+  "traceability_valid": false,
+  "scope_budget_valid": true,
+  "business_quality": {
+    "content_exists": false,
+    "message": "Stage 00 has no submitted Concept source package.",
+    "source_error": {
+      "code": "STAGE00_CONCEPT_SOURCE_MISSING",
+      "fix": "在步骤 0 填写人工输入，或提交一个 .md/.txt 主设计文档附件。"
+    },
+    "blocking_issues": 1,
+    "ai_review_status": "blocked",
+    "traceability_valid": false
+  }
+}

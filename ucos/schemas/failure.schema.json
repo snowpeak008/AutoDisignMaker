@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ucos/schemas/failure.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "failure_id",
+    "title",
+    "status",
+    "severity",
+    "domain",
+    "failure",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

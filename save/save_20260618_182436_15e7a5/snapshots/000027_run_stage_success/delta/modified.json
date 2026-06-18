@@ -1,0 +1,26 @@
+[
+  {
+    "before": {
+      "workspace_path": "gate_log.yaml",
+      "size_bytes": 2882,
+      "sha256": "4c907bc4d0e0142c8431e0150d294fcdba6f8f5f81620fbf96363e4d6211acb3",
+      "stage": null,
+      "artifact_id": "",
+      "role": "gate_log",
+      "source_type": "gate_log",
+      "reference_manifest": "",
+      "latest_transaction_seq": 26
+    },
+    "after": {
+      "workspace_path": "gate_log.yaml",
+      "size_bytes": 3052,
+      "sha256": "f0a082be2f83d4ced5d0d60e398f1a22d435e65bd833373e9c3d7c2bf280c15b",
+      "stage": null,
+      "artifact_id": "",
+      "role": "gate_log",
+      "source_type": "gate_log",
+      "reference_manifest": "",
+      "latest_transaction_seq": 27
+    }
+  }
+]

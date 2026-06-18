@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "pattern_id": "pat_f9ba2715",
+  "name": "Decision 004 — source_artifacts/ 替代 Shared/ 作为人工输入源",
+  "category": "process",
+  "domain": "devflow",
+  "problem": "操作者提交的源资料必须放入 source_artifacts/，并包含 package_manifest.json（含正确 source_id），Shared/ 目录严禁作为当前资料来源。",
+  "solution": "操作者提交的源资料必须放入 source_artifacts/，并包含 package_manifest.json（含正确 source_id），Shared/ 目录严禁作为当前资料来源。",
+  "consequences": {
+    "positive": [],
+    "negative": []
+  },
+  "source_episodes": [
+    "ep_decision_004"
+  ],
+  "confidence": 0.8,
+  "usage_count": 0,
+  "human_verified": false,
+  "created_at": "2026-06-17T15:39:56+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "entries": [
+    {
+      "id": "ep_decision_001",
+      "path": "ucos/knowledge/episodic/episodes/ep_decision_001.json"
+    },
+    {
+      "id": "ep_decision_002",
+      "path": "ucos/knowledge/episodic/episodes/ep_decision_002.json"
+    },
+    {
+      "id": "ep_decision_003",
+      "path": "ucos/knowledge/episodic/episodes/ep_decision_003.json"
+    },
+    {
+      "id": "ep_decision_004",
+      "path": "ucos/knowledge/episodic/episodes/ep_decision_004.json"
+    },
+    {
+      "id": "ep_decision_005",
+      "path": "ucos/knowledge/episodic/episodes/ep_decision_005.json"
+    },
+    {
+      "id": "ep_decision_006",
+      "path": "ucos/knowledge/episodic/episodes/ep_decision_006.json"
+    },
+    {
+      "id": "ep_decision_007",
+      "path": "ucos/knowledge/episodic/episodes/ep_decision_007.json"
+    }
+  ]
+}

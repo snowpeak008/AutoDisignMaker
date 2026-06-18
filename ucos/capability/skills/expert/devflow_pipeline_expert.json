@@ -1,0 +1,65 @@
+{
+  "skill_id": "skill_devflow_pipeline_expert_v1",
+  "name": "devflow_pipeline_expert",
+  "type": "expert",
+  "level": 4,
+  "version": "1.0.0",
+  "status": "active",
+  "domain": "devflow",
+  "description": "Expert skill for DevFlow 16-stage pipeline operations: stage execution, artifact validation, blocker diagnosis, and source artifact management.",
+  "capabilities": [
+    "run orchestrator.py for a specified stage",
+    "read and diagnose validation_report.json",
+    "check source_artifacts/ package manifest for required source_id",
+    "identify and report missing_groups in artifact validation",
+    "advise on stage retry vs source artifact remediation"
+  ],
+  "dependencies": [
+    "skill_read_file_v1",
+    "skill_validate_schema_v1",
+    "skill_run_command_v1"
+  ],
+  "trigger_rule": {
+    "required_context_tags": ["devflow", "stage_execution"],
+    "required_inputs": ["target_stage"],
+    "confidence_threshold": 0.85
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "target_stage": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 15,
+        "description": "Stage number to operate on (0–15)"
+      },
+      "save_id": {
+        "type": "string",
+        "description": "Active save ID (optional, defaults to current active save)"
+      },
+      "action": {
+        "type": "string",
+        "enum": ["run", "validate", "diagnose"],
+        "description": "Operation to perform on the target stage"
+      }
+    },
+    "required": ["target_stage"]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "status": {"type": "string", "enum": ["success", "failure", "blocked"]},
+      "diagnosis": {"type": "string"},
+      "recommended_action": {"type": "string"},
+      "missing_groups": {"type": "array", "items": {"type": "string"}}
+    },
+    "required": ["status"]
+  },
+  "anti_patterns": [
+    "do not bypass orchestrator.py and write directly to outputs/",
+    "do not restore *_crew.py as execution entry",
+    "do not add new requirements during stage 10/11 execution"
+  ],
+  "episode_refs": ["ep_decision_001", "ep_decision_002"],
+  "created_at": "2026-06-17T22:00:00+08:00"
+}

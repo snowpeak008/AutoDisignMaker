@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "failure_id": "fail_issue_003",
+  "title": "Issue 003 — 项目说明.md 文档路径与实际不一致",
+  "status": "open",
+  "severity": "low",
+  "domain": "devflow",
+  "failure": "`项目说明.md` 中写的总规则路径为 `docs/adr/`（小写），实际目录是 `工程运行文件/Docs/`（大写且在子文件夹内），存在路径不一致。",
+  "reason": "",
+  "diagnosis_steps": [],
+  "solution": "",
+  "prevention": "",
+  "source_file": "memory/known-issues.md",
+  "source_episode": "",
+  "related_pattern_ids": [],
+  "created_at": "2026-06-17T15:00:42+00:00",
+  "resolved_at": null
+}

@@ -1,0 +1,450 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:08",
+  "stage": {
+    "number": 6,
+    "name": "art_review",
+    "title": "Art requirements review",
+    "artifact_root": "outputs/artifacts/stage_06"
+  },
+  "artifacts": [
+    {
+      "id": "stage_06.art_review_bundle",
+      "stage": 6,
+      "kind": "source_placeholder_or_import",
+      "depends_on": [
+        "stage_04.art_requirements_bundle"
+      ],
+      "tasks": [
+        {
+          "id": "stage_06.resolve_art_review",
+          "type": "import_or_declare_missing",
+          "description": "Import art review or record missing source artifact."
+        },
+        {
+          "id": "stage_06.generate_art_review",
+          "type": "deterministic_review",
+          "description": "Review generated art requirements and asset registry for blockers and traceability."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Naming_Convention.md"
+      ]
+    }
+  ],
+  "inputs": {
+    "source_artifacts": [],
+    "upstream_artifacts": [
+      {
+        "artifact_id": "stage_04.art_requirements_bundle",
+        "stage": 4,
+        "stage_dir": "outputs/artifacts/stage_04",
+        "reference_record": "outputs/artifacts/stage_06/upstream/stage_04/stage_04_art_requirements_bundle/UPSTREAM_REFERENCE.json",
+        "reference_manifest": "outputs/artifacts/stage_04/reference_manifest.json",
+        "artifact_index": "outputs/artifacts/stage_04/artifact_index.json",
+        "validation_report": "outputs/artifacts/stage_04/validation_report.json",
+        "file_count": 18,
+        "files": [
+          {
+            "path": "art_requirements_contract.json",
+            "stage_path": "outputs/artifacts/stage_04/art_requirements_contract.json",
+            "role": "stage_file",
+            "size_bytes": 2939,
+            "sha256": "d6047e9edd6911b54956c15ced766aad56a9820478b7447de6bbedd9434b3260",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "art_structure_spec.json",
+            "stage_path": "outputs/artifacts/stage_04/art_structure_spec.json",
+            "role": "stage_file",
+            "size_bytes": 1363,
+            "sha256": "3d3ee295c1590e8668f7dba00f7113e02444156f4b3d215cbaace98f990c0d18",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "art_structure_spec.md",
+            "stage_path": "outputs/artifacts/stage_04/art_structure_spec.md",
+            "role": "stage_file",
+            "size_bytes": 364,
+            "sha256": "d6578e67a71e448ea37d7b325f6b5a9dedff82177580e7a4fb3ccadb4af9fc68",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "artifact_index.json",
+            "stage_path": "outputs/artifacts/stage_04/artifact_index.json",
+            "role": "stage_index",
+            "size_bytes": 4087,
+            "sha256": "f837f6ba8825ada50b0d7fa54d31083282aeb4e33e55487ac87a1cc94340dccf",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "artifact_layer_manifest.json",
+            "stage_path": "outputs/artifacts/stage_04/artifact_layer_manifest.json",
+            "role": "artifact_layer",
+            "size_bytes": 4689,
+            "sha256": "c4b8c095785de99e8721291da93098cc9607f756cbbb7e5110fd47fde08d5c2a",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "artifact_reviews.json",
+            "stage_path": "outputs/artifacts/stage_04/artifact_reviews.json",
+            "role": "validation",
+            "size_bytes": 1375,
+            "sha256": "f6800378b93aa06016414c9ae7d4750afc9e56d970b6a4032fe83696341095c6",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "artifact_validation_layer.json",
+            "stage_path": "outputs/artifacts/stage_04/artifact_validation_layer.json",
+            "role": "validation",
+            "size_bytes": 1627,
+            "sha256": "65a4f42dd3b15a3c01cb5bcc983a9e8b329fa9bea0c5c82f6c466ce16cfdfec2",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "asset_registry.json",
+            "stage_path": "outputs/artifacts/stage_04/asset_registry.json",
+            "role": "stage_file",
+            "size_bytes": 2729,
+            "sha256": "6606d2c736ec2196370a110ee525af3c649d47f793fd70a2667622cad04029bf",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "drift_analysis.md",
+            "stage_path": "outputs/artifacts/stage_04/drift_analysis.md",
+            "role": "stage_file",
+            "size_bytes": 176,
+            "sha256": "f3015b3e3b62c35d9460cecdf1d40f686e43f295bfa5e353caf32ba4deb8d09b",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "guidance/05_art_requirements.md",
+            "stage_path": "outputs/artifacts/stage_04/guidance/05_art_requirements.md",
+            "role": "guidance",
+            "size_bytes": 189,
+            "sha256": "03254f1bf3aacdf65c914742396a4d97bb7934691255b1a8904d1d461c63ae60",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "guidance/step04.txt",
+            "stage_path": "outputs/artifacts/stage_04/guidance/step04.txt",
+            "role": "guidance",
+            "size_bytes": 65,
+            "sha256": "5c6652ecb0bcf248023f660cee099800807220bb2acb398089b0d7ddca50dfc6",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+            "stage_path": "outputs/artifacts/stage_04/OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+            "role": "operator_report",
+            "size_bytes": 64,
+            "sha256": "bb68c78f62b3a841e4f53082fb35c694ef6bf6254292b4bb4234189e4020ef4d",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "README.md",
+            "stage_path": "outputs/artifacts/stage_04/README.md",
+            "role": "operator_report",
+            "size_bytes": 267,
+            "sha256": "25fc44c3ab8c931548dc17c54c2c74d33d04a3948b347f0a226002dc2fab209a",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "UI需求.md",
+            "stage_path": "outputs/artifacts/stage_04/UI需求.md",
+            "role": "stage_file",
+            "size_bytes": 585,
+            "sha256": "74d79072f9106aa73ca4a10ac7db052a3df05508b8e1f6ea082f0e64eb27b6b7",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "upstream/stage_03/stage_03_program_requirements_bundle/UPSTREAM_REFERENCE.json",
+            "stage_path": "outputs/artifacts/stage_04/upstream/stage_03/stage_03_program_requirements_bundle/UPSTREAM_REFERENCE.json",
+            "role": "upstream_reference",
+            "size_bytes": 7263,
+            "sha256": "313a397b6b4035959a25c0353f93a32bd559a0cc603b5d0776ea69761d589abe",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "validation_report.json",
+            "stage_path": "outputs/artifacts/stage_04/validation_report.json",
+            "role": "validation",
+            "size_bytes": 1538,
+            "sha256": "885aeba3bf9be990d462ef66b982b420d60b7fdc9d7bb8823058ae5df31a8f54",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "原画需求.md",
+            "stage_path": "outputs/artifacts/stage_04/原画需求.md",
+            "role": "stage_file",
+            "size_bytes": 73,
+            "sha256": "6a40feb45cd1829dc8b8394ed29dc67e56727c5bae3d839e91f9403c85ecfeef",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          },
+          {
+            "path": "特效需求.md",
+            "stage_path": "outputs/artifacts/stage_04/特效需求.md",
+            "role": "stage_file",
+            "size_bytes": 73,
+            "sha256": "eaef0406ea96cbcc5daef84d80df55bef2f7ad89fbe20dbc07491aacd3ce01a3",
+            "source_manifest": "outputs/artifacts/stage_04/reference_manifest.json"
+          }
+        ]
+      }
+    ],
+    "missing_required_groups": [],
+    "optional_missing_groups": [
+      "art_review"
+    ],
+    "missing_upstream_artifacts": []
+  },
+  "files": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 3221,
+      "sha256": "f70a9837101428b3211542137714a781d6a1e245800a8db9fdc11f7d66ee88c5",
+      "stage_path": "outputs/artifacts/stage_06/artifact_index.json",
+      "role": "stage_index"
+    },
+    {
+      "path": "artifact_layer_manifest.json",
+      "size_bytes": 3690,
+      "sha256": "a1d5d1441851d5ffda8ff4234791b57016b53aa033370c40e5acedc2994776c6",
+      "stage_path": "outputs/artifacts/stage_06/artifact_layer_manifest.json",
+      "role": "artifact_layer"
+    },
+    {
+      "path": "artifact_reviews.json",
+      "size_bytes": 1369,
+      "sha256": "cec62cd69f702321cfd2ffd4ec0a3ff2d798fd8699fbe87aabd5e9d23837e21e",
+      "stage_path": "outputs/artifacts/stage_06/artifact_reviews.json",
+      "role": "validation"
+    },
+    {
+      "path": "artifact_validation_layer.json",
+      "size_bytes": 1621,
+      "sha256": "2717cdffe867ff5f2aa4d76fa5c2965156899e4a847272f1d1024ba09bdd7c3b",
+      "stage_path": "outputs/artifacts/stage_06/artifact_validation_layer.json",
+      "role": "validation"
+    },
+    {
+      "path": "ArtReview_report.json",
+      "size_bytes": 228,
+      "sha256": "2b0e05cee9bd94585cdf54be68ee2a35ab9e28957ea29c3278e6a554a20d3e2b",
+      "stage_path": "outputs/artifacts/stage_06/ArtReview_report.json",
+      "role": "stage_file"
+    },
+    {
+      "path": "guidance/07_art_review.md",
+      "size_bytes": 177,
+      "sha256": "e422b7a6afc273807a5f6c371ec6c383d40685d928fec5a158121917332e3d3a",
+      "stage_path": "outputs/artifacts/stage_06/guidance/07_art_review.md",
+      "role": "guidance"
+    },
+    {
+      "path": "guidance/step06.txt",
+      "size_bytes": 72,
+      "sha256": "09d99d442ea59615c879bcd714e02bbdde6561f54a9c93ae816693f1ae7d1374",
+      "stage_path": "outputs/artifacts/stage_06/guidance/step06.txt",
+      "role": "guidance"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 58,
+      "sha256": "2ec048aa17ca37748a4751315f47be1e349a6602f62da9764da933cbd35a69e8",
+      "stage_path": "outputs/artifacts/stage_06/OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "role": "operator_report"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 268,
+      "sha256": "59cfd09fc03ed2869e5c8dddad89a925362a484f2c9ee52ddfe34cb7a197c5b9",
+      "stage_path": "outputs/artifacts/stage_06/README.md",
+      "role": "operator_report"
+    },
+    {
+      "path": "review.md",
+      "size_bytes": 111,
+      "sha256": "752f4c61631c80a1b337129558dbc9be09ed472a8c2c07e6f5887effe5c1d892",
+      "stage_path": "outputs/artifacts/stage_06/review.md",
+      "role": "stage_file"
+    },
+    {
+      "path": "upstream/stage_04/stage_04_art_requirements_bundle/UPSTREAM_REFERENCE.json",
+      "size_bytes": 6877,
+      "sha256": "6722f4d818bac9b2e88de80ad11c560a23c9d9bb8ed556aaad62b8d30d8c911e",
+      "stage_path": "outputs/artifacts/stage_06/upstream/stage_04/stage_04_art_requirements_bundle/UPSTREAM_REFERENCE.json",
+      "role": "upstream_reference"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1498,
+      "sha256": "d0844faeb239cd993a40f7edc1c1bb09f9c103472d7c945123d6faa85a05f85c",
+      "stage_path": "outputs/artifacts/stage_06/validation_report.json",
+      "role": "validation"
+    },
+    {
+      "path": "verdict.md",
+      "size_bytes": 26,
+      "sha256": "49d8627e3e37d9276ca4d75f3c65e306e067c270f1bab1addc7221a42c501158",
+      "stage_path": "outputs/artifacts/stage_06/verdict.md",
+      "role": "stage_file"
+    }
+  ],
+  "relations": [
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/art_requirements_contract.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/art_structure_spec.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/art_structure_spec.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/artifact_index.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/artifact_layer_manifest.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/artifact_reviews.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/artifact_validation_layer.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/asset_registry.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/drift_analysis.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/guidance/05_art_requirements.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/guidance/step04.txt",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/README.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/UI需求.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/upstream/stage_03/stage_03_program_requirements_bundle/UPSTREAM_REFERENCE.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/validation_report.json",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/原画需求.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "upstream_file_referenced",
+      "from": "outputs/artifacts/stage_04/特效需求.md",
+      "to": "outputs/artifacts/stage_06/reference_manifest.json",
+      "upstream_artifact_id": "stage_04.art_requirements_bundle",
+      "upstream_stage": 4
+    },
+    {
+      "type": "artifact_dependency",
+      "from_artifact_id": "stage_04.art_requirements_bundle",
+      "to_artifact_id": "stage_06.art_review_bundle"
+    }
+  ],
+  "summary": {
+    "local_file_count": 13,
+    "source_file_count": 0,
+    "upstream_artifact_count": 1,
+    "upstream_file_count": 18,
+    "relation_count": 19
+  },
+  "updated_at": "2026-06-18T18:35:08"
+}

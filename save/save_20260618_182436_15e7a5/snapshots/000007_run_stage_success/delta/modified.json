@@ -1,0 +1,122 @@
+[
+  {
+    "before": {
+      "workspace_path": "gate_log.yaml",
+      "size_bytes": 825,
+      "sha256": "9bbdaec12448725f6cd11459ab8a43408c21a4cdbe133af17892e7338526dad8",
+      "stage": null,
+      "artifact_id": "",
+      "role": "gate_log",
+      "source_type": "gate_log",
+      "reference_manifest": "",
+      "latest_transaction_seq": 6
+    },
+    "after": {
+      "workspace_path": "gate_log.yaml",
+      "size_bytes": 996,
+      "sha256": "e6a5d8debca6e4183c48c2e819c2bf18a09e6b4ae7b4fd9e206de9cd2fff12fb",
+      "stage": null,
+      "artifact_id": "",
+      "role": "gate_log",
+      "source_type": "gate_log",
+      "reference_manifest": "",
+      "latest_transaction_seq": 7
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "outputs/artifact_layer/preflight_stage_00.json",
+      "size_bytes": 212,
+      "sha256": "8a034ef75cb6480e83f78ce7bb3fb35ffb1f018304c9865768ebc56a58789830",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 6
+    },
+    "after": {
+      "workspace_path": "outputs/artifact_layer/preflight_stage_00.json",
+      "size_bytes": 212,
+      "sha256": "2076e5af1ead436cefd2ca40285a7c9b09ca8d37c17768ff8c224ab7b21f54bf",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 7
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "outputs/artifacts/stage_00/artifact_index.json",
+      "size_bytes": 4782,
+      "sha256": "652282c0929453bd5f7915821e76b5cad3de662a039b06f736f3e15caba781df",
+      "stage": 0,
+      "artifact_id": "stage_00.concept_bundle",
+      "role": "stage_index",
+      "source_type": "run_output",
+      "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+      "latest_transaction_seq": 6
+    },
+    "after": {
+      "workspace_path": "outputs/artifacts/stage_00/artifact_index.json",
+      "size_bytes": 6122,
+      "sha256": "40032b89942e4f7d9dfe832be0c1c0a917e040f6f34a42a06a961127f48e0521",
+      "stage": 0,
+      "artifact_id": "stage_00.concept_bundle",
+      "role": "stage_index",
+      "source_type": "run_output",
+      "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+      "latest_transaction_seq": 7
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "outputs/artifacts/stage_00/reference_manifest.json",
+      "size_bytes": 16219,
+      "sha256": "bedd3683eaee61833f15e26631a1ab136c01944f8b55cd57184038e4cc30b1ca",
+      "stage": 0,
+      "artifact_id": "stage_00.concept_bundle",
+      "role": "stage_file",
+      "source_type": "run_output",
+      "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+      "latest_transaction_seq": 6
+    },
+    "after": {
+      "workspace_path": "outputs/artifacts/stage_00/reference_manifest.json",
+      "size_bytes": 18652,
+      "sha256": "93c210854cffcf57ba0d3312739c18c3b3f65ed9c752e05bedd82b2d062984f7",
+      "stage": 0,
+      "artifact_id": "stage_00.concept_bundle",
+      "role": "stage_file",
+      "source_type": "run_output",
+      "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+      "latest_transaction_seq": 7
+    }
+  },
+  {
+    "before": {
+      "workspace_path": "outputs/artifacts/stage_00/validation_report.json",
+      "size_bytes": 1562,
+      "sha256": "fca0d3c5ec722b7f578d08ccfabb3687557c4ae3d0aeb9bd8587c405ecefaa89",
+      "stage": 0,
+      "artifact_id": "stage_00.concept_bundle",
+      "role": "validation",
+      "source_type": "run_output",
+      "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+      "latest_transaction_seq": 6
+    },
+    "after": {
+      "workspace_path": "outputs/artifacts/stage_00/validation_report.json",
+      "size_bytes": 1674,
+      "sha256": "a49709b003414f7026607fdd8c98601e49f4a62476deeae025cf4cd26e668e20",
+      "stage": 0,
+      "artifact_id": "stage_00.concept_bundle",
+      "role": "validation",
+      "source_type": "run_output",
+      "reference_manifest": "outputs/artifacts/stage_00/reference_manifest.json",
+      "latest_transaction_seq": 7
+    }
+  }
+]

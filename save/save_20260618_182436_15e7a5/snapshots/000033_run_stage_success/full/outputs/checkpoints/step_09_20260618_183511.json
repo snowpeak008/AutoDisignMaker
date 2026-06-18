@@ -1,0 +1,43 @@
+{
+  "step": 9,
+  "name": "asset_alignment",
+  "title": "Asset alignment",
+  "status": "success",
+  "valid": true,
+  "timestamp": "2026-06-18T18:35:11",
+  "artifacts_dir": "outputs/artifacts/stage_09",
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "asset_alignment"
+  ],
+  "imported_upstream_artifacts": [
+    {
+      "artifact_id": "stage_07.program_plan_bundle",
+      "stage": "7",
+      "source": "outputs/artifacts/stage_07",
+      "target": "outputs/artifacts/stage_09/upstream/stage_07/stage_07_program_plan_bundle/UPSTREAM_REFERENCE.json",
+      "reference_dir": "outputs/artifacts/stage_09/upstream/stage_07/stage_07_program_plan_bundle",
+      "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+      "artifact_index": "outputs/artifacts/stage_07/artifact_index.json",
+      "validation_report": "outputs/artifacts/stage_07/validation_report.json",
+      "file_count": 18
+    },
+    {
+      "artifact_id": "stage_08.art_plan_bundle",
+      "stage": "8",
+      "source": "outputs/artifacts/stage_08",
+      "target": "outputs/artifacts/stage_09/upstream/stage_08/stage_08_art_plan_bundle/UPSTREAM_REFERENCE.json",
+      "reference_dir": "outputs/artifacts/stage_09/upstream/stage_08/stage_08_art_plan_bundle",
+      "reference_manifest": "outputs/artifacts/stage_08/reference_manifest.json",
+      "artifact_index": "outputs/artifacts/stage_08/artifact_index.json",
+      "validation_report": "outputs/artifacts/stage_08/validation_report.json",
+      "file_count": 15
+    }
+  ],
+  "missing_upstream_artifacts": [],
+  "notes": [
+    "Optional current-project source artifact groups were not provided; validated upstream artifacts were used."
+  ]
+}

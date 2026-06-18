@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:33:47",
+  "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md",
+  "nodes": [
+    {
+      "id": "SEL-008",
+      "name": "system_layer：Design Engine",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41",
+      "selection_refs": [
+        "sel-008"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-009",
+      "name": "system_layer：DevFlow Orchestrator",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45",
+      "selection_refs": [
+        "sel-009"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-010",
+      "name": "system_layer：Artifact Layer",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49",
+      "selection_refs": [
+        "sel-010"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-011",
+      "name": "system_layer：UCOS Memory",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53",
+      "selection_refs": [
+        "sel-011"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-012",
+      "name": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60",
+      "selection_refs": [
+        "sel-012"
+      ],
+      "type": "content",
+      "implementation_phase": "content_ops"
+    },
+    {
+      "id": "SEL-013",
+      "name": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67",
+      "selection_refs": [
+        "sel-013"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-014",
+      "name": "运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74",
+      "selection_refs": [
+        "sel-014"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-015",
+      "name": "表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81",
+      "selection_refs": [
+        "sel-015"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-016",
+      "name": "技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88",
+      "selection_refs": [
+        "sel-016"
+      ],
+      "type": "platform",
+      "implementation_phase": "core_playable"
+    },
+    {
+      "id": "SEL-017",
+      "name": "生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95",
+      "selection_refs": [
+        "sel-017"
+      ],
+      "type": "gameplay",
+      "implementation_phase": "core_playable"
+    }
+  ],
+  "edges": [],
+  "unresolved_references": [
+    {
+      "selection_id": "SEL-008",
+      "label": "system_layer：Design Engine",
+      "reference": "16 domains",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+    },
+    {
+      "selection_id": "SEL-008",
+      "label": "system_layer：Design Engine",
+      "reference": "103 nodes",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+    },
+    {
+      "selection_id": "SEL-008",
+      "label": "system_layer：Design Engine",
+      "reference": "515 checklist entries",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+    },
+    {
+      "selection_id": "SEL-008",
+      "label": "system_layer：Design Engine",
+      "reference": "design stage D1-D4",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+    },
+    {
+      "selection_id": "SEL-009",
+      "label": "system_layer：DevFlow Orchestrator",
+      "reference": "orchestrator.py",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+    },
+    {
+      "selection_id": "SEL-009",
+      "label": "system_layer：DevFlow Orchestrator",
+      "reference": "stages",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+    },
+    {
+      "selection_id": "SEL-009",
+      "label": "system_layer：DevFlow Orchestrator",
+      "reference": "steps",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+    },
+    {
+      "selection_id": "SEL-009",
+      "label": "system_layer：DevFlow Orchestrator",
+      "reference": "tools",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+    },
+    {
+      "selection_id": "SEL-009",
+      "label": "system_layer：DevFlow Orchestrator",
+      "reference": "development stage plugins",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+    },
+    {
+      "selection_id": "SEL-010",
+      "label": "system_layer：Artifact Layer",
+      "reference": "outputs/artifacts",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49"
+    },
+    {
+      "selection_id": "SEL-010",
+      "label": "system_layer：Artifact Layer",
+      "reference": "artifact_layer",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49"
+    },
+    {
+      "selection_id": "SEL-010",
+      "label": "system_layer：Artifact Layer",
+      "reference": "traceability validation",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49"
+    },
+    {
+      "selection_id": "SEL-011",
+      "label": "system_layer：UCOS Memory",
+      "reference": "ucos",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+    },
+    {
+      "selection_id": "SEL-011",
+      "label": "system_layer：UCOS Memory",
+      "reference": "memory",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+    },
+    {
+      "selection_id": "SEL-011",
+      "label": "system_layer：UCOS Memory",
+      "reference": "migrated save archives",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+    },
+    {
+      "selection_id": "SEL-011",
+      "label": "system_layer：UCOS Memory",
+      "reference": "runtime context recall",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "立项与产品定位设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "核心体验设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "玩法系统设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "内容设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "经济与商业化设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "用户体验与界面设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "表现与感受设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "数值与平衡设计",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "and 8 more",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-012",
+      "label": "内容：design domains, entity schemas, project templates, prompt frameworks, saved projects, source packages, and exported reports",
+      "reference": "package manifests and migration reports",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+    },
+    {
+      "selection_id": "SEL-013",
+      "label": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "reference": "config/app.toml",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+    },
+    {
+      "selection_id": "SEL-013",
+      "label": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "reference": "config/project_settings.json",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+    },
+    {
+      "selection_id": "SEL-013",
+      "label": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "reference": "requirements.txt",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+    },
+    {
+      "selection_id": "SEL-013",
+      "label": "资源：Python modules, JSON schemas, TOML configuration, Markdown documents, Unity project settings, and PyInstaller build output",
+      "reference": "portable local execution",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+    },
+    {
+      "selection_id": "SEL-014",
+      "label": "运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+      "reference": "src/main.py",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+    },
+    {
+      "selection_id": "SEL-014",
+      "label": "运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+      "reference": "src/gui_app.py",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+    },
+    {
+      "selection_id": "SEL-014",
+      "label": "运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+      "reference": "scripts/build.py",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+    },
+    {
+      "selection_id": "SEL-014",
+      "label": "运行时：GUI launch, D-stage plugin execution, Concept package export, DevFlow stage execution, preflight checks, tests, and packaging",
+      "reference": "release verification",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+    },
+    {
+      "selection_id": "SEL-015",
+      "label": "表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+      "reference": "design_tool UI",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+    },
+    {
+      "selection_id": "SEL-015",
+      "label": "表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+      "reference": "artifact reports",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+    },
+    {
+      "selection_id": "SEL-015",
+      "label": "表现：Tkinter desktop shell, stage summaries, validation JSON, Markdown reviews, and command output reports",
+      "reference": "manual review and debugging",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+    },
+    {
+      "selection_id": "SEL-016",
+      "label": "技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+      "reference": "src/core",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+    },
+    {
+      "selection_id": "SEL-016",
+      "label": "技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+      "reference": "src/plugins",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+    },
+    {
+      "selection_id": "SEL-016",
+      "label": "技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+      "reference": "scripts",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+    },
+    {
+      "selection_id": "SEL-016",
+      "label": "技术：root-marker path resolution, TOML/JSON config loading, manifest-based plugins, legacy adapters, pytest checks, and PyInstaller packaging",
+      "reference": "packaged executable",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+    },
+    {
+      "selection_id": "SEL-017",
+      "label": "生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+      "reference": "migration report",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+    },
+    {
+      "selection_id": "SEL-017",
+      "label": "生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+      "reference": "stage reports",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+    },
+    {
+      "selection_id": "SEL-017",
+      "label": "生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+      "reference": "test results",
+      "kind": "dependency",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+    },
+    {
+      "selection_id": "SEL-017",
+      "label": "生产：migrate legacy assets, validate structure, run smoke stages, export Concept package, preflight Unity settings, run tests, and build executable",
+      "reference": "handoff-ready project",
+      "kind": "candidate_unlock_not_selected",
+      "source": "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+    }
+  ]
+}

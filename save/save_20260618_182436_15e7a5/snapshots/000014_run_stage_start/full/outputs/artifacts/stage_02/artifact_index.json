@@ -1,0 +1,130 @@
+{
+  "step": 2,
+  "name": "design_review",
+  "title": "Design review and freeze",
+  "timestamp": "2026-06-18T18:33:48",
+  "artifact_root": "outputs/artifacts/stage_02",
+  "reference_manifest": "outputs/artifacts/stage_02/reference_manifest.json",
+  "guidance_docs": [
+    "outputs/artifacts/stage_02/guidance/03_design_review_freeze.md",
+    "outputs/artifacts/stage_02/guidance/step02.txt"
+  ],
+  "imported": true,
+  "imported_sources": [],
+  "missing_groups": [],
+  "missing_required_groups": [],
+  "optional_missing_groups": [
+    "2a_subsystem_design",
+    "2b_ai_design_script",
+    "2c_design_package",
+    "2c_development_design"
+  ],
+  "imported_upstream_artifacts": [
+    {
+      "artifact_id": "stage_01.gameplay_framework_bundle",
+      "stage": "1",
+      "source": "outputs/artifacts/stage_01",
+      "target": "outputs/artifacts/stage_02/upstream/stage_01/stage_01_gameplay_framework_bundle/UPSTREAM_REFERENCE.json",
+      "reference_dir": "outputs/artifacts/stage_02/upstream/stage_01/stage_01_gameplay_framework_bundle",
+      "reference_manifest": "outputs/artifacts/stage_01/reference_manifest.json",
+      "artifact_index": "outputs/artifacts/stage_01/artifact_index.json",
+      "validation_report": "outputs/artifacts/stage_01/validation_report.json",
+      "file_count": 23
+    }
+  ],
+  "missing_upstream_artifacts": [],
+  "manifest": [
+    {
+      "path": "artifact_index.json",
+      "size_bytes": 2147,
+      "sha256": "78d6aff8a8f4ef0b253677766106acefd5510287388bc98b790a29b00b5a17e2"
+    },
+    {
+      "path": "design_freeze_contract.json",
+      "size_bytes": 347,
+      "sha256": "307d0dfe86462bda61120aa63136c5dd5255d5e33881f136d7935534c9db16d1"
+    },
+    {
+      "path": "design_review_report.json",
+      "size_bytes": 14160,
+      "sha256": "42f87819fa744b6e00b0bf47715a05ae631e25f3545f6f9925274ffe4eff1263"
+    },
+    {
+      "path": "frozen_game_design.md",
+      "size_bytes": 3566,
+      "sha256": "d62159556343dcf054f7f8da5fae9b9c7ce5179bb663549a3a32d16a45cf1de1"
+    },
+    {
+      "path": "guidance/03_design_review_freeze.md",
+      "size_bytes": 263,
+      "sha256": "be89060142dee1136e8064b989f830201855fdb30d6fa2e832a191d8e68180b5"
+    },
+    {
+      "path": "guidance/step02.txt",
+      "size_bytes": 115,
+      "sha256": "da20126112082f9a7942d4d5a7c085e48676580b8585c5b31e9b53ce6978c029"
+    },
+    {
+      "path": "OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+      "size_bytes": 136,
+      "sha256": "39b22ba56b391a1bad3301c90b2b0e7106a2df4761390b9b024044f9be10e88b"
+    },
+    {
+      "path": "phase_backlog.json",
+      "size_bytes": 6614,
+      "sha256": "22950e04c01f066b558c0ed257fc7a3bf0bc38b37b988f9b4654a52685e3a359"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 341,
+      "sha256": "0e4cabe9fd1a556bca75d758438dcb3fadb4bd49577eae4092a4f69823b0e64e"
+    },
+    {
+      "path": "reference_manifest.json",
+      "size_bytes": 21221,
+      "sha256": "cff44549c2045577eef8c28b2a3530aa1178d8351cc16ce725dad6b761777d66"
+    },
+    {
+      "path": "repair_patch.json",
+      "size_bytes": 208,
+      "sha256": "2b001f85996950bf94561f277ed3c9514dd94f09132f25eebf5d6cfbbb2027c5"
+    },
+    {
+      "path": "resource_flow_graph.json",
+      "size_bytes": 543,
+      "sha256": "55043b8863fba12d1245921762705fabff38010481449dd161662cbc73203d66"
+    },
+    {
+      "path": "resource_flow_graph.mmd",
+      "size_bytes": 1234,
+      "sha256": "faec5c8952c93e1cc1edeae94e5cca98d9d5bb3873ec7bbb7eb25a5a0597fedf"
+    },
+    {
+      "path": "scope_decisions.json",
+      "size_bytes": 5731,
+      "sha256": "97139adf352f79e9c9758cf5dea956b6eb7411c4a5f4aeb9e617467442c8aa41"
+    },
+    {
+      "path": "system_relation_graph.json",
+      "size_bytes": 18739,
+      "sha256": "f18c90bc205d46fca76adcaf391520811e571809b75eb13dd577590caa08bc9a"
+    },
+    {
+      "path": "system_relation_graph.mmd",
+      "size_bytes": 1088,
+      "sha256": "245351164cab77ec5b2dc4ba8001cb6e2f6fce41cdeb6054fe8b2877b30cf4d6"
+    },
+    {
+      "path": "upstream/stage_01/stage_01_gameplay_framework_bundle/UPSTREAM_REFERENCE.json",
+      "size_bytes": 8705,
+      "sha256": "88a4a7a7ed6715ae2aede9ba006a55a5e5eff902529cba28ff96080bd5933a25"
+    },
+    {
+      "path": "validation_report.json",
+      "size_bytes": 1605,
+      "sha256": "7817ce2f9b2b78325a2b32b99b1bc92aa7f4cc6832164d80884babb2a59f62da"
+    }
+  ],
+  "updated_at": "2026-06-18T18:33:48",
+  "development_plan_outputs": true
+}

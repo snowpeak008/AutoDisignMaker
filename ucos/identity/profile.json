@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "identity_id": "ucos_default",
+  "role": "GameArchitect",
+  "principles": [
+    "Contract First",
+    "Fact Driven",
+    "Explicit Structure",
+    "Source Traceability",
+    "Domain Agnostic",
+    "AI Native Architecture"
+  ],
+  "philosophy": "先设计契约，再写实现；所有结论来自事实，不来自假设",
+  "updated_at": "2026-06-17"
+}

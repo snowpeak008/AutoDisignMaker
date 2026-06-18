@@ -1,0 +1,91 @@
+{
+  "turnId": "turn_5c19c8a6847f427496aefda6b28ee773",
+  "createdAt": "2026-06-13T21:45:13",
+  "projectMemoryId": "project_95d9113b4af5413f921527fa8ee4437e",
+  "evaluationBatchId": "batch_8ed27fbbd8ce4e9b9ebc7a91d53e4bc0",
+  "userText": "我想做一个偏中核的合作动作游戏。",
+  "schemaMode": "turn",
+  "outputMode": "interview_turn",
+  "forceOutput": false,
+  "forceReadinessCheck": false,
+  "routerDecision": {
+    "candidateNodeIds": [
+      "product_vision_decision",
+      "core_fun_decision",
+      "target_player_decision",
+      "session_rhythm_decision",
+      "reward_experience_decision"
+    ],
+    "candidateNodes": [
+      {
+        "id": "product_vision_decision",
+        "name": "项目愿景决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "core_fun_decision",
+        "name": "核心乐趣决策",
+        "domain": "core_experience_design"
+      },
+      {
+        "id": "target_player_decision",
+        "name": "目标用户决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "session_rhythm_decision",
+        "name": "会话节奏决策",
+        "domain": "core_experience_design"
+      },
+      {
+        "id": "reward_experience_decision",
+        "name": "奖励体验决策",
+        "domain": "core_experience_design"
+      }
+    ],
+    "degradations": []
+  },
+  "projectStateHash": "a5d14b2b2e5fa29a118afa3dae33a2fba755068eeeec48434f5afd5f0a5e6ce0",
+  "promptMeter": {
+    "turnId": "turn_5c19c8a6847f427496aefda6b28ee773",
+    "createdAt": "2026-06-13T21:45:13",
+    "schemaMode": "turn",
+    "outputMode": "interview_turn",
+    "promptChars": 9978,
+    "promptEstimatedTokens": 2494,
+    "sectionChars": {
+      "turnId": 39,
+      "task": 37,
+      "promptFramework": 1217,
+      "schemaMode": 6,
+      "outputMode": 16,
+      "sessionPolicy": 142,
+      "projectSummary": 391,
+      "projectDigest": 489,
+      "conversationSummary": 293,
+      "routeOverview": 125,
+      "routerDecision": 604,
+      "questionGroupCount": 1,
+      "evaluationBatchId": 40,
+      "projectMemoryId": 42,
+      "forceReadinessCheck": 5,
+      "memoryInfluence": 64,
+      "recentMessages": 2,
+      "frameworkContext": 5649,
+      "userMessage": 18,
+      "turnRequirements": 175
+    },
+    "degradations": [],
+    "responseSchemaEmptyFieldsRemoved": [
+      "fullProjectOutput",
+      "optionDifferences"
+    ],
+    "codexSessionId": "",
+    "sessionAccumulatedTurns": 0,
+    "questionGroupCount": 0
+  },
+  "packedPromptSha256": "3cf5e7738b50a6bfe0894cd736fcaffd658bbcc85c478fc48878c3c346abe3a8",
+  "packedPromptChars": 9978,
+  "packedPromptPreview": "以下为当前锁定的 AI 提问提示词框架。它只约束 AI 如何提问、解释、映射和判断置信度；不得修改设计选项框架。\nframeworkVersion: 1\nmanifestHash: f811d9ad8ef940cb9ba0dc1f27d0b1dbb22d02ed5bfeaf060e9bcdd43abf2c27\n规则、项目摘要、候选节点和本轮输出 schema 见下方 JSON；只返回符合 schema 的 JSON。\n\n请基于下面 JSON 上下文继续同一个 AI 访谈线程，并只返回符合 output schema 的 JSON。\n\n{\"conversationSummary\":{\"confirmedIntent\":[],\"lastUserCorrections\":[],\"mdaProgress\":{\"aesthetics\":\"in_progress\",\"constraints\":\"pending\",\"dynamics\":\"pending\",\"evidence\":\"pending\",\"mechanics\":\"pending\"},\"nodeNotes\":{},\"openQuestions\":[],\"rejectedAssumptions\":[],\"schemaVersion\":\"1.0\",\"updatedAt\":\"2026-06-13T21:45:12\"},\"evaluationBatchId\":\"batch_8ed27fbbd8ce4e9b9ebc7a91d53e4bc0\",\"forceReadinessCheck\":false,\"frameworkContext\":[{\"description\":\"确认项目愿景、目标用户、市场定位、商业目标、项目范围、平台场景和品牌资产。\",\"id\":\"product_positioning_design\",\"name\":\"立项与产品定位设计\",\"nodes\":[{\"checklist\":[{\"id\":\"he_xin_ti_yan_cheng_nuo\",\"label\":\"核心体验承诺\",\"optionGroups\":[{\"designQuestion\":\"玩家最终会反复获得哪种核心感受？\",\"id\":\"core_feeling_type\",\"label\":\"核心感受类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"ti_yan_bian_jie_ding_yi\",\"label\":\"体验边界定义\",\"optionGroups\":[{\"designQuestion\":\"这个边界限制的是哪类体验承诺？\",\"id\":\"boundary_type\",\"label\":\"边界类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"cha_yi_hua_fang_xiang\",\"label\":\"差异化方向\",\"optionGroups\":[{\"designQuestion\":\"项目要在哪个维度和同类不同？\",\"id\":\"differentiation_axis\",\"label\":\"差异化维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"she_ji_mu_biao_you_xian_ji\",\"label\":\"设计目标优先级\",\"optionGroups\":[{\"designQuestion\":\"目标冲突时主要比较哪些维度？\",\"id\":\"priority_dimension\",\"label\":\"优先级维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认项目核心体验承诺、边界、差异化和不做范围。\",\"domain\":\"product_positioning_design\",\"id\":\"product_vision_decision\",\"name\":\"项目愿景决策\"},{\"checklist\":[{\"id\":\"wan_jia_hua_xiang\",\"label\":\"玩家画像\",\"optionGroups\":[{\"designQuestion\":\"核心承诺首先面向哪个年龄阶段？\",\"id\":\"age_b",
+  "updatedAt": "2026-06-13T21:45:13"
+}

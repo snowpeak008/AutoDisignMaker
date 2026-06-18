@@ -1,0 +1,13 @@
+[
+  {
+    "workspace_path": "outputs/checkpoints/step_00_20260618_183504.json",
+    "size_bytes": 831,
+    "sha256": "01e1934e7a5543388b4b910b567e230c3713872dc8975bb9df1d892d4d6f6156",
+    "stage": null,
+    "artifact_id": "",
+    "role": "workspace_file",
+    "source_type": "run_output",
+    "reference_manifest": "",
+    "latest_transaction_seq": 15
+  }
+]

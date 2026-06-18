@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "pattern_id": "pat_92c38ea7",
+  "name": "Decision 005 — 美术资产双层验收",
+  "category": "process",
+  "domain": "devflow",
+  "problem": "美术资产必须先写入美术暂存区，经规格检查（路径/格式/尺寸/命名）+ 审美评审两层验收后才能集成到 Unity Assets，API 原图永久保留不直接作为运行时资产。",
+  "solution": "美术资产必须先写入美术暂存区，经规格检查（路径/格式/尺寸/命名）+ 审美评审两层验收后才能集成到 Unity Assets，API 原图永久保留不直接作为运行时资产。",
+  "consequences": {
+    "positive": [],
+    "negative": []
+  },
+  "source_episodes": [
+    "ep_decision_005"
+  ],
+  "confidence": 0.8,
+  "usage_count": 0,
+  "human_verified": false,
+  "created_at": "2026-06-17T15:41:13+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "points": [
+    "Portable project-root path resolution",
+    "Manifest-driven D-stage and DevFlow-stage plugin bridge",
+    "Deterministic Concept package export for Stage 00"
+  ]
+}

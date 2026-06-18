@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "seq": 13,
+  "event": "run_stage_failed",
+  "stage": 2,
+  "timestamp": "2026-06-18T18:33:48",
+  "message": "Development plan outputs failed for stage 02: {'content_exists': True, 'blocking_issues': 1, 'ai_review_status': 'blocked', 'traceability_valid': False}",
+  "file_count": 111,
+  "added": 20,
+  "modified": 1,
+  "removed": 0
+}

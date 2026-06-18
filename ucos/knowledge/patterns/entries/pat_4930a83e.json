@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "pattern_id": "pat_4930a83e",
+  "name": "Decision 003 — 存档系统替代 git",
+  "category": "process",
+  "domain": "devflow",
+  "problem": "项目使用内部存档系统（save/ 目录，save_manager.py）替代 git 进行版本控制。",
+  "solution": "项目使用内部存档系统（save/ 目录，save_manager.py）替代 git 进行版本控制。",
+  "consequences": {
+    "positive": [],
+    "negative": []
+  },
+  "source_episodes": [
+    "ep_decision_003"
+  ],
+  "confidence": 0.8,
+  "usage_count": 0,
+  "human_verified": false,
+  "created_at": "2026-06-17T15:34:20+00:00"
+}

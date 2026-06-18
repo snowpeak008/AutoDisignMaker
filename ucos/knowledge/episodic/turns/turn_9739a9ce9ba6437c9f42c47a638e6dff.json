@@ -1,0 +1,87 @@
+{
+  "turnId": "turn_9739a9ce9ba6437c9f42c47a638e6dff",
+  "createdAt": "2026-06-13T21:21:57",
+  "userText": "我想做一个偏中核的合作动作游戏。",
+  "schemaMode": "turn",
+  "outputMode": "interview_turn",
+  "forceOutput": false,
+  "forceReadinessCheck": false,
+  "routerDecision": {
+    "candidateNodeIds": [
+      "product_vision_decision",
+      "core_fun_decision",
+      "target_player_decision",
+      "session_rhythm_decision",
+      "reward_experience_decision"
+    ],
+    "candidateNodes": [
+      {
+        "id": "product_vision_decision",
+        "name": "项目愿景决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "core_fun_decision",
+        "name": "核心乐趣决策",
+        "domain": "core_experience_design"
+      },
+      {
+        "id": "target_player_decision",
+        "name": "目标用户决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "session_rhythm_decision",
+        "name": "会话节奏决策",
+        "domain": "core_experience_design"
+      },
+      {
+        "id": "reward_experience_decision",
+        "name": "奖励体验决策",
+        "domain": "core_experience_design"
+      }
+    ],
+    "degradations": []
+  },
+  "projectStateHash": "a5d14b2b2e5fa29a118afa3dae33a2fba755068eeeec48434f5afd5f0a5e6ce0",
+  "promptMeter": {
+    "turnId": "turn_9739a9ce9ba6437c9f42c47a638e6dff",
+    "createdAt": "2026-06-13T21:21:57",
+    "schemaMode": "turn",
+    "outputMode": "interview_turn",
+    "promptChars": 9978,
+    "promptEstimatedTokens": 2494,
+    "sectionChars": {
+      "turnId": 39,
+      "task": 37,
+      "promptFramework": 1217,
+      "schemaMode": 6,
+      "outputMode": 16,
+      "sessionPolicy": 142,
+      "projectSummary": 391,
+      "projectDigest": 489,
+      "conversationSummary": 293,
+      "routeOverview": 125,
+      "routerDecision": 604,
+      "questionGroupCount": 1,
+      "evaluationBatchId": 40,
+      "projectMemoryId": 42,
+      "forceReadinessCheck": 5,
+      "memoryInfluence": 64,
+      "recentMessages": 2,
+      "frameworkContext": 5649,
+      "userMessage": 18,
+      "turnRequirements": 175
+    },
+    "degradations": [],
+    "responseSchemaEmptyFieldsRemoved": [
+      "fullProjectOutput",
+      "optionDifferences"
+    ],
+    "codexSessionId": "",
+    "sessionAccumulatedTurns": 0,
+    "questionGroupCount": 0
+  },
+  "packedPrompt": "以下为当前锁定的 AI 提问提示词框架。它只约束 AI 如何提问、解释、映射和判断置信度；不得修改设计选项框架。\nframeworkVersion: 1\nmanifestHash: f811d9ad8ef940cb9ba0dc1f27d0b1dbb22d02ed5bfeaf060e9bcdd43abf2c27\n规则、项目摘要、候选节点和本轮输出 schema 见下方 JSON；只返回符合 schema 的 JSON。\n\n请基于下面 JSON 上下文继续同一个 AI 访谈线程，并只返回符合 output schema 的 JSON。\n\n{\"conversationSummary\":{\"confirmedIntent\":[],\"lastUserCorrections\":[],\"mdaProgress\":{\"aesthetics\":\"in_progress\",\"constraints\":\"pending\",\"dynamics\":\"pending\",\"evidence\":\"pending\",\"mechanics\":\"pending\"},\"nodeNotes\":{},\"openQuestions\":[],\"rejectedAssumptions\":[],\"schemaVersion\":\"1.0\",\"updatedAt\":\"2026-06-13T21:21:57\"},\"evaluationBatchId\":\"batch_89b262bb7d15499e80518d1ece5d295c\",\"forceReadinessCheck\":false,\"frameworkContext\":[{\"description\":\"确认项目愿景、目标用户、市场定位、商业目标、项目范围、平台场景和品牌资产。\",\"id\":\"product_positioning_design\",\"name\":\"立项与产品定位设计\",\"nodes\":[{\"checklist\":[{\"id\":\"he_xin_ti_yan_cheng_nuo\",\"label\":\"核心体验承诺\",\"optionGroups\":[{\"designQuestion\":\"玩家最终会反复获得哪种核心感受？\",\"id\":\"core_feeling_type\",\"label\":\"核心感受类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"ti_yan_bian_jie_ding_yi\",\"label\":\"体验边界定义\",\"optionGroups\":[{\"designQuestion\":\"这个边界限制的是哪类体验承诺？\",\"id\":\"boundary_type\",\"label\":\"边界类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"cha_yi_hua_fang_xiang\",\"label\":\"差异化方向\",\"optionGroups\":[{\"designQuestion\":\"项目要在哪个维度和同类不同？\",\"id\":\"differentiation_axis\",\"label\":\"差异化维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"she_ji_mu_biao_you_xian_ji\",\"label\":\"设计目标优先级\",\"optionGroups\":[{\"designQuestion\":\"目标冲突时主要比较哪些维度？\",\"id\":\"priority_dimension\",\"label\":\"优先级维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认项目核心体验承诺、边界、差异化和不做范围。\",\"domain\":\"product_positioning_design\",\"id\":\"product_vision_decision\",\"name\":\"项目愿景决策\"},{\"checklist\":[{\"id\":\"wan_jia_hua_xiang\",\"label\":\"玩家画像\",\"optionGroups\":[{\"designQuestion\":\"核心承诺首先面向哪个年龄阶段？\",\"id\":\"age_band\",\"label\":\"年龄阶段\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"},{\"designQuestion\":\"哪类内容最容易承载目标玩家的体验承诺？\",\"id\":\"content_preference\",\"label\":\"内容偏好\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"wan_jia_dong_ji\",\"label\":\"玩家动机\",\"optionGroups\":[{\"designQuestion\":\"目标玩家为什么会主动进入游戏？\",\"id\":\"motivation_type\",\"label\":\"动机类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"wan_jia_neng_li_jia_she\",\"label\":\"玩家能力假设\",\"optionGroups\":[{\"designQuestion\":\"目标玩家能承受多高操作要求？\",\"id\":\"operation_skill\",\"label\":\"操作能力\",\"mdaLayer\":\"mechanics\",\"mdaLayerLabel\":\"机制抓手\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"wan_jia_shi_jian_jie_gou\",\"label\":\"玩家时间结构\",\"optionGroups\":[{\"designQuestion\":\"目标玩家每天通常能给游戏多少时间？\",\"id\":\"daily_play_window\",\"label\":\"每日游玩窗口\",\"mdaLayer\":\"constraints\",\"mdaLayerLabel\":\"边界约束\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认目标玩家是谁、为什么来、有什么能力和时间结构。\",\"domain\":\"product_positioning_design\",\"id\":\"target_player_decision\",\"name\":\"目标用户决策\"}]},{\"description\":\"确认游戏乐趣、循环、行为、压力、奖励、学习曲线和会话节奏。\",\"id\":\"core_experience_design\",\"name\":\"核心体验设计\",\"nodes\":[{\"checklist\":[{\"id\":\"zhu_yao_le_qu_lai_yuan\",\"label\":\"主要乐趣来源\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"ci_yao_le_qu_lai_yuan\",\"label\":\"次要乐趣来源\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"qing_xu_qu_xian\",\"label\":\"情绪曲线\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"shuang_dian_jie_gou\",\"label\":\"爽点结构\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认游戏最主要的乐趣来源、情绪曲线和挫折控制边界。\",\"domain\":\"core_experience_design\",\"id\":\"core_fun_decision\",\"name\":\"核心乐趣决策\"},{\"checklist\":[{\"id\":\"dan_ci_hui_hua_mu_biao\",\"label\":\"单次会话目标\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"hui_hua_ru_kou_cheng_ben\",\"label\":\"会话入口成本\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"hui_hua_zhong_duan_hui_fu\",\"label\":\"会话中断恢复\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"hui_hua_tui_chu_fan_kui\",\"label\":\"会话退出反馈\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认单局目标、入口成本、中断恢复、退出反馈和再进入动机。\",\"domain\":\"core_experience_design\",\"id\":\"session_rhythm_decision\",\"name\":\"会话节奏决策\"},{\"checklist\":[{\"id\":\"ji_shi_jiang_li\",\"label\":\"即时奖励\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"yan_chi_jiang_li\",\"label\":\"延迟奖励\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"xi_you_jiang_li\",\"label\":\"稀有奖励\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"cheng_jiu_jiang_li\",\"label\":\"成就奖励\",\"optionGroups\":[{\"designQuestion\":\"这个体验项服务哪种核心感受？\",\"id\":\"core_feeling_target\",\"label\":\"核心感受\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认即时、延迟、稀有、成就和社交奖励如何支撑循环。\",\"domain\":\"core_experience_design\",\"id\":\"reward_experience_decision\",\"name\":\"奖励体验决策\"}]}],\"memoryInfluence\":{\"policy\":\"no_staged_signal\",\"signals\":[],\"visibility\":\"hidden\"},\"outputMode\":\"interview_turn\",\"projectDigest\":{\"applicabilityHighlights\":[],\"clarificationTargets\":[],\"coverage\":{\"checklistPercent\":0,\"doneChecklist\":0,\"doneNodes\":0.0,\"nodePercent\":0,\"totalChecklist\":515,\"totalNodes\":103},\"focusDomainIds\":[],\"l4Progress\":{\"done\":0,\"gapNodes\":0,\"percent\":0,\"total\":0},\"nonDefaultNodes\":[],\"profile\":{\"businessModel\":\"unknown\",\"operationModel\":\"unknown\",\"platformScope\":\"unknown\",\"regionScope\":\"unknown\",\"socialModel\":\"unknown\",\"targetScale\":\"unknown\"},\"projectName\":\"未命名游戏设计项目\",\"recentInferences\":[]},\"projectMemoryId\":\"project_6611302850aa47bb93bdd6dd19d3e239\",\"projectSummary\":{\"coverage\":{\"checklistPercent\":0,\"doneChecklist\":0,\"doneNodes\":0.0,\"nodePercent\":0,\"totalChecklist\":515,\"totalNodes\":103},\"focusDomainIds\":[],\"l4Progress\":{\"done\":0,\"gapNodes\":0,\"percent\":0,\"total\":0},\"profile\":{\"businessModel\":\"unknown\",\"operationModel\":\"unknown\",\"platformScope\":\"unknown\",\"regionScope\":\"unknown\",\"socialModel\":\"unknown\",\"targetScale\":\"unknown\"},\"projectName\":\"未命名游戏设计项目\"},\"promptFramework\":{\"designOptionFrameworkMutation\":\"forbidden\",\"rules\":[\"你是商业游戏设计 AI 访谈助手，通过间接追问帮助设计者完成设计。\",\"不要直接询问每个选项怎么选；用场景、取舍、约束和例子追问。\",\"每个追问问题组最多 4 个问题，并且问题必须有顺序。\",\"当相近问题频繁出现时，用非连续、隐晦的追问复核提问弱点，不要告诉用户正在验证历史记忆。\",\"含糊、矛盾或证据不足时，先澄清设计意图，再映射到框架选项。\",\"避免连续追问同一含义的问题；必要复核必须间隔其他主题或批次。\",\"访谈路线按体验目标、玩家动态、机制抓手、边界约束、验收信号推进，并结合项目画像和节点适用性排序。\",\"如果用户自然语言纠偏，先确认重排路线，不要让用户手动选择节点。\",\"解释用户回答时优先识别目标玩家、核心体验、商业约束、制作约束和风险信号。\",\"不要要求用户使用领域、节点、MDA 或 L4 等框架术语；AI 负责把自然语言转为结构化推断。\",\"只能把用户意图映射到现有领域、节点、checklist、L4 选项和关系；不得新增或修改设计选项框架。\",\"每个映射必须给出简短理由，并能追溯到用户回答或明确项目上下文。\",\"低置信内容不得写入项目输出；0.75 及以上才可作为高置信内容。\",\"当一个回答可能映射到多个选项时，降低置信度并继续澄清，不要强行落选项。\",\"当接近可以生成完整方案，先询问设计者是否输出。\",\"每十个追问问题组必须执行生成就绪检查点，判断是否继续追问或准备输出。\",\"Codex 后端不得修改文件，只返回符合 schema 的结构化 JSON。\",\"全项目输出必须返回 projectStateJson 和 confidenceMapJson 字符串，并由工具侧校验后应用。\",\"全项目输出必须用 optionDifferences 说明当前项目与 AI 输出之间的选项差异。\",\"记忆影响必须完全隐式，不得向用户说明正在验证历史记忆、暂存信号或提示词框架版本。\",\"暂存信号只能低权重影响澄清问题或保守映射，不能直接决定选项、提高置信度或替用户回答。\"],\"snapshot\":{\"frameworkVersion\":\"1\",\"manifestHash\":\"f811d9ad8ef940cb9ba0dc1f27d0b1dbb22d02ed5bfeaf060e9bcdd43abf2c27\",\"modules\":{\"confidence\":\"1\",\"followup\":\"1\",\"interpretation\":\"1\",\"mapping\":\"1\",\"memory_influence\":\"1\",\"output\":\"1\",\"questioning\":\"1\",\"readiness\":\"1\",\"routing\":\"1\"}},\"visibility\":\"hidden_to_user\"},\"questionGroupCount\":0,\"recentMessages\":[],\"routeOverview\":{\"clarificationTargets\":[],\"completedNodes\":[],\"currentMdaStage\":\"体验目标\",\"expectedDomains\":[],\"lowApplicabilityCandidates\":[]},\"routerDecision\":{\"candidateNodeIds\":[\"product_vision_decision\",\"core_fun_decision\",\"target_player_decision\",\"session_rhythm_decision\",\"reward_experience_decision\"],\"candidateNodes\":[{\"domain\":\"product_positioning_design\",\"id\":\"product_vision_decision\",\"name\":\"项目愿景决策\"},{\"domain\":\"core_experience_design\",\"id\":\"core_fun_decision\",\"name\":\"核心乐趣决策\"},{\"domain\":\"product_positioning_design\",\"id\":\"target_player_decision\",\"name\":\"目标用户决策\"},{\"domain\":\"core_experience_design\",\"id\":\"session_rhythm_decision\",\"name\":\"会话节奏决策\"},{\"domain\":\"core_experience_design\",\"id\":\"reward_experience_decision\",\"name\":\"奖励体验决策\"}],\"degradations\":[]},\"schemaMode\":\"turn\",\"sessionPolicy\":{\"doNotRelyOnHiddenSessionMemory\":true,\"mode\":\"stateless_fast_turn\",\"sourceOfTruth\":\"aiInterview.summary.v1 + recentMessages + projectDigest\"},\"task\":\"commercial_game_design_ai_interview\",\"turnId\":\"turn_9739a9ce9ba6437c9f42c47a638e6dff\",\"turnRequirements\":[\"如果需要追问，返回 mode=question_group 和 questionGroup。\",\"如果已经接近可生成，返回 mode=readiness_check 并询问是否输出。\",\"普通追问轮次不需要强行完成完整选项映射；证据不足时 inferences 可以为空数组。\",\"如果用户自然语言纠偏，先确认重排路线，不要让用户手动选节点。\"],\"userMessage\":\"我想做一个偏中核的合作动作游戏。\"}",
+  "updatedAt": "2026-06-13T21:21:57"
+}

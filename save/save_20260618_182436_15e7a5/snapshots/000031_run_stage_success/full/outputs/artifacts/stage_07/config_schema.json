@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "schema": "actual_unity_program_plan_v1",
+  "required_task_fields": [
+    "task_id",
+    "requirement_id",
+    "phase",
+    "target_path",
+    "output_files",
+    "allowed_write_paths",
+    "verification_commands",
+    "source_refs",
+    "acceptance"
+  ],
+  "required_topology_fields": [
+    "dependencies",
+    "parallel_groups"
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:35:06",
+  "valid": true,
+  "project_type": "Unity",
+  "development_path": "E:\\workwork\\steamgamework\\aitest\\test--2\\test--2",
+  "editor_path": "E:\\workwork\\steamgamework\\unit\\2022.3.62f3c1\\Editor\\Unity.exe",
+  "allowed_roots": [
+    "Assets/Scripts/",
+    "Assets/Config/",
+    "Assets/Tests/EditMode/",
+    "Assets/Tests/PlayMode/",
+    "Assets/Scenes/"
+  ],
+  "system_path_map": [
+    {
+      "requirement_id": "REQ-001",
+      "selection_id": "SEL-001",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:7"
+      ]
+    },
+    {
+      "requirement_id": "REQ-002",
+      "selection_id": "SEL-002",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:11"
+      ]
+    },
+    {
+      "requirement_id": "REQ-003",
+      "selection_id": "SEL-003",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:15"
+      ]
+    },
+    {
+      "requirement_id": "REQ-004",
+      "selection_id": "SEL-004",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:19"
+      ]
+    },
+    {
+      "requirement_id": "REQ-005",
+      "selection_id": "SEL-005",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:26"
+      ]
+    },
+    {
+      "requirement_id": "REQ-006",
+      "selection_id": "SEL-006",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:30"
+      ]
+    },
+    {
+      "requirement_id": "REQ-007",
+      "selection_id": "SEL-007",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:34"
+      ]
+    },
+    {
+      "requirement_id": "REQ-008",
+      "selection_id": "SEL-008",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:41"
+      ]
+    },
+    {
+      "requirement_id": "REQ-009",
+      "selection_id": "SEL-009",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:45"
+      ]
+    },
+    {
+      "requirement_id": "REQ-010",
+      "selection_id": "SEL-010",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:49"
+      ]
+    },
+    {
+      "requirement_id": "REQ-011",
+      "selection_id": "SEL-011",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:53"
+      ]
+    },
+    {
+      "requirement_id": "REQ-012",
+      "selection_id": "SEL-012",
+      "phase": "content_ops",
+      "module": "Content",
+      "target_path": "Assets/Scripts/Content/",
+      "test_path": "Assets/Tests/EditMode/Content/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Content/",
+        "Assets/Tests/EditMode/Content/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:60"
+      ]
+    },
+    {
+      "requirement_id": "REQ-013",
+      "selection_id": "SEL-013",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:67"
+      ]
+    },
+    {
+      "requirement_id": "REQ-014",
+      "selection_id": "SEL-014",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:74"
+      ]
+    },
+    {
+      "requirement_id": "REQ-015",
+      "selection_id": "SEL-015",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:81"
+      ]
+    },
+    {
+      "requirement_id": "REQ-016",
+      "selection_id": "SEL-016",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:88"
+      ]
+    },
+    {
+      "requirement_id": "REQ-017",
+      "selection_id": "SEL-017",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:95"
+      ]
+    },
+    {
+      "requirement_id": "REQ-018",
+      "selection_id": "SEL-018",
+      "phase": "core_playable",
+      "module": "Core",
+      "target_path": "Assets/Scripts/Core/",
+      "test_path": "Assets/Tests/EditMode/Core/",
+      "allowed_write_paths": [
+        "Assets/Scripts/Core/",
+        "Assets/Tests/EditMode/Core/"
+      ],
+      "source_refs": [
+        "source_artifacts/s00_cpt_v2/attachments/autodesignmaker_concept.md:102"
+      ]
+    }
+  ],
+  "output_file_rules": [
+    "Stage 07 must bind every task to target_path and output_files.",
+    "Stage 10 may only write files declared by Stage 07 output_files.",
+    "Unity project creation is out of scope; the user must create the initial project.",
+    "Packages/manifest.json may only change when Stage 07 declares package_changes."
+  ],
+  "path_binding_contract": {
+    "required_task_fields": [
+      "task_id",
+      "requirement_id",
+      "target_path",
+      "output_files",
+      "verification_commands",
+      "dependencies"
+    ],
+    "required_topology_fields": [
+      "dependencies",
+      "parallel_groups"
+    ]
+  }
+}

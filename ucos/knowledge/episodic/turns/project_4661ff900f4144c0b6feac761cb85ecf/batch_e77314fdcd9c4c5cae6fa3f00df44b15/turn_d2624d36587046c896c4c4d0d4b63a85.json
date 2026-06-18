@@ -1,0 +1,163 @@
+{
+  "turnId": "turn_d2624d36587046c896c4c4d0d4b63a85",
+  "createdAt": "2026-06-13T23:37:51",
+  "projectMemoryId": "project_4661ff900f4144c0b6feac761cb85ecf",
+  "evaluationBatchId": "batch_e77314fdcd9c4c5cae6fa3f00df44b15",
+  "userText": "我想做一个搜打撤的游戏，在战斗内部包含了轻度肉鸽+轻度建造+RPG区域战斗的游戏，2D，独立游戏，上线steam平台，美术暂定为西方魔幻，粗线条的动画风格，你来帮帮我",
+  "schemaMode": "turn",
+  "outputMode": "interview_turn",
+  "forceOutput": false,
+  "forceReadinessCheck": false,
+  "routerDecision": {
+    "candidateNodeIds": [
+      "product_vision_decision",
+      "target_player_decision",
+      "project_scope_decision",
+      "platform_play_context_decision",
+      "market_category_positioning_decision"
+    ],
+    "candidateNodes": [
+      {
+        "id": "product_vision_decision",
+        "name": "项目愿景决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "target_player_decision",
+        "name": "目标用户决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "project_scope_decision",
+        "name": "项目范围决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "platform_play_context_decision",
+        "name": "平台与游玩场景决策",
+        "domain": "product_positioning_design"
+      },
+      {
+        "id": "market_category_positioning_decision",
+        "name": "市场与品类定位决策",
+        "domain": "product_positioning_design"
+      }
+    ],
+    "degradations": []
+  },
+  "projectStateHash": "a5d14b2b2e5fa29a118afa3dae33a2fba755068eeeec48434f5afd5f0a5e6ce0",
+  "promptMeter": {
+    "turnId": "turn_d2624d36587046c896c4c4d0d4b63a85",
+    "createdAt": "2026-06-13T23:37:51",
+    "schemaMode": "turn",
+    "outputMode": "interview_turn",
+    "promptChars": 10396,
+    "promptEstimatedTokens": 2599,
+    "sectionChars": {
+      "turnId": 39,
+      "task": 37,
+      "promptFramework": 1217,
+      "schemaMode": 6,
+      "outputMode": 16,
+      "sessionPolicy": 142,
+      "projectSummary": 391,
+      "projectDigest": 489,
+      "conversationSummary": 293,
+      "routeOverview": 161,
+      "routerDecision": 666,
+      "questionGroupCount": 1,
+      "evaluationBatchId": 40,
+      "projectMemoryId": 42,
+      "forceReadinessCheck": 5,
+      "memoryInfluence": 64,
+      "recentMessages": 205,
+      "frameworkContext": 5699,
+      "userMessage": 85,
+      "turnRequirements": 175
+    },
+    "degradations": [],
+    "responseSchemaEmptyFieldsRemoved": [
+      "fullProjectOutput",
+      "optionDifferences"
+    ],
+    "codexSessionId": "",
+    "sessionAccumulatedTurns": 0,
+    "questionGroupCount": 0
+  },
+  "packedPromptSha256": "eb184896651757c64920c290af9ae75e619438bfea5e3eadbccbc4e6d380204c",
+  "packedPromptChars": 10396,
+  "packedPromptPreview": "以下为当前锁定的 AI 提问提示词框架。它只约束 AI 如何提问、解释、映射和判断置信度；不得修改设计选项框架。\nframeworkVersion: 1\nmanifestHash: f811d9ad8ef940cb9ba0dc1f27d0b1dbb22d02ed5bfeaf060e9bcdd43abf2c27\n规则、项目摘要、候选节点和本轮输出 schema 见下方 JSON；只返回符合 schema 的 JSON。\n\n请基于下面 JSON 上下文继续同一个 AI 访谈线程，并只返回符合 output schema 的 JSON。\n\n{\"conversationSummary\":{\"confirmedIntent\":[],\"lastUserCorrections\":[],\"mdaProgress\":{\"aesthetics\":\"in_progress\",\"constraints\":\"pending\",\"dynamics\":\"pending\",\"evidence\":\"pending\",\"mechanics\":\"pending\"},\"nodeNotes\":{},\"openQuestions\":[],\"rejectedAssumptions\":[],\"schemaVersion\":\"1.0\",\"updatedAt\":\"2026-06-13T23:37:29\"},\"evaluationBatchId\":\"batch_e77314fdcd9c4c5cae6fa3f00df44b15\",\"forceReadinessCheck\":false,\"frameworkContext\":[{\"description\":\"确认项目愿景、目标用户、市场定位、商业目标、项目范围、平台场景和品牌资产。\",\"id\":\"product_positioning_design\",\"name\":\"立项与产品定位设计\",\"nodes\":[{\"checklist\":[{\"id\":\"he_xin_ti_yan_cheng_nuo\",\"label\":\"核心体验承诺\",\"optionGroups\":[{\"designQuestion\":\"玩家最终会反复获得哪种核心感受？\",\"id\":\"core_feeling_type\",\"label\":\"核心感受类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"ti_yan_bian_jie_ding_yi\",\"label\":\"体验边界定义\",\"optionGroups\":[{\"designQuestion\":\"这个边界限制的是哪类体验承诺？\",\"id\":\"boundary_type\",\"label\":\"边界类型\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"cha_yi_hua_fang_xiang\",\"label\":\"差异化方向\",\"optionGroups\":[{\"designQuestion\":\"项目要在哪个维度和同类不同？\",\"id\":\"differentiation_axis\",\"label\":\"差异化维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]},{\"id\":\"she_ji_mu_biao_you_xian_ji\",\"label\":\"设计目标优先级\",\"optionGroups\":[{\"designQuestion\":\"目标冲突时主要比较哪些维度？\",\"id\":\"priority_dimension\",\"label\":\"优先级维度\",\"mdaLayer\":\"aesthetics\",\"mdaLayerLabel\":\"体验目标\",\"required\":true,\"selectionMode\":\"multi\"}]}],\"description\":\"确认项目核心体验承诺、边界、差异化和不做范围。\",\"domain\":\"product_positioning_design\",\"id\":\"product_vision_decision\",\"name\":\"项目愿景决策\"},{\"checklist\":[{\"id\":\"wan_jia_hua_xiang\",\"label\":\"玩家画像\",\"optionGroups\":[{\"designQuestion\":\"核心承诺首先面向哪个年龄阶段？\",\"id\":\"age_b",
+  "updatedAt": "2026-06-13T23:38:33",
+  "response": {
+    "schemaVersion": "1.0",
+    "mode": "question_group",
+    "assistantMessage": "我先把方向理解为：2D Steam 独立游戏，核心是搜打撤循环，战斗中混合轻度肉鸽、轻度建造和 RPG 区域战斗，题材暂定西方魔幻、粗线条动画风格。本轮先确认它最想给玩家留下的体验承诺和边界，避免后面系统堆叠失焦。",
+    "routeOverview": {
+      "currentMdaStage": "体验目标",
+      "expectedDomains": [
+        "立项与产品定位设计",
+        "核心体验设计",
+        "玩法系统设计",
+        "内容设计"
+      ],
+      "completedNodes": [],
+      "clarificationTargets": [
+        "product_vision_decision",
+        "target_player_decision",
+        "market_category_positioning_decision"
+      ],
+      "lowApplicabilityCandidates": []
+    },
+    "questionGroup": {
+      "id": "qg_initial_extraction_core_001",
+      "mdaStage": "体验目标",
+      "purpose": "确认项目的核心体验承诺、目标玩家入口和与同类搜打撤游戏的差异化方向。",
+      "questions": [
+        {
+          "text": "如果玩家结束一局后只记住一种感受，你更希望是“带着战利品险胜撤离的紧张感”，还是“逐步构筑流派后碾过区域的成长感”，或是“在危险地图里规划路线和临场决策的掌控感”？",
+          "reason": "搜打撤、肉鸽、建造和 RPG 都可能成为体验核心，需要先确定谁是主承诺，谁是辅助。",
+          "targetNodeIds": [
+            "product_vision_decision"
+          ]
+        },
+        {
+          "text": "你设想的核心玩家更像哪类人：喜欢《逃离塔科夫》式高压损失的玩家，喜欢《暗黑/幸存者/肉鸽》式刷构筑的玩家，还是喜欢独立 2D 动作 RPG、但希望压力更轻的人？",
+          "reason": "同一个玩法组合可以服务不同玩家，目标玩家不同会影响死亡惩罚、节奏、操作强度和内容表达。",
+          "targetNodeIds": [
+            "target_player_decision"
+          ]
+        },
+        {
+          "text": "这款游戏里“建造”更像战斗中的临时防线和机关，撤离前的基地/营地经营，还是角色流派的一部分，比如放置法阵、召唤物、路障来改变战场？",
+          "reason": "轻度建造的位置会决定它是战斗机制、局外成长，还是差异化卖点。",
+          "targetNodeIds": [
+            "product_vision_decision",
+            "market_category_positioning_decision"
+          ]
+        },
+        {
+          "text": "在 Steam 商店页的一句话卖点里，你希望玩家看到的是“2D 魔幻搜打撤”，还是“可构筑的撤离式动作 RPG”，或者“带撤离压力的轻肉鸽区域战斗”？",
+          "reason": "这能帮助判断品类边界和市场表达，避免卖点过多导致用户不知道该期待什么。",
+          "targetNodeIds": [
+            "market_category_positioning_decision",
+            "product_vision_decision"
+          ]
+        }
+      ]
+    },
+    "readinessCheck": null,
+    "inferences": []
+  },
+  "validationResult": {
+    "ok": true,
+    "errors": []
+  },
+  "differences": [],
+  "backend": {
+    "sessionId": "019ec1a1-e048-77c2-86f8-df2e5b507063",
+    "durationSeconds": 41.949215300002834,
+    "firstEventSeconds": 0.3699393999995664,
+    "responseChars": 1416,
+    "rawEventCount": 6
+  }
+}

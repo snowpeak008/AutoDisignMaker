@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:24:36",
+  "transaction_seq": 1,
+  "files": [
+    {
+      "workspace_path": "outputs/preflight/actual_development_preflight.json",
+      "size_bytes": 864,
+      "sha256": "bfd6c9d2304d0e9fb36cab0791b973bfc09e343f5bde32a17ac12f72d70f21a2",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 1
+    },
+    {
+      "workspace_path": "outputs/runtime_control/run_state.json",
+      "size_bytes": 195,
+      "sha256": "687956721209da844835473c475e55e1d6298d832920801a3ea844acdf13b35f",
+      "stage": null,
+      "artifact_id": "",
+      "role": "workspace_file",
+      "source_type": "run_output",
+      "reference_manifest": "",
+      "latest_transaction_seq": 1
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "total_skills": 15,
+  "last_updated": "2026-06-17T22:00:00+08:00",
+  "skills": [
+    {
+      "skill_id": "skill_diff_compare_v1",
+      "name": "diff_compare",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/diff_compare.json"
+    },
+    {
+      "skill_id": "skill_extract_facts_v1",
+      "name": "extract_facts",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/extract_facts.json"
+    },
+    {
+      "skill_id": "skill_generate_json_v1",
+      "name": "generate_json",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/generate_json.json"
+    },
+    {
+      "skill_id": "skill_read_file_v1",
+      "name": "read_file",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/read_file.json"
+    },
+    {
+      "skill_id": "skill_run_command_v1",
+      "name": "run_command",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/run_command.json"
+    },
+    {
+      "skill_id": "skill_search_v1",
+      "name": "search",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/search.json"
+    },
+    {
+      "skill_id": "skill_summarize_v1",
+      "name": "summarize",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/summarize.json"
+    },
+    {
+      "skill_id": "skill_tag_classify_v1",
+      "name": "tag_classify",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/tag_classify.json"
+    },
+    {
+      "skill_id": "skill_validate_schema_v1",
+      "name": "validate_schema",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/validate_schema.json"
+    },
+    {
+      "skill_id": "skill_write_file_v1",
+      "name": "write_file",
+      "type": "atomic",
+      "level": 1,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/atomic/write_file.json"
+    },
+    {
+      "skill_id": "skill_devflow_pipeline_expert_v1",
+      "name": "devflow_pipeline_expert",
+      "type": "expert",
+      "level": 4,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "devflow",
+      "file": "skills/expert/devflow_pipeline_expert.json"
+    },
+    {
+      "skill_id": "skill_skill_selector_v1",
+      "name": "skill_selector",
+      "type": "meta",
+      "level": 5,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/meta/skill_selector.json"
+    },
+    {
+      "skill_id": "skill_workflow_composer_v1",
+      "name": "workflow_composer",
+      "type": "meta",
+      "level": 5,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "general",
+      "file": "skills/meta/workflow_composer.json"
+    },
+    {
+      "skill_id": "skill_run_stage_v1",
+      "name": "run_stage",
+      "type": "procedure",
+      "level": 2,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "devflow",
+      "file": "skills/procedure/run_stage.json"
+    },
+    {
+      "skill_id": "skill_validate_stage_v1",
+      "name": "validate_stage",
+      "type": "procedure",
+      "level": 2,
+      "version": "1.0.0",
+      "status": "active",
+      "domain": "devflow",
+      "file": "skills/procedure/validate_stage.json"
+    }
+  ]
+}

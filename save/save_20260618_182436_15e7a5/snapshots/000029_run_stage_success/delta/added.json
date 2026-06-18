@@ -1,0 +1,233 @@
+[
+  {
+    "workspace_path": "outputs/artifact_layer/preflight_stage_07.json",
+    "size_bytes": 217,
+    "sha256": "81329789dc5058ccc46656745339fa1887240581c5e647d78f23d48d99528015",
+    "stage": null,
+    "artifact_id": "",
+    "role": "workspace_file",
+    "source_type": "run_output",
+    "reference_manifest": "",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/OPTIONAL_SOURCE_ARTIFACTS_NOT_PROVIDED.md",
+    "size_bytes": 61,
+    "sha256": "40c9bbb78b61a2e1d210172f1d1c8ba7fc2593927e56a5820e530507d1a2ae11",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "operator_report",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/PLAN-content_ops.md",
+    "size_bytes": 229,
+    "sha256": "797fdaf9b60953f112d1fbe6d854d8e0e1cd79ef0a83777e3c186af30c807151",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/PLAN-core_playable.md",
+    "size_bytes": 3483,
+    "sha256": "091a14a51ef5c7a615baf27649fc799abbce8561a92a3010c049aef90259a649",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/README.md",
+    "size_bytes": 260,
+    "sha256": "8f665f49d39630be9e46102d048d18685452fae560c8cbb0615b7092b0246cff",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "operator_report",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/artifact_index.json",
+    "size_bytes": 4066,
+    "sha256": "3006bda3342709aebb2c79d96de0d2f2b30d5a1e6bce512f703224f415acdc38",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_index",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/artifact_layer_manifest.json",
+    "size_bytes": 4589,
+    "sha256": "c67b0cc67717ce296094149ef67b58765df3103633cf5f6d1b03c7cc63905bba",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "artifact_layer",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/artifact_reviews.json",
+    "size_bytes": 1371,
+    "sha256": "5fa26adde610b1a81daef06ba76645ccd2832b2ea6d3b91890aae347ffc53e33",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "validation",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/artifact_validation_layer.json",
+    "size_bytes": 1623,
+    "sha256": "ad4054c0e195a9c21b80acfa856c44cbd79ceae7a7d47d77f982cb808e043aed",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "validation",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/build_config.json",
+    "size_bytes": 99,
+    "sha256": "bc40a76f7c67bc8d417086f6f97d870df20dda322f4622e7cfef00d8adb46117",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/config_schema.json",
+    "size_bytes": 380,
+    "sha256": "e789cf62f8e5efca6b50bee7bc76579ce46d0ad3cfda219bc039268771bfe920",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/guidance/08_program_plan.md",
+    "size_bytes": 179,
+    "sha256": "6c5b51a5723c0da63900ecfbde9ba13b034d001c4cd0c98611b74ef758e483e5",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "guidance",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/guidance/step07.txt",
+    "size_bytes": 73,
+    "sha256": "986d25ea670bd615679399ae856c4358fbf5d03f50343a7d43a77220f99051c6",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "guidance",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/phase_task_map.json",
+    "size_bytes": 28526,
+    "sha256": "b78847974cd572beb1590f1575e6f3d1697d74397da2e84a06128404561978ca",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/program_plan_index.md",
+    "size_bytes": 3484,
+    "sha256": "95f2bc1be8114d62f4cfde8a12616aec4075d4c927ca2ae390444b32a5250548",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/program_structure_spec.md",
+    "size_bytes": 199,
+    "sha256": "0fa058118a336c274b455a237aed5e228f54af5a463865f1e5cc06a1f9c771a0",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/program_task_breakdown.json",
+    "size_bytes": 30257,
+    "sha256": "a407762d15c22570b203d41377739cb383b4639e5d51a35ea95ac5af2a01564d",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/reference_manifest.json",
+    "size_bytes": 16697,
+    "sha256": "92a651100d48c7eced17b9b2a2dd14d0dbf7a2cfef33ebddd345a72cf70f34e0",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "stage_file",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/upstream/stage_05/stage_05_program_review_bundle/UPSTREAM_REFERENCE.json",
+    "size_bytes": 5125,
+    "sha256": "25b78f0e02722893d6c6716eb0b0ed91aca8d91278370570629dcb082f414039",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "upstream_reference",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/artifacts/stage_07/validation_report.json",
+    "size_bytes": 1511,
+    "sha256": "30303d6dc52e9ef68af14c75e0f1b6856cfd0b8e50d0003d2ae28e70d33e5543",
+    "stage": 7,
+    "artifact_id": "stage_07.program_plan_bundle",
+    "role": "validation",
+    "source_type": "run_output",
+    "reference_manifest": "outputs/artifacts/stage_07/reference_manifest.json",
+    "latest_transaction_seq": 29
+  },
+  {
+    "workspace_path": "outputs/checkpoints/step_07_20260618_183509.json",
+    "size_bytes": 1187,
+    "sha256": "eaa42e70e469990498e82ffd09f1ccf88e90e259085e7760fb1a03efcd18b457",
+    "stage": null,
+    "artifact_id": "",
+    "role": "workspace_file",
+    "source_type": "run_output",
+    "reference_manifest": "",
+    "latest_transaction_seq": 29
+  }
+]
