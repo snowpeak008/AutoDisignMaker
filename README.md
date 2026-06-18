@@ -3,6 +3,19 @@
 AutoDesignMaker merges the migrated DevFlow development pipeline with the
 commercial game design decision tool.
 
+## ⚠️ Git 提交规则（强制）
+
+**每次优化、修复或功能添加后，必须立即提交到 Git。**
+
+详细规范请参考：[docs/GIT_WORKFLOW.md](docs/GIT_WORKFLOW.md)
+
+快速提交：
+```bash
+git add .
+git commit -m "类型: 描述修改内容"
+git push origin master
+```
+
 ## Run
 
 ```bash
