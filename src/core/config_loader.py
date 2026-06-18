@@ -95,18 +95,25 @@ def _deep_merge(defaults: dict[str, Any], override: dict[str, Any]) -> dict[str,
 
 def _read_toml(path: Path) -> dict[str, Any]:
     if not path.exists():
-        return {}
-    if tomllib is not None:
-        return tomllib.loads(path.read_text(encoding="utf-8"))
-    if toml is not None:
-        return toml.loads(path.read_text(encoding="utf-8"))
+        raise FileNotFoundError(f"Configuration file not found: {path}")
+    try:
+        content = path.read_text(encoding="utf-8")
+        if tomllib is not None:
+            return tomllib.loads(content)
+        if toml is not None:
+            return toml.loads(content)
+    except Exception as exc:  # noqa: BLE001 - config errors should include path context.
+        raise ValueError(f"Failed to parse TOML configuration {path}: {exc}") from exc
     raise RuntimeError("TOML config requires Python 3.11+ or the optional 'toml' package.")
 
 
 def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
-    return json.loads(path.read_text(encoding="utf-8-sig"))
+    try:
+        return json.loads(path.read_text(encoding="utf-8-sig"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Failed to parse JSON configuration {path}: {exc}") from exc
 
 
 class ConfigLoader:
@@ -130,6 +137,8 @@ class ConfigLoader:
             _read_json(self.project_settings_file),
         )
         self._loaded = True
+        if not self.project_settings_file.exists():
+            self.save_project_settings()
 
     def reload(self) -> None:
         self._loaded = False
@@ -189,4 +198,3 @@ def get_project_setting(key: str, default: Any = None) -> Any:
 
 def set_project_setting(key: str, value: Any) -> None:
     load_config().set_project_setting(key, value)
-

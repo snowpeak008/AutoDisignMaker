@@ -2,8 +2,16 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 from src.core.context import StageContext, StageResult
 from src.core.stage_plugin import StagePlugin
+
+
+PROJECT_ROOT_FOR_ORCHESTRATOR = Path(__file__).resolve().parents[4]
+if str(PROJECT_ROOT_FOR_ORCHESTRATOR) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT_FOR_ORCHESTRATOR))
 
 
 class DevelopmentStagePlugin(StagePlugin):
@@ -26,7 +34,7 @@ class DevelopmentStagePlugin(StagePlugin):
                 message="Development stage test-mode validation passed.",
             )
 
-        from orchestrator import run_range
+        from src.engines.orchestrator import run_range
 
         exit_code = run_range(
             self.stage_number,
@@ -36,4 +44,3 @@ class DevelopmentStagePlugin(StagePlugin):
         )
         status = "success" if exit_code == 0 else "failed"
         return StageResult(status=status, outputs={"exitCode": exit_code})
-

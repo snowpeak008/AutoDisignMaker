@@ -28,6 +28,12 @@ def source_project_root():
 def runtime_project_root():
     if getattr(sys, "frozen", False):
         return Path(sys.executable).resolve().parent
+    try:
+        from src.core.paths import PROJECT_ROOT
+
+        return PROJECT_ROOT
+    except ImportError:
+        pass
     return source_project_root()
 
 
@@ -42,10 +48,18 @@ def project_root():
 
 
 def data_dir():
-    local_data = runtime_project_root() / "data" / "design"
+    try:
+        from src.core.paths import DESIGN_DATA_DIR
+
+        if DESIGN_DATA_DIR.exists():
+            return DESIGN_DATA_DIR
+    except ImportError:
+        pass
+    root = runtime_project_root()
+    local_data = root / "data" / "design"
     if local_data.exists():
         return local_data
-    legacy_data = runtime_project_root() / "data"
+    legacy_data = root / "data"
     if (legacy_data / "domains").exists():
         return legacy_data
     return bundled_data_dir()

@@ -1,12 +1,27 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
+
+
+spec_dir = os.path.dirname(os.path.abspath(SPEC))
+
 
 a = Analysis(
-    ['E:\\workwork\\CrewAi\\AutoDesignMaker\\src\\gui_app.py'],
-    pathex=['E:\\workwork\\CrewAi\\AutoDesignMaker'],
+    [os.path.join(spec_dir, "src", "gui_app.py")],
+    pathex=[spec_dir],
     binaries=[],
-    datas=[('E:\\workwork\\CrewAi\\AutoDesignMaker\\data', 'data')],
-    hiddenimports=['design_tool.ui.app_window'],
+    datas=[
+        (os.path.join(spec_dir, "data"), "data"),
+        (os.path.join(spec_dir, "config"), "config"),
+    ],
+    hiddenimports=[
+        "design_tool.ui.app_window",
+        "design_tool.data_loader",
+        "src.core.paths",
+        "src.core.config_loader",
+        "src.core.data_integrity",
+        "src.plugins",
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -22,7 +37,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='AutoDesignMaker',
+    name="AutoDesignMaker",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

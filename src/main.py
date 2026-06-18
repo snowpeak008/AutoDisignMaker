@@ -11,10 +11,14 @@ if str(PROJECT_ROOT_FOR_BOOTSTRAP) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT_FOR_BOOTSTRAP))
 
 from src.core.context import StageContext
+from src.core.config_loader import load_config
+from src.core.data_integrity import validate_data_integrity
 from src.core.plugin_manager import PluginManager
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_config()
+    validate_data_integrity()
     parser = argparse.ArgumentParser(description="AutoDesignMaker command line")
     parser.add_argument("--stage", help="Run a registered stage, for example D1 or 00")
     parser.add_argument("--list-stages", action="store_true")

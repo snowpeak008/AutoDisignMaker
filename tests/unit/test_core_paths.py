@@ -10,3 +10,8 @@ def test_design_data_path():
     assert DATA_DIR.name == "data"
     assert DESIGN_DATA_DIR == DATA_DIR / "design"
 
+
+def test_design_tool_uses_core_design_data_path():
+    from design_tool.data_loader import data_dir
+
+    assert data_dir() == DESIGN_DATA_DIR

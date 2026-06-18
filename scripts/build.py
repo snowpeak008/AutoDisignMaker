@@ -16,16 +16,7 @@ def main() -> int:
         "PyInstaller",
         "--noconfirm",
         "--clean",
-        "--onefile",
-        "--name",
-        "AutoDesignMaker",
-        "--paths",
-        str(PROJECT_ROOT),
-        "--hidden-import",
-        "design_tool.ui.app_window",
-        "--add-data",
-        f"{PROJECT_ROOT / 'data'};data",
-        str(PROJECT_ROOT / "src" / "gui_app.py"),
+        str(PROJECT_ROOT / "AutoDesignMaker.spec"),
     ]
     return subprocess.call(cmd, cwd=PROJECT_ROOT)
 

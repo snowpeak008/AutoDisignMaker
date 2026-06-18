@@ -24,6 +24,13 @@ python src/main.py --stage D1 --test-mode
 python scripts/validate_structure.py
 ```
 
+Build and verify the packaged executable with:
+
+```bash
+python scripts/build.py
+python scripts/verify_build.py
+```
+
 The GUI entry point is:
 
 ```bash
@@ -42,4 +49,3 @@ project path and Unity Editor executable path.
 - `steps/`, `tools/`, `orchestrator.py`: migrated DevFlow runtime.
 - `ucos/` and `memory/`: migrated cognitive memory systems.
 - `workspace/`: user projects, exports, saves, outputs, and migration targets.
-
