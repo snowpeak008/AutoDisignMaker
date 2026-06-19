@@ -1,9 +1,0 @@
-{
-  "schema_version": 1,
-  "updated_at": "2026-06-18T18:35:10",
-  "status": "running",
-  "run_id": "20260618T183504-cfdf4aee",
-  "from_step": 0,
-  "stop_step": 9,
-  "current_step": 8
-}

@@ -1,8 +1,4 @@
 """Root-level GUI compatibility wrapper."""
-
-from src.gui_app import main
-
-
+from core.ui.gui_app import main
 if __name__ == "__main__":
     raise SystemExit(main())
-

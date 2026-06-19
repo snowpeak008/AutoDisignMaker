@@ -1,2 +1,0 @@
-Step 02 prompt: import and validate subsystem, AI design script, design freeze, and development design artifacts.
-
