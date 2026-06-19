@@ -113,6 +113,13 @@ class PipelinePanel(tk.Frame):
         right = tk.Frame(paned, bg=COLORS["bg"])
         paned.add(right, weight=4)
 
+        # R4: 项目配置区（固定在右侧顶部）
+        config_bar = tk.Frame(right, bg=COLORS["surface_alt"], padx=12, pady=6)
+        config_bar.pack(fill=tk.X, side=tk.TOP)
+        from core.ui.unity_config_dialog import UnityConfigDialog
+        ttk.Button(config_bar, text="项目配置",
+                   command=lambda: UnityConfigDialog(self)).pack(side=tk.LEFT)
+
         right_paned = tk.PanedWindow(right, orient=tk.VERTICAL, sashrelief=tk.FLAT,
                                      sashwidth=4, bg=COLORS["border"])
         right_paned.pack(fill=tk.BOTH, expand=True)
