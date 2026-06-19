@@ -3,17 +3,16 @@ from __future__ import annotations
 import queue
 import tkinter as tk
 from tkinter import ttk
-from typing import Callable
+from typing import Any
 
-from core.ui.theme import COLORS, FONT_BODY, FONT_SMALL
+from core.ui.theme import COLORS, FONT_SMALL
 
 
 class BottomPanel(tk.Frame):
-    def __init__(self, parent: tk.Widget, log_queue: queue.Queue,
-                 on_open_ai: Callable[[], None] | None = None):
+    def __init__(self, parent: tk.Widget, log_queue: queue.Queue, app: Any = None):
         super().__init__(parent, bg=COLORS["surface"])
         self._log_queue = log_queue
-        self._on_open_ai = on_open_ai
+        self._app = app
         self._build()
         self._poll_log_queue()
 
@@ -49,15 +48,13 @@ class BottomPanel(tk.Frame):
         return frame
 
     def _build_ai_pane(self, parent: tk.Widget) -> tk.Frame:
-        frame = tk.Frame(parent, bg=COLORS["surface"])
-        tk.Label(frame, text="点击下方按钮打开 AI 访谈窗口",
-                 bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(pady=(20, 8))
-        ttk.Button(frame, text="打开 AI 访谈", command=self._open_ai).pack()
-        return frame
-
-    def _open_ai(self):
-        if self._on_open_ai:
-            self._on_open_ai()
+        if self._app is None:
+            frame = tk.Frame(parent, bg=COLORS["surface"])
+            tk.Label(frame, text="AI 访谈不可用（非设计工作台模式）",
+                     bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(expand=True)
+            return frame
+        from core.ui.embedded_interview import EmbeddedInterviewPanel
+        return EmbeddedInterviewPanel(parent, self._app)
 
     def append_log(self, line: str):
         self._log_text.configure(state=tk.NORMAL)

@@ -93,13 +93,12 @@ class CommercialDesignApp(tk.Frame):
         ttk.Entry(actions, textvariable=self.project_name, width=26).grid(row=1, column=0, padx=(0, 8))
         tk.Label(actions, text="导出", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).grid(row=0, column=1, sticky=tk.W)
         ttk.Combobox(actions, textvariable=self.export_format, values=["markdown", "json", "txt", "text", "prompt"], state="readonly", width=10).grid(row=1, column=1, padx=(0, 8))
-        ttk.Button(actions, text="AI 访谈", command=self.open_ai_interview).grid(row=1, column=2, padx=(0, 8))
-        ttk.Button(actions, text="导出", command=self.export_project).grid(row=1, column=3, padx=(0, 8))
-        ttk.Button(actions, text="保存", command=self.save_project).grid(row=1, column=4, padx=(0, 8))
-        ttk.Button(actions, text="打开", command=self.open_project).grid(row=1, column=5, padx=(0, 8))
-        ttk.Button(actions, text="模板查看", command=self.open_template_viewer).grid(row=1, column=6, padx=(0, 8))
-        ttk.Button(actions, text="另存为模板", command=self.open_save_template_dialog).grid(row=1, column=7, padx=(0, 8))
-        ttk.Button(actions, text="重置", command=self.reset_project).grid(row=1, column=8)
+        ttk.Button(actions, text="导出", command=self.export_project).grid(row=1, column=2, padx=(0, 8))
+        ttk.Button(actions, text="保存", command=self.save_project).grid(row=1, column=3, padx=(0, 8))
+        ttk.Button(actions, text="打开", command=self.open_project).grid(row=1, column=4, padx=(0, 8))
+        ttk.Button(actions, text="模板查看", command=self.open_template_viewer).grid(row=1, column=5, padx=(0, 8))
+        ttk.Button(actions, text="另存为模板", command=self.open_save_template_dialog).grid(row=1, column=6, padx=(0, 8))
+        ttk.Button(actions, text="重置", command=self.reset_project).grid(row=1, column=7)
 
     def build_workspace(self):
         paned = ttk.PanedWindow(self, orient=tk.HORIZONTAL)
@@ -139,7 +138,7 @@ class CommercialDesignApp(tk.Frame):
         paned.pack(fill=tk.BOTH, expand=True)
         top = self.panel(paned, 10)
         paned.add(top, weight=4)
-        paned.add(BottomPanel(paned, self._log_queue, on_open_ai=self.open_ai_interview), weight=1)
+        paned.add(BottomPanel(paned, self._log_queue, app=self), weight=1)
 
         header = tk.Frame(top, bg=COLORS["surface"])
         header.pack(fill=tk.X)
