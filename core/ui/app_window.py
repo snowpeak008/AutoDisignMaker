@@ -137,8 +137,9 @@ class CommercialDesignApp(tk.Frame):
         paned = ttk.PanedWindow(parent, orient=tk.VERTICAL)
         paned.pack(fill=tk.BOTH, expand=True)
         top = self.panel(paned, 10)
+        _bottom = BottomPanel(paned, self._log_queue, app=self)
         paned.add(top, weight=4)
-        paned.add(BottomPanel(paned, self._log_queue, app=self), weight=1)
+        paned.add(_bottom, weight=1, minsize=200)
 
         header = tk.Frame(top, bg=COLORS["surface"])
         header.pack(fill=tk.X)
