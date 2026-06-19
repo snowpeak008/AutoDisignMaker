@@ -139,7 +139,7 @@ class CommercialDesignApp(tk.Frame):
         paned.pack(fill=tk.BOTH, expand=True)
         top = self.panel(paned, 10)
         paned.add(top, weight=4)
-        paned.add(BottomPanel(paned, self._log_queue), weight=1)
+        paned.add(BottomPanel(paned, self._log_queue, on_open_ai=self.open_ai_interview), weight=1)
 
         header = tk.Frame(top, bg=COLORS["surface"])
         header.pack(fill=tk.X)
