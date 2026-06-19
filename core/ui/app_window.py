@@ -134,12 +134,13 @@ class CommercialDesignApp(tk.Frame):
 
     def build_node_panel(self, parent):
         from core.ui.bottom_panel import BottomPanel
-        paned = ttk.PanedWindow(parent, orient=tk.VERTICAL)
+        paned = tk.PanedWindow(parent, orient=tk.VERTICAL, sashrelief=tk.FLAT,
+                               sashwidth=4, bg=COLORS["border"])
         paned.pack(fill=tk.BOTH, expand=True)
         top = self.panel(paned, 10)
         _bottom = BottomPanel(paned, self._log_queue, app=self)
-        paned.add(top, weight=4)
-        paned.add(_bottom, weight=1, minsize=200)
+        paned.add(top, stretch="always")
+        paned.add(_bottom, minsize=200, stretch="always")
 
         header = tk.Frame(top, bg=COLORS["surface"])
         header.pack(fill=tk.X)
