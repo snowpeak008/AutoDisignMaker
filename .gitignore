@@ -118,3 +118,19 @@ secrets/
 credentials/
 *.key
 *.pem
+
+# Settings (sensitive)
+settings/api_config.toml
+settings/local.toml
+settings/project_settings.json
+
+# Build output
+tools/build/dist/
+tools/build/build/
+
+# Sandbox (runtime)
+sandbox/
+saves/
+logs/runtime/
+logs/pipeline/
+logs/errors/

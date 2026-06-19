@@ -162,7 +162,7 @@
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
-          "schema": "Docs/governance/schemas/execution_object_workflow.schema.json",
+          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
           "description": "Project-save scoped execution object workflow store."
         }
       ],
@@ -182,7 +182,7 @@
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
-          "schema": "Docs/governance/schemas/execution_object_workflow.schema.json",
+          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
           "description": "Project-save scoped execution object workflow store."
         }
       ],
@@ -202,7 +202,7 @@
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
-          "schema": "Docs/governance/schemas/execution_object_workflow.schema.json",
+          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
           "description": "Project-save scoped execution object workflow store."
         }
       ],
@@ -222,7 +222,7 @@
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
-          "schema": "Docs/governance/schemas/execution_object_workflow.schema.json",
+          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
           "description": "Project-save scoped execution object workflow store."
         }
       ],
@@ -242,7 +242,7 @@
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
-          "schema": "Docs/governance/schemas/execution_object_workflow.schema.json",
+          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
           "description": "Project-save scoped execution object workflow store."
         }
       ],
@@ -261,7 +261,7 @@
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
-          "schema": "Docs/governance/schemas/execution_object_workflow.schema.json",
+          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
           "description": "Project-save scoped execution object workflow store."
         }
       ],

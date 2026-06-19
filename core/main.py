@@ -1,0 +1,157 @@
+"""AutoDesignMaker — 唯一程序入口。
+
+合并自 src/main.py + orchestrator.py + run_pipeline.py
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+from core.paths import PROJECT_ROOT
+from core.context import StageContext
+from core.config.loader import load_config
+from core.config.integrity import validate_data_integrity
+from core.plugin_manager import PluginManager
+from core.artifact.graph import topological_step_order, emit_dependency_graph
+from core.artifact.preflight import preflight_stage_contract
+from core.artifact.reviewer import run_review_pipeline
+from core.artifact.validator import run_artifact_validators
+from core.save.manager import ensure_current_save, retry_sync
+from core.runtime.control import (
+    PipelineStopRequested,
+    new_run_id,
+    stop_requested,
+    write_run_state,
+    mark_stopped,
+    clear_stale_stop_request,
+)
+from core.runtime.preflight import assert_actual_development_preflight
+from core.registry import STEP_SPECS
+
+
+def run_range(
+    from_step: int = 0,
+    stop_step: int = 15,
+    *,
+    auto_approve: bool = False,
+    skip_preflight: bool = False,
+    run_id: str | None = None,
+) -> int:
+    if from_step < 0 or stop_step > 15 or from_step > stop_step:
+        raise ValueError("Step range must be within 0-15 and from_step <= stop_step.")
+    if not skip_preflight:
+        try:
+            assert_actual_development_preflight(PROJECT_ROOT, write_report=True)
+        except Exception as exc:
+            print(f"Preflight blocked: {exc}", file=sys.stderr)
+            return 1
+    run_id = run_id or new_run_id()
+    clear_stale_stop_request(PROJECT_ROOT, run_id)
+    write_run_state(PROJECT_ROOT, status="running", run_id=run_id,
+                    from_step=from_step, stop_step=stop_step, current_step=None)
+    ensure_current_save(PROJECT_ROOT)
+    emit_dependency_graph()
+    manager = PluginManager()
+    steps = topological_step_order(from_step, stop_step)
+
+    for index, step_num in enumerate(steps):
+        spec = STEP_SPECS[step_num]
+        try:
+            write_run_state(PROJECT_ROOT, status="running", run_id=run_id,
+                            from_step=from_step, stop_step=stop_step, current_step=step_num)
+            if stop_requested(PROJECT_ROOT):
+                mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="before_stage")
+                retry_sync(PROJECT_ROOT, event="run_stage_stopped", stage=step_num,
+                           message="Operator stop before stage.", log=lambda t: print(t, end=""))
+                return 130
+            if not auto_approve:
+                ans = input(f"Run step {step_num:02d} ({spec.slug})? [y/N] ").strip().lower()
+                if ans not in {"y", "yes"}:
+                    raise RuntimeError(f"Step {step_num:02d} not approved.")
+            retry_sync(PROJECT_ROOT, event="run_stage_start", stage=step_num,
+                       log=lambda t: print(t, end=""))
+            preflight_stage_contract(step_num)
+            plugin = manager.load_stage(f"{step_num:02d}")
+            ctx = StageContext(stage_id=f"{step_num:02d}")
+            result = plugin.run(ctx)
+            run_review_pipeline(step_num)
+            run_artifact_validators(step_num)
+            retry_sync(PROJECT_ROOT, event="run_stage_success", stage=step_num,
+                       message=json.dumps({"status": result.status}),
+                       log=lambda t: print(t, end=""))
+            print(json.dumps({"step": step_num, "status": result.status}))
+            if stop_requested(PROJECT_ROOT):
+                next_step = steps[index + 1] if index + 1 < len(steps) else None
+                mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="after_stage")
+                return 130
+        except PipelineStopRequested as exc:
+            mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="inside_stage")
+            try:
+                retry_sync(PROJECT_ROOT, event="run_stage_stopped", stage=step_num,
+                           message=str(exc), log=lambda t: print(t, end=""))
+            except Exception:
+                pass
+            return 130
+        except Exception as exc:
+            try:
+                retry_sync(PROJECT_ROOT, event="run_stage_failed", stage=step_num,
+                           message=str(exc), log=lambda t: print(t, end=""))
+            except Exception:
+                pass
+            print(f"Step {step_num:02d} failed: {exc}", file=sys.stderr)
+            return 1
+
+    write_run_state(PROJECT_ROOT, status="success", run_id=run_id,
+                    from_step=from_step, stop_step=stop_step, current_step=stop_step)
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    load_config()
+    validate_data_integrity()
+    parser = argparse.ArgumentParser(description="AutoDesignMaker")
+    parser.add_argument("--from-step", type=int, default=0)
+    parser.add_argument("--stop-step", type=int, default=15)
+    parser.add_argument("--step", type=int, help="Run single step")
+    parser.add_argument("--stage", help="Run design stage by ID (D1/D2/00/01...)")
+    parser.add_argument("--run-id", default="")
+    parser.add_argument("--auto-approve", action="store_true")
+    parser.add_argument("--list", action="store_true")
+    parser.add_argument("--preflight-only", action="store_true")
+    parser.add_argument("--skip-preflight", action="store_true")
+    args = parser.parse_args(argv)
+
+    if args.list:
+        for num, spec in STEP_SPECS.items():
+            print(f"{num:02d} {spec.slug} - {spec.title}")
+        return 0
+
+    if args.preflight_only:
+        from core.runtime.preflight import run_actual_development_preflight
+        report = run_actual_development_preflight(PROJECT_ROOT, write_report=True)
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        return 0 if report.get("status") == "passed" else 1
+
+    if args.stage:
+        manager = PluginManager()
+        plugin = manager.load_stage(args.stage)
+        ctx = StageContext(stage_id=args.stage)
+        result = plugin.run(ctx)
+        print(json.dumps({"stage": args.stage, "status": result.status}))
+        return 0 if result.ok else 1
+
+    from_step = args.step if args.step is not None else args.from_step
+    stop_step = args.step if args.step is not None else args.stop_step
+    return run_range(
+        from_step, stop_step,
+        auto_approve=args.auto_approve,
+        skip_preflight=args.skip_preflight,
+        run_id=args.run_id or None,
+    )
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

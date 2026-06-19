@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "plugins": {
+    "stages": {
+      "D1": {
+        "module": "pipeline.step_d1_project_portrait.plugin",
+        "class": "Plugin",
+        "title": "D1 Project Portrait",
+        "enabled": true
+      },
+      "D2": {
+        "module": "pipeline.step_d2_design_decisions.plugin",
+        "class": "Plugin",
+        "title": "D2 Design Decisions",
+        "enabled": true
+      },
+      "D3": {
+        "module": "pipeline.step_d3_design_validation.plugin",
+        "class": "Plugin",
+        "title": "D3 Design Validation",
+        "enabled": true
+      },
+      "D4": {
+        "module": "pipeline.step_d4_devflow_handoff.plugin",
+        "class": "Plugin",
+        "title": "D4 Devflow Handoff",
+        "enabled": true
+      },
+      "00": {
+        "module": "pipeline.step_00_idea_intake.plugin",
+        "class": "Plugin",
+        "title": "00 Idea Intake",
+        "enabled": true
+      },
+      "01": {
+        "module": "pipeline.step_01_gameplay_framework.plugin",
+        "class": "Plugin",
+        "title": "01 Gameplay Framework",
+        "enabled": true
+      },
+      "02": {
+        "module": "pipeline.step_02_design_review_freeze.plugin",
+        "class": "Plugin",
+        "title": "02 Design Review Freeze",
+        "enabled": true
+      },
+      "03": {
+        "module": "pipeline.step_03_program_requirements.plugin",
+        "class": "Plugin",
+        "title": "03 Program Requirements",
+        "enabled": true
+      },
+      "04": {
+        "module": "pipeline.step_04_art_requirements.plugin",
+        "class": "Plugin",
+        "title": "04 Art Requirements",
+        "enabled": true
+      },
+      "05": {
+        "module": "pipeline.step_05_program_review.plugin",
+        "class": "Plugin",
+        "title": "05 Program Review",
+        "enabled": true
+      },
+      "06": {
+        "module": "pipeline.step_06_art_review.plugin",
+        "class": "Plugin",
+        "title": "06 Art Review",
+        "enabled": true
+      },
+      "07": {
+        "module": "pipeline.step_07_design_to_plan.plugin",
+        "class": "Plugin",
+        "title": "07 Design To Plan",
+        "enabled": true
+      },
+      "08": {
+        "module": "pipeline.step_08_art_plan.plugin",
+        "class": "Plugin",
+        "title": "08 Art Plan",
+        "enabled": true
+      },
+      "09": {
+        "module": "pipeline.step_09_asset_alignment.plugin",
+        "class": "Plugin",
+        "title": "09 Asset Alignment",
+        "enabled": true
+      },
+      "10": {
+        "module": "pipeline.step_10_dev_execution.plugin",
+        "class": "Plugin",
+        "title": "10 Dev Execution",
+        "enabled": true
+      },
+      "11": {
+        "module": "pipeline.step_11_art_production.plugin",
+        "class": "Plugin",
+        "title": "11 Art Production",
+        "enabled": true
+      },
+      "12": {
+        "module": "pipeline.step_12_integration_validation.plugin",
+        "class": "Plugin",
+        "title": "12 Integration Validation",
+        "enabled": true
+      },
+      "13": {
+        "module": "pipeline.step_13_build_package.plugin",
+        "class": "Plugin",
+        "title": "13 Build Package",
+        "enabled": true
+      },
+      "14": {
+        "module": "pipeline.step_14_delta_patch.plugin",
+        "class": "Plugin",
+        "title": "14 Delta Patch",
+        "enabled": true
+      },
+      "15": {
+        "module": "pipeline.step_15_migration_audit.plugin",
+        "class": "Plugin",
+        "title": "15 Migration Audit",
+        "enabled": true
+      }
+    }
+  }
+}

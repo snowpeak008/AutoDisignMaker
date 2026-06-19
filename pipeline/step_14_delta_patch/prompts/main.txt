@@ -1,0 +1,2 @@
+Step 14 prompt: import and validate delta patch and release history artifacts.
+

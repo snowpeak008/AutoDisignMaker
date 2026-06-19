@@ -1,0 +1,33 @@
+# 已知问题追踪
+
+> 追加新问题，不删除已有条目。解决后将状态改为 RESOLVED 并填写 Resolution。
+
+---
+
+## [OPEN] Issue 001 — Stage 10 程序开发执行验收未通过
+
+Date: 2026-06-16
+
+Description: 活跃存档"错误测试"在 Stage 9 之后停止，Stage 10 未通过验收，具体阻断原因未确认。需查看 `outputs/artifacts/stage_10/validation_report.json` 和 `artifact_validation_layer.json`。
+
+Resolution: pending — 需加载存档后查看验收报告确认阻断类型（缺源资料 or 执行错误）
+
+---
+
+## [OPEN] Issue 002 — Stage 11 图像生成 API 可用性未确认
+
+Date: 2026-06-16
+
+Description: Stage 11（美术制作执行）依赖图像生成 API，但该 API 是否已正确配置尚未确认。
+
+Resolution: pending — 需查看 config.toml 或相关 adapter 配置
+
+---
+
+## [OPEN] Issue 003 — 项目说明.md 文档路径与实际不一致
+
+Date: 2026-06-17
+
+Description: `项目说明.md` 中写的总规则路径为 `docs/adr/`（小写），实际目录是 `工程运行文件/Docs/`（大写且在子文件夹内），存在路径不一致。
+
+Resolution: pending — 低优先级，可在下次整理文档时修正
