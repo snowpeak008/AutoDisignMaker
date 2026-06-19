@@ -17,11 +17,11 @@ if str(PROJECT_ROOT_FOR_BOOTSTRAP) not in sys.path:
 def main() -> int:
     from core.config.loader import load_config
     from core.config.integrity import validate_data_integrity
-    from core.ui.app_window import CommercialDesignApp
+    from core.ui.main_window import MainWindow
 
     load_config()
     validate_data_integrity()
-    app = CommercialDesignApp()
+    app = MainWindow()
     app.mainloop()
     return 0
 

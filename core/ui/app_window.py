@@ -20,12 +20,9 @@ def re_split_words(value):
     return re.findall(r"[0-9a-z_]{2,}|[\u4e00-\u9fff]{2}", text)
 
 
-class CommercialDesignApp(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("完整商业游戏设计决策工具")
-        self.geometry("1480x900")
-        self.minsize(1180, 720)
+class CommercialDesignApp(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
         self.configure(bg=COLORS["bg"])
 
         self.runtime_root = runtime_project_root()
