@@ -279,7 +279,7 @@ def run_import_step(
 
 def run_step_cli(step_number: int) -> int:
     """Route direct step execution through the full orchestrator."""
-    from orchestrator import run_range
+    from core.main import run_range
     return run_range(step_number, step_number, auto_approve=True)
 
 
@@ -461,7 +461,7 @@ def run_audit_step(context: dict[str, Any] | None = None) -> dict[str, Any]:
                 if any(p.search(line) for p in patterns):
                     forbidden.append({"path": rel(fpath), "line": lineno, "text": line.strip()})
 
-    from tools.execution_object_integration import audit_execution_object_store
+    from core.engines.execution_objects.integration import audit_execution_object_store
     execution_object_audit = audit_execution_object_store(PROJECT_ROOT)
 
     passed = (

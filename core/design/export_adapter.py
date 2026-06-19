@@ -25,7 +25,7 @@ def _write_json(path: Path, data: dict[str, Any] | list[Any]) -> None:
 
 
 def _load_design_summary() -> dict[str, Any]:
-    from design_tool.data_loader import load_project_data
+    from core.design.data_loader import load_project_data
 
     data = load_project_data()
     domains = data.get("domains", [])

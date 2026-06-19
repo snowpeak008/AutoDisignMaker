@@ -1,2 +1,0 @@
-"""Plugin package for AutoDesignMaker."""
-

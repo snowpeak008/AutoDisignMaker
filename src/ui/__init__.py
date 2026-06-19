@@ -1,2 +1,0 @@
-"""Tkinter UI entry points."""
-

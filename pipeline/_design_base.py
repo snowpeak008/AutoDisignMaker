@@ -16,7 +16,7 @@ def write_stage_json(context: StageContext, filename: str, payload: dict[str, An
 
 
 def load_design_data() -> dict[str, Any]:
-    from design_tool.data_loader import load_project_data
+    from core.design.data_loader import load_project_data
 
     return load_project_data()
 

@@ -10,7 +10,7 @@ def runtime_project_root():
     if getattr(sys, "frozen", False):
         return Path(sys.executable).resolve().parent
     try:
-        from src.core.paths import PROJECT_ROOT
+        from core.paths import PROJECT_ROOT
 
         return PROJECT_ROOT
     except ImportError:
@@ -26,7 +26,7 @@ def bundled_data_dir():
 
 def data_dir():
     try:
-        from src.core.paths import DESIGN_DATA_DIR
+        from core.paths import DESIGN_DATA_DIR
 
         if DESIGN_DATA_DIR.exists():
             return DESIGN_DATA_DIR
