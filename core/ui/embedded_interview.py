@@ -67,9 +67,9 @@ class EmbeddedInterviewPanel(tk.Frame):
         self.render()
 
     def _build_ui(self):
-        # 当前提问区
+        # 当前提问区（顶部固定）
         q_frame = tk.Frame(self, bg=COLORS["surface"], padx=8, pady=4)
-        q_frame.pack(fill=tk.X)
+        q_frame.pack(fill=tk.X, side=tk.TOP)
         tk.Label(q_frame, text="当前 AI 提问", bg=COLORS["surface"],
                  fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W)
         self.current_question_text = tk.Text(
@@ -79,20 +79,7 @@ class EmbeddedInterviewPanel(tk.Frame):
         )
         self.current_question_text.pack(fill=tk.X)
 
-        # 对话区
-        chat_frame = tk.Frame(self, bg=COLORS["surface"])
-        chat_frame.pack(fill=tk.BOTH, expand=True, padx=8)
-        self.chat_text = tk.Text(
-            chat_frame, bg=COLORS["surface"], fg=COLORS["text"],
-            bd=0, highlightthickness=1, highlightbackground=COLORS["border"],
-            wrap=tk.WORD, font=FONT_BODY, padx=6, pady=6, state=tk.DISABLED,
-        )
-        sb = ttk.Scrollbar(chat_frame, command=self.chat_text.yview)
-        self.chat_text.configure(yscrollcommand=sb.set)
-        sb.pack(side=tk.RIGHT, fill=tk.Y)
-        self.chat_text.pack(fill=tk.BOTH, expand=True)
-
-        # 输入区
+        # 输入区（底部固定，必须在 expand=True 的 chat_frame 之前 pack）
         input_frame = tk.Frame(self, bg=COLORS["surface"], padx=8, pady=6)
         input_frame.pack(fill=tk.X, side=tk.BOTTOM)
         tk.Label(input_frame, textvariable=self.input_hint_var,
@@ -104,11 +91,33 @@ class EmbeddedInterviewPanel(tk.Frame):
         )
         self.input_text.pack(fill=tk.X)
         self.input_text.bind("<Control-Return>", self.submit_input_from_keyboard)
-
         status_bar = tk.Frame(input_frame, bg=COLORS["surface"])
         status_bar.pack(fill=tk.X, pady=(2, 4))
         tk.Label(status_bar, textvariable=self.status_var,
                  bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
+        btn_row = tk.Frame(input_frame, bg=COLORS["surface"])
+        btn_row.pack(fill=tk.X)
+        self.send_button = ttk.Button(btn_row, text="发送回答", command=self.send_user_message)
+        self.send_button.pack(side=tk.LEFT, padx=(0, 6))
+        self.output_button = ttk.Button(btn_row, text="生成输出", command=self.force_output)
+        self.output_button.pack(side=tk.LEFT, padx=(0, 6))
+        self.correction_button = ttk.Button(btn_row, text="标记不准", command=self.mark_last_ai_inaccurate)
+        self.correction_button.pack(side=tk.LEFT, padx=(0, 6))
+        self.archive_button = ttk.Button(btn_row, text="保存访谈存档", command=self.save_interview_archive_dialog)
+        self.archive_button.pack(side=tk.LEFT)
+
+        # 对话区（填充剩余空间，在顶部和底部之间）
+        chat_frame = tk.Frame(self, bg=COLORS["surface"])
+        chat_frame.pack(fill=tk.BOTH, expand=True, padx=8)
+        self.chat_text = tk.Text(
+            chat_frame, bg=COLORS["surface"], fg=COLORS["text"],
+            bd=0, highlightthickness=1, highlightbackground=COLORS["border"],
+            wrap=tk.WORD, font=FONT_BODY, padx=6, pady=6, state=tk.DISABLED,
+        )
+        sb = ttk.Scrollbar(chat_frame, command=self.chat_text.yview)
+        self.chat_text.configure(yscrollcommand=sb.set)
+        sb.pack(side=tk.RIGHT, fill=tk.Y)
+        self.chat_text.pack(fill=tk.BOTH, expand=True)
 
         btn_row = tk.Frame(input_frame, bg=COLORS["surface"])
         btn_row.pack(fill=tk.X)
