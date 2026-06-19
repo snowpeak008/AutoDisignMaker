@@ -1,4 +1,5 @@
 import json
+import queue
 import re
 import tkinter as tk
 from pathlib import Path
@@ -24,6 +25,7 @@ class CommercialDesignApp(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.configure(bg=COLORS["bg"])
+        self._log_queue: queue.Queue = queue.Queue()
 
         self.runtime_root = runtime_project_root()
         self.data = load_project_data()
@@ -132,14 +134,21 @@ class CommercialDesignApp(tk.Frame):
         self.domain_canvas, self.domain_frame = self.scroll_area(parent)
 
     def build_node_panel(self, parent):
-        header = tk.Frame(parent, bg=COLORS["surface"])
+        from core.ui.bottom_panel import BottomPanel
+        paned = ttk.PanedWindow(parent, orient=tk.VERTICAL)
+        paned.pack(fill=tk.BOTH, expand=True)
+        top = self.panel(paned, 10)
+        paned.add(top, weight=4)
+        paned.add(BottomPanel(paned, self._log_queue), weight=1)
+
+        header = tk.Frame(top, bg=COLORS["surface"])
         header.pack(fill=tk.X)
         self.domain_title = tk.Label(header, text="", bg=COLORS["surface"], fg=COLORS["text"], font=FONT_TITLE)
         self.domain_title.pack(anchor=tk.W)
         self.domain_desc = tk.Label(header, text="", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_BODY, wraplength=760, justify=tk.LEFT)
         self.domain_desc.pack(anchor=tk.W, pady=(4, 8))
 
-        tools = tk.Frame(parent, bg=COLORS["surface"])
+        tools = tk.Frame(top, bg=COLORS["surface"])
         tools.pack(fill=tk.X, pady=(0, 8))
         search_entry = ttk.Entry(tools, textvariable=self.search_text)
         search_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 8))
@@ -149,7 +158,7 @@ class CommercialDesignApp(tk.Frame):
         ttk.Button(tools, text="清空", command=self.clear_search).pack(side=tk.LEFT, padx=(0, 8))
         tk.Label(tools, text="筛选", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT, padx=(0, 4))
         filter_box = ttk.Combobox(
-            tools,
+            top,
             textvariable=self.node_filter,
             values=["全部", "已决策", "未完成", "有风险", "不适用", "L4 未完整"],
             state="readonly",
@@ -158,7 +167,7 @@ class CommercialDesignApp(tk.Frame):
         filter_box.pack(side=tk.LEFT)
         filter_box.bind("<<ComboboxSelected>>", lambda event: self.render_nodes())
 
-        self.node_canvas, self.node_frame = self.scroll_area(parent)
+        self.node_canvas, self.node_frame = self.scroll_area(top)
 
     def build_result_panel(self, parent):
         self.tabs = ttk.Notebook(parent)
