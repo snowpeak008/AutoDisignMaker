@@ -139,11 +139,16 @@ class PipelinePanel(tk.Frame):
     def refresh(self):
         state = load_pipeline_state(PROJECT_ROOT)
         steps_state = state.get("steps", {})
+        first_incomplete: int | None = None
         for step_num, card in self._cards.items():
             step_info = steps_state.get(str(step_num), {})
             raw = step_info.get("status", "pending") if isinstance(step_info, dict) else "pending"
             card.update_status(_PIPELINE_STATUS_MAP.get(raw, "not_started"))
-        if self._selected_step is not None:
+            if first_incomplete is None and raw != "success":
+                first_incomplete = step_num
+        if self._selected_step is None and first_incomplete is not None:
+            self._select_step(first_incomplete)
+        elif self._selected_step is not None:
             self._render_detail(self._selected_step)
 
     def _select_step(self, step_num: int):
