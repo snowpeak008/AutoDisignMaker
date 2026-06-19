@@ -107,7 +107,23 @@ class PipelinePanel(tk.Frame):
 
         btn_frame = tk.Frame(left, bg=COLORS["surface"], pady=6)
         btn_frame.pack(fill=tk.X, side=tk.BOTTOM, padx=6)
-        ttk.Button(btn_frame, text="⏹ 停止", command=self._stop).pack(fill=tk.X, pady=2)
+
+        # R5: 运行范围选择
+        range_row = tk.Frame(btn_frame, bg=COLORS["surface"])
+        range_row.pack(fill=tk.X, pady=(0, 4))
+        tk.Label(range_row, text="从", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
+        self._from_var = tk.IntVar(value=0)
+        self._to_var = tk.IntVar(value=15)
+        tk.Spinbox(range_row, from_=0, to=15, textvariable=self._from_var,
+                   width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
+        tk.Label(range_row, text="到", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
+        tk.Spinbox(range_row, from_=0, to=15, textvariable=self._to_var,
+                   width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
+
+        run_row = tk.Frame(btn_frame, bg=COLORS["surface"])
+        run_row.pack(fill=tk.X)
+        ttk.Button(run_row, text="▶ 运行", command=self._run_range).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 4))
+        ttk.Button(run_row, text="⏹ 停止", command=self._stop).pack(side=tk.LEFT)
 
         # ── Right panel (vertical: detail top + log bottom) ───
         right = tk.Frame(paned, bg=COLORS["bg"])
@@ -181,7 +197,8 @@ class PipelinePanel(tk.Frame):
 
         btn_row = tk.Frame(card, bg=COLORS["surface"])
         btn_row.pack(anchor=tk.W)
-        ttk.Button(btn_row, text="▶ 运行此步骤",
+        run_label = "▶ 运行此步骤" if status != "success" else "🔁 重新运行"
+        ttk.Button(btn_row, text=run_label,
                    command=lambda: self._run_single(step_num)).pack(side=tk.LEFT)
 
     def _run_single(self, step_num: int):
@@ -195,8 +212,8 @@ class PipelinePanel(tk.Frame):
                 return
         self._exec_range(step_num, step_num)
 
-    def _run_all(self):
-        self._exec_range(0, 15)
+    def _run_range(self):
+        self._exec_range(self._from_var.get(), self._to_var.get())
 
     def _exec_range(self, from_step: int, stop_step: int):
         if self._running:
