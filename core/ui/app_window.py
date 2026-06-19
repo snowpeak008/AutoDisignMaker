@@ -25,7 +25,6 @@ class CommercialDesignApp(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.configure(bg=COLORS["bg"])
-        self._log_queue: queue.Queue = queue.Queue()
 
         self.runtime_root = runtime_project_root()
         self.data = load_project_data()
@@ -133,14 +132,14 @@ class CommercialDesignApp(tk.Frame):
         self.domain_canvas, self.domain_frame = self.scroll_area(parent)
 
     def build_node_panel(self, parent):
-        from core.ui.bottom_panel import BottomPanel
+        from core.ui.embedded_interview import EmbeddedInterviewPanel
         paned = tk.PanedWindow(parent, orient=tk.VERTICAL, sashrelief=tk.FLAT,
                                sashwidth=4, bg=COLORS["border"])
         paned.pack(fill=tk.BOTH, expand=True)
         top = self.panel(paned, 10)
-        _bottom = BottomPanel(paned, self._log_queue, app=self)
+        _ai = EmbeddedInterviewPanel(paned, self)
         paned.add(top, stretch="always")
-        paned.add(_bottom, minsize=200, stretch="always")
+        paned.add(_ai, minsize=200, stretch="always")
 
         header = tk.Frame(top, bg=COLORS["surface"])
         header.pack(fill=tk.X)

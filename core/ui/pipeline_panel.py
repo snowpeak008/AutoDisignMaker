@@ -76,7 +76,28 @@ class PipelinePanel(tk.Frame):
         self.refresh()
 
     def _build(self):
-        paned = ttk.PanedWindow(self, orient=tk.HORIZONTAL)
+        # 垂直分割：上=步骤树+详情，下=日志
+        outer = tk.PanedWindow(self, orient=tk.VERTICAL, sashrelief=tk.FLAT,
+                               sashwidth=4, bg=COLORS["border"])
+        outer.pack(fill=tk.BOTH, expand=True)
+
+        top_frame = tk.Frame(outer, bg=COLORS["bg"])
+        outer.add(top_frame, stretch="always")
+
+        log_frame = tk.Frame(outer, bg=COLORS["surface"])
+        outer.add(log_frame, minsize=80, stretch="never")
+        tk.Label(log_frame, text="运行日志", bg=COLORS["surface"],
+                 fg=COLORS["muted"], font=FONT_SMALL, pady=4, padx=8).pack(anchor=tk.W)
+        self._log_text = tk.Text(log_frame, bg=COLORS["dark"], fg="#D0E8C0",
+                                 font=("Consolas", 9), wrap=tk.WORD, state=tk.DISABLED)
+        log_sb = ttk.Scrollbar(log_frame, command=self._log_text.yview)
+        self._log_text.configure(yscrollcommand=log_sb.set)
+        log_sb.pack(side=tk.RIGHT, fill=tk.Y)
+        self._log_text.pack(fill=tk.BOTH, expand=True, padx=4, pady=(0, 4))
+        self._poll_log_queue()
+
+        # 水平分割：左=步骤树，右=详情
+        paned = ttk.PanedWindow(top_frame, orient=tk.HORIZONTAL)
         paned.pack(fill=tk.BOTH, expand=True)
 
         # ── Left sidebar ─────────────────────────────────────
@@ -211,6 +232,20 @@ class PipelinePanel(tk.Frame):
 
     def _stop(self):
         request_stop(PROJECT_ROOT)
+
+    def _append_log(self, text: str):
+        self._log_text.configure(state=tk.NORMAL)
+        self._log_text.insert(tk.END, text)
+        self._log_text.see(tk.END)
+        self._log_text.configure(state=tk.DISABLED)
+
+    def _poll_log_queue(self):
+        try:
+            while True:
+                self._append_log(self._log_queue.get_nowait())
+        except queue.Empty:
+            pass
+        self.after(100, self._poll_log_queue)
 
     def _open_artifacts(self, step_num: int):
         path = ARTIFACTS_DIR / f"stage_{step_num:02d}"
