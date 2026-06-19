@@ -158,7 +158,7 @@ class CommercialDesignApp(tk.Frame):
         ttk.Button(tools, text="清空", command=self.clear_search).pack(side=tk.LEFT, padx=(0, 8))
         tk.Label(tools, text="筛选", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT, padx=(0, 4))
         filter_box = ttk.Combobox(
-            top,
+            tools,
             textvariable=self.node_filter,
             values=["全部", "已决策", "未完成", "有风险", "不适用", "L4 未完整"],
             state="readonly",

@@ -24,6 +24,25 @@ _GROUPS = [
     ("验证阶段", range(12, 16)),
 ]
 
+_CN_TITLES: dict[int, str] = {
+    0:  "初始想法输入",
+    1:  "玩法框架确认",
+    2:  "设计评审冻结",
+    3:  "程序需求确认",
+    4:  "美术需求确认",
+    5:  "程序需求评审",
+    6:  "美术需求评审",
+    7:  "程序开发计划",
+    8:  "美术制作计划",
+    9:  "资产契约对齐",
+    10: "程序开发执行",
+    11: "美术制作执行",
+    12: "集成验证",
+    13: "构建打包",
+    14: "差量补丁",
+    15: "最终审计",
+}
+
 _PIPELINE_STATUS_MAP = {
     "success":     "success",
     "failed":      "failed",
@@ -80,8 +99,7 @@ class PipelinePanel(tk.Frame):
             tk.Label(inner, text=group_name, bg=COLORS["surface"], fg=COLORS["muted"],
                      font=FONT_SMALL, pady=4).pack(fill=tk.X, padx=6)
             for step_num in step_range:
-                spec = STEP_SPECS.get(step_num)
-                title = spec.title if spec else f"步骤 {step_num:02d}"
+                title = _CN_TITLES.get(step_num, f"步骤 {step_num:02d}")
                 card = StepCard(inner, step_num, title, self._select_step)
                 card.pack(fill=tk.X, padx=4, pady=1)
                 self._cards[step_num] = card
@@ -117,8 +135,7 @@ class PipelinePanel(tk.Frame):
         for w in self._detail.winfo_children():
             w.destroy()
 
-        spec = STEP_SPECS.get(step_num)
-        title = spec.title if spec else f"步骤 {step_num:02d}"
+        title = _CN_TITLES.get(step_num, f"步骤 {step_num:02d}")
         state = load_pipeline_state(PROJECT_ROOT)
         step_info = state.get("steps", {}).get(str(step_num), {})
         status = step_info.get("status", "pending") if isinstance(step_info, dict) else "pending"
