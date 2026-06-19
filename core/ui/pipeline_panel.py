@@ -76,28 +76,8 @@ class PipelinePanel(tk.Frame):
         self.refresh()
 
     def _build(self):
-        # 垂直分割：上=步骤树+详情，下=日志
-        outer = tk.PanedWindow(self, orient=tk.VERTICAL, sashrelief=tk.FLAT,
-                               sashwidth=4, bg=COLORS["border"])
-        outer.pack(fill=tk.BOTH, expand=True)
-
-        top_frame = tk.Frame(outer, bg=COLORS["bg"])
-        outer.add(top_frame, stretch="always")
-
-        log_frame = tk.Frame(outer, bg=COLORS["surface"])
-        outer.add(log_frame, minsize=80, stretch="never")
-        tk.Label(log_frame, text="运行日志", bg=COLORS["surface"],
-                 fg=COLORS["muted"], font=FONT_SMALL, pady=4, padx=8).pack(anchor=tk.W)
-        self._log_text = tk.Text(log_frame, bg=COLORS["dark"], fg="#D0E8C0",
-                                 font=("Consolas", 9), wrap=tk.WORD, state=tk.DISABLED)
-        log_sb = ttk.Scrollbar(log_frame, command=self._log_text.yview)
-        self._log_text.configure(yscrollcommand=log_sb.set)
-        log_sb.pack(side=tk.RIGHT, fill=tk.Y)
-        self._log_text.pack(fill=tk.BOTH, expand=True, padx=4, pady=(0, 4))
-        self._poll_log_queue()
-
-        # 水平分割：左=步骤树，右=详情
-        paned = ttk.PanedWindow(top_frame, orient=tk.HORIZONTAL)
+        # 水平分割：左=步骤树，右=详情+日志
+        paned = ttk.PanedWindow(self, orient=tk.HORIZONTAL)
         paned.pack(fill=tk.BOTH, expand=True)
 
         # ── Left sidebar ─────────────────────────────────────
@@ -127,14 +107,32 @@ class PipelinePanel(tk.Frame):
 
         btn_frame = tk.Frame(left, bg=COLORS["surface"], pady=6)
         btn_frame.pack(fill=tk.X, side=tk.BOTTOM, padx=6)
-        ttk.Button(btn_frame, text="▶ 运行全部",  command=self._run_all).pack(fill=tk.X, pady=2)
-        ttk.Button(btn_frame, text="⏹ 停止",      command=self._stop).pack(fill=tk.X, pady=2)
+        ttk.Button(btn_frame, text="⏹ 停止", command=self._stop).pack(fill=tk.X, pady=2)
 
-        # ── Right detail ─────────────────────────────────────
-        self._detail = tk.Frame(paned, bg=COLORS["bg"])
-        paned.add(self._detail, weight=4)
+        # ── Right panel (vertical: detail top + log bottom) ───
+        right = tk.Frame(paned, bg=COLORS["bg"])
+        paned.add(right, weight=4)
+
+        right_paned = tk.PanedWindow(right, orient=tk.VERTICAL, sashrelief=tk.FLAT,
+                                     sashwidth=4, bg=COLORS["border"])
+        right_paned.pack(fill=tk.BOTH, expand=True)
+
+        self._detail = tk.Frame(right_paned, bg=COLORS["bg"])
+        right_paned.add(self._detail, stretch="always", minsize=120)
         tk.Label(self._detail, text="点击左侧步骤查看详情",
                  bg=COLORS["bg"], fg=COLORS["muted"], font=FONT_BODY).pack(expand=True)
+
+        log_frame = tk.Frame(right_paned, bg=COLORS["surface"])
+        right_paned.add(log_frame, stretch="always", minsize=80)
+        tk.Label(log_frame, text="运行日志", bg=COLORS["surface"],
+                 fg=COLORS["muted"], font=FONT_SMALL, pady=4, padx=8).pack(anchor=tk.W)
+        self._log_text = tk.Text(log_frame, bg=COLORS["dark"], fg="#D0E8C0",
+                                 font=("Consolas", 9), wrap=tk.WORD, state=tk.DISABLED)
+        log_sb = ttk.Scrollbar(log_frame, command=self._log_text.yview)
+        self._log_text.configure(yscrollcommand=log_sb.set)
+        log_sb.pack(side=tk.RIGHT, fill=tk.Y)
+        self._log_text.pack(fill=tk.BOTH, expand=True, padx=4, pady=(0, 4))
+        self._poll_log_queue()
 
     def refresh(self):
         state = load_pipeline_state(PROJECT_ROOT)
@@ -178,25 +176,6 @@ class PipelinePanel(tk.Frame):
         btn_row.pack(anchor=tk.W)
         ttk.Button(btn_row, text="▶ 运行此步骤",
                    command=lambda: self._run_single(step_num)).pack(side=tk.LEFT)
-        ttk.Button(btn_row, text="📁 查看制品",
-                   command=lambda: self._open_artifacts(step_num)).pack(side=tk.LEFT, padx=(8, 0))
-        from core.ui.unity_config_dialog import UnityConfigDialog
-        ttk.Button(btn_row, text="⚙ Unity配置",
-                   command=lambda: UnityConfigDialog(self)).pack(side=tk.LEFT, padx=(8, 0))
-
-        artifact_dir = ARTIFACTS_DIR / f"stage_{step_num:02d}"
-        if artifact_dir.exists():
-            files_frame = tk.Frame(self._detail, bg=COLORS["surface_alt"], padx=12, pady=8)
-            files_frame.pack(fill=tk.X, padx=12)
-            tk.Label(files_frame, text="制品文件",
-                     bg=COLORS["surface_alt"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W)
-            for f in sorted(artifact_dir.iterdir()):
-                if f.is_file():
-                    lbl = tk.Label(files_frame, text=f"  📄 {f.name}",
-                                   bg=COLORS["surface_alt"], fg=COLORS["text"],
-                                   font=FONT_SMALL, cursor="hand2", anchor=tk.W)
-                    lbl.pack(fill=tk.X)
-                    lbl.bind("<Button-1>", lambda e, p=f: os.startfile(str(p)))
 
     def _run_single(self, step_num: int):
         if step_num >= 3:
