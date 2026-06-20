@@ -105,9 +105,8 @@ class PipelinePanel(tk.Frame):
                 card.pack(fill=tk.X, padx=4, pady=1)
                 self._cards[step_num] = card
 
-        btn_frame = tk.Frame(left, bg=COLORS["surface"], pady=6)
-        btn_frame.pack(fill=tk.X, side=tk.BOTTOM, padx=6)
-        ttk.Button(btn_frame, text="⏹ 停止", command=self._stop).pack(fill=tk.X)
+        # left sidebar bottom padding only
+        tk.Frame(left, bg=COLORS["surface"], height=4).pack(side=tk.BOTTOM)
 
         # ── Right panel (vertical: detail top + log bottom) ───
         right = tk.Frame(paned, bg=COLORS["bg"])
@@ -126,6 +125,7 @@ class PipelinePanel(tk.Frame):
         tk.Label(config_bar, text="到", bg=COLORS["surface_alt"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
         tk.Spinbox(config_bar, from_=0, to=15, textvariable=self._to_var, width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
         ttk.Button(config_bar, text="▶ 运行", command=self._run_range).pack(side=tk.LEFT, padx=(6, 0))
+        ttk.Button(config_bar, text="⏹ 停止", command=self._stop).pack(side=tk.LEFT, padx=(4, 0))
 
         right_paned = tk.PanedWindow(right, orient=tk.VERTICAL, sashrelief=tk.FLAT,
                                      sashwidth=4, bg=COLORS["border"])
