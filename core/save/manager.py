@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 
-ACTIVE_DIRS = ("sandbox/source_artifacts", "sandbox/outputs")
+ACTIVE_DIRS = ("sandbox/source_artifacts", "sandbox/outputs", "sandbox/workspace")
 EMPTY_DIRS = (
     "sandbox/source_artifacts",
     "sandbox/source_artifacts/operator_drafts",
@@ -28,6 +28,9 @@ EMPTY_DIRS = (
     "sandbox/outputs/checkpoints",
     "sandbox/outputs/artifact_layer",
     "sandbox/outputs/runtime_control",
+    "sandbox/outputs/execution_objects",
+    "sandbox/workspace",
+    "sandbox/workspace/projects",
 )
 ACTIVE_FILES = ("gate_log.yaml",)
 INDEX_NAME = "save_index.json"

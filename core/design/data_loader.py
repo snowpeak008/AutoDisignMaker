@@ -27,14 +27,14 @@ def source_project_root():
 
 def runtime_project_root():
     if getattr(sys, "frozen", False):
-        return Path(sys.executable).resolve().parent
+        return Path(sys.executable).resolve().parent / "sandbox" / "workspace"
     try:
-        from core.paths import PROJECT_ROOT
+        from core.paths import WORKSPACE_DIR
 
-        return PROJECT_ROOT
+        return WORKSPACE_DIR
     except ImportError:
         pass
-    return source_project_root()
+    return source_project_root() / "sandbox" / "workspace"
 
 
 def bundled_data_dir():

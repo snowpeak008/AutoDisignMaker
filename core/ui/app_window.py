@@ -1655,8 +1655,8 @@ class CommercialDesignApp(tk.Frame):
     def choose_export_options(self):
         window = tk.Toplevel(self)
         window.title("选择导出内容")
-        window.geometry("560x540")
-        window.resizable(False, False)
+        window.geometry("560x650")
+        window.resizable(True, True)
         window.configure(bg=COLORS["surface"])
         window.transient(self)
         window.grab_set()
@@ -1738,7 +1738,7 @@ class CommercialDesignApp(tk.Frame):
         preview_frame.pack(fill=tk.BOTH, expand=True, padx=16, pady=(10, 0))
         preview_text = tk.Text(
             preview_frame,
-            height=7,
+            height=5,
             bg=COLORS["surface_alt"],
             fg=COLORS["text"],
             bd=0,
@@ -1777,7 +1777,42 @@ class CommercialDesignApp(tk.Frame):
             self.export_format.set(fmt)
             window.destroy()
 
-        ttk.Button(buttons, text="继续", command=confirm).pack(side=tk.LEFT, padx=(0, 8))
+        def export_now():
+            """立即导出：弹出文件夹选择对话框并直接导出"""
+            # 默认路径：用户文档目录（外部，不参与流水线）
+            default_dir = Path.home() / "Documents"
+            directory = filedialog.askdirectory(
+                title="选择导出目录",
+                initialdir=str(default_dir),
+                parent=window
+            )
+            if not directory:
+                return
+
+            # 获取导出参数
+            fmt = format_var.get()
+            scope = "archive" if fmt == "json" else scope_var.get()
+
+            # 关闭对话框
+            window.destroy()
+
+            # 执行导出
+            try:
+                path = write_export(
+                    self.engine,
+                    self.project_state,
+                    directory,
+                    fmt,
+                    scope,
+                    include_gameplay_global_view=include_gameplay_global_var.get(),
+                )
+                self.status_text.set(f"已导出：{path}")
+                messagebox.showinfo("导出完成", f"已导出到：\n{path}")
+            except OSError as error:
+                messagebox.showerror("导出失败", f"无法写入导出文件：\n{error}")
+
+        ttk.Button(buttons, text="立即导出", command=export_now).pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(buttons, text="继续", command=confirm).pack(side=tk.RIGHT, padx=(0, 8))
         ttk.Button(buttons, text="取消", command=window.destroy).pack(side=tk.RIGHT)
         render_preview()
         window.wait_window()
@@ -1789,7 +1824,8 @@ class CommercialDesignApp(tk.Frame):
         if not options:
             return
         export_format, export_scope, include_gameplay_global_view = options
-        default_dir = self.runtime_subdir("exports")
+        # 默认路径：用户文档目录（外部导出）
+        default_dir = Path.home() / "Documents"
         directory = filedialog.askdirectory(title="选择导出目录", initialdir=str(default_dir))
         if not directory:
             return
@@ -1811,42 +1847,134 @@ class CommercialDesignApp(tk.Frame):
         messagebox.showinfo("导出完成", f"已导出到：\n{path}")
 
     def save_project(self):
+        """保存设计项目到执行对象存储（直接持久化）"""
+        from core.engines.execution_objects.design_project import save_design_project
+        from core.engines.execution_objects.integration import load_execution_object_store
+
         self.save_visible_notes()
-        default_dir = self.runtime_subdir("projects")
-        path = filedialog.asksaveasfilename(
-            title="保存项目",
-            defaultextension=".json",
-            filetypes=[("JSON", "*.json")],
-            initialdir=str(default_dir),
-            initialfile=f"{safe_file_name(self.project_name.get())}.json",
-        )
-        if not path:
-            return
-        if not self.ensure_project_local_path(path, "项目文件"):
-            return
+
         try:
-            Path(path).write_text(json.dumps(self.project_state, ensure_ascii=False, indent=2), encoding="utf-8")
-        except OSError as error:
-            messagebox.showerror("保存失败", f"无法写入项目文件：\n{error}")
-            return
-        self.status_text.set(f"已保存：{path}")
+            # 加载执行对象存储
+            store = load_execution_object_store(self.project_root)
+
+            # 保存到执行对象存储（直接写入 saves/{save_id}/workspace/）
+            execution_obj = save_design_project(
+                store,
+                self.project_state,
+                title=f"设计项目: {self.project_name.get()}",
+                save_type="manual"
+            )
+
+            # 显示成功消息
+            self.status_text.set(f"已保存: {execution_obj['execution_object_id']}")
+            messagebox.showinfo(
+                "保存成功",
+                f"设计项目已保存\n\n"
+                f"版本ID: {execution_obj['execution_object_id']}\n"
+                f"项目名称: {self.project_name.get()}\n"
+                f"状态: {execution_obj['state']}\n\n"
+                f"✅ 已立即持久化到存档系统"
+            )
+
+        except Exception as error:
+            messagebox.showerror("保存失败", f"无法保存设计项目：\n{error}")
+            import traceback
+            traceback.print_exc()
 
     def open_project(self):
+        """从执行对象存储加载设计项目"""
+        from core.engines.execution_objects.design_project import (
+            load_latest_design_project,
+            list_design_project_versions,
+        )
+        from core.engines.execution_objects.integration import load_execution_object_store
+
+        try:
+            # 加载执行对象存储
+            store = load_execution_object_store(self.project_root)
+
+            # 获取所有版本
+            versions = list_design_project_versions(store, include_drafts=False)
+
+            if not versions:
+                response = messagebox.askyesno(
+                    "无项目",
+                    "当前存档中没有设计项目。\n\n是否从文件导入？"
+                )
+                if response:
+                    self._open_project_from_file()
+                return
+
+            # 加载最新版本
+            project_data = load_latest_design_project(store)
+            if not project_data:
+                messagebox.showerror("加载失败", "无法加载设计项目")
+                return
+
+            # 恢复项目状态
+            self.project_state = self.engine.normalize_state(project_data)
+            self.project_name.set(self.project_state.get("projectName", "未命名游戏设计项目"))
+
+            # 重置UI状态
+            for key, value in self.project_state.get("profile", {}).items():
+                self.profile_vars.setdefault(key, tk.StringVar()).set(option_label(key, value))
+            self.current_domain_id = self.engine.first_domain_id()
+            self.clear_expanded_nodes()
+
+            self.status_text.set(f"已打开: {versions[0]['execution_object_id']}")
+            self.render()
+
+            messagebox.showinfo(
+                "加载成功",
+                f"已加载设计项目\n\n"
+                f"项目名称: {self.project_name.get()}\n"
+                f"版本ID: {versions[0]['execution_object_id']}"
+            )
+
+        except Exception as error:
+            messagebox.showerror("加载失败", f"无法加载设计项目：\n{error}")
+            import traceback
+            traceback.print_exc()
+
+    def _open_project_from_file(self):
+        """从文件加载项目（兜底方案）"""
         default_dir = self.runtime_subdir("projects")
-        path = filedialog.askopenfilename(title="打开项目", filetypes=[("JSON", "*.json")], initialdir=str(default_dir))
+        path = filedialog.askopenfilename(
+            title="打开项目文件",
+            filetypes=[("JSON", "*.json")],
+            initialdir=str(default_dir)
+        )
+
         if not path:
             return
-        if not self.ensure_project_local_path(path, "项目文件"):
-            return
+
         try:
             payload = json.loads(Path(path).read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as error:
+            if isinstance(payload, dict) and "projectState" in payload:
+                payload = payload["projectState"]
+
+            self.project_state = self.engine.normalize_state(payload)
+            self.project_name.set(self.project_state.get("projectName", "未命名游戏设计项目"))
+
+            # 重置UI状态
+            for key, value in self.project_state.get("profile", {}).items():
+                self.profile_vars.setdefault(key, tk.StringVar()).set(option_label(key, value))
+            self.current_domain_id = self.engine.first_domain_id()
+            self.clear_expanded_nodes()
+
+            self.render()
+
+            # 提示用户迁移
+            response = messagebox.askyesno(
+                "迁移到执行对象存储",
+                "是否将此项目保存到执行对象存储？\n\n"
+                "这样可以享受版本历史、自动备份等功能。"
+            )
+            if response:
+                self.save_project()
+
+        except Exception as error:
             messagebox.showerror("打开失败", f"无法读取项目文件：\n{error}")
-            return
-        if isinstance(payload, dict) and "projectState" in payload:
-            payload = payload["projectState"]
-        self.project_state = self.engine.normalize_state(payload)
-        self.project_name.set(self.project_state.get("projectName", "未命名游戏设计项目"))
         for key, value in self.project_state.get("profile", {}).items():
             self.profile_vars.setdefault(key, tk.StringVar()).set(option_label(key, value))
         self.current_domain_id = self.engine.first_domain_id()
