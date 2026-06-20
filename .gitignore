@@ -123,6 +123,7 @@ credentials/
 settings/api_config.toml
 settings/local.toml
 settings/project_settings.json
+settings/window_geometry.json
 
 # Build output
 tools/build/dist/
@@ -134,3 +135,7 @@ saves/
 logs/runtime/
 logs/pipeline/
 logs/errors/
+
+# Runtime state
+ai_runtime/
+projects/*.json

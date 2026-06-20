@@ -79,9 +79,9 @@ def main() -> int:
     FRESHNESS_PATH.parent.mkdir(parents=True, exist_ok=True)
     FRESHNESS_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"✓ Updated freshness.json with {len(files_data)} files")
+    print(f"[OK] Updated freshness.json with {len(files_data)} files")
     if missing:
-        print(f"⚠ Missing files: {', '.join(missing)}")
+        print(f"[WARN] Missing files: {', '.join(missing)}")
 
     return 0
 

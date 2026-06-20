@@ -55,7 +55,7 @@ def main() -> int:
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
     if stale:
-        print(f"\n⚠ {len(stale)} files have changed since last cache", file=__import__("sys").stderr)
+        print(f"\n[WARN] {len(stale)} files have changed since last cache", file=__import__("sys").stderr)
         return 1
 
     return 0
