@@ -107,34 +107,25 @@ class PipelinePanel(tk.Frame):
 
         btn_frame = tk.Frame(left, bg=COLORS["surface"], pady=6)
         btn_frame.pack(fill=tk.X, side=tk.BOTTOM, padx=6)
-
-        # R5: 运行范围选择
-        range_row = tk.Frame(btn_frame, bg=COLORS["surface"])
-        range_row.pack(fill=tk.X, pady=(0, 4))
-        tk.Label(range_row, text="从", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
-        self._from_var = tk.IntVar(value=0)
-        self._to_var = tk.IntVar(value=15)
-        tk.Spinbox(range_row, from_=0, to=15, textvariable=self._from_var,
-                   width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
-        tk.Label(range_row, text="到", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
-        tk.Spinbox(range_row, from_=0, to=15, textvariable=self._to_var,
-                   width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
-
-        run_row = tk.Frame(btn_frame, bg=COLORS["surface"])
-        run_row.pack(fill=tk.X)
-        ttk.Button(run_row, text="▶ 运行", command=self._run_range).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 4))
-        ttk.Button(run_row, text="⏹ 停止", command=self._stop).pack(side=tk.LEFT)
+        ttk.Button(btn_frame, text="⏹ 停止", command=self._stop).pack(fill=tk.X)
 
         # ── Right panel (vertical: detail top + log bottom) ───
         right = tk.Frame(paned, bg=COLORS["bg"])
         paned.add(right, weight=4)
 
-        # R4: 项目配置区（固定在右侧顶部）
+        # R4+R5: 项目配置区 + 运行范围（固定在右侧顶部）
         config_bar = tk.Frame(right, bg=COLORS["surface_alt"], padx=12, pady=6)
         config_bar.pack(fill=tk.X, side=tk.TOP)
         from core.ui.unity_config_dialog import UnityConfigDialog
         ttk.Button(config_bar, text="项目配置",
                    command=lambda: UnityConfigDialog(self)).pack(side=tk.LEFT)
+        self._from_var = tk.IntVar(value=0)
+        self._to_var = tk.IntVar(value=15)
+        tk.Label(config_bar, text="  从步骤", bg=COLORS["surface_alt"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
+        tk.Spinbox(config_bar, from_=0, to=15, textvariable=self._from_var, width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
+        tk.Label(config_bar, text="到", bg=COLORS["surface_alt"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
+        tk.Spinbox(config_bar, from_=0, to=15, textvariable=self._to_var, width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
+        ttk.Button(config_bar, text="▶ 运行", command=self._run_range).pack(side=tk.LEFT, padx=(6, 0))
 
         right_paned = tk.PanedWindow(right, orient=tk.VERTICAL, sashrelief=tk.FLAT,
                                      sashwidth=4, bg=COLORS["border"])
