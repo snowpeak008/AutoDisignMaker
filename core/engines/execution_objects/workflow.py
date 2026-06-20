@@ -743,6 +743,29 @@ class ExecutionObjectStore:
         self.save()
         return deep_copy(obj)
 
+    def force_cancel(self, execution_object_id: str, *, reason: str) -> dict[str, Any]:
+        """Cancel an execution object in any non-terminal state.
+
+        Used when a new version supersedes all previous objects regardless of their
+        current workflow state (e.g., design_project saves always supersede old ones).
+        Terminal states (verified, cancelled, superseded, rejected) are left unchanged.
+        """
+        terminal_states = {"verified", "cancelled", "superseded", "rejected"}
+        obj = self.get(execution_object_id)
+        if obj.get("state") in terminal_states:
+            return deep_copy(obj)
+        obj.setdefault("cancellation_records", []).append({
+            "at": now_iso(),
+            "reason": reason,
+            "forced": True,
+            "prior_state": obj.get("state"),
+            "preserved_submission_snapshot": bool(obj.get("submission_snapshot")),
+            "preserved_impact_analysis": bool(obj.get("impact_analysis")),
+        })
+        self._append_history(obj, "cancelled", f"force-cancelled: {reason}", {"forced": True})
+        self.save()
+        return deep_copy(obj)
+
     def start_execution(self, execution_object_id: str) -> dict[str, Any]:
         obj = self.get(execution_object_id)
         _require_state(obj, {"approved"}, "start_execution")

@@ -1846,40 +1846,11 @@ class CommercialDesignApp(tk.Frame):
         self.status_text.set(f"已导出：{path}")
         messagebox.showinfo("导出完成", f"已导出到：\n{path}")
 
-    def save_project(self):
-        """保存设计项目到执行对象存储（直接持久化）"""
-        from core.engines.execution_objects.design_project import save_design_project
-        from core.engines.execution_objects.integration import load_execution_object_store
-
+    def save_project(self) -> None:
+        """打开存档管理界面。"""
+        from core.ui.save_manager_dialog import SaveManagerDialog
         self.save_visible_notes()
-
-        try:
-            # 加载执行对象存储
-            store = load_execution_object_store(self.project_root)
-
-            # 保存到执行对象存储（直接写入 saves/{save_id}/workspace/）
-            execution_obj = save_design_project(
-                store,
-                self.project_state,
-                title=f"设计项目: {self.project_name.get()}",
-                save_type="manual"
-            )
-
-            # 显示成功消息
-            self.status_text.set(f"已保存: {execution_obj['execution_object_id']}")
-            messagebox.showinfo(
-                "保存成功",
-                f"设计项目已保存\n\n"
-                f"版本ID: {execution_obj['execution_object_id']}\n"
-                f"项目名称: {self.project_name.get()}\n"
-                f"状态: {execution_obj['state']}\n\n"
-                f"✅ 已立即持久化到存档系统"
-            )
-
-        except Exception as error:
-            messagebox.showerror("保存失败", f"无法保存设计项目：\n{error}")
-            import traceback
-            traceback.print_exc()
+        SaveManagerDialog(self)
 
     def open_project(self):
         """从执行对象存储加载设计项目"""
@@ -1891,7 +1862,7 @@ class CommercialDesignApp(tk.Frame):
 
         try:
             # 加载执行对象存储
-            store = load_execution_object_store(self.project_root)
+            store = load_execution_object_store(self.runtime_root)
 
             # 获取所有版本
             versions = list_design_project_versions(store, include_drafts=False)

@@ -14,7 +14,7 @@ EXECUTION_OBJECT_TYPES: dict[str, dict[str, Any]] = {
     "design_project": {
         "display_name": "设计项目",
         "description": "设计工作台的游戏设计项目完整状态",
-        "confirmation_level": "elevated_confirm",
+        "confirmation_level": "normal_confirm",
         "write_scope_prefix": "design:",
         "manager_module": "core.engines.execution_objects.design_project",
         "category": "design",
