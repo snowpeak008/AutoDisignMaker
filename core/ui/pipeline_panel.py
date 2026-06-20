@@ -141,7 +141,7 @@ class PipelinePanel(tk.Frame):
         right_paned.pack(fill=tk.BOTH, expand=True)
 
         self._detail = tk.Frame(right_paned, bg=COLORS["bg"])
-        right_paned.add(self._detail, stretch="always", minsize=120)
+        right_paned.add(self._detail, stretch="never")
         tk.Label(self._detail, text="点击左侧步骤查看详情",
                  bg=COLORS["bg"], fg=COLORS["muted"], font=FONT_BODY).pack(expand=True)
 

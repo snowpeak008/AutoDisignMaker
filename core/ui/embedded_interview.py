@@ -119,17 +119,6 @@ class EmbeddedInterviewPanel(tk.Frame):
         sb.pack(side=tk.RIGHT, fill=tk.Y)
         self.chat_text.pack(fill=tk.BOTH, expand=True)
 
-        btn_row = tk.Frame(input_frame, bg=COLORS["surface"])
-        btn_row.pack(fill=tk.X)
-        self.send_button = ttk.Button(btn_row, text="发送回答", command=self.send_user_message)
-        self.send_button.pack(side=tk.LEFT, padx=(0, 6))
-        self.output_button = ttk.Button(btn_row, text="生成输出", command=self.force_output)
-        self.output_button.pack(side=tk.LEFT, padx=(0, 6))
-        self.correction_button = ttk.Button(btn_row, text="标记不准", command=self.mark_last_ai_inaccurate)
-        self.correction_button.pack(side=tk.LEFT, padx=(0, 6))
-        self.archive_button = ttk.Button(btn_row, text="保存访谈存档", command=self.save_interview_archive_dialog)
-        self.archive_button.pack(side=tk.LEFT)
-
     # ── 后端 ──────────────────────────────────────────────────────────────
 
     def _make_backend(self, timeout_seconds=None):
