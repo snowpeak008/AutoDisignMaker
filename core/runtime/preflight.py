@@ -65,9 +65,14 @@ def load_project_settings(root: Path) -> dict[str, Any]:
     engine = str(raw.get("project_engine") or "unity").strip().lower()
     if engine not in SUPPORTED_ENGINES:
         engine = "unity"
+    adapter = str(raw.get("pipeline_adapter") or "codex").strip().lower()
+    from core.adapters.registry import SUPPORTED_ADAPTERS
+    if adapter not in SUPPORTED_ADAPTERS:
+        adapter = "codex"
     return {
         "schema_version": 1,
         "project_engine": engine,
+        "pipeline_adapter": adapter,
         "custom_engine_name": str(raw.get("custom_engine_name") or "").strip(),
         "development_path": str(raw.get("development_path") or "").strip(),
         "editor_path": str(raw.get("editor_path") or "").strip(),

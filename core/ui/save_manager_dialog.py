@@ -93,13 +93,14 @@ class SaveManagerDialog(tk.Toplevel):
         """构建底部操作按钮行。"""
         button_row = ttk.Frame(parent)
         button_row.grid(row=1, column=0, columnspan=2, sticky="ew", pady=(10, 0))
-        for col in range(7):
+        for col in range(8):
             button_row.columnconfigure(col, weight=1)
 
         button_specs = [
             ("新建存档", self.on_new_save),
             ("保存到选中存档", self.on_save_to_selected),
             ("加载选中存档", self.on_load_selected),
+            ("重命名", self.on_rename_selected),
             ("删除选中存档", self.on_delete_selected),
             ("打开存档目录", self.on_open_save_dir),
             ("刷新", self.refresh),
@@ -186,10 +187,10 @@ class SaveManagerDialog(tk.Toplevel):
     # 子对话框
     # ──────────────────────────────────────────────────────────
 
-    def ask_save_name(self) -> str | None:
+    def ask_save_name(self, default: str | None = None) -> str | None:
         """弹出命名对话框，返回用户输入的存档名，取消时返回 None。"""
         dialog = tk.Toplevel(self)
-        dialog.title("新建存档")
+        dialog.title("存档命名")
         dialog.geometry("420x130")
         dialog.configure(bg=COLORS["surface"])
         dialog.transient(self)
@@ -204,7 +205,7 @@ class SaveManagerDialog(tk.Toplevel):
             font=FONT_SMALL,
         ).grid(row=0, column=0, padx=12, pady=(12, 4), sticky="w")
 
-        name_var = tk.StringVar(value=save_manager.default_display_name())
+        name_var = tk.StringVar(value=default or save_manager.default_display_name())
         entry = ttk.Entry(dialog, textvariable=name_var)
         entry.grid(row=1, column=0, padx=12, sticky="ew")
 
@@ -222,6 +223,7 @@ class SaveManagerDialog(tk.Toplevel):
         ttk.Button(actions, text="确认", command=confirm).pack(side=tk.LEFT, padx=4)
         ttk.Button(actions, text="取消", command=cancel).pack(side=tk.LEFT, padx=4)
         entry.focus_set()
+        entry.selection_range(0, tk.END)
         self.wait_window(dialog)
         return result["value"]
 
@@ -230,14 +232,26 @@ class SaveManagerDialog(tk.Toplevel):
     # ──────────────────────────────────────────────────────────
 
     def on_new_save(self) -> None:
-        """新建空白存档槽。"""
-        name = self.ask_save_name()
+        """新建存档并将当前设计状态保存进去，默认以项目名称作为存档名。"""
+        project_name = self.app.project_name.get().strip() or None
+        name = self.ask_save_name(default=project_name)
         if not name:
             return
         try:
+            from core.engines.execution_objects.design_project import save_design_project
+            from core.engines.execution_objects.integration import load_execution_object_store
+
             save_manager.create_save(self.runtime_root, name, event="user_new_save")
+            store = load_execution_object_store(self.runtime_root)
+            execution_obj = save_design_project(
+                store,
+                self.app.project_state,
+                title=f"设计项目: {self.app.project_name.get()}",
+                save_type="manual",
+            )
+            self.app.status_text.set(f"已保存: {execution_obj['execution_object_id']}")
+            self.status_var.set(f"✅ 已新建存档并保存：{name}")
             self.refresh()
-            self.status_var.set(f"已新建空白存档：{name}")
         except Exception as exc:
             traceback.print_exc()
             messagebox.showerror("新建失败", str(exc), parent=self)
@@ -313,6 +327,32 @@ class SaveManagerDialog(tk.Toplevel):
         except Exception as exc:
             traceback.print_exc()
             messagebox.showerror("加载失败", str(exc), parent=self)
+
+    def on_rename_selected(self) -> None:
+        """重命名选中存档。"""
+        import json
+        save_id = self.selected_save_id()
+        if not save_id:
+            messagebox.showinfo("未选择存档", "请先选择一个存档。", parent=self)
+            return
+        current_manifest = save_manager.get_save(self.runtime_root, save_id)
+        if not current_manifest:
+            messagebox.showerror("错误", "无法读取存档信息。", parent=self)
+            return
+        new_name = self.ask_save_name(default=current_manifest.get("display_name", ""))
+        if not new_name:
+            return
+        try:
+            manifest_path = save_manager.save_dir(self.runtime_root, save_id) / "save_manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["display_name"] = new_name
+            manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+            save_manager._replace_entry(self.runtime_root, manifest)
+            self.refresh()
+            self.status_var.set(f"已重命名为：{new_name}")
+        except Exception as exc:
+            traceback.print_exc()
+            messagebox.showerror("重命名失败", str(exc), parent=self)
 
     def on_delete_selected(self) -> None:
         """永久删除选中存档。"""

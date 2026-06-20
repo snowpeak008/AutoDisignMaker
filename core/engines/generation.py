@@ -39,6 +39,7 @@ from core.utils.process_utils import child_process_env, hidden_subprocess_kwargs
 from core.runtime.control import PipelineStopRequested
 from core.adapters.codex.executor import run_codex_exec
 from core.adapters.codex.task_builder import build_file_generation_task
+from core.skill_loader import write_skill_guidance
 
 
 ALLOWED_DESIGN_SOURCE_SUFFIXES = {".md", ".txt"}
@@ -1458,6 +1459,7 @@ def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "asset_registry.json", asset_registry)
     write_json(out_dir / "art_structure_spec.json", art_structure_spec)
     write_json(out_dir / "art_requirements_contract.json", contract)
+    write_skill_guidance(out_dir, "frontend-design")
     return {
         "content_exists": bool(assets),
         "asset_count": len(assets),
@@ -1829,6 +1831,7 @@ def _stage8_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "art_task_breakdown.json", {"schema_version": 1, "generated_at": now_iso(), "tasks": tasks})
     write_text(out_dir / "art_structure_spec.md", "# Art Structure Spec\n\n- Art tasks map to asset_registry entries.\n- Every produced asset must preserve its source trace.\n")
     write_json(out_dir / "validation_report_art_plan.json", {"valid": bool(tasks), "task_count": len(tasks)})
+    write_skill_guidance(out_dir, "frontend-design")
     return {
         "content_exists": bool(tasks),
         "art_task_count": len(tasks),
@@ -2651,6 +2654,7 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "dependency_blocker_count": len(dependency_blockers),
         "parallel_conflict_count": len(conflict_items),
     })
+    write_skill_guidance(out_dir, "imagegen")
     return {
         "content_exists": bool(links) or bool(program_tasks),
         "alignment_count": len(links),
@@ -2931,7 +2935,10 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     )
                     model_task.timeout_seconds = 720
                     try:
-                        codex_result = run_codex_exec(model_task, cwd=project_path)
+                        from core.adapters.registry import get_adapter
+                        from core.runtime.preflight import load_project_settings
+                        _adapter_name = load_project_settings(BASE_DIR).get("pipeline_adapter", "codex")
+                        codex_result = get_adapter(_adapter_name).generate(model_task)
                         codex_errors.extend(codex_result.errors)
                     except Exception as exc:
                         codex_errors.append(str(exc))
@@ -3365,6 +3372,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "artproduction.json", result)
     write_text(out_dir / "artproduction.md", "# Art Production\n\n" + "\n".join(f"- {item['asset_id']}: {item['status']}" for item in produced) + "\n")
     write_json(out_dir / "produced_assets_manifest.json", result)
+    write_skill_guidance(out_dir, "imagegen")
     return {
         "content_exists": bool(produced),
         "produced_asset_count": len(produced),

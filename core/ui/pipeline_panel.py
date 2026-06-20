@@ -179,11 +179,14 @@ class PipelinePanel(tk.Frame):
         status = step_info.get("status", "pending") if isinstance(step_info, dict) else "pending"
 
         from core.runtime.preflight import ENGINE_LABELS, load_project_settings
+        from core.adapters.registry import SUPPORTED_ADAPTERS
         settings = load_project_settings(PROJECT_ROOT)
         engine_key = settings.get("project_engine", "unity")
         engine_label = ENGINE_LABELS.get(engine_key, engine_key)
         if engine_key == "custom" and settings.get("custom_engine_name"):
             engine_label = f"自定义（{settings['custom_engine_name']}）"
+        adapter_key = settings.get("pipeline_adapter", "codex")
+        adapter_label = SUPPORTED_ADAPTERS.get(adapter_key, adapter_key)
 
         card = tk.Frame(self._detail, bg=COLORS["surface"], padx=16, pady=12)
         card.pack(fill=tk.X, padx=12, pady=12)
@@ -193,6 +196,8 @@ class PipelinePanel(tk.Frame):
         tk.Label(card, text=f"状态：{status}",
                  bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_BODY).pack(anchor=tk.W, pady=(4, 2))
         tk.Label(card, text=f"当前引擎：{engine_label}",
+                 bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W, pady=(0, 2))
+        tk.Label(card, text=f"AI 适配器：{adapter_label}",
                  bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W, pady=(0, 8))
 
         btn_row = tk.Frame(card, bg=COLORS["surface"])
