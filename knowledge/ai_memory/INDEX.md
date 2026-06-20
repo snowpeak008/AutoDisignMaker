@@ -1,37 +1,47 @@
 # AI 会话记忆索引
 
-> 最后更新：2026-06-19（第二次更新）  
+> 最后更新：2026-06-20（第二次）  
 > 缓存状态：✓ 有效
 
 ---
 
 ## 上次会话摘要
 
-**日期**：2026-06-19  
-**ID**：2026-06-19-003  
-**摘要**：实现流水线 UI 全部7个模块（VSCode 风格开发流水线界面）
+**日期**：2026-06-20  
+**ID**：2026-06-20-002  
+**摘要**：项目结构整理 + ucos 迁移 + AI 访谈↔ucos 记忆联通
 
 **完成内容**：
-- ✅ `core/ui/unity_config_dialog.py` — Unity 路径配置对话框
-- ✅ `core/ui/pipeline_step_card.py` — 步骤状态卡片组件
-- ✅ `core/ui/pipeline_panel.py` — 流水线主面板（左侧步骤树 + 右侧详情）
-- ✅ `core/ui/bottom_panel.py` — 底部日志 + AI 对话面板
-- ✅ 修改 `core/ui/app_window.py` — CommercialDesignApp 改为 tk.Frame
-- ✅ `core/ui/main_window.py` — 主框架窗口（顶部标签 + PanedWindow 骨架）
-- ✅ 修改 `core/ui/gui_app.py` — 入口切换到 MainWindow
+- ✅ `ucos/` → `knowledge/ucos/`，`core/paths.py` 加 sys.path 免改导入
+- ✅ 新建 `core/design/ai_ucos_bridge.py`：AI 访谈每轮写入 ucos（对话/决策/路由/设计生成）
+- ✅ `artifact_layer/` → `pipeline/artifact_layer/`
+- ✅ 清理：删除 `_archive/`、根目录 `ai_runtime/`、`.claude/` 残留、`plan/`
 
-**关键发现（纠正计划中的错误引用）**：
-- `workbench.py` 是遗留 DevFlow 文件，引用了已删除的 `tools/actual_development_preflight.py`，不可用
-- 实际预检：`core.runtime.preflight.run_actual_development_preflight`
-- 实际停止：`core.runtime.control.request_stop`
-- 实际执行：`core.main.run_range(from_step, stop_step, auto_approve, skip_preflight)`
-- 步骤状态：`core.runtime.pipeline_state.load_pipeline_state`
-- 步骤元数据：`core.registry.STEP_SPECS`
-- 制品目录：`core.paths.ARTIFACTS_DIR / f"stage_{num:02d}"`
+**关键发现**：
+- ucos 之前完全孤立无入口调用，现已通过 `ai_ucos_bridge` 联通
+- `ai_runtime/` 根目录是旧版遗留，实际写入路径为 `sandbox/workspace/ai_runtime/`
 
 **下次优先任务**：
-- [ ] 启动 `python core/ui/gui_app.py` 验证 UI（见 plan/pipeline_ui_plan.md 验证方式）
-- [ ] 如有运行时错误，按错误修复
+- [ ] 验证 AI 访谈 → ucos 写入是否正常
+- [ ] 考虑将 ucos context_builder 读取结果注入 AI 访谈 prompt（闭环）
+
+**完成内容**：
+- ✅ 修复执行对象保存全链路（6个 Bug，包括 force_cancel 解决残留冲突）
+- ✅ 新增 `core/ui/save_manager_dialog.py`：独立存档管理对话框
+- ✅ 存档过滤：只显示含 design_project 的存档槽，屏蔽流水线存档
+- ✅ `core/ui/unity_config_dialog.py` 重构为 `ProjectConfigDialog`（多引擎）
+- ✅ `core/runtime/preflight.py` 按引擎分支检查
+- ✅ 清理垃圾存档，工作区置空
+
+**关键发现**：
+- `runtime_root` = `sandbox/workspace`，存档在 `sandbox/workspace/saves/`，与流水线共享
+- `save_20260609_*` 等是流水线存档，不含 design_project 数据，需过滤
+
+**Git commit**：`77be8bd`
+
+**下次优先任务**：
+- [ ] 验证保存/加载流程端到端正常
+- [ ] 验证引擎切换后 preflight 检查变化符合预期
 
 ---
 

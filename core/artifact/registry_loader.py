@@ -9,7 +9,7 @@ from typing import Any
 from core.paths import PROJECT_ROOT
 
 
-REGISTRY_PATH = PROJECT_ROOT / "artifact_layer" / "registry.json"
+REGISTRY_PATH = PROJECT_ROOT / "pipeline" / "artifact_layer" / "registry.json"
 
 KNOWN_REVIEWERS = {
     "structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer",

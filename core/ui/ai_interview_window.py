@@ -31,6 +31,7 @@ from core.design.ai_interview import (
     update_route_overview,
     write_turn_replay,
 )
+from core.design.ai_ucos_bridge import record_interview_turn
 from core.design.ai_mapping_agent import (
     build_mapping_prompt,
     project_state_hash,
@@ -1281,6 +1282,18 @@ class AIInterviewWindow(tk.Toplevel):
                 "rawEventCount": len(result.raw_events or []),
             },
         })
+        # Record this turn into the ucos memory system so cognitive context
+        # accumulates across sessions: conversation history, design decisions,
+        # AI routing context, and significant design generation events.
+        _memory = ensure_project_memory(self.project_state, self.runtime_root)
+        record_interview_turn(
+            runtime_root=self.runtime_root,
+            turn_id=turn_id,
+            user_text=user_text,
+            payload=payload,
+            project_memory_id=str(_memory.get("projectMemoryId", "") or ""),
+            evaluation_batch_id=str(_memory.get("evaluationBatchId", "") or ""),
+        )
         ai_state = ensure_ai_interview(self.project_state)
         ai_state["backendStage"] = "completed"
         ai_state["activeTurnId"] = ""

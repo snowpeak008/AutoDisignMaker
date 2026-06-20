@@ -9,6 +9,8 @@ from __future__ import annotations
 from pathlib import Path
 
 
+import sys
+
 ROOT_MARKER = ".project_root"
 
 
@@ -41,6 +43,10 @@ SKILLS_DIR      = KNOWLEDGE_DIR / "skills"
 DATA_DIR        = KNOWLEDGE_DIR / "design_data"     # 原 data/design/
 DESIGN_DATA_DIR = DATA_DIR
 
+# Make knowledge/ importable so `from ucos.xxx` resolves to knowledge/ucos/
+if str(KNOWLEDGE_DIR) not in sys.path:
+    sys.path.insert(0, str(KNOWLEDGE_DIR))
+
 # ── 设置 ──────────────────────────────────────────────────
 SETTINGS_DIR         = PROJECT_ROOT / "settings"
 APP_CONFIG_FILE      = SETTINGS_DIR / "app.toml"
@@ -70,7 +76,7 @@ WORKSPACE_EXPORTS_DIR  = WORKSPACE_DIR / "exports"
 LOGS_DIR             = PROJECT_ROOT / "logs"
 
 # ── 其他 ──────────────────────────────────────────────────
-UCOS_DIR             = PROJECT_ROOT / "ucos"
+UCOS_DIR             = KNOWLEDGE_DIR / "ucos"
 MEMORY_DIR           = PROJECT_ROOT / "memory"
 DOCS_DIR             = PROJECT_ROOT / "docs"
 SCRIPTS_DIR          = PROJECT_ROOT / "scripts"
