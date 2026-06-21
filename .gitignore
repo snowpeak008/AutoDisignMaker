@@ -131,6 +131,7 @@ tools/build/build/
 
 # Sandbox (runtime)
 sandbox/
+drafts/
 saves/
 logs/runtime/
 logs/pipeline/

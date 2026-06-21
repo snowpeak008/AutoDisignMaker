@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-06-20T10:26:29",
+  "generated_at": "2026-06-21T14:44:25",
   "files": {
     "core/main.py": {
       "sha256": "0f9e852fbb08601eb863204c027b39296b92284d37cce28398d1344c651076fc",
       "size": 6585
     },
     "core/engines/generation.py": {
-      "sha256": "8292f4ad7deb014dcb1b01d31f27379b60df29d2248f73e8eaca7fa013cba4e2",
-      "size": 158621
+      "sha256": "ef2bf7d8a4ec5412865144b51be6e5ec00eb1cf487937271c0d1c27772d28510",
+      "size": 161441
     },
     "core/registry.py": {
       "sha256": "3c98c3f06d32dbfc3dcafc886056128ae82619c1e10883536458313da75f0a0f",
       "size": 3635
     },
     "core/paths.py": {
-      "sha256": "9188a551f1db705c309c53cd7f929fb9f89bd462f750f75fbb41c0a2063d1d78",
-      "size": 5222
+      "sha256": "e3f6002e9506b19dcdae33964ca537688a141f280e16821385066e2943413396",
+      "size": 6626
     },
     "core/plugin_manager.py": {
       "sha256": "f5132285e146085fa40cd39087ee85052f1b326b6e3aea23dd58b120fc08be86",
@@ -42,8 +42,8 @@
       "size": 639
     },
     "core/adapters/registry.py": {
-      "sha256": "2a23b4712227a587727f6185bde9e86398c133f54bd6080839a32c2758e10831",
-      "size": 525
+      "sha256": "0a3e8c147adb778c29990d1e6a1a72b7350ff9ab3f13eb7d68c3c3c0ff48710b",
+      "size": 830
     },
     "core/adapters/openai_adapter.py": {
       "sha256": "9acadcfe852700d1836f5571ba2b91b14c4fdfb0bc6df25e9ad74f48310a2606",
@@ -54,12 +54,12 @@
       "size": 478
     },
     "core/artifact/graph.py": {
-      "sha256": "9e3d176e0a763feacbd4f247aeae59dc6c0208f2dad7cf92ce89ab84c96ccf66",
-      "size": 3768
+      "sha256": "dfe6e5e1b27f03eca300989db7157c931b303c755068ff97c5cc4017e0013b94",
+      "size": 3781
     },
     "core/artifact/preflight.py": {
-      "sha256": "2b35ed639ef9f5f6e81b0469b6e6c7f0f33d6235e3da03652394c5a760a4b12a",
-      "size": 5030
+      "sha256": "214d6135597d3f0f59349edbd19fd754986ca74c9b5b52a7a3381c8f6b221c90",
+      "size": 5018
     },
     "core/artifact/reviewer.py": {
       "sha256": "2514e02d452f1ee375dc4b0dc58c48c0b2da944b49b61a1757479664c899c093",
@@ -86,20 +86,20 @@
       "size": 1772
     },
     "core/runtime/control.py": {
-      "sha256": "83ac6669ef8a361207e6b1f0747e4b47f556073d4f33ccf9ddcdd03714d54b36",
-      "size": 3826
+      "sha256": "51f87f57361d8ccbc693c046345ba83ae381012881ccf880c6c9f05c4198f194",
+      "size": 3770
     },
     "core/runtime/preflight.py": {
-      "sha256": "e91e59847a203877fbef589c22557f1a2f1880e2d71a20b150617ca2c3998b27",
-      "size": 4066
+      "sha256": "5d21a51e13d7d47fffdc8cb3d7cd87b4a02c28b7cf51cf9213baa00311ac0562",
+      "size": 6191
     },
     "core/runtime/pipeline_state.py": {
-      "sha256": "2f6d505961d8e4c49a09f85e810187a6db35a320e6fa2f9f64ad96ef16266e25",
-      "size": 2307
+      "sha256": "3a639e193a005ed71eb90397f750732e3d36ea99595fdcbccf4e1d9516b188da",
+      "size": 2293
     },
     "core/save/manager.py": {
-      "sha256": "91afc56307370f1b4cb33d6171c2b12ba9c91b41ff0de41d82234398bdffe078",
-      "size": 29573
+      "sha256": "96fa4fe3cb494d684adfcd7be575600e327ca4179bcc74523647f12f0da7aa6c",
+      "size": 33613
     },
     "core/design/engine.py": {
       "sha256": "df236f80e8190bde8416227e0aacd160715381f3db84bf9c7351768b7f0c17f2",
@@ -118,22 +118,22 @@
       "size": 811
     },
     "core/ui/app_window.py": {
-      "sha256": "e303509ca4c196366f810fb25c07f248f7e32f65e5c0c7ca63cbfd6156f1c58a",
-      "size": 92390
+      "sha256": "fffde987b641f4ce0ec2ec73e3ab520efc2a01c29fa7a7ef2fe2d46e45a69bad",
+      "size": 96074
     },
     "core/ui/theme.py": {
       "sha256": "06a481526ad7e4df3790c1d4930b097a5c9c72faf49b9192f93e4ec8ddd1f7f8",
       "size": 930
     },
     "core/ui/ai_interview_window.py": {
-      "sha256": "7a43a424a0c9a20b2c3a800f5479e62acb5405309697336c66f6e1052eb1e63e",
-      "size": 67091
+      "sha256": "c4da3fd84d50ea10e5c3a005cbb06611a3ac6fb90c0774efebc5d753ef711a4e",
+      "size": 67805
     },
     "pipeline/_registry.json": {
       "sha256": "98b9e59e82825a27cb296f327876426739c003cb72836672fd9dd90bc4fe2078",
       "size": 3674
     },
-    "artifact_layer/registry.json": {
+    "pipeline/artifact_layer/registry.json": {
       "sha256": "46b9d1ae4b1056f2cbc2eb76a30f048a956aa522a293d6081c7a69d30369d183",
       "size": 18175
     }

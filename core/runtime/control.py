@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from core.paths import SANDBOX_DIR
+from core.paths import RUNTIME_CONTROL_DIR
 
 
 STOP_REQUEST_NAME = "stop_request.json"
@@ -28,8 +28,8 @@ def new_run_id() -> str:
 
 
 def control_dir(project_root: Path) -> Path:
-    # Updated: now points to sandbox/outputs/runtime_control
-    return SANDBOX_DIR / "outputs" / "runtime_control"
+    _ = project_root
+    return RUNTIME_CONTROL_DIR
 
 
 def stop_request_path(project_root: Path) -> Path:

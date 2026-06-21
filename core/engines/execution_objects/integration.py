@@ -250,7 +250,7 @@ def complete_rollback_plan_execution_object(store, *, changed_files, rollback_so
         title="Rollback plan for actual Unity project delta", final_content=facts, related_facts=facts,
         write_scope=infer_patch_write_scope(changed_files), stage=stage, business_id="stage14_rollback_plan",
         metadata={"entrypoint": "rollback_plan", "changed_files": list(changed_files)})
-    evidence = shared_verification_evidence(written_files=["sandbox/outputs/artifacts/stage_14/rollback_plan.md"],
+    evidence = shared_verification_evidence(written_files=["outputs/artifacts/stage_14/rollback_plan.md"],
         final_hashes={"rollback_plan": stable_hash(facts)},
         type_specific_checks={"target_matches_rollback_source": bool(changed_files), "reverse_links_preserved": bool(rollback_source)},
         verification_results=[{"id": "rollback_plan_contract", "status": "passed"}])

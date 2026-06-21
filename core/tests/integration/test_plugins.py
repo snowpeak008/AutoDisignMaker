@@ -1,5 +1,7 @@
-from src.core.context import StageContext
-from src.core.plugin_manager import PluginManager
+from __future__ import annotations
+
+from core.context import StageContext
+from core.plugin_manager import PluginManager
 
 
 def _run_stage(stage_id: str):
@@ -27,7 +29,7 @@ def test_design_stages_write_specific_artifacts():
     _run_stage("D2")
     _run_stage("D3")
 
-    from src.core.paths import ARTIFACTS_DIR
+    from core.paths import ARTIFACTS_DIR
 
     assert (ARTIFACTS_DIR / "stage_d1" / "design_portrait.json").exists()
     assert (ARTIFACTS_DIR / "stage_d2" / "design_domains.json").exists()
@@ -35,6 +37,6 @@ def test_design_stages_write_specific_artifacts():
 
 
 def test_development_stage_imports_without_path_side_effect_failure():
-    from src.plugins.stages.development.base import DevelopmentStagePlugin
+    plugin = PluginManager().load_stage("00")
 
-    assert DevelopmentStagePlugin().stage_id == "00"
+    assert plugin.stage_id == "00"

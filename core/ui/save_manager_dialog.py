@@ -376,7 +376,7 @@ class SaveManagerDialog(tk.Toplevel):
         if not new_name:
             return
         try:
-            manifest_path = save_manager.save_dir(self.runtime_root, save_id) / "save_manifest.json"
+            manifest_path = save_manager.save_manifest_path(self.runtime_root, save_id)
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             manifest["display_name"] = new_name
             manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")

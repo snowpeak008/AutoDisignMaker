@@ -49,7 +49,7 @@ KEY_FILES = [
     "core/ui/theme.py",
     "core/ui/ai_interview_window.py",
     "pipeline/_registry.json",
-    "artifact_layer/registry.json",
+    "pipeline/artifact_layer/registry.json",
 ]
 
 

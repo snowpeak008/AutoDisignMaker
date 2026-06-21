@@ -3,7 +3,7 @@
 
 This script scans for design project JSON files in:
 - projects/
-- sandbox/workspace/projects/
+- current draft workspace/projects/
 
 And converts them to design_project execution objects.
 """
@@ -38,7 +38,7 @@ def find_design_project_files() -> list[tuple[Path, dict[str, Any]]]:
             except (OSError, json.JSONDecodeError) as e:
                 print(f"⚠️  跳过无效文件 {file_path}: {e}")
 
-    # Scan sandbox/workspace/projects/
+    # Scan current draft workspace/projects/
     if WORKSPACE_PROJECTS_DIR.exists():
         for file_path in WORKSPACE_PROJECTS_DIR.glob("*.json"):
             try:

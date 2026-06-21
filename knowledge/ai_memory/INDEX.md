@@ -8,6 +8,35 @@
 ## 上次会话摘要
 
 **日期**：2026-06-21  
+**ID**：2026-06-21-003
+**摘要**：按 ADR 0001/0002 完成 per-session drafts 路径与正式存档去快照化
+
+**完成内容**：
+- ✅ `core/paths.py` 新增 `drafts/{timestamp}_{pid}/` 会话草稿根，`SANDBOX_DIR` 仅作为兼容别名指向当前 draft
+- ✅ `core/save/manager.py` 改为从 draft 同步 active 文件，正式存档 `saves/{save_id}/` 只保留 `manifest.json` 和 `workspace/`
+- ✅ 快照、事务 file map、timeline 只写入当前 draft，不再进入正式存档
+- ✅ 兼容读取旧 `save_manifest.json`，同步时迁移为 `manifest.json`
+- ✅ 修复 `ai_ucos_bridge` 在 runtime root 改为 draft 后的 ucos 路径解析
+- ✅ 更新旧测试导入路径并新增 draft/archive 行为测试
+
+**自查修复**：
+- ✅ 修复 `data_loader.source_project_root()` fallback 指到 `core/` 的边缘问题
+- ✅ 修复 `clear_active_workspace()` 未清理 draft runtime history 的问题
+- ✅ 修复旧单元/集成测试仍引用已删除 `src.*` 包路径的问题
+
+**验证**：
+- ✅ `python -m pytest core\tests -q`：16 passed
+- ✅ `python -m compileall core tools\scripts\migrate_design_projects_to_execution_objects.py`：通过
+- ✅ `git diff --check`：通过（仅 Windows line-ending 提示）
+
+**后续关注**：
+- [ ] 执行对象存储仍通过正式存档 workspace 读写；若要完全满足“编辑只写 draft、显式保存写正式存档”，需要后续单独 ADR 处理
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-21
 **ID**：2026-06-21-001  
 **摘要**：存档管理完善 + 流水线 AI 适配器可选 + Skill 库集成 + 项目配置 UI 重设计
 
@@ -44,7 +73,7 @@
 - ✅ 清理垃圾存档，工作区置空
 
 **关键发现**：
-- `runtime_root` = `sandbox/workspace`，存档在 `sandbox/workspace/saves/`，与流水线共享
+- 历史实现中 `runtime_root` = `sandbox/workspace`，存档在 `sandbox/workspace/saves/`，与流水线共享；2026-06-21-003 后运行根已改为 `drafts/{session_id}/`
 - `save_20260609_*` 等是流水线存档，不含 design_project 数据，需过滤
 
 **Git commit**：`77be8bd`

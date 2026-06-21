@@ -45,7 +45,7 @@ def record_interview_turn(
     Only successful turns (validationResult.ok = True) should be passed here.
 
     Args:
-        runtime_root: The design workbench runtime root (sandbox/workspace).
+        runtime_root: The design workbench runtime root (current draft root).
         turn_id: Unique identifier for this turn.
         user_text: The user's original message for this turn.
         payload: The validated AI response payload.
@@ -113,13 +113,19 @@ def record_interview_turn(
 def _resolve_ucos_knowledge_dir(runtime_root: Path) -> Path:
     """Resolve the ucos knowledge directory from the design workbench runtime root.
 
-    The design workbench runtime_root is sandbox/workspace; the ucos directory
-    lives at the project root (two levels up from runtime_root).
-    Falls back to runtime_root itself if the ucos directory is not found.
+    The canonical ucos directory lives under knowledge/ucos. Falls back to
+    searching upward for older layouts if core.paths is unavailable.
     """
-    candidate = runtime_root.parent.parent
-    ucos_dir = candidate / "ucos" / "knowledge"
-    if ucos_dir.exists():
+    ucos_dir: Path | None = None
+    try:
+        from core.paths import UCOS_DIR
+
+        ucos_dir = UCOS_DIR / "knowledge"
+        if ucos_dir.exists():
+            return ucos_dir
+    except ImportError:
+        pass
+    if ucos_dir is not None and ucos_dir.exists():
         return ucos_dir
     # Fallback: search upward for a directory that contains ucos/
     for parent in runtime_root.parents:

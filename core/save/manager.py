@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Project save manager.
 
-The active workspace is a runtime sandbox. The authoritative project state
-lives under save/<save_id>/workspace and is updated after every transaction.
+Runtime edits live in the current per-session draft. Formal archives live
+under ``saves/<save_id>/`` and contain only ``manifest.json`` plus
+``workspace/``.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import secrets
 import shutil
@@ -17,23 +19,42 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
+from core.paths import (
+    DRAFT_DIR,
+    DRAFT_META_FILE,
+    DRAFTS_DIR,
+    PROJECT_ROOT,
+    SESSION_ID,
+    locate_project_root,
+)
 
-ACTIVE_DIRS = ("sandbox/source_artifacts", "sandbox/outputs", "sandbox/workspace")
+
+ACTIVE_DIRS = ("source_artifacts", "outputs", "workspace")
 EMPTY_DIRS = (
-    "sandbox/source_artifacts",
-    "sandbox/source_artifacts/operator_drafts",
-    "sandbox/outputs",
-    "sandbox/outputs/artifacts",
-    "sandbox/outputs/run_logs",
-    "sandbox/outputs/checkpoints",
-    "sandbox/outputs/artifact_layer",
-    "sandbox/outputs/runtime_control",
-    "sandbox/outputs/execution_objects",
-    "sandbox/workspace",
-    "sandbox/workspace/projects",
+    "source_artifacts",
+    "source_artifacts/operator_drafts",
+    "outputs",
+    "outputs/artifacts",
+    "outputs/run_logs",
+    "outputs/checkpoints",
+    "outputs/artifact_layer",
+    "outputs/runtime_control",
+    "outputs/execution_objects",
+    "workspace",
+    "workspace/projects",
 )
 ACTIVE_FILES = ("gate_log.yaml",)
+DRAFT_RUNTIME_DIRS = ("snapshots",)
+DRAFT_RUNTIME_FILES = ("draft_file_map.json", "timeline.jsonl")
 INDEX_NAME = "save_index.json"
+MANIFEST_NAME = "manifest.json"
+LEGACY_MANIFEST_NAME = "save_manifest.json"
+FORMAL_RUNTIME_ARTIFACTS = (
+    "snapshots",
+    "save_file_map.json",
+    "timeline.jsonl",
+    LEGACY_MANIFEST_NAME,
+)
 LEGACY_PROJECT_IDS = ("newdemotower", "Demo_tower", "DemoTower")
 PROJECT_ID = "devflow"
 PROJECT_DISPLAY_NAME = "程序自动开发流程工具"
@@ -71,8 +92,72 @@ def default_display_name() -> str:
     return f"存档_{stamp()}"
 
 
+def _path_contains(root: Path, path: Path) -> bool:
+    try:
+        resolved_root = root.resolve()
+        resolved_path = path.resolve()
+    except OSError:
+        return False
+    return resolved_path == resolved_root or resolved_root in resolved_path.parents
+
+
+def _formal_root(project_root: Path) -> Path:
+    root = Path(project_root)
+    try:
+        return locate_project_root(root)
+    except RuntimeError:
+        return root
+
+
+def _active_root(project_root: Path) -> Path:
+    root = Path(project_root)
+    formal = _formal_root(root)
+    if formal == PROJECT_ROOT:
+        if _path_contains(DRAFTS_DIR, root):
+            rel = root.resolve().relative_to(DRAFTS_DIR.resolve())
+            if rel.parts:
+                return DRAFTS_DIR / rel.parts[0]
+        return DRAFT_DIR
+    return root
+
+
+def _active_meta_path(project_root: Path) -> Path:
+    active = _active_root(project_root)
+    if active == DRAFT_DIR:
+        return DRAFT_META_FILE
+    return active / "draft_meta.json"
+
+
+def _write_draft_meta(project_root: Path, *, linked_save_id: str | None = None) -> None:
+    active = _active_root(project_root)
+    meta_path = _active_meta_path(project_root)
+    existing = read_json(meta_path, {})
+    if not isinstance(existing, dict):
+        existing = {}
+    formal = _formal_root(project_root)
+    payload = {
+        **existing,
+        "schema_version": 1,
+        "session_id": SESSION_ID if active == DRAFT_DIR else active.name,
+        "pid": os.getpid(),
+        "project_root": str(formal),
+        "draft_root": str(active),
+        "linked_archive_path": "",
+        "updated_at": now_iso(),
+    }
+    if linked_save_id:
+        payload["linked_archive_path"] = str(save_dir(formal, linked_save_id))
+    elif linked_save_id is None and not payload.get("linked_archive_path"):
+        payload["linked_archive_path"] = ""
+    write_json(meta_path, payload)
+
+
+def active_root(project_root: Path = PROJECT_ROOT) -> Path:
+    return _active_root(project_root)
+
+
 def save_root(project_root: Path) -> Path:
-    return Path(project_root) / "saves"
+    return _formal_root(project_root) / "saves"
 
 
 def index_path(project_root: Path) -> Path:
@@ -267,7 +352,7 @@ def append_jsonl(path: Path, item: dict[str, Any]) -> None:
 
 
 def load_index(project_root: Path) -> dict[str, Any]:
-    root = Path(project_root)
+    root = _formal_root(project_root)
     data = read_json(index_path(root), {})
     saves = data.get("saves", [])
     if not isinstance(saves, list):
@@ -281,6 +366,7 @@ def load_index(project_root: Path) -> dict[str, Any]:
 
 
 def save_index(project_root: Path, data: dict[str, Any]) -> Path:
+    root = _formal_root(project_root)
     data = dict(data)
     data["schema_version"] = 1
     data["updated_at"] = now_iso()
@@ -289,13 +375,15 @@ def save_index(project_root: Path, data: dict[str, Any]) -> Path:
         key=lambda item: str(item.get("last_worked_at") or item.get("created_at") or ""),
         reverse=True,
     )
-    return write_json(index_path(Path(project_root)), data)
+    return write_json(index_path(root), data)
 
 
 def ensure_save_system(project_root: Path) -> dict[str, Any]:
-    root = Path(project_root)
+    root = _formal_root(project_root)
     save_root(root).mkdir(parents=True, exist_ok=True)
+    _active_root(project_root).mkdir(parents=True, exist_ok=True)
     data = load_index(root)
+    _write_draft_meta(project_root, linked_save_id=data.get("current_save_id") or None)
     save_index(root, data)
     return data
 
@@ -304,6 +392,7 @@ def set_current_save(project_root: Path, save_id: str | None) -> None:
     data = ensure_save_system(project_root)
     data["current_save_id"] = save_id
     save_index(project_root, data)
+    _write_draft_meta(project_root, linked_save_id=save_id)
 
 
 def current_save_id(project_root: Path) -> str | None:
@@ -312,7 +401,16 @@ def current_save_id(project_root: Path) -> str | None:
 
 
 def save_dir(project_root: Path, save_id: str) -> Path:
-    return save_root(Path(project_root)) / save_id
+    return save_root(_formal_root(project_root)) / save_id
+
+
+def save_manifest_path(project_root: Path, save_id: str) -> Path:
+    target = save_dir(project_root, save_id)
+    manifest = target / MANIFEST_NAME
+    if manifest.exists():
+        return manifest
+    legacy = target / LEGACY_MANIFEST_NAME
+    return legacy if legacy.exists() else manifest
 
 
 def workspace_dir(project_root: Path, save_id: str) -> Path:
@@ -327,7 +425,7 @@ def current_save_workspace_dir(project_root: Path) -> Path | None:
 
 
 def _iter_active_files(project_root: Path):
-    root = Path(project_root)
+    root = _active_root(project_root)
     for dirname in ACTIVE_DIRS:
         base = root / dirname
         if not base.exists():
@@ -341,7 +439,7 @@ def _iter_active_files(project_root: Path):
 
 
 def workspace_has_state(project_root: Path) -> bool:
-    root = Path(project_root)
+    root = _active_root(project_root)
     for path in _iter_active_files(root):
         if path.name == ".gitkeep":
             continue
@@ -351,13 +449,23 @@ def workspace_has_state(project_root: Path) -> bool:
 
 
 def clear_active_workspace(project_root: Path) -> None:
-    root = Path(project_root)
+    root = _active_root(project_root)
     for dirname in ACTIVE_DIRS:
         target = root / dirname
         _safe_resolve_under(root, target)
         if target.exists():
             shutil.rmtree(target)
     for filename in ACTIVE_FILES:
+        target = root / filename
+        _safe_resolve_under(root, target)
+        if target.exists():
+            target.unlink()
+    for dirname in DRAFT_RUNTIME_DIRS:
+        target = root / dirname
+        _safe_resolve_under(root, target)
+        if target.exists():
+            shutil.rmtree(target)
+    for filename in DRAFT_RUNTIME_FILES:
         target = root / filename
         _safe_resolve_under(root, target)
         if target.exists():
@@ -370,6 +478,7 @@ def initialize_active_workspace(project_root: Path) -> None:
     ensure_save_system(project_root)
     clear_active_workspace(project_root)
     set_current_save(project_root, None)
+    _write_draft_meta(project_root, linked_save_id=None)
 
 
 def _sha256(path: Path) -> str:
@@ -386,7 +495,7 @@ def _stage_from_path(rel_path: str) -> int | None:
 
 
 def _stage_reference_data(project_root: Path, step: int) -> dict[str, Any]:
-    stage_dir = Path(project_root) / "outputs" / "artifacts" / f"stage_{step:02d}"
+    stage_dir = _active_root(project_root) / "outputs" / "artifacts" / f"stage_{step:02d}"
     return read_json(stage_dir / "reference_manifest.json", {})
 
 
@@ -444,7 +553,7 @@ def _file_map_entry(project_root: Path, path: Path, rel_path: str, *, transactio
 
 
 def build_file_map(project_root: Path, *, transaction_seq: int | None = None) -> dict[str, Any]:
-    root = Path(project_root)
+    root = _active_root(project_root)
     files = []
     for path in _iter_active_files(root):
         try:
@@ -456,9 +565,9 @@ def build_file_map(project_root: Path, *, transaction_seq: int | None = None) ->
                 "error": str(exc),
                 "latest_transaction_seq": transaction_seq,
             })
-    current = current_save_id(root)
+    current = current_save_id(project_root)
     if current:
-        store_path = workspace_dir(root, current) / _execution_object_store_relpath()
+        store_path = workspace_dir(project_root, current) / _execution_object_store_relpath()
         if store_path.is_file():
             rel_path = _execution_object_store_relpath().as_posix()
             files = [item for item in files if item.get("workspace_path") != rel_path]
@@ -493,7 +602,7 @@ def _delta(previous: dict[str, Any], current: dict[str, Any]) -> dict[str, list[
 
 
 def _copy_active_to(project_root: Path, dest_root: Path) -> None:
-    root = Path(project_root)
+    root = _active_root(project_root)
     migrate_workspace_project_id(root)
     dest_root.mkdir(parents=True, exist_ok=True)
     for dirname in ACTIVE_DIRS:
@@ -519,7 +628,7 @@ def _copy_active_to(project_root: Path, dest_root: Path) -> None:
 
 def _copy_workspace_to_active(project_root: Path, source_root: Path) -> None:
     clear_active_workspace(project_root)
-    root = Path(project_root)
+    root = _active_root(project_root)
     for dirname in ACTIVE_DIRS:
         src = source_root / dirname
         dest = root / dirname
@@ -565,7 +674,7 @@ def _next_seq(manifest: dict[str, Any]) -> int:
 
 
 def _progress(project_root: Path) -> dict[str, Any]:
-    root = Path(project_root)
+    root = _active_root(project_root)
     passed = 0
     for step in range(16):
         stage = root / "outputs" / "artifacts" / f"stage_{step:02d}"
@@ -598,7 +707,7 @@ def _save_entry(manifest: dict[str, Any]) -> dict[str, Any]:
         "save_type": manifest.get("save_type", "manual"),
         "created_by": manifest.get("created_by", ""),
         "reason": manifest.get("reason", ""),
-        "path": f"save/{manifest['save_id']}",
+        "path": f"saves/{manifest['save_id']}",
         "created_at": manifest.get("created_at", ""),
         "last_worked_at": manifest.get("last_worked_at", ""),
         "progress": manifest.get("progress", {"passed": 0, "total": 16, "label": "已通过 0/16"}),
@@ -642,7 +751,7 @@ def create_save(
     reason: str = "",
     event: str = "create_save",
 ) -> dict[str, Any]:
-    root = Path(project_root)
+    root = _formal_root(project_root)
     ensure_save_system(root)
     save_id = new_save_id()
     while save_dir(root, save_id).exists():
@@ -663,15 +772,14 @@ def create_save(
     }
     target = save_dir(root, save_id)
     (target / "workspace").mkdir(parents=True, exist_ok=True)
-    (target / "snapshots").mkdir(parents=True, exist_ok=True)
-    write_json(target / "save_manifest.json", manifest)
+    write_json(target / MANIFEST_NAME, manifest)
     _replace_entry(root, manifest, current=True)
-    sync_current_save(root, event=event)
-    return _load_manifest(target / "save_manifest.json")
+    sync_current_save(project_root, event=event)
+    return _load_manifest(target / MANIFEST_NAME)
 
 
 def get_save(project_root: Path, save_id: str) -> dict[str, Any] | None:
-    path = save_dir(project_root, save_id) / "save_manifest.json"
+    path = save_manifest_path(project_root, save_id)
     if not path.exists():
         return None
     data = _load_manifest(path)
@@ -701,6 +809,15 @@ def _snapshot_name(seq: int, event: str) -> str:
     return f"{seq:06d}_{_safe_name(event, 'event')}"
 
 
+def _remove_formal_runtime_artifacts(save_path: Path) -> None:
+    for name in FORMAL_RUNTIME_ARTIFACTS:
+        path = save_path / name
+        if path.is_dir():
+            shutil.rmtree(path)
+        elif path.exists():
+            path.unlink()
+
+
 def sync_current_save(
     project_root: Path,
     *,
@@ -708,31 +825,34 @@ def sync_current_save(
     stage: int | None = None,
     message: str = "",
 ) -> dict[str, Any]:
-    root = Path(project_root)
+    root = _formal_root(project_root)
+    active = _active_root(project_root)
     save_id = current_save_id(root)
     if not save_id:
         raise RuntimeError("No current save is bound.")
     target = save_dir(root, save_id)
-    manifest_path = target / "save_manifest.json"
+    manifest_path = save_manifest_path(root, save_id)
     manifest = _load_manifest(manifest_path)
     if not manifest:
         raise RuntimeError(f"Missing save manifest for {save_id}")
 
-    migrate_workspace_project_id(root)
-    previous_map = read_json(target / "save_file_map.json", {"files": []})
+    migrate_workspace_project_id(active)
+    draft_file_map = active / "draft_file_map.json"
+    previous_map = read_json(draft_file_map, {"files": []})
     seq = _next_seq(manifest)
-    current_map = build_file_map(root, transaction_seq=seq)
+    current_map = build_file_map(project_root, transaction_seq=seq)
     delta = _delta(previous_map, current_map)
 
     ws = workspace_dir(root, save_id)
     authoritative_execution_object_store = _read_authoritative_execution_object_store(ws)
-    _copy_active_to(root, ws)
+    _copy_active_to(project_root, ws)
     _write_authoritative_execution_object_store(ws, authoritative_execution_object_store)
+    _remove_formal_runtime_artifacts(target)
 
-    snapshot_root = target / "snapshots" / _snapshot_name(seq, event)
+    snapshot_root = active / "snapshots" / _snapshot_name(seq, event)
     full_root = snapshot_root / "full"
     delta_root = snapshot_root / "delta"
-    _copy_active_to(root, full_root)
+    _copy_active_to(project_root, full_root)
     _write_authoritative_execution_object_store(full_root, authoritative_execution_object_store)
     write_json(delta_root / "added.json", delta["added"])
     write_json(delta_root / "modified.json", delta["modified"])
@@ -751,16 +871,18 @@ def sync_current_save(
     }
     write_json(snapshot_root / "snapshot_manifest.json", snapshot_manifest)
     write_json(snapshot_root / "snapshot_file_map.json", current_map)
-    write_json(target / "save_file_map.json", current_map)
+    write_json(draft_file_map, current_map)
 
-    progress = _progress(root)
+    progress = _progress(project_root)
     manifest.update({
         "last_worked_at": now_iso(),
         "last_transaction_seq": seq,
         "progress": progress,
     })
-    write_json(manifest_path, manifest)
-    append_jsonl(target / "timeline.jsonl", {
+    write_json(target / MANIFEST_NAME, manifest)
+    if manifest_path.name == LEGACY_MANIFEST_NAME and manifest_path.exists():
+        manifest_path.unlink()
+    append_jsonl(active / "timeline.jsonl", {
         "seq": seq,
         "event": event,
         "stage": stage,
@@ -769,6 +891,7 @@ def sync_current_save(
         "progress": progress,
     })
     _replace_entry(root, manifest, current=True)
+    _write_draft_meta(project_root, linked_save_id=save_id)
     return manifest
 
 
@@ -808,20 +931,20 @@ def overwrite_save(project_root: Path, save_id: str, *, event: str = "manual_sav
 
 
 def load_save(project_root: Path, save_id: str) -> dict[str, Any]:
-    root = Path(project_root)
+    root = _formal_root(project_root)
     manifest = get_save(root, save_id)
     if not manifest:
         raise RuntimeError(f"Unknown save id: {save_id}")
     ws = workspace_dir(root, save_id)
     if not ws.exists():
         raise RuntimeError(f"Save workspace is missing: {save_id}")
-    _copy_workspace_to_active(root, ws)
+    _copy_workspace_to_active(project_root, ws)
     set_current_save(root, save_id)
-    return sync_current_save(root, event="load_save")
+    return sync_current_save(project_root, event="load_save")
 
 
 def delete_save(project_root: Path, save_id: str) -> None:
-    root = Path(project_root)
+    root = _formal_root(project_root)
     target = save_dir(root, save_id)
     save_root_resolved = save_root(root).resolve()
     target_resolved = target.resolve()

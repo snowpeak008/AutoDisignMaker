@@ -1,4 +1,4 @@
-"""Pipeline state read/write — stores state in sandbox/source_artifacts/pipeline_state.md."""
+"""Pipeline state read/write for the current draft source_artifacts directory."""
 
 from __future__ import annotations
 

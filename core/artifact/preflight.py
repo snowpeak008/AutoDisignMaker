@@ -5,14 +5,14 @@ from __future__ import annotations
 from typing import Any
 
 from core.io import now_iso, write_json
-from core.paths import PROJECT_ROOT
+from core.paths import OUTPUTS_DIR, PROJECT_ROOT
 from core.stage import stage_dir
 from core.artifact.registry_loader import (
     KNOWN_REVIEWERS, KNOWN_VALIDATORS,
     artifacts_by_id, artifacts_for_step, load_registry,
 )
 
-LAYER_OUTPUT_DIR = PROJECT_ROOT / "sandbox" / "outputs" / "artifact_layer"
+LAYER_OUTPUT_DIR = OUTPUTS_DIR / "artifact_layer"
 
 
 def _knowledge_refs_exist(artifact: dict[str, Any]) -> list[str]:

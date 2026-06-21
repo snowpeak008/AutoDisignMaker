@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Workspace snapshot execution object manager.
 
-Captures and tracks sandbox/workspace/ directory state as execution objects.
+Captures and tracks current draft workspace state as execution objects.
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ def _scan_workspace_files(workspace_root: Path) -> list[dict[str, Any]]:
     """Scan workspace directory and build file manifest.
 
     Args:
-        workspace_root: Path to sandbox/workspace directory
+        workspace_root: Path to the draft workspace directory
 
     Returns:
         List of file metadata dictionaries
@@ -87,7 +87,7 @@ def capture_workspace_snapshot(
 
     Args:
         store: Execution object store
-        workspace_root: Path to sandbox/workspace directory
+        workspace_root: Path to the draft workspace directory
         trigger_event: Event that triggered this snapshot (e.g., "user_save", "step_complete")
         reason: Human-readable reason for the snapshot
 

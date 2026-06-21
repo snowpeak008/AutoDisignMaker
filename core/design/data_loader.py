@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import re
 import sys
@@ -22,19 +24,19 @@ _TEMPLATE_CACHE = None
 
 
 def source_project_root():
-    return Path(__file__).resolve().parents[1]
+    return Path(__file__).resolve().parents[2]
 
 
 def runtime_project_root():
-    if getattr(sys, "frozen", False):
-        return Path(sys.executable).resolve().parent / "sandbox" / "workspace"
     try:
-        from core.paths import WORKSPACE_DIR
+        from core.paths import DRAFT_DIR
 
-        return WORKSPACE_DIR
+        return DRAFT_DIR
     except ImportError:
         pass
-    return source_project_root() / "sandbox" / "workspace"
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent / "drafts"
+    return source_project_root() / "drafts"
 
 
 def bundled_data_dir():
