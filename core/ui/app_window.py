@@ -18,7 +18,7 @@ from core.design.gameplay_systems import parse_interview_answers_to_custom_syste
 from core.design.project_templates import custom_template_path, list_project_templates, save_custom_template, target_scale_options
 from core.design.profile_schema import PROFILE_FIELDS, field_label, option_label, value_from_label
 from core.ui.ai_interview_window import AIInterviewWindow
-from core.ui.theme import COLORS, FONT_BADGE, FONT_BODY, FONT_CARD, FONT_SECTION, FONT_SMALL, FONT_TITLE
+from core.ui.theme import COLORS, FONT_BADGE, FONT_BODY, FONT_CARD, FONT_SECTION, FONT_SMALL, FONT_TITLE, center_window
 
 
 def re_split_words(value):
@@ -1498,14 +1498,14 @@ class CommercialDesignApp(tk.Frame):
 
     def open_template_viewer(self):
         self.save_visible_notes()
-        templates = list_project_templates()
+        templates = list_project_templates(include_internal=True)
         if not templates:
             messagebox.showinfo("模板查看", "未找到项目模板。")
             return
 
         window = tk.Toplevel(self)
+        window.withdraw()  # 先隐藏窗口，避免闪烁
         window.title("模板查看")
-        window.geometry("900x560")
         window.minsize(780, 480)
         window.configure(bg=COLORS["bg"])
         window.transient(self)
@@ -1623,11 +1623,14 @@ class CommercialDesignApp(tk.Frame):
             tree.focus(first[0])
             on_select()
 
+        center_window(window, 900, 560)
+        window.deiconify()  # 构建完成后显示窗口
+
     def open_save_template_dialog(self):
         self.save_visible_notes()
         window = tk.Toplevel(self)
+        window.withdraw()  # 先隐藏窗口，避免闪烁
         window.title("另存为模板")
-        window.geometry("420x240")
         window.resizable(False, False)
         window.configure(bg=COLORS["surface"])
         window.transient(self)
@@ -1692,10 +1695,13 @@ class CommercialDesignApp(tk.Frame):
         ttk.Button(buttons, text="取消", command=window.destroy).pack(side=tk.RIGHT)
         name_entry.focus_set()
 
+        center_window(window, 420, 240)
+        window.deiconify()  # 构建完成后显示窗口
+
     def choose_export_options(self):
         window = tk.Toplevel(self)
+        window.withdraw()  # 先隐藏窗口，避免闪烁
         window.title("选择导出内容")
-        window.geometry("560x650")
         window.resizable(True, True)
         window.configure(bg=COLORS["surface"])
         window.transient(self)
@@ -1855,6 +1861,10 @@ class CommercialDesignApp(tk.Frame):
         ttk.Button(buttons, text="继续", command=confirm).pack(side=tk.RIGHT, padx=(0, 8))
         ttk.Button(buttons, text="取消", command=window.destroy).pack(side=tk.RIGHT)
         render_preview()
+
+        center_window(window, 560, 650)
+        window.deiconify()  # 构建完成后显示窗口
+
         window.wait_window()
         return result["value"]
 

@@ -20,6 +20,7 @@ from core.ui.theme import (
     FONT_CARD,
     FONT_SECTION,
     FONT_SMALL,
+    center_window,
 )
 
 
@@ -82,6 +83,7 @@ class ProjectConfigDialog(tk.Toplevel):
 
     def __init__(self, parent: tk.Widget) -> None:
         super().__init__(parent)
+        self.withdraw()  # 先隐藏窗口，避免闪烁
         self.title("项目配置")
         self.resizable(False, False)
         self.configure(bg=COLORS["bg"])
@@ -199,6 +201,9 @@ class ProjectConfigDialog(tk.Toplevel):
         ttk.Button(bottom, text="保存并验证", command=self._save).pack(side=tk.RIGHT, padx=(0, 8))
 
         self._on_engine_change()
+        self.update_idletasks()
+        center_window(self, 720, 560)
+        self.deiconify()  # 构建完成后显示窗口
 
     # ──────────────────────────────────────────────────────────
     # 内部方法

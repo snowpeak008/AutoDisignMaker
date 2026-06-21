@@ -29,3 +29,19 @@ FONT_TITLE = ("Microsoft YaHei UI", 16, "bold")
 FONT_SECTION = ("Microsoft YaHei UI", 12, "bold")
 FONT_CARD = ("Microsoft YaHei UI", 10, "bold")
 FONT_BADGE = ("Microsoft YaHei UI", 8, "bold")
+
+
+def center_window(window, width: int, height: int) -> None:
+    """将窗口居中显示在屏幕上。
+
+    Args:
+        window: tkinter 窗口对象（Tk 或 Toplevel）
+        width: 窗口宽度
+        height: 窗口高度
+    """
+    window.update_idletasks()
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    x = (screen_width - width) // 2
+    y = (screen_height - height) // 2
+    window.geometry(f"{width}x{height}+{x}+{y}")

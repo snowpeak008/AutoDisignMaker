@@ -13,7 +13,7 @@ from tkinter import messagebox, ttk
 from typing import TYPE_CHECKING
 
 from core.save import manager as save_manager
-from core.ui.theme import COLORS, FONT_SECTION, FONT_SMALL
+from core.ui.theme import COLORS, FONT_SECTION, FONT_SMALL, center_window
 
 if TYPE_CHECKING:
     from core.ui.app_window import CommercialDesignApp
@@ -36,8 +36,8 @@ class SaveManagerDialog(tk.Toplevel):
         self.app = app
         self.runtime_root = app.runtime_root
 
+        self.withdraw()  # 先隐藏窗口，避免闪烁
         self.title("存档管理")
-        self.geometry("980x520")
         self.minsize(860, 460)
         self.configure(bg=COLORS["surface"])
         self.transient(app)
@@ -47,6 +47,9 @@ class SaveManagerDialog(tk.Toplevel):
 
         self._build_ui()
         self.refresh()
+
+        center_window(self, 980, 520)
+        self.deiconify()  # 构建完成后显示窗口
 
     # ──────────────────────────────────────────────────────────
     # UI 构建
@@ -190,8 +193,8 @@ class SaveManagerDialog(tk.Toplevel):
     def ask_save_name(self, default: str | None = None) -> str | None:
         """弹出命名对话框，返回用户输入的存档名，取消时返回 None。"""
         dialog = tk.Toplevel(self)
+        dialog.withdraw()  # 先隐藏窗口，避免闪烁
         dialog.title("存档命名")
-        dialog.geometry("420x130")
         dialog.configure(bg=COLORS["surface"])
         dialog.transient(self)
         dialog.grab_set()
@@ -224,6 +227,10 @@ class SaveManagerDialog(tk.Toplevel):
         ttk.Button(actions, text="取消", command=cancel).pack(side=tk.LEFT, padx=4)
         entry.focus_set()
         entry.selection_range(0, tk.END)
+
+        center_window(dialog, 420, 130)
+        dialog.deiconify()  # 构建完成后显示窗口
+
         self.wait_window(dialog)
         return result["value"]
 
