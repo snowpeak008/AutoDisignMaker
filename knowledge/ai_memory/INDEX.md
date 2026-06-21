@@ -28,6 +28,7 @@
 - ✅ `python -m pytest core\tests -q`：16 passed
 - ✅ `python -m compileall core tools\scripts\migrate_design_projects_to_execution_objects.py`：通过
 - ✅ `git diff --check`：通过（仅 Windows line-ending 提示）
+- ✅ Git 实现提交：`dcfb309`
 
 **后续关注**：
 - [ ] 执行对象存储仍通过正式存档 workspace 读写；若要完全满足“编辑只写 draft、显式保存写正式存档”，需要后续单独 ADR 处理
