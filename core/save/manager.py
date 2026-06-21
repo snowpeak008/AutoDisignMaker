@@ -128,7 +128,10 @@ def _active_meta_path(project_root: Path) -> Path:
     return active / "draft_meta.json"
 
 
-def _write_draft_meta(project_root: Path, *, linked_save_id: str | None = None) -> None:
+_UNSET = object()
+
+
+def _write_draft_meta(project_root: Path, *, linked_save_id: Any = _UNSET) -> None:
     active = _active_root(project_root)
     meta_path = _active_meta_path(project_root)
     existing = read_json(meta_path, {})
@@ -142,12 +145,11 @@ def _write_draft_meta(project_root: Path, *, linked_save_id: str | None = None) 
         "pid": os.getpid(),
         "project_root": str(formal),
         "draft_root": str(active),
-        "linked_archive_path": "",
         "updated_at": now_iso(),
     }
-    if linked_save_id:
-        payload["linked_archive_path"] = str(save_dir(formal, linked_save_id))
-    elif linked_save_id is None and not payload.get("linked_archive_path"):
+    if linked_save_id is not _UNSET:
+        payload["linked_archive_path"] = str(save_dir(formal, linked_save_id)) if linked_save_id else ""
+    elif "linked_archive_path" not in payload:
         payload["linked_archive_path"] = ""
     write_json(meta_path, payload)
 
@@ -439,8 +441,7 @@ def _iter_active_files(project_root: Path):
 
 
 def workspace_has_state(project_root: Path) -> bool:
-    root = _active_root(project_root)
-    for path in _iter_active_files(root):
+    for path in _iter_active_files(project_root):
         if path.name == ".gitkeep":
             continue
         if path.exists():
@@ -487,6 +488,79 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _pid_alive(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
+def _fingerprint_dir(workspace_root: Path) -> str:
+    """SHA256 of sorted 'relpath:sha256' lines. Returns empty string for blank workspace."""
+    parts = []
+    for dirn in ACTIVE_DIRS:
+        base = workspace_root / dirn
+        if not base.exists():
+            continue
+        for path in sorted(p for p in base.rglob("*") if p.is_file()):
+            if path.name == ".gitkeep":
+                continue
+            parts.append(f"{_rel(path, workspace_root)}:{_sha256(path)}")
+    if not parts:
+        return ""
+    return hashlib.sha256("\n".join(sorted(parts)).encode()).hexdigest()
+
+
+def compute_workspace_fingerprint(project_root: Path) -> str:
+    """Content fingerprint of the current draft workspace."""
+    return _fingerprint_dir(_active_root(project_root))
+
+
+def compute_save_fingerprint(project_root: Path, save_id: str) -> str:
+    """Content fingerprint of a formal archive's workspace."""
+    return _fingerprint_dir(workspace_dir(project_root, save_id))
+
+
+LOCK_FILENAME = ".archive_lock"
+
+
+def _lock_path(project_root: Path, save_id: str) -> Path:
+    return save_dir(project_root, save_id) / LOCK_FILENAME
+
+
+def acquire_archive_lock(project_root: Path, save_id: str) -> bool:
+    """Write a lock file. Returns False if already held by another live process."""
+    path = _lock_path(project_root, save_id)
+    if path.exists():
+        data = read_json(path, {})
+        pid = int(data.get("pid") or 0)
+        if pid and pid != os.getpid() and _pid_alive(pid):
+            return False
+    write_json(path, {"pid": os.getpid(), "session_id": SESSION_ID, "acquired_at": now_iso()})
+    return True
+
+
+def release_archive_lock(project_root: Path, save_id: str) -> None:
+    path = _lock_path(project_root, save_id)
+    if not path.exists():
+        return
+    data = read_json(path, {})
+    if data.get("pid") == os.getpid():
+        try:
+            path.unlink()
+        except OSError:
+            pass
+
+
+def release_current_lock(project_root: Path) -> None:
+    save_id = current_save_id(project_root)
+    if save_id:
+        release_archive_lock(project_root, save_id)
 
 
 def _stage_from_path(rel_path: str) -> int | None:
@@ -669,6 +743,31 @@ def _write_authoritative_execution_object_store(dest_root: Path, content: str | 
     path.write_text(content, encoding="utf-8")
 
 
+def _atomic_copy_to_workspace(project_root: Path, target: Path, authoritative_store: str | None) -> None:
+    """Write active state into target/workspace via temp-dir rename (atomic on same drive)."""
+    ws = target / "workspace"
+    tmp = target / "_workspace_tmp"
+    old = target / "_workspace_old"
+    for leftover in (tmp, old):
+        if leftover.exists():
+            shutil.rmtree(leftover)
+    _copy_active_to(project_root, tmp)
+    _write_authoritative_execution_object_store(tmp, authoritative_store)
+    if ws.exists():
+        ws.rename(old)
+    try:
+        tmp.rename(ws)
+        if old.exists():
+            shutil.rmtree(old)
+    except Exception:
+        if old.exists() and not ws.exists():
+            old.rename(ws)
+        raise
+    finally:
+        if tmp.exists():
+            shutil.rmtree(tmp)
+
+
 def _next_seq(manifest: dict[str, Any]) -> int:
     return int(manifest.get("last_transaction_seq") or 0) + 1
 
@@ -845,8 +944,7 @@ def sync_current_save(
 
     ws = workspace_dir(root, save_id)
     authoritative_execution_object_store = _read_authoritative_execution_object_store(ws)
-    _copy_active_to(project_root, ws)
-    _write_authoritative_execution_object_store(ws, authoritative_execution_object_store)
+    _atomic_copy_to_workspace(project_root, target, authoritative_execution_object_store)
     _remove_formal_runtime_artifacts(target)
 
     snapshot_root = active / "snapshots" / _snapshot_name(seq, event)
@@ -938,6 +1036,8 @@ def load_save(project_root: Path, save_id: str) -> dict[str, Any]:
     ws = workspace_dir(root, save_id)
     if not ws.exists():
         raise RuntimeError(f"Save workspace is missing: {save_id}")
+    if not acquire_archive_lock(root, save_id):
+        raise RuntimeError(f"Archive is already open in another window: {save_id}")
     _copy_workspace_to_active(project_root, ws)
     set_current_save(root, save_id)
     return sync_current_save(project_root, event="load_save")

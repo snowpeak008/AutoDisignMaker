@@ -22,6 +22,7 @@ class MainWindow(tk.Tk):
         self._geom_after_id = None
         self._load_geometry()
         self.bind("<Configure>", self._on_configure)
+        self.protocol("WM_DELETE_WINDOW", self._on_close)
 
         self._build_topbar()
         self._build_main_area()
@@ -109,3 +110,39 @@ class MainWindow(tk.Tk):
         panel.refresh()
         self._design_btn.configure(bg=COLORS["surface"], fg=COLORS["muted"])
         self._pipeline_btn.configure(bg=COLORS["primary"], fg="white")
+
+    def _on_close(self) -> None:
+        from core.paths import PROJECT_ROOT
+        from core.save import manager as sm
+        from tkinter import messagebox
+
+        panel = self._design_panel
+        if panel is not None:
+            panel._flush_autosave()
+            current_hash = panel._project_state_hash()
+            saved_hash = panel._saved_state_hash
+
+            if current_hash != saved_hash:
+                save_id = sm.current_save_id(PROJECT_ROOT)
+                if not save_id:
+                    # Case 1: never formally saved
+                    if not messagebox.askyesno("退出确认", "当前项目还未保存，确定要退出吗？"):
+                        return
+                else:
+                    # Case 2: has formal archive, state changed
+                    answer = messagebox.askyesnocancel(
+                        "未保存的更改", "有尚未保存的更改，是否保存后再退出？"
+                    )
+                    if answer is None:
+                        return
+                    if answer:
+                        panel.save_project()
+                        return  # user completes save → mark_saved() → close again
+
+        self._do_close()
+
+    def _do_close(self) -> None:
+        from core.paths import PROJECT_ROOT
+        from core.save import manager as sm
+        sm.release_current_lock(PROJECT_ROOT)
+        self.destroy()

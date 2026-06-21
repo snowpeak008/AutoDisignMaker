@@ -5,6 +5,11 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
+from core.paths import DRAFT_DIR as _DRAFT_DIR
+
+_AUTOSAVE_DELAY_MS = 500
+_AUTOSAVE_FILE = _DRAFT_DIR / "autosave_state.json"
+
 from core.design.data_loader import load_project_data, runtime_project_root
 from core.design.engine import DesignEngine, STATE_LABELS
 from core.design.exporter import export_preview_lines, safe_file_name, write_export
@@ -48,11 +53,14 @@ class CommercialDesignApp(tk.Frame):
         self.expanded_gameplay_interview = False
         self.search_after_id = None
         self.ai_window = None
+        self._autosave_after_id = None
+        self._saved_state_hash: str | None = None
 
         self.configure_style()
         self.build_ui()
         self.bind("<Control-Shift-M>", self.import_memory_archive_dialog)
         self.render()
+        self.mark_saved()  # anchor empty-state baseline
 
     def configure_style(self):
         style = ttk.Style(self)
@@ -247,6 +255,38 @@ class CommercialDesignApp(tk.Frame):
         for child in widget.winfo_children():
             self.bind_click_recursive(child, command)
 
+    def _schedule_autosave(self) -> None:
+        if self._autosave_after_id:
+            self.after_cancel(self._autosave_after_id)
+        self._autosave_after_id = self.after(_AUTOSAVE_DELAY_MS, self._do_autosave)
+
+    def _do_autosave(self) -> None:
+        self._autosave_after_id = None
+        try:
+            _AUTOSAVE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            _AUTOSAVE_FILE.write_text(
+                json.dumps(self.project_state, ensure_ascii=False),
+                encoding="utf-8",
+            )
+        except OSError:
+            pass
+
+    def _flush_autosave(self) -> None:
+        if self._autosave_after_id:
+            self.after_cancel(self._autosave_after_id)
+            self._autosave_after_id = None
+        self._do_autosave()
+
+    def _project_state_hash(self) -> str:
+        import hashlib
+        return hashlib.sha256(
+            json.dumps(self.project_state, sort_keys=True, ensure_ascii=False).encode()
+        ).hexdigest()
+
+    def mark_saved(self) -> None:
+        """Call after every formal save or load to anchor the 'no unsaved changes' baseline."""
+        self._saved_state_hash = self._project_state_hash()
+
     def render(self, preserve_node_scroll=False):
         self.project_state["projectName"] = self.project_name.get()
         self.project_state["profile"] = self.current_profile_values()
@@ -255,6 +295,7 @@ class CommercialDesignApp(tk.Frame):
         self.render_domains()
         self.render_nodes(preserve_scroll=preserve_node_scroll)
         self.render_results()
+        self._schedule_autosave()
 
     def canvas_yview_position(self, canvas):
         try:

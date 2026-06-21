@@ -282,6 +282,7 @@ class SaveManagerDialog(tk.Toplevel):
             )
             self.app.status_text.set(f"已保存: {execution_obj['execution_object_id']}")
             self.status_var.set(f"✅ 已新建存档并保存：{name}")
+            self.app.mark_saved()
             self.refresh()
         except Exception as exc:
             traceback.print_exc()
@@ -314,6 +315,7 @@ class SaveManagerDialog(tk.Toplevel):
             )
             self.app.status_text.set(f"已保存: {execution_obj['execution_object_id']}")
             self.status_var.set(f"✅ 已保存到存档：{save_id}")
+            self.app.mark_saved()
             self.refresh()
         except Exception as exc:
             traceback.print_exc()
@@ -352,6 +354,7 @@ class SaveManagerDialog(tk.Toplevel):
                 self.app.render()
                 self.app.status_text.set(f"已加载存档：{save_id}")
                 self.status_var.set(f"✅ 已加载存档：{save_id}")
+                self.app.mark_saved()
             else:
                 self.app.status_text.set(f"已加载存档（无设计项目数据）：{save_id}")
                 self.status_var.set("⚠ 存档已加载，但未找到设计项目数据。")
