@@ -7,7 +7,7 @@ from core.engines.generation import apply_development_plan_outputs
 
 class Plugin(StagePlugin):
     stage_id = "10"
-    _source_groups = [SourceGroup("dev_execution", ("devflow_DevExecution_*",), "latest", True, ("DevExecution",))]
+    _source_groups = [SourceGroup("dev_execution", ("devflow_DevExecution_*",), "latest", False, ("DevExecution",))]
 
     def execute(self, ctx: StageContext) -> StageResult:
         if ctx.test_mode:

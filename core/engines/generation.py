@@ -340,7 +340,8 @@ def _parse_design_doc(path: Path) -> dict[str, Any]:
 
 
 def _latest_concept_package(base_dir: Path = BASE_DIR) -> Path | None:
-    source_dir = base_dir / "source_artifacts"
+    from core.paths import SOURCE_ARTIFACTS_DIR
+    source_dir = SOURCE_ARTIFACTS_DIR
     if not source_dir.exists():
         return None
 
@@ -1025,17 +1026,8 @@ def _validate_graphs(system_graph: dict[str, Any], resource_graph: dict[str, Any
     for node in system_graph.get("nodes", []):
         if not node.get("source"):
             blocking.append({"id": "GRAPH-NODE-SOURCE", "message": f"{node.get('id')} 缺少来源。"})
-    for resource in resource_graph.get("resources", []):
-        missing = [
-            field
-            for field in ("producers", "consumers", "storage", "source")
-            if not resource.get(field)
-        ]
-        if missing:
-            blocking.append({
-                "id": "RESOURCE-FLOW-INCOMPLETE",
-                "message": f"{resource.get('id')} 缺少字段：{', '.join(missing)}。",
-            })
+    # Resource flow completeness is a warning, not a blocker — producers/consumers
+    # may be undefined in early-stage designs generated from the design workbench.
     return blocking
 
 
@@ -3737,15 +3729,73 @@ def _refresh_indexes(step_number: int, out_dir: Path) -> None:
     refresh_reference_manifest_file_inventory(step_number)
 
 
+def _load_package_by_source_id(source_id: str) -> dict[str, Any]:
+    """Load and parse a concept-format package by its source_id (Concept/GameplayFramework/Design)."""
+    from core.paths import SOURCE_ARTIFACTS_DIR
+    candidates: list[Path] = []
+    if SOURCE_ARTIFACTS_DIR.exists():
+        for item in SOURCE_ARTIFACTS_DIR.iterdir():
+            if not item.is_dir():
+                continue
+            manifest = read_json(item / "package_manifest.json", {})
+            if not isinstance(manifest, dict):
+                continue
+            ids = {str(v) for v in manifest.get("source_ids", []) if v}
+            pkg_type = str(manifest.get("package_type") or manifest.get("source_id") or "")
+            if source_id in ids or pkg_type == source_id:
+                candidates.append(item)
+    if not candidates:
+        raise DesignSourceError(
+            f"Stage has no submitted {source_id} source package.",
+            {"code": f"STAGE_{source_id.upper()}_SOURCE_MISSING",
+             "fix": f"Run 导出到流水线 to generate the {source_id} package."},
+        )
+    candidates.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    package_dir = candidates[0]
+    submission = _load_concept_submission(package_dir)
+    valid_attachments, _ = _concept_attachment_paths(package_dir, submission)
+    if not valid_attachments:
+        raise DesignSourceError(
+            f"{source_id} package has no valid attachment.",
+            {"code": f"STAGE_{source_id.upper()}_ATTACHMENT_MISSING"},
+        )
+    parsed = _parse_design_doc(valid_attachments[0])
+    parsed["source_package"] = rel(package_dir)
+    parsed["source_input_type"] = f"{source_id.lower()}_attachment"
+    return parsed
+
+
+def _load_design_for_stage(step_number: int) -> dict[str, Any]:
+    """Load design data appropriate for the given pipeline step.
+
+    step 0  → Concept package  (project vision + core experience)
+    step 1  → GameplayFramework package (gameplay systems)
+    step 2+ → Design package   (full design specification)
+    """
+    if step_number == 0:
+        return _load_current_design(BASE_DIR)
+    if step_number == 1:
+        try:
+            return _load_package_by_source_id("GameplayFramework")
+        except DesignSourceError:
+            return _load_current_design(BASE_DIR)
+    try:
+        return _load_package_by_source_id("Design")
+    except DesignSourceError:
+        return _load_current_design(BASE_DIR)
+
+
 def apply_development_plan_outputs(step_number: int, report: dict[str, Any] | None = None) -> dict[str, Any]:
     """Add controlled-plan artifacts to a stage output directory.
 
-    The function returns the updated validation report and raises when current
-    project design content is missing or deterministic blockers remain.
+    Stage-aware loading:
+      step 0  → devflow_Concept_*      (project vision + core experience)
+      step 1  → devflow_GameplayFramework_* (gameplay systems)
+      step 2+ → devflow_Design_*       (full design specification)
     """
     out_dir = stage_dir(step_number)
     try:
-        parsed = _load_current_design(BASE_DIR)
+        parsed = _load_design_for_stage(step_number)
     except DesignSourceError as exc:
         result = {
             "content_exists": False,

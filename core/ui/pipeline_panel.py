@@ -118,6 +118,8 @@ class PipelinePanel(tk.Frame):
         from core.ui.unity_config_dialog import UnityConfigDialog
         ttk.Button(config_bar, text="项目配置",
                    command=lambda: UnityConfigDialog(self)).pack(side=tk.LEFT)
+        ttk.Button(config_bar, text="导出到流水线",
+                   command=self._export_to_pipeline).pack(side=tk.LEFT, padx=(8, 0))
         self._from_var = tk.IntVar(value=0)
         self._to_var = tk.IntVar(value=15)
         tk.Label(config_bar, text="  从步骤", bg=COLORS["surface_alt"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
@@ -242,6 +244,36 @@ class PipelinePanel(tk.Frame):
     def _on_run_done(self):
         self._running = False
         self.refresh()
+
+    def _export_to_pipeline(self):
+        """执行 D4 导出，将设计内容打包到流水线 source_artifacts，并写入存档记录。"""
+        import json
+        from datetime import datetime
+        from core.design.export_adapter import export_concept_package
+        from core.save import manager as save_manager
+        from core.design.data_loader import runtime_project_root
+        try:
+            result = export_concept_package()
+            # 写入存档记录
+            runtime_root = runtime_project_root()
+            save_id = save_manager.current_save_id(runtime_root)
+            if save_id:
+                record = {
+                    "exported_at": datetime.now().isoformat(timespec="seconds"),
+                    "package_dir": result.get("package_dir", ""),
+                    "attachment": result.get("attachment", ""),
+                }
+                record_path = (
+                    save_manager.workspace_dir(runtime_root, save_id)
+                    / "concept_export_record.json"
+                )
+                record_path.parent.mkdir(parents=True, exist_ok=True)
+                record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
+            self._append_log(f"[导出] 设计内容已导出到流水线：{result.get('package_dir', '')}\n")
+            messagebox.showinfo("导出成功", f"设计内容已导出到流水线。\n\n包目录：{result.get('package_dir', '')}", parent=self)
+        except Exception as exc:
+            self._append_log(f"[导出] 失败：{exc}\n")
+            messagebox.showerror("导出失败", str(exc), parent=self)
 
     def _stop(self):
         request_stop(PROJECT_ROOT)

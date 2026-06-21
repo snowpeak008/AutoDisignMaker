@@ -9,7 +9,7 @@ from core.io import now_iso, write_json
 from core.paths import OUTPUTS_DIR, PROJECT_ROOT
 from core.artifact.registry_loader import artifacts_by_id, load_registry
 
-GRAPH_PATH = PROJECT_ROOT / "artifact_layer" / "dependency_graph.json"
+GRAPH_PATH = PROJECT_ROOT / "pipeline" / "artifact_layer" / "dependency_graph.json"
 OUTPUT_GRAPH_PATH = OUTPUTS_DIR / "dependency_graph.json"
 LAYER_OUTPUT_DIR = OUTPUTS_DIR / "artifact_layer"
 

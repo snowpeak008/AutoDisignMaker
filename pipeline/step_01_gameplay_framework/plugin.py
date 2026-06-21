@@ -7,7 +7,7 @@ from core.engines.generation import apply_development_plan_outputs
 
 class Plugin(StagePlugin):
     stage_id = "01"
-    _source_groups = [SourceGroup("gameplay_framework_history", ("devflow_GameplayFramework_*",), "all", True, ("GameplayFramework",))]
+    _source_groups = [SourceGroup("gameplay_framework_history", ("devflow_GameplayFramework_*",), "all", False, ("GameplayFramework",))]
 
     def execute(self, ctx: StageContext) -> StageResult:
         if ctx.test_mode:

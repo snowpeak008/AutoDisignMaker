@@ -8,10 +8,10 @@ from core.engines.generation import apply_development_plan_outputs
 class Plugin(StagePlugin):
     stage_id = "02"
     _source_groups = [
-        SourceGroup("2a_subsystem_design", ("devflow_SubsystemDesign_*",), "latest", True, ("SubsystemDesign",)),
-        SourceGroup("2b_ai_design_script", ("devflow_AIDesignScript_*",), "latest", True, ("AIDesignScript",)),
-        SourceGroup("2c_design_package", ("devflow_Design_*",), "latest", True, ("Design",)),
-        SourceGroup("2c_development_design", ("devflow_DevelopmentDesign_*",), "latest", True, ("DevelopmentDesign",)),
+        SourceGroup("2a_subsystem_design", ("devflow_SubsystemDesign_*",), "latest", False, ("SubsystemDesign",)),
+        SourceGroup("2b_ai_design_script", ("devflow_AIDesignScript_*",), "latest", False, ("AIDesignScript",)),
+        SourceGroup("2c_design_package", ("devflow_Design_*",), "latest", False, ("Design",)),
+        SourceGroup("2c_development_design", ("devflow_DevelopmentDesign_*",), "latest", False, ("DevelopmentDesign",)),
     ]
 
     def execute(self, ctx: StageContext) -> StageResult:

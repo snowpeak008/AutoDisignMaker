@@ -228,7 +228,37 @@ class SaveManagerDialog(tk.Toplevel):
         return result["value"]
 
     # ──────────────────────────────────────────────────────────
-    # 操作处理器
+    # 项目配置存档支持
+    # ──────────────────────────────────────────────────────────
+
+    def _save_project_config_to(self, save_id: str) -> None:
+        """将当前 project_settings.json 写入指定存档槽的 workspace。"""
+        import json
+        from core.paths import PROJECT_SETTINGS_FILE
+        if not PROJECT_SETTINGS_FILE.exists():
+            return
+        try:
+            config = json.loads(PROJECT_SETTINGS_FILE.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return
+        dest = save_manager.workspace_dir(self.runtime_root, save_id) / "project_config.json"
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    def _restore_project_config_from(self, save_id: str) -> None:
+        """从指定存档槽的 workspace 恢复 project_settings.json，并刷新 UI 配置。"""
+        import json
+        from core.paths import PROJECT_SETTINGS_FILE
+        src = save_manager.workspace_dir(self.runtime_root, save_id) / "project_config.json"
+        if not src.exists():
+            return
+        try:
+            config = json.loads(src.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return
+        PROJECT_SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        PROJECT_SETTINGS_FILE.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
+
     # ──────────────────────────────────────────────────────────
 
     def on_new_save(self) -> None:
@@ -242,6 +272,7 @@ class SaveManagerDialog(tk.Toplevel):
             from core.engines.execution_objects.integration import load_execution_object_store
 
             save_manager.create_save(self.runtime_root, name, event="user_new_save")
+            self._save_project_config_to(save_manager.current_save_id(self.runtime_root))
             store = load_execution_object_store(self.runtime_root)
             execution_obj = save_design_project(
                 store,
@@ -273,6 +304,7 @@ class SaveManagerDialog(tk.Toplevel):
             from core.engines.execution_objects.integration import load_execution_object_store
 
             save_manager.set_current_save(self.runtime_root, save_id)
+            self._save_project_config_to(save_id)
             store = load_execution_object_store(self.runtime_root)
             execution_obj = save_design_project(
                 store,
@@ -305,6 +337,7 @@ class SaveManagerDialog(tk.Toplevel):
             from core.design.profile_schema import option_label
 
             save_manager.load_save(self.runtime_root, save_id)
+            self._restore_project_config_from(save_id)
             store = load_execution_object_store(self.runtime_root)
             project_data = load_latest_design_project(store)
 

@@ -166,7 +166,9 @@ class ProjectConfigDialog(tk.Toplevel):
         ttk.Entry(dev_row, textvariable=self._development_path_var).pack(side=tk.LEFT, fill=tk.X, expand=True)
         ttk.Button(
             dev_row, text="浏览",
-            command=lambda: self._development_path_var.set(filedialog.askdirectory()),
+            command=lambda: self._development_path_var.set(
+                filedialog.askdirectory() or self._development_path_var.get()
+            ),
         ).pack(side=tk.LEFT, padx=(6, 0))
 
         self._editor_label = tk.Label(self._paths_card, text="", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL)
@@ -177,7 +179,9 @@ class ProjectConfigDialog(tk.Toplevel):
         ttk.Entry(editor_row, textvariable=self._editor_path_var).pack(side=tk.LEFT, fill=tk.X, expand=True)
         ttk.Button(
             editor_row, text="浏览",
-            command=lambda: self._editor_path_var.set(filedialog.askopenfilename()),
+            command=lambda: self._editor_path_var.set(
+                filedialog.askopenfilename() or self._editor_path_var.get()
+            ),
         ).pack(side=tk.LEFT, padx=(6, 0))
 
         # ── 底部：状态 + 按钮 ────────────────────────────────────
