@@ -72,6 +72,12 @@ ucos/_checkpoints/*
 memory/active-task.md
 memory/known-issues.md
 
+# Local review inputs and temporary implementation plans
+bug收集文档*.md
+bug优化文档*.md
+plan/l5_entity_ai_supplement/
+plan/template_l5_expansion/
+
 # Config (user-specific)
 config/project_settings.json
 *.local.json

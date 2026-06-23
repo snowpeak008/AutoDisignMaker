@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-23T22:42:58",
+  "generated_at": "2026-06-24T00:13:37",
   "files": {
     "core/main.py": {
       "sha256": "e0ee4f83937234a71bc13e4a10dbdf1cf8297e2e8a2b0a64b96e85f11f547598",
       "size": 6742
     },
     "core/engines/generation.py": {
-      "sha256": "51a542ba96cf91ce0d542f9c72900f9f257c9e818100d3c90c2d9ae7f2df4bae",
-      "size": 171588
+      "sha256": "a55e74674e568e5df8a6c61c413e7de7fe63bb30f2337396076edcae88d409a9",
+      "size": 175451
     },
     "core/registry.py": {
       "sha256": "8d58f8c100f71775c6cb579a30d88e6e680bbcb304064f73b92ed725e521551e",
@@ -38,12 +38,12 @@
       "size": 3741
     },
     "core/adapters/base.py": {
-      "sha256": "cb22c4b79c1a09ced02f178650db54d72dcd7616ddec0d7cfe568d20c4504418",
-      "size": 639
+      "sha256": "43e902c63ce92e932af42f24ae01c89217e1ea15fe1c409151cc19901f110981",
+      "size": 676
     },
     "core/adapters/registry.py": {
-      "sha256": "30da7558b1925fbbbfe73f30dd0c8c9eaaa6efd460f403b3ea5d979abfc8cabf",
-      "size": 858
+      "sha256": "0d00be80f4518f23bc58377a0b4c8a7771f6b87702b9362823382397f3792a81",
+      "size": 927
     },
     "core/adapters/openai_adapter.py": {
       "sha256": "9acadcfe852700d1836f5571ba2b91b14c4fdfb0bc6df25e9ad74f48310a2606",
@@ -90,8 +90,8 @@
       "size": 3885
     },
     "core/runtime/preflight.py": {
-      "sha256": "2a1598d6a3cd6408c9d79ec39329f7ae01a46d639d7509ae5e34dab45a1a2468",
-      "size": 6354
+      "sha256": "67adfef1d8d48fa58a85bfdf8c116381339a08b42d4594533d2cf8d03f482303",
+      "size": 6502
     },
     "core/runtime/pipeline_state.py": {
       "sha256": "2ae5d66c32b3b7ddb12b2b0b62859b4be363e5530e2d243b359fdb706386e04e",

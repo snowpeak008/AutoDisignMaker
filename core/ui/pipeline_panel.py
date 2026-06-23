@@ -25,16 +25,16 @@ _GROUPS = [
 ]
 
 _CN_TITLES: dict[int, str] = {
-    0:  "初始想法输入",
-    1:  "玩法框架确认",
-    2:  "设计评审冻结",
-    3:  "程序需求确认",
-    4:  "美术需求确认",
-    5:  "程序需求评审",
-    6:  "美术需求评审",
-    7:  "程序开发计划",
-    8:  "美术制作计划",
-    9:  "资产契约对齐",
+    0: "初始想法输入",
+    1: "玩法框架确认",
+    2: "设计评审冻结",
+    3: "程序需求确认",
+    4: "美术需求确认",
+    5: "程序需求评审",
+    6: "美术需求评审",
+    7: "程序开发计划",
+    8: "美术制作计划",
+    9: "资产契约对齐",
     10: "程序开发执行",
     11: "美术制作执行",
     12: "集成验证",
@@ -44,11 +44,11 @@ _CN_TITLES: dict[int, str] = {
 }
 
 _PIPELINE_STATUS_MAP = {
-    "success":     "success",
-    "failed":      "failed",
+    "success": "success",
+    "failed": "failed",
     "in_progress": "in_progress",
-    "pending":     "not_started",
-    "skipped":     "not_started",
+    "pending": "not_started",
+    "skipped": "not_started",
 }
 
 
@@ -94,11 +94,19 @@ class PipelinePanel(tk.Frame):
         inner = tk.Frame(canvas, bg=COLORS["surface"])
         win_id = canvas.create_window((0, 0), window=inner, anchor=tk.NW)
         canvas.bind("<Configure>", lambda e: canvas.itemconfig(win_id, width=e.width))
-        inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        inner.bind(
+            "<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
 
         for group_name, step_range in _GROUPS:
-            tk.Label(inner, text=group_name, bg=COLORS["surface"], fg=COLORS["muted"],
-                     font=FONT_SMALL, pady=4).pack(fill=tk.X, padx=6)
+            tk.Label(
+                inner,
+                text=group_name,
+                bg=COLORS["surface"],
+                fg=COLORS["muted"],
+                font=FONT_SMALL,
+                pady=4,
+            ).pack(fill=tk.X, padx=6)
             for step_num in step_range:
                 title = _CN_TITLES.get(step_num, f"步骤 {step_num:02d}")
                 card = StepCard(inner, step_num, title, self._select_step)
@@ -116,34 +124,90 @@ class PipelinePanel(tk.Frame):
         config_bar = tk.Frame(right, bg=COLORS["surface_alt"], padx=12, pady=6)
         config_bar.pack(fill=tk.X, side=tk.TOP)
         from core.ui.unity_config_dialog import UnityConfigDialog
-        ttk.Button(config_bar, text="项目配置",
-                   command=lambda: UnityConfigDialog(self)).pack(side=tk.LEFT)
-        ttk.Button(config_bar, text="导出到流水线",
-                   command=self._export_to_pipeline).pack(side=tk.LEFT, padx=(8, 0))
+
+        ttk.Button(
+            config_bar, text="项目配置", command=lambda: UnityConfigDialog(self)
+        ).pack(side=tk.LEFT)
+        ttk.Button(
+            config_bar, text="导出到流水线", command=self._export_to_pipeline
+        ).pack(side=tk.LEFT, padx=(8, 0))
         self._from_var = tk.IntVar(value=0)
         self._to_var = tk.IntVar(value=15)
-        tk.Label(config_bar, text="  从步骤", bg=COLORS["surface_alt"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
-        tk.Spinbox(config_bar, from_=0, to=15, textvariable=self._from_var, width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
-        tk.Label(config_bar, text="到", bg=COLORS["surface_alt"], fg=COLORS["muted"], font=FONT_SMALL).pack(side=tk.LEFT)
-        tk.Spinbox(config_bar, from_=0, to=15, textvariable=self._to_var, width=3, font=FONT_SMALL).pack(side=tk.LEFT, padx=2)
-        ttk.Button(config_bar, text="▶ 运行", command=self._run_range).pack(side=tk.LEFT, padx=(6, 0))
-        ttk.Button(config_bar, text="⏹ 停止", command=self._stop).pack(side=tk.LEFT, padx=(4, 0))
+        tk.Label(
+            config_bar,
+            text="  从步骤",
+            bg=COLORS["surface_alt"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        ).pack(side=tk.LEFT)
+        tk.Spinbox(
+            config_bar,
+            from_=0,
+            to=15,
+            textvariable=self._from_var,
+            width=3,
+            font=FONT_SMALL,
+        ).pack(side=tk.LEFT, padx=2)
+        tk.Label(
+            config_bar,
+            text="到",
+            bg=COLORS["surface_alt"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        ).pack(side=tk.LEFT)
+        tk.Spinbox(
+            config_bar,
+            from_=0,
+            to=15,
+            textvariable=self._to_var,
+            width=3,
+            font=FONT_SMALL,
+        ).pack(side=tk.LEFT, padx=2)
+        ttk.Button(config_bar, text="▶ 运行", command=self._run_range).pack(
+            side=tk.LEFT, padx=(6, 0)
+        )
+        ttk.Button(config_bar, text="⏹ 停止", command=self._stop).pack(
+            side=tk.LEFT, padx=(4, 0)
+        )
 
-        right_paned = tk.PanedWindow(right, orient=tk.VERTICAL, sashrelief=tk.FLAT,
-                                     sashwidth=4, bg=COLORS["border"])
+        right_paned = tk.PanedWindow(
+            right,
+            orient=tk.VERTICAL,
+            sashrelief=tk.FLAT,
+            sashwidth=4,
+            bg=COLORS["border"],
+        )
         right_paned.pack(fill=tk.BOTH, expand=True)
 
         self._detail = tk.Frame(right_paned, bg=COLORS["bg"])
         right_paned.add(self._detail, stretch="never")
-        tk.Label(self._detail, text="点击左侧步骤查看详情",
-                 bg=COLORS["bg"], fg=COLORS["muted"], font=FONT_BODY).pack(expand=True)
+        tk.Label(
+            self._detail,
+            text="点击左侧步骤查看详情",
+            bg=COLORS["bg"],
+            fg=COLORS["muted"],
+            font=FONT_BODY,
+        ).pack(expand=True)
 
         log_frame = tk.Frame(right_paned, bg=COLORS["surface"])
         right_paned.add(log_frame, stretch="always", minsize=80)
-        tk.Label(log_frame, text="运行日志", bg=COLORS["surface"],
-                 fg=COLORS["muted"], font=FONT_SMALL, pady=4, padx=8).pack(anchor=tk.W)
-        self._log_text = tk.Text(log_frame, bg=COLORS["dark"], fg="#D0E8C0",
-                                 font=("Consolas", 9), wrap=tk.WORD, state=tk.DISABLED)
+        tk.Label(
+            log_frame,
+            text="运行日志",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+            pady=4,
+            padx=8,
+        ).pack(anchor=tk.W)
+        self._log_text = tk.Text(
+            log_frame,
+            bg=COLORS["dark"],
+            fg="#D0E8C0",
+            font=("Consolas", 9),
+            wrap=tk.WORD,
+            state=tk.DISABLED,
+        )
         log_sb = ttk.Scrollbar(log_frame, command=self._log_text.yview)
         self._log_text.configure(yscrollcommand=log_sb.set)
         log_sb.pack(side=tk.RIGHT, fill=tk.Y)
@@ -156,7 +220,11 @@ class PipelinePanel(tk.Frame):
         first_incomplete: int | None = None
         for step_num, card in self._cards.items():
             step_info = steps_state.get(str(step_num), {})
-            raw = step_info.get("status", "pending") if isinstance(step_info, dict) else "pending"
+            raw = (
+                step_info.get("status", "pending")
+                if isinstance(step_info, dict)
+                else "pending"
+            )
             card.update_status(_PIPELINE_STATUS_MAP.get(raw, "not_started"))
             if first_incomplete is None and raw != "success":
                 first_incomplete = step_num
@@ -178,44 +246,74 @@ class PipelinePanel(tk.Frame):
         title = _CN_TITLES.get(step_num, f"步骤 {step_num:02d}")
         state = load_pipeline_state(PROJECT_ROOT)
         step_info = state.get("steps", {}).get(str(step_num), {})
-        status = step_info.get("status", "pending") if isinstance(step_info, dict) else "pending"
+        status = (
+            step_info.get("status", "pending")
+            if isinstance(step_info, dict)
+            else "pending"
+        )
 
         from core.runtime.preflight import ENGINE_LABELS, load_project_settings
         from core.adapters.registry import SUPPORTED_ADAPTERS
+
         settings = load_project_settings(PROJECT_ROOT)
         engine_key = settings.get("project_engine", "unity")
         engine_label = ENGINE_LABELS.get(engine_key, engine_key)
         if engine_key == "custom" and settings.get("custom_engine_name"):
             engine_label = f"自定义（{settings['custom_engine_name']}）"
-        adapter_key = settings.get("pipeline_adapter", "codex")
+        adapter_key = settings.get("pipeline_adapter", "none")
         adapter_label = SUPPORTED_ADAPTERS.get(adapter_key, adapter_key)
 
         card = tk.Frame(self._detail, bg=COLORS["surface"], padx=16, pady=12)
         card.pack(fill=tk.X, padx=12, pady=12)
 
-        tk.Label(card, text=f"步骤 {step_num:02d}：{title}",
-                 bg=COLORS["surface"], fg=COLORS["text"], font=FONT_SECTION).pack(anchor=tk.W)
-        tk.Label(card, text=f"状态：{status}",
-                 bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_BODY).pack(anchor=tk.W, pady=(4, 2))
-        tk.Label(card, text=f"当前引擎：{engine_label}",
-                 bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W, pady=(0, 2))
-        tk.Label(card, text=f"AI 适配器：{adapter_label}",
-                 bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W, pady=(0, 8))
+        tk.Label(
+            card,
+            text=f"步骤 {step_num:02d}：{title}",
+            bg=COLORS["surface"],
+            fg=COLORS["text"],
+            font=FONT_SECTION,
+        ).pack(anchor=tk.W)
+        tk.Label(
+            card,
+            text=f"状态：{status}",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_BODY,
+        ).pack(anchor=tk.W, pady=(4, 2))
+        tk.Label(
+            card,
+            text=f"当前引擎：{engine_label}",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        ).pack(anchor=tk.W, pady=(0, 2))
+        tk.Label(
+            card,
+            text=f"AI 适配器：{adapter_label}",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        ).pack(anchor=tk.W, pady=(0, 8))
 
         btn_row = tk.Frame(card, bg=COLORS["surface"])
         btn_row.pack(anchor=tk.W)
         run_label = "▶ 运行此步骤" if status != "success" else "🔁 重新运行"
-        ttk.Button(btn_row, text=run_label,
-                   command=lambda: self._run_single(step_num)).pack(side=tk.LEFT)
+        ttk.Button(
+            btn_row, text=run_label, command=lambda: self._run_single(step_num)
+        ).pack(side=tk.LEFT)
 
     def _run_single(self, step_num: int):
         if step_num >= 3:
             result = run_actual_development_preflight(PROJECT_ROOT)
             if result.get("status") != "passed":
                 msgs = "\n".join(
-                    b.get("message", "") for b in result.get("blockers", []) if isinstance(b, dict)
+                    b.get("message", "")
+                    for b in result.get("blockers", [])
+                    if isinstance(b, dict)
                 )
-                messagebox.showwarning("无法运行", f"Unity 配置不完整：\n{msgs}", parent=self)
+                messagebox.showwarning(
+                    "无法运行", f"Unity 配置不完整：\n{msgs}", parent=self
+                )
                 return
         self._exec_range(step_num, step_num)
 
@@ -234,7 +332,13 @@ class PipelinePanel(tk.Frame):
             sys.stdout = sys.stderr = writer
             try:
                 from core.main import run_range
-                run_range(from_step, stop_step, auto_approve=True, skip_preflight=(from_step >= 3))
+
+                run_range(
+                    from_step,
+                    stop_step,
+                    auto_approve=True,
+                    skip_preflight=(from_step >= 3),
+                )
             finally:
                 sys.stdout, sys.stderr = old_stdout, old_stderr
             self.after(0, self._on_run_done)
@@ -252,6 +356,7 @@ class PipelinePanel(tk.Frame):
         from core.design.export_adapter import export_concept_package
         from core.save import manager as save_manager
         from core.design.data_loader import runtime_project_root
+
         try:
             result = export_concept_package()
             # 写入存档记录
@@ -268,9 +373,17 @@ class PipelinePanel(tk.Frame):
                     / "concept_export_record.json"
                 )
                 record_path.parent.mkdir(parents=True, exist_ok=True)
-                record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
-            self._append_log(f"[导出] 设计内容已导出到流水线：{result.get('package_dir', '')}\n")
-            messagebox.showinfo("导出成功", f"设计内容已导出到流水线。\n\n包目录：{result.get('package_dir', '')}", parent=self)
+                record_path.write_text(
+                    json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8"
+                )
+            self._append_log(
+                f"[导出] 设计内容已导出到流水线：{result.get('package_dir', '')}\n"
+            )
+            messagebox.showinfo(
+                "导出成功",
+                f"设计内容已导出到流水线。\n\n包目录：{result.get('package_dir', '')}",
+                parent=self,
+            )
         except Exception as exc:
             self._append_log(f"[导出] 失败：{exc}\n")
             messagebox.showerror("导出失败", str(exc), parent=self)

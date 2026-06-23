@@ -31,16 +31,35 @@ def _entity_kind_for(item: Any) -> str:
         return "ui"
     if any(
         token in text
-        for token in ("weapon", "sword", "blade", "bow", "gun", "武器", "剑", "刀", "弓", "枪")
+        for token in (
+            "weapon",
+            "sword",
+            "blade",
+            "bow",
+            "gun",
+            "武器",
+            "剑",
+            "刀",
+            "弓",
+            "枪",
+        )
     ):
         return "weapon"
-    if any(token in text for token in ("enemy", "boss", "monster", "敌人", "首领", "怪物")):
+    if any(
+        token in text for token in ("enemy", "boss", "monster", "敌人", "首领", "怪物")
+    ):
         return "enemy"
-    if any(token in text for token in ("resource", "currency", "economy", "资源", "货币", "经济")):
+    if any(
+        token in text
+        for token in ("resource", "currency", "economy", "资源", "货币", "经济")
+    ):
         return "resource"
     if any(token in text for token in ("item", "loot", "drop", "物品", "道具", "掉落")):
         return "resource"
-    if any(token in text for token in ("skill", "ability", "attack", "技能", "攻击", "特效")):
+    if any(
+        token in text
+        for token in ("skill", "ability", "attack", "技能", "攻击", "特效")
+    ):
         return "ability"
     if any(token in text for token in ("room", "level", "房间", "关卡")):
         return "room"
@@ -48,7 +67,9 @@ def _entity_kind_for(item: Any) -> str:
         return "scene"
     if any(token in text for token in ("character", "avatar", "角色", "主角", "npc")):
         return "character"
-    if any(token in text for token in ("audio", "sound", "music", "音频", "音效", "音乐")):
+    if any(
+        token in text for token in ("audio", "sound", "music", "音频", "音效", "音乐")
+    ):
         return "audio"
     if any(token in text for token in ("config", "setting", "配置", "参数")):
         return "config"
@@ -57,7 +78,9 @@ def _entity_kind_for(item: Any) -> str:
     return "design_selection"
 
 
-def _synthetic_entities(parsed: dict[str, Any], *, limit: int = 47) -> list[dict[str, Any]]:
+def _synthetic_entities(
+    parsed: dict[str, Any], *, limit: int = 47
+) -> list[dict[str, Any]]:
     """Create deterministic fallback entities from non-L5 selections."""
     candidates = [
         item
@@ -80,8 +103,11 @@ def _synthetic_entities(parsed: dict[str, Any], *, limit: int = 47) -> list[dict
                 "source": _text(_field(item, "source_ref") or _field(item, "source")),
                 "source_selection_id": node_id,
                 "node_id": node_id,
-                "dependencies": [_text(value) for value in dependencies if _text(value)],
-                "purpose": _text(_field(item, "purpose")) or "由当前设计选择生成的本地实体补全。",
+                "dependencies": [
+                    _text(value) for value in dependencies if _text(value)
+                ],
+                "purpose": _text(_field(item, "purpose"))
+                or "由当前设计选择生成的本地实体补全。",
                 "inference": {
                     "mode": "local_selection_fallback",
                     "reason": "No explicit L5实体 selections were found.",
@@ -105,25 +131,45 @@ def extract_l5_entities(parsed: dict[str, Any]) -> list[dict[str, Any]]:
         purpose = _text(_field(item, "purpose"))
         schema = ""
         kind = ""
+        status = ""
         for part in purpose.replace(";", "；").split("；"):
-            if part.startswith("schema="):
-                schema = part.removeprefix("schema=").strip()
-            elif part.startswith("kind="):
-                kind = part.removeprefix("kind=").strip()
-        entities.append(
-            {
-                "entity_id": f"ENT-{l5_index:03d}",
-                "label": _text(_field(item, "option")) or _label(item),
-                "kind": kind or _entity_kind_for(item),
-                "schema": schema or "unknown",
-                "source": _text(_field(item, "source_ref") or _field(item, "source")),
-                "source_selection_id": _text(_field(item, "id", f"SEL-{l5_index:03d}")),
-                "node_id": _text(dependencies[0]) if dependencies else "",
-                "dependencies": [_text(value) for value in dependencies if _text(value)],
-                "purpose": purpose,
-            }
-        )
+            cleaned = part.strip()
+            if cleaned.startswith("schema="):
+                schema = cleaned.removeprefix("schema=").strip()
+            elif cleaned.startswith("kind="):
+                kind = cleaned.removeprefix("kind=").strip()
+            elif cleaned.startswith("status="):
+                status = cleaned.removeprefix("status=").strip()
+        entity = {
+            "entity_id": f"ENT-{l5_index:03d}",
+            "label": _text(_field(item, "option")) or _label(item),
+            "kind": kind or _entity_kind_for(item),
+            "schema": schema or "unknown",
+            "status": status or "precise",
+            "source": _text(_field(item, "source_ref") or _field(item, "source")),
+            "source_selection_id": _text(_field(item, "id", f"SEL-{l5_index:03d}")),
+            "node_id": _text(dependencies[0]) if dependencies else "",
+            "dependencies": [_text(value) for value in dependencies if _text(value)],
+            "purpose": purpose,
+        }
+        entities.append(entity)
     return entities or _synthetic_entities(parsed)
+
+
+def should_supplement(
+    entities: list[dict[str, Any]],
+    entity_coverage_rate: float,
+    adapter_name: str,
+) -> bool:
+    """Return True when Step 02 should request AI L5 entity supplement."""
+    if not adapter_name or adapter_name == "none":
+        return False
+    if any(_text(entity.get("status")) == "approximate" for entity in entities):
+        return True
+    real_l5 = [
+        entity for entity in entities if not isinstance(entity.get("inference"), dict)
+    ]
+    return entity_coverage_rate < 0.60 and len(real_l5) < 10
 
 
 def _expected_node_count(parsed: dict[str, Any], entities: list[dict[str, Any]]) -> int:
@@ -159,10 +205,51 @@ def _expected_node_count(parsed: dict[str, Any], entities: list[dict[str, Any]])
 class EntityValidator:
     """Validate extracted design entities and coverage."""
 
-    def validate(self, parsed: dict[str, Any]) -> dict[str, Any]:
+    def validate(
+        self, parsed: dict[str, Any], *, supplement_adapter: Any = None
+    ) -> dict[str, Any]:
         """Build the entity coverage report for Step 02."""
         entities = extract_l5_entities(parsed)
-        concrete_nodes = sorted({item["node_id"] for item in entities if item.get("node_id")})
+        expected_total = _expected_node_count(parsed, entities)
+        pre_covered_nodes = len(
+            {item["node_id"] for item in entities if item.get("node_id")}
+        )
+        pre_coverage_rate = (
+            pre_covered_nodes / expected_total if expected_total else 0.0
+        )
+        supplement_meta: dict[str, Any] | None = None
+        adapter_name = _text(getattr(supplement_adapter, "adapter_name", ""))
+        if supplement_adapter and should_supplement(
+            entities, pre_coverage_rate, adapter_name
+        ):
+            result = supplement_adapter.supplement(entities, parsed)
+            entities = result.entities
+            supplement_meta = {
+                "triggered": True,
+                "mode": result.mode,
+                "entities_added": result.added_count,
+                "entities_completed": result.completed_count,
+                "cache_hit": result.cache_hit,
+                "adapter": result.adapter_used,
+                "fallback_used": result.fallback_used,
+                "supplement_basis_samples": result.supplement_basis_samples,
+            }
+            if result.error:
+                supplement_meta["error"] = result.error
+        elif supplement_adapter:
+            supplement_meta = {
+                "triggered": False,
+                "mode": "skipped",
+                "entities_added": 0,
+                "entities_completed": 0,
+                "cache_hit": False,
+                "adapter": adapter_name or "none",
+                "fallback_used": False,
+                "supplement_basis_samples": [],
+            }
+        concrete_nodes = sorted(
+            {item["node_id"] for item in entities if item.get("node_id")}
+        )
         expected_total = _expected_node_count(parsed, entities)
         missing_count = max(expected_total - len(concrete_nodes), 0)
         missing_entities = [
@@ -179,12 +266,14 @@ class EntityValidator:
                 "reason": "missing label, kind, or schema",
             }
             for item in entities
-            if not item.get("label") or not item.get("kind") or item.get("schema") == "unknown"
+            if not item.get("label")
+            or not item.get("kind")
+            or item.get("schema") == "unknown"
         ]
         covered_nodes = len(concrete_nodes)
         total_nodes = expected_total
         coverage_rate = covered_nodes / total_nodes if total_nodes else 0.0
-        return {
+        report = {
             "schema_version": 1,
             "generated_at": now_iso(),
             "source": _text(parsed.get("source")),
@@ -197,6 +286,9 @@ class EntityValidator:
             "missing_entities": missing_entities,
             "invalid_entities": invalid_entities,
         }
+        if supplement_meta is not None:
+            report["ai_supplement"] = supplement_meta
+        return report
 
 
 class GraphGenerator:
@@ -225,7 +317,9 @@ class GraphGenerator:
                 "source": _text(edge.get("source")),
             }
             for edge in system_graph.get("edges", [])
-            if isinstance(edge, dict) and _text(edge.get("from")) and _text(edge.get("to"))
+            if isinstance(edge, dict)
+            and _text(edge.get("from"))
+            and _text(edge.get("to"))
         ]
         for entity in entity_report.get("entities", []):
             entity_id = _text(entity.get("entity_id"))
@@ -269,7 +363,9 @@ class GraphGenerator:
             "cycle_free": not cycles,
         }
 
-    def _cycles(self, node_ids: list[str], edges: list[dict[str, Any]]) -> list[list[str]]:
+    def _cycles(
+        self, node_ids: list[str], edges: list[dict[str, Any]]
+    ) -> list[list[str]]:
         """Return detected directed cycles without duplicating the closing node."""
         graph: dict[str, list[str]] = {node_id: [] for node_id in node_ids}
         for edge in edges:
@@ -329,7 +425,8 @@ class PhaseClassifier:
     def _phase_for(self, entity: dict[str, Any]) -> str:
         """Infer the implementation phase for one entity."""
         text = " ".join(
-            _text(entity.get(key)).lower() for key in ("label", "kind", "schema", "node_id")
+            _text(entity.get(key)).lower()
+            for key in ("label", "kind", "schema", "node_id")
         )
         if any(
             token in text
@@ -348,14 +445,19 @@ class PhaseClassifier:
             )
         ):
             return "launch_ops"
-        if any(token in text for token in ("currency", "economy", "resource", "货币", "资源")):
+        if any(
+            token in text
+            for token in ("currency", "economy", "resource", "货币", "资源")
+        ):
             return "economy"
         if any(
-            token in text for token in ("progress", "upgrade", "unlock", "成长", "升级", "解锁")
+            token in text
+            for token in ("progress", "upgrade", "unlock", "成长", "升级", "解锁")
         ):
             return "progression"
         if any(
-            token in text for token in ("room", "enemy", "encounter", "content", "房间", "敌人")
+            token in text
+            for token in ("room", "enemy", "encounter", "content", "房间", "敌人")
         ):
             return "content_ops"
         if any(token in text for token in ("social", "guild", "friend", "社交")):

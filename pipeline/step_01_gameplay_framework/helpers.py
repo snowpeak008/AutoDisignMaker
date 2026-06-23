@@ -32,7 +32,8 @@ def _label(item: Any) -> str:
 
 def _selection_text(item: Any) -> str:
     return " ".join(
-        _text(_field(item, name)) for name in ("item_type", "option", "purpose", "layer_title")
+        _text(_field(item, name))
+        for name in ("item_type", "option", "purpose", "layer_title")
     )
 
 
@@ -60,8 +61,12 @@ def _clear_template_cache() -> None:
 
 def _pick_template_key(raw_text: str, selections: list[Any]) -> str:
     """Pick the closest known genre template from raw text and selections."""
-    text = (raw_text + " " + " ".join(_selection_text(item) for item in selections)).lower()
-    if any(token in text for token in ("rogue", "肉鸽", "roguelite", "roguelike", "hades")):
+    text = (
+        raw_text + " " + " ".join(_selection_text(item) for item in selections)
+    ).lower()
+    if any(
+        token in text for token in ("rogue", "肉鸽", "roguelite", "roguelike", "hades")
+    ):
         return "roguelike_action"
     if any(token in text for token in ("fps", "射击", "枪", "shooter")):
         return "fps"
@@ -69,11 +74,18 @@ def _pick_template_key(raw_text: str, selections: list[Any]) -> str:
         return "puzzle"
     if any(token in text for token in ("strategy", "rts", "4x", "策略", "战棋")):
         return "strategy"
-    if any(token in text for token in ("rpg", "jrpg", "arpg", "role-playing", "角色扮演")):
+    if any(
+        token in text for token in ("rpg", "jrpg", "arpg", "role-playing", "角色扮演")
+    ):
         return "rpg"
     if any(token in text for token in ("moba", "推塔", "对线")):
         return "moba"
     return "generic"
+
+
+def pick_genre_template_key(raw_text: str, selections: list[Any]) -> str:
+    """Public accessor for genre template key detection."""
+    return _pick_template_key(raw_text, selections)
 
 
 class LoopExtractor:
@@ -114,7 +126,9 @@ class LoopExtractor:
 class SystemDeducer:
     """Deduce top-level gameplay systems from graphs and genre templates."""
 
-    def deduce(self, parsed: dict[str, Any], system_graph: dict[str, Any]) -> dict[str, Any]:
+    def deduce(
+        self, parsed: dict[str, Any], system_graph: dict[str, Any]
+    ) -> dict[str, Any]:
         """Return normalized system definitions capped for planning."""
         selections = [item for item in parsed.get("selections", []) if item]
         systems = self._systems_from_graph(system_graph)
@@ -122,7 +136,9 @@ class SystemDeducer:
         templates = _load_templates()
         template = templates.get(template_key) or templates.get("generic", {})
         systems.extend(
-            self._systems_from_template(template, existing_names={item["name"] for item in systems})
+            self._systems_from_template(
+                template, existing_names={item["name"] for item in systems}
+            )
         )
         systems = systems[:8]
         return {
@@ -142,7 +158,9 @@ class SystemDeducer:
             if not isinstance(node, dict):
                 continue
             name = _text(node.get("name"))
-            name = re.sub(r"^(system_layer|system)[：:]\s*", "", name, flags=re.IGNORECASE).strip()
+            name = re.sub(
+                r"^(system_layer|system)[：:]\s*", "", name, flags=re.IGNORECASE
+            ).strip()
             if not name:
                 continue
             systems.append(
@@ -169,9 +187,11 @@ class SystemDeducer:
                 continue
             systems.append(
                 {
-                    "id": _text(item.get("id")) or f"SYS-FALLBACK-{len(systems) + 1:03d}",
+                    "id": _text(item.get("id"))
+                    or f"SYS-FALLBACK-{len(systems) + 1:03d}",
                     "name": name,
-                    "responsibility": _text(item.get("responsibility")) or f"提供{name}能力。",
+                    "responsibility": _text(item.get("responsibility"))
+                    or f"提供{name}能力。",
                     "source": "genre_template",
                     "confidence": "fallback",
                 }

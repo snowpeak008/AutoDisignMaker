@@ -1,0 +1,282 @@
+{
+  "generic": [
+    {
+      "label": "核心角色",
+      "kind": "character",
+      "schema": "character.v1",
+      "node_id": "character_node",
+      "supplement_basis": "通用品类的玩家控制对象"
+    },
+    {
+      "label": "核心能力",
+      "kind": "ability",
+      "schema": "ability.v1",
+      "node_id": "ability_node",
+      "supplement_basis": "通用品类的主要交互能力"
+    },
+    {
+      "label": "核心资源",
+      "kind": "resource",
+      "schema": "resource.v1",
+      "node_id": "resource_node",
+      "supplement_basis": "通用品类的奖励和消耗对象"
+    },
+    {
+      "label": "标准场景",
+      "kind": "scene",
+      "schema": "scene.v1",
+      "node_id": "room_node",
+      "supplement_basis": "通用品类的主要内容承载场景"
+    },
+    {
+      "label": "主界面信息层",
+      "kind": "ui",
+      "schema": "ui.v1",
+      "node_id": "ui_node",
+      "supplement_basis": "通用品类的运行状态展示对象"
+    }
+  ],
+  "roguelike_action": [
+    {
+      "label": "冥界近战武器",
+      "kind": "weapon",
+      "schema": "weapon.v1",
+      "node_id": "combat_node",
+      "supplement_basis": "roguelike_action 品类的基础战斗武器"
+    },
+    {
+      "label": "冲刺斩击",
+      "kind": "ability",
+      "schema": "ability.v1",
+      "node_id": "ability_node",
+      "supplement_basis": "roguelike_action 品类的移动攻击能力"
+    },
+    {
+      "label": "冥府斗士",
+      "kind": "character",
+      "schema": "character.v1",
+      "node_id": "character_node",
+      "supplement_basis": "roguelike_action 品类的玩家操控角色"
+    },
+    {
+      "label": "标准战斗房间",
+      "kind": "room",
+      "schema": "room.v1",
+      "node_id": "room_node",
+      "supplement_basis": "roguelike_action 品类的清场推进节点"
+    },
+    {
+      "label": "骸骨敌兵",
+      "kind": "enemy",
+      "schema": "enemy.v1",
+      "node_id": "combat_node",
+      "supplement_basis": "roguelike_action 品类的基础遭遇敌人"
+    },
+    {
+      "label": "关底守卫",
+      "kind": "enemy",
+      "schema": "enemy.v1",
+      "node_id": "boss_node",
+      "supplement_basis": "roguelike_action 品类的阶段首领"
+    },
+    {
+      "label": "暗影货币",
+      "kind": "resource",
+      "schema": "resource.v1",
+      "node_id": "resource_node",
+      "supplement_basis": "roguelike_action 品类的局内奖励资源"
+    },
+    {
+      "label": "战斗状态 HUD",
+      "kind": "ui",
+      "schema": "ui.v1",
+      "node_id": "ui_node",
+      "supplement_basis": "roguelike_action 品类的高频战斗反馈界面"
+    }
+  ],
+  "fps": [
+    {
+      "label": "突击步枪",
+      "kind": "weapon",
+      "schema": "weapon.v1",
+      "node_id": "combat_node",
+      "supplement_basis": "fps 品类的基础射击武器"
+    },
+    {
+      "label": "战术冲刺",
+      "kind": "ability",
+      "schema": "ability.v1",
+      "node_id": "ability_node",
+      "supplement_basis": "fps 品类的移动能力"
+    },
+    {
+      "label": "训练靶兵",
+      "kind": "enemy",
+      "schema": "enemy.v1",
+      "node_id": "combat_node",
+      "supplement_basis": "fps 品类的基础敌人"
+    },
+    {
+      "label": "占点区域",
+      "kind": "room",
+      "schema": "room.v1",
+      "node_id": "room_node",
+      "supplement_basis": "fps 品类的空间目标区域"
+    },
+    {
+      "label": "弹药包",
+      "kind": "resource",
+      "schema": "resource.v1",
+      "node_id": "resource_node",
+      "supplement_basis": "fps 品类的战斗补给资源"
+    }
+  ],
+  "puzzle": [
+    {
+      "label": "规则方块",
+      "kind": "resource",
+      "schema": "resource.v1",
+      "node_id": "resource_node",
+      "supplement_basis": "puzzle 品类的可操作谜题对象"
+    },
+    {
+      "label": "旋转操作",
+      "kind": "ability",
+      "schema": "ability.v1",
+      "node_id": "ability_node",
+      "supplement_basis": "puzzle 品类的核心解题操作"
+    },
+    {
+      "label": "入门谜题关",
+      "kind": "room",
+      "schema": "room.v1",
+      "node_id": "room_node",
+      "supplement_basis": "puzzle 品类的关卡实体"
+    },
+    {
+      "label": "提示按钮",
+      "kind": "ui",
+      "schema": "ui.v1",
+      "node_id": "ui_node",
+      "supplement_basis": "puzzle 品类的辅助反馈界面"
+    },
+    {
+      "label": "章节场景",
+      "kind": "scene",
+      "schema": "scene.v1",
+      "node_id": "room_node",
+      "supplement_basis": "puzzle 品类的关卡包装场景"
+    }
+  ],
+  "strategy": [
+    {
+      "label": "先锋单位",
+      "kind": "character",
+      "schema": "character.v1",
+      "node_id": "character_node",
+      "supplement_basis": "strategy 品类的基础可控单位"
+    },
+    {
+      "label": "区域据点",
+      "kind": "room",
+      "schema": "room.v1",
+      "node_id": "room_node",
+      "supplement_basis": "strategy 品类的地图控制点"
+    },
+    {
+      "label": "战术指令",
+      "kind": "ability",
+      "schema": "ability.v1",
+      "node_id": "ability_node",
+      "supplement_basis": "strategy 品类的玩家命令能力"
+    },
+    {
+      "label": "战略资源",
+      "kind": "resource",
+      "schema": "resource.v1",
+      "node_id": "resource_node",
+      "supplement_basis": "strategy 品类的经济对象"
+    },
+    {
+      "label": "敌方小队",
+      "kind": "enemy",
+      "schema": "enemy.v1",
+      "node_id": "combat_node",
+      "supplement_basis": "strategy 品类的对抗单位"
+    }
+  ],
+  "rpg": [
+    {
+      "label": "主角职业",
+      "kind": "character",
+      "schema": "character.v1",
+      "node_id": "character_node",
+      "supplement_basis": "rpg 品类的成长主体"
+    },
+    {
+      "label": "职业技能",
+      "kind": "ability",
+      "schema": "ability.v1",
+      "node_id": "ability_node",
+      "supplement_basis": "rpg 品类的战斗能力"
+    },
+    {
+      "label": "精英怪物",
+      "kind": "enemy",
+      "schema": "enemy.v1",
+      "node_id": "combat_node",
+      "supplement_basis": "rpg 品类的遭遇敌人"
+    },
+    {
+      "label": "任务区域",
+      "kind": "room",
+      "schema": "room.v1",
+      "node_id": "room_node",
+      "supplement_basis": "rpg 品类的探索区域"
+    },
+    {
+      "label": "经验值",
+      "kind": "resource",
+      "schema": "resource.v1",
+      "node_id": "resource_node",
+      "supplement_basis": "rpg 品类的成长资源"
+    }
+  ],
+  "moba": [
+    {
+      "label": "突进英雄",
+      "kind": "character",
+      "schema": "character.v1",
+      "node_id": "character_node",
+      "supplement_basis": "moba 品类的可选英雄"
+    },
+    {
+      "label": "位移技能",
+      "kind": "ability",
+      "schema": "ability.v1",
+      "node_id": "ability_node",
+      "supplement_basis": "moba 品类的英雄能力"
+    },
+    {
+      "label": "兵线小兵",
+      "kind": "enemy",
+      "schema": "enemy.v1",
+      "node_id": "combat_node",
+      "supplement_basis": "moba 品类的地图单位"
+    },
+    {
+      "label": "野区营地",
+      "kind": "room",
+      "schema": "room.v1",
+      "node_id": "room_node",
+      "supplement_basis": "moba 品类的地图资源区域"
+    },
+    {
+      "label": "金币",
+      "kind": "resource",
+      "schema": "resource.v1",
+      "node_id": "resource_node",
+      "supplement_basis": "moba 品类的经济资源"
+    }
+  ]
+}

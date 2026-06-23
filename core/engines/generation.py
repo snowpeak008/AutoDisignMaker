@@ -22,7 +22,10 @@ from core.paths import PROJECT_ROOT as BASE_DIR
 from core.io import file_manifest, now_iso, read_json, rel, write_json, write_text
 from core.source.importer import refresh_reference_manifest_file_inventory
 from core.stage import stage_dir
-from core.runtime.preflight import load_project_settings, run_actual_development_preflight
+from core.runtime.preflight import (
+    load_project_settings,
+    run_actual_development_preflight,
+)
 from core.save import manager as save_manager
 from core.runtime import control as runtime_control
 from core.engines.execution_objects.integration import (
@@ -52,7 +55,10 @@ from pipeline.step_03_program_requirements.helpers import (
     SystemBinder,
     build_requirement_quality_report,
 )
-from pipeline.step_04_art_requirements.helpers import EntityToAssetConverter, MarketResearchSkill
+from pipeline.step_04_art_requirements.helpers import (
+    EntityToAssetConverter,
+    MarketResearchSkill,
+)
 from pipeline.step_05_program_review.helpers import IntelligentReviewer
 
 
@@ -306,7 +312,9 @@ def _parse_design_text(
             continue
 
         simple_item_match = re.match(r"^\s*-\s+(.+?)\s*$", line)
-        default_item_type = LAYER_DEFAULT_ITEM_TYPES.get(str(current_layer.get("title") or ""))
+        default_item_type = LAYER_DEFAULT_ITEM_TYPES.get(
+            str(current_layer.get("title") or "")
+        )
         if simple_item_match and default_item_type and current_layer["number"]:
             current_selection = Selection(
                 index=len(selections) + 1,
@@ -327,7 +335,9 @@ def _parse_design_text(
         if stripped.startswith("目的："):
             current_selection.purpose = stripped.removeprefix("目的：").strip()
         elif stripped.startswith("依赖："):
-            current_selection.dependencies = _split_values(stripped.removeprefix("依赖："))
+            current_selection.dependencies = _split_values(
+                stripped.removeprefix("依赖：")
+            )
         elif stripped.startswith("解锁："):
             current_selection.unlocks = _split_values(stripped.removeprefix("解锁："))
 
@@ -341,9 +351,12 @@ def _parse_design_text(
     return {
         "source": source,
         "source_path": source_path,
-        "source_sha256": source_sha256 or hashlib.sha256(text.encode("utf-8")).hexdigest(),
+        "source_sha256": source_sha256
+        or hashlib.sha256(text.encode("utf-8")).hexdigest(),
         "source_size_bytes": (
-            source_size_bytes if source_size_bytes is not None else len(text.encode("utf-8"))
+            source_size_bytes
+            if source_size_bytes is not None
+            else len(text.encode("utf-8"))
         ),
         "source_line_count": len(lines),
         "parsed_at": now_iso(),
@@ -378,8 +391,12 @@ def _latest_concept_package(base_dir: Path = BASE_DIR) -> Path | None:
             manifest = read_json(item / "package_manifest.json", {})
             if not isinstance(manifest, dict):
                 manifest = {}
-            source_ids = {str(value) for value in manifest.get("source_ids", []) if value}
-            package_type = str(manifest.get("package_type") or manifest.get("source_id") or "")
+            source_ids = {
+                str(value) for value in manifest.get("source_ids", []) if value
+            }
+            package_type = str(
+                manifest.get("package_type") or manifest.get("source_id") or ""
+            )
             if manifest.get("stage") == 0 and (
                 "Concept" in source_ids or package_type == "Concept"
             ):
@@ -499,7 +516,9 @@ def _option_code(item: Selection) -> str:
     return item.id.lower()
 
 
-def _coverage(parsed: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+def _coverage(
+    parsed: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     selections: list[Selection] = parsed["selections"]
     selections_by_question: dict[str, list[Selection]] = {}
     for item in selections:
@@ -588,7 +607,10 @@ def _classify_node_type(item: Selection) -> str:
         return "social"
     if any(token in text for token in ("运营", "活动", "赛季", "公告", "客服")):
         return "live_ops"
-    if any(token in text for token in ("技术", "平台", "存档", "配置", "加载", "调试", "镜头系统")):
+    if any(
+        token in text
+        for token in ("技术", "平台", "存档", "配置", "加载", "调试", "镜头系统")
+    ):
         return "platform"
     if any(token in text for token in ("数据", "指标", "埋点")):
         return "data"
@@ -602,12 +624,16 @@ def _classify_phase(item: Selection) -> str:
     if any(token in text for token in ("社交", "好友", "排行榜")):
         return "social"
     if any(
-        token in text for token in ("发布", "Demo", "试玩", "QA", "回归", "客服", "公告", "合规")
+        token in text
+        for token in ("发布", "Demo", "试玩", "QA", "回归", "客服", "公告", "合规")
     ):
         return "launch_ops"
     if any(token in text for token in ("活动", "赛季", "版本", "内容")):
         return "content_ops"
-    if any(token in text for token in ("经济", "货币", "商品", "资源点", "资源/效率", "经济 Tick")):
+    if any(
+        token in text
+        for token in ("经济", "货币", "商品", "资源点", "资源/效率", "经济 Tick")
+    ):
         return "economy"
     if any(token in text for token in ("成长", "解锁", "收集", "收藏", "图鉴")):
         return "progression"
@@ -657,7 +683,9 @@ def _scope_catalog(parsed: dict[str, Any], phase_map: dict[str, Any]) -> dict[st
         "items": [
             {
                 **_selection_dict(item),
-                "implementation_phase": phase_by_selection.get(item.id, "core_playable"),
+                "implementation_phase": phase_by_selection.get(
+                    item.id, "core_playable"
+                ),
             }
             for item in parsed["selections"]
         ],
@@ -680,7 +708,9 @@ def _label_lookup(selections: list[Selection]) -> dict[str, Selection]:
     return lookup
 
 
-def _graph(parsed: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+def _graph(
+    parsed: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     selections: list[Selection] = parsed["selections"]
     nodes_source = _node_candidates(selections)
     lookup = _label_lookup(nodes_source)
@@ -825,7 +855,9 @@ def _resource_graph(
             if node.id not in consumers
         )
         if not consumers:
-            consumers.extend(producer for producer in producers if producer not in consumers)
+            consumers.extend(
+                producer for producer in producers if producer not in consumers
+            )
         resources.append(
             {
                 "id": resource_id,
@@ -892,7 +924,9 @@ def _resource_graph_mmd(graph: dict[str, Any], system_graph: dict[str, Any]) -> 
         lines.append('  EMPTY["无资源节点"]')
         return "\n".join(lines) + "\n"
     for resource in graph["resources"]:
-        lines.append(f'  {resource["id"].replace("-", "_")}["{_mmd_label(resource["name"])}"]')
+        lines.append(
+            f'  {resource["id"].replace("-", "_")}["{_mmd_label(resource["name"])}"]'
+        )
     for node_id, name in node_names.items():
         lines.append(f'  {node_id.replace("-", "_")}["{_mmd_label(name)}"]')
     for flow in graph["flows"]:
@@ -968,7 +1002,10 @@ def _stage0_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "allowed_attachment_extensions": sorted(ALLOWED_DESIGN_SOURCE_SUFFIXES),
         "rule": "Stage 00 uses submitted Concept operator input or a single .md/.txt design attachment; default design files are not used.",
     }
-    write_json(out_dir / "option_taxonomy.json", {"schema_version": 1, "questions": list(TAXONOMY)})
+    write_json(
+        out_dir / "option_taxonomy.json",
+        {"schema_version": 1, "questions": list(TAXONOMY)},
+    )
     write_json(out_dir / "main_design_source.json", main_source)
     write_json(out_dir / "design_source_manifest.json", source_manifest)
     write_json(out_dir / "design_extraction.json", design_extraction)
@@ -996,8 +1033,12 @@ def _stage1_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     system_graph, resource_graph, reference_questions = _graph(parsed)
     loop_report = LoopExtractor().extract(parsed)
     system_definitions = SystemDeducer().deduce(parsed, system_graph)
-    combined_questions = list(open_questions["questions"]) + list(reference_questions["questions"])
-    gameplay_framework = _gameplay_framework_md(parsed, phase_map, system_graph, resource_graph)
+    combined_questions = list(open_questions["questions"]) + list(
+        reference_questions["questions"]
+    )
+    gameplay_framework = _gameplay_framework_md(
+        parsed, phase_map, system_graph, resource_graph
+    )
     core_loop = {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -1007,7 +1048,9 @@ def _stage1_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "source_kind": loop_report["source_kind"],
         "output_rate": loop_report["output_rate"],
         "source_selection": [
-            _selection_dict(item) for item in parsed["selections"] if item.item_type == "核心循环"
+            _selection_dict(item)
+            for item in parsed["selections"]
+            if item.item_type == "核心循环"
         ],
     }
     system_boundary = {
@@ -1035,17 +1078,24 @@ def _stage1_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "project_option_selection.json", project_selection)
     write_json(
         out_dir / "open_questions.json",
-        {"schema_version": 1, "generated_at": now_iso(), "questions": combined_questions},
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "questions": combined_questions,
+        },
     )
     write_json(out_dir / "system_relation_graph.json", system_graph)
     write_text(out_dir / "system_relation_graph.mmd", _system_graph_mmd(system_graph))
     write_json(out_dir / "resource_flow_graph.json", resource_graph)
     write_text(
-        out_dir / "resource_flow_graph.mmd", _resource_graph_mmd(resource_graph, system_graph)
+        out_dir / "resource_flow_graph.mmd",
+        _resource_graph_mmd(resource_graph, system_graph),
     )
     return {
         "content_exists": True,
-        "system_nodes": max(len(system_graph["nodes"]), system_definitions["system_count"]),
+        "system_nodes": max(
+            len(system_graph["nodes"]), system_definitions["system_count"]
+        ),
         "resource_nodes": len(resource_graph["resources"]),
         "core_loop_output_rate": loop_report["output_rate"],
         "system_definition_rate": system_definitions["definition_rate"],
@@ -1083,7 +1133,9 @@ def _gameplay_framework_md(
                 lines.append(f"  - Purpose: {item.purpose}")
     lines.extend(["", "## Selected Systems", ""])
     for node in system_graph["nodes"]:
-        lines.append(f"- {node['id']} {node['name']} [{node['type']}] ({node['source']})")
+        lines.append(
+            f"- {node['id']} {node['name']} [{node['type']}] ({node['source']})"
+        )
     lines.extend(["", "## Resource Flow", ""])
     for resource in resource_graph["resources"]:
         lines.append(
@@ -1107,7 +1159,9 @@ def _validate_graphs(
     blocking: list[dict[str, Any]] = []
     for node in system_graph.get("nodes", []):
         if not node.get("source"):
-            blocking.append({"id": "GRAPH-NODE-SOURCE", "message": f"{node.get('id')} 缺少来源。"})
+            blocking.append(
+                {"id": "GRAPH-NODE-SOURCE", "message": f"{node.get('id')} 缺少来源。"}
+            )
     # Resource flow completeness is a warning, not a blocker — producers/consumers
     # may be undefined in early-stage designs generated from the design workbench.
     return blocking
@@ -1117,7 +1171,9 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     phase_map = _phase_map(parsed)
     scope_catalog = _scope_catalog(parsed, phase_map)
     system_graph, resource_graph, reference_questions = _graph(parsed)
-    entity_report = EntityValidator().validate(parsed)
+    entity_report = EntityValidator().validate(
+        parsed, supplement_adapter=_stage2_supplement_adapter(out_dir)
+    )
     entity_graph = GraphGenerator().generate(system_graph, entity_report)
     entity_phase_map = PhaseClassifier().classify(entity_report)
     blocking = _validate_graphs(system_graph, resource_graph)
@@ -1178,18 +1234,23 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "status": "passed" if not blocking else "blocked",
         "blocking_issues": blocking,
         "warnings": reference_questions["questions"],
-        "entity_warnings": entity_report["invalid_entities"] + entity_report["missing_entities"],
+        "entity_warnings": entity_report["invalid_entities"]
+        + entity_report["missing_entities"],
         "checks": {
             "source_exists": True,
             "all_scope_has_phase": all(
                 item.get("implementation_phase") for item in scope_catalog["items"]
             ),
-            "system_nodes_have_source": all(node.get("source") for node in system_graph["nodes"]),
+            "system_nodes_have_source": all(
+                node.get("source") for node in system_graph["nodes"]
+            ),
             "entity_coverage_rate": entity_report["entity_coverage_rate"],
             "entity_count": entity_report["entity_count"],
             "entity_graph_cycle_free": entity_graph["cycle_free"],
             "resources_have_flow": not any(
-                not item.get("producers") or not item.get("consumers") or not item.get("storage")
+                not item.get("producers")
+                or not item.get("consumers")
+                or not item.get("storage")
                 for item in resource_graph["resources"]
             ),
             "weak_reference_count": len(reference_questions["questions"]),
@@ -1214,7 +1275,8 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "resource_flow_graph.json", resource_graph)
     write_text(out_dir / "system_relation_graph.mmd", _system_graph_mmd(system_graph))
     write_text(
-        out_dir / "resource_flow_graph.mmd", _resource_graph_mmd(resource_graph, system_graph)
+        out_dir / "resource_flow_graph.mmd",
+        _resource_graph_mmd(resource_graph, system_graph),
     )
     return {
         "content_exists": True,
@@ -1224,6 +1286,16 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "design_entity_count": entity_report["entity_count"],
         "entity_coverage_rate": entity_report["entity_coverage_rate"],
     }
+
+
+def _stage2_supplement_adapter(out_dir: Path) -> Any:
+    """Return the configured Step 02 L5 supplement adapter, or None when disabled."""
+    adapter_name = load_project_settings(BASE_DIR).get("pipeline_adapter", "none")
+    if not adapter_name or adapter_name == "none":
+        return None
+    from pipeline.step_02_design_review_freeze.supplement import EntitySupplementAdapter
+
+    return EntitySupplementAdapter(cache_dir=out_dir, adapter_name=str(adapter_name))
 
 
 def _requirement_text(item: Selection) -> str:
@@ -1238,7 +1310,9 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         preflight.get("blockers", []) if preflight.get("status") != "passed" else []
     )
     preflight_settings = (
-        preflight.get("settings", {}) if isinstance(preflight.get("settings"), dict) else {}
+        preflight.get("settings", {})
+        if isinstance(preflight.get("settings"), dict)
+        else {}
     )
     write_json(out_dir / "actual_development_preflight_dependency.json", preflight)
 
@@ -1311,7 +1385,10 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 "module": module,
                 "target_path": _phase_target_path(phase),
                 "test_path": _phase_test_path(phase),
-                "allowed_write_paths": [_phase_target_path(phase), _phase_test_path(phase)],
+                "allowed_write_paths": [
+                    _phase_target_path(phase),
+                    _phase_test_path(phase),
+                ],
                 "source_refs": req["source_refs"],
             }
         )
@@ -1418,7 +1495,8 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "program_requirements_contract.json", contract)
     write_json(out_dir / "traceability_matrix.json", traceability)
     write_json(
-        out_dir / "requirement_quality_report.json", build_requirement_quality_report(requirements)
+        out_dir / "requirement_quality_report.json",
+        build_requirement_quality_report(requirements),
     )
     return {
         "content_exists": True,
@@ -1493,7 +1571,9 @@ def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     concept_assets = [item for item in assets if item["asset_type"] == "environment"]
     ui_assets = [item for item in assets if item["asset_type"] in {"ui", "config"}]
     effect_assets = [
-        item for item in assets if item["asset_type"] in {"effect", "audio", "art_asset"}
+        item
+        for item in assets
+        if item["asset_type"] in {"effect", "audio", "art_asset"}
     ]
     art_path_bindings = []
     asset_root_by_type = {
@@ -1504,7 +1584,9 @@ def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "art_asset": "Assets/Art/",
     }
     for asset in assets:
-        target_path = asset_root_by_type.get(str(asset.get("asset_type")), "Assets/Art/")
+        target_path = asset_root_by_type.get(
+            str(asset.get("asset_type")), "Assets/Art/"
+        )
         art_path_bindings.append(
             {
                 "asset_id": asset.get("asset_id"),
@@ -1631,7 +1713,9 @@ def _review_outputs(
         f"- Weak relations: {len(weak_items)}\n"
         f"- Missing: {len(missing_items)}\n",
     )
-    write_text(out_dir / "verdict.md", "# 评审结论\n\n" + ("通过\n" if allowed else "阻断\n"))
+    write_text(
+        out_dir / "verdict.md", "# 评审结论\n\n" + ("通过\n" if allowed else "阻断\n")
+    )
     return {
         "content_exists": True,
         "blocking_issues": len(blockers),
@@ -1646,7 +1730,9 @@ def _stage5_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     intelligent_report = IntelligentReviewer().review_program(requirements)
     write_json(out_dir / "intelligent_review_report.json", intelligent_report)
     blockers = [
-        issue for issue in intelligent_report["issues"] if issue.get("severity") == "BLOCKER"
+        issue
+        for issue in intelligent_report["issues"]
+        if issue.get("severity") == "BLOCKER"
     ]
     warnings = [
         issue
@@ -1670,7 +1756,9 @@ def _stage6_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     intelligent_report = IntelligentReviewer().review_art(assets)
     write_json(out_dir / "intelligent_review_report.json", intelligent_report)
     blockers = [
-        issue for issue in intelligent_report["issues"] if issue.get("severity") == "BLOCKER"
+        issue
+        for issue in intelligent_report["issues"]
+        if issue.get("severity") == "BLOCKER"
     ]
     warnings = [
         issue
@@ -1689,7 +1777,14 @@ def _stage6_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
 
 def _phase_order() -> list[str]:
-    return ["core_playable", "progression", "economy", "content_ops", "social", "launch_ops"]
+    return [
+        "core_playable",
+        "progression",
+        "economy",
+        "content_ops",
+        "social",
+        "launch_ops",
+    ]
 
 
 PHASE_MODULES = {
@@ -1711,7 +1806,9 @@ def _module_for_phase(phase: str) -> str:
 
 
 def _task_class_name(task_id: str) -> str:
-    clean = re.sub(r"[^A-Za-z0-9]+", " ", str(task_id or "Task")).title().replace(" ", "")
+    clean = (
+        re.sub(r"[^A-Za-z0-9]+", " ", str(task_id or "Task")).title().replace(" ", "")
+    )
     return f"{clean or 'Task'}Feature"
 
 
@@ -1865,7 +1962,9 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         if not phase_tasks:
             lines.append("- none")
         for task in phase_tasks:
-            lines.append(f"- {task['task_id']} {task['title']} ({', '.join(task['source_refs'])})")
+            lines.append(
+                f"- {task['task_id']} {task['title']} ({', '.join(task['source_refs'])})"
+            )
         lines.append("")
         if phase_tasks:
             write_text(
@@ -1908,7 +2007,11 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     )
     write_json(
         out_dir / "build_config.json",
-        {"schema_version": 1, "target": "actual_unity_project", "configuration": "development"},
+        {
+            "schema_version": 1,
+            "target": "actual_unity_project",
+            "configuration": "development",
+        },
     )
     write_json(
         out_dir / "config_schema.json",
@@ -1941,7 +2044,9 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "task_count": len(tasks),
         "traceability_valid": all(task["source_refs"] for task in tasks),
         "blocking_issues": len(path_binding_errors) if tasks else 1,
-        "ai_review_status": "passed" if tasks and not path_binding_errors else "blocked",
+        "ai_review_status": (
+            "passed" if tasks and not path_binding_errors else "blocked"
+        ),
     }
 
 
@@ -2012,7 +2117,10 @@ def _validate_actual_development_plan(plan: dict[str, Any]) -> list[dict[str, An
     tasks = plan.get("tasks")
     if not isinstance(tasks, list) or not tasks:
         blockers.append(
-            {"code": "TASKS_MISSING", "message": "Stage 07 produced no executable tasks."}
+            {
+                "code": "TASKS_MISSING",
+                "message": "Stage 07 produced no executable tasks.",
+            }
         )
         tasks = []
     if not isinstance(plan.get("dependencies"), list):
@@ -2158,7 +2266,9 @@ def _snapshot_project_files(project_path: Path) -> dict[str, str]:
     snapshot: dict[str, str] = {}
     for path in _iter_audit_files(project_path):
         try:
-            snapshot[path.resolve().relative_to(project_path.resolve()).as_posix()] = _sha256(path)
+            snapshot[path.resolve().relative_to(project_path.resolve()).as_posix()] = (
+                _sha256(path)
+            )
         except OSError:
             continue
     return snapshot
@@ -2219,12 +2329,16 @@ def _apply_package_changes(
     dependencies = data.setdefault("dependencies", {})
     if not isinstance(dependencies, dict):
         report["status"] = "failed"
-        report["errors"].append("Packages/manifest.json dependencies must be an object.")
+        report["errors"].append(
+            "Packages/manifest.json dependencies must be an object."
+        )
         return report
     before_dependencies = dict(dependencies)
     applied: list[dict[str, Any]] = []
     for change in package_changes:
-        package_name = str(change.get("package_name") or change.get("name") or "").strip()
+        package_name = str(
+            change.get("package_name") or change.get("name") or ""
+        ).strip()
         action = str(change.get("action") or "upsert").strip().lower()
         version = str(change.get("version") or change.get("source") or "").strip()
         if not package_name:
@@ -2253,7 +2367,9 @@ def _apply_package_changes(
             )
         else:
             report["status"] = "failed"
-            report["errors"].append(f"package change for {package_name} is missing version/source.")
+            report["errors"].append(
+                f"package change for {package_name} is missing version/source."
+            )
     if report["errors"]:
         return report
     write_json(manifest_path, data)
@@ -2261,7 +2377,9 @@ def _apply_package_changes(
     return report
 
 
-def _static_csharp_contract(project_path: Path, output_files: list[str]) -> dict[str, Any]:
+def _static_csharp_contract(
+    project_path: Path, output_files: list[str]
+) -> dict[str, Any]:
     blockers: list[dict[str, Any]] = []
     for relative in output_files:
         if not str(relative).endswith(".cs"):
@@ -2298,20 +2416,27 @@ def _static_csharp_contract(project_path: Path, output_files: list[str]) -> dict
                 if code == "using NUnit.Framework;":
                     return True
                 if re.match(
-                    r"^\[\s*(?:Test|TestCase|SetUp|TearDown|OneTimeSetUp|OneTimeTearDown)\b", code
+                    r"^\[\s*(?:Test|TestCase|SetUp|TearDown|OneTimeSetUp|OneTimeTearDown)\b",
+                    code,
                 ):
                     return True
                 return bool(
-                    re.search(r"\b(?:Assert|StringAssert|CollectionAssert|Is|Does)\s*\.", code)
+                    re.search(
+                        r"\b(?:Assert|StringAssert|CollectionAssert|Is|Does)\s*\.", code
+                    )
                 )
 
             for index, line in enumerate(lines):
                 stripped = line.strip()
-                directive_match = re.match(r"^#\s*(if|elif|else|endif)\b(.*)$", stripped)
+                directive_match = re.match(
+                    r"^#\s*(if|elif|else|endif)\b(.*)$", stripped
+                )
                 if directive_match:
                     directive = directive_match.group(1)
                     expression = directive_match.group(2)
-                    is_nunit_guard = bool(re.search(r"\bDEV\d+_ENABLE_NUNIT_TESTS\b", expression))
+                    is_nunit_guard = bool(
+                        re.search(r"\bDEV\d+_ENABLE_NUNIT_TESTS\b", expression)
+                    )
                     if directive == "if":
                         guard_stack.append(is_nunit_guard)
                     elif directive == "elif":
@@ -2382,7 +2507,9 @@ def _run_unity_batchmode_compile(
             "errors": [str(exc)],
         }
     log_text = (
-        log_path.read_text(encoding="utf-8-sig", errors="replace") if log_path.exists() else ""
+        log_path.read_text(encoding="utf-8-sig", errors="replace")
+        if log_path.exists()
+        else ""
     )
     compile_markers = ["Compiler errors", "error CS", "Compilation failed"]
     marker_errors = [marker for marker in compile_markers if marker in log_text]
@@ -2447,7 +2574,9 @@ def _run_task_verification(
                 {
                     "id": command.get("id", "unknown"),
                     "status": "failed",
-                    "errors": [f"Unsupported verification command type: {command_type}"],
+                    "errors": [
+                        f"Unsupported verification command type: {command_type}"
+                    ],
                 }
             )
     return results
@@ -2482,7 +2611,9 @@ def _stage10_resume_dir() -> Path:
     return BASE_DIR / "outputs" / "checkpoints" / "stage_10_resume_records"
 
 
-def _write_stage10_task_record(out_dir: Path, task_id: Any, record: dict[str, Any]) -> None:
+def _write_stage10_task_record(
+    out_dir: Path, task_id: Any, record: dict[str, Any]
+) -> None:
     filename = f"{task_id}_execution.json"
     write_json(out_dir / filename, record)
     write_json(_stage10_resume_dir() / filename, record)
@@ -2510,7 +2641,13 @@ def _previous_records_by_task() -> dict[str, dict[str, Any]]:
         save_id = str(save_index.get("current_save_id") or "")
         if save_id:
             saved_stage10 = (
-                BASE_DIR / "save" / save_id / "workspace" / "outputs" / "artifacts" / "stage_10"
+                BASE_DIR
+                / "save"
+                / save_id
+                / "workspace"
+                / "outputs"
+                / "artifacts"
+                / "stage_10"
             )
             for path in saved_stage10.glob("DEV-*_execution.json"):
                 record = read_json(path, {})
@@ -2542,7 +2679,9 @@ def _write_stage10_progress(
     next_task_id: str = "",
     stop_reason: str = "",
 ) -> None:
-    successful_count = sum(1 for record in execution_records if record.get("status") == "success")
+    successful_count = sum(
+        1 for record in execution_records if record.get("status") == "success"
+    )
     completed_units = [
         str(record.get("task_id"))
         for record in execution_records
@@ -2592,7 +2731,10 @@ def _write_stage10_progress(
         + (f"- Next task: {next_task_id}\n" if next_task_id else "")
         + (f"- Stop reason: {stop_reason}\n" if stop_reason else "")
         + (
-            "\n".join(f"- {record['task_id']}: {record['status']}" for record in execution_records)
+            "\n".join(
+                f"- {record['task_id']}: {record['status']}"
+                for record in execution_records
+            )
             + "\n"
             if execution_records
             else ""
@@ -2650,7 +2792,9 @@ def _sync_stage10_checkpoint(out_dir: Path, *, event: str, message: str = "") ->
             attempts=3,
             delay_seconds=1,
         )
-    except Exception as exc:  # noqa: BLE001 - checkpoint sync should be reported, not hidden
+    except (
+        Exception
+    ) as exc:  # noqa: BLE001 - checkpoint sync should be reported, not hidden
         write_json(
             out_dir / "save_sync_warning.json",
             {
@@ -2693,7 +2837,9 @@ def _write_stage10_stop_report(
     next_task_id: str,
     stop_reason: str,
 ) -> dict[str, Any]:
-    successful_count = sum(1 for record in execution_records if record.get("status") == "success")
+    successful_count = sum(
+        1 for record in execution_records if record.get("status") == "success"
+    )
     report = {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -2872,7 +3018,8 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         out_dir / "art_assets.md",
         "# Art Asset Deliverables\n\n"
         + "\n".join(
-            f"- {link['asset_id']}: art_tasks={link['art_tasks'] or 'none'}" for link in links
+            f"- {link['asset_id']}: art_tasks={link['art_tasks'] or 'none'}"
+            for link in links
         )
         + "\n",
     )
@@ -2936,7 +3083,9 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "content_exists": bool(links) or bool(program_tasks),
         "alignment_count": len(links),
         "blocking_issues": len(gaps) + len(all_plan_blockers),
-        "ai_review_status": "passed" if not gaps and not all_plan_blockers else "blocked",
+        "ai_review_status": (
+            "passed" if not gaps and not all_plan_blockers else "blocked"
+        ),
         "traceability_valid": not gaps and not all_plan_blockers,
     }
 
@@ -2953,7 +3102,10 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     parallel_validation = read_json(stage_dir(9) / "parallel_conflict_report.json", {})
     if isinstance(path_validation, dict) and path_validation.get("valid") is False:
         plan_blockers.extend(path_validation.get("blockers", []))
-    if isinstance(parallel_validation, dict) and parallel_validation.get("valid") is False:
+    if (
+        isinstance(parallel_validation, dict)
+        and parallel_validation.get("valid") is False
+    ):
         plan_blockers.extend(parallel_validation.get("conflicts", []))
 
     preflight_blockers = (
@@ -2993,7 +3145,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     project_path = Path(settings["development_path"]).expanduser()
     editor_path = Path(settings["editor_path"]).expanduser()
     execution_store = load_execution_object_store(BASE_DIR)
-    tasks_by_id = {str(task.get("task_id")): task for task in tasks if isinstance(task, dict)}
+    tasks_by_id = {
+        str(task.get("task_id")): task for task in tasks if isinstance(task, dict)
+    }
     parallel_groups = plan.get("parallel_groups", [])
     if not isinstance(parallel_groups, list):
         parallel_groups = []
@@ -3072,7 +3226,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             if not isinstance(package_changes, list):
                 package_changes = []
             allowed_changed_files = set(output_files)
-            allowed_write_paths = [str(item) for item in task.get("allowed_write_paths", [])]
+            allowed_write_paths = [
+                str(item) for item in task.get("allowed_write_paths", [])
+            ]
             allowed_changed_files.update(
                 _unity_allowed_companion_files(output_files, allowed_write_paths)
             )
@@ -3090,7 +3246,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         project_path=project_path,
                         stage=10,
                     )
-                    execution_object_id = str(execution_object.get("execution_object_id") or "")
+                    execution_object_id = str(
+                        execution_object.get("execution_object_id") or ""
+                    )
                 _write_stage10_progress(
                     out_dir,
                     project_path=project_path,
@@ -3108,10 +3266,13 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     obj
                     for obj in execution_store.list_objects()
                     if obj.get("metadata", {}).get("stage") == 10
-                    and obj.get("metadata", {}).get("business_id") == task.get("task_id")
+                    and obj.get("metadata", {}).get("business_id")
+                    == task.get("task_id")
                 ]
                 if matching_objects:
-                    execution_object_id = str(matching_objects[-1].get("execution_object_id") or "")
+                    execution_object_id = str(
+                        matching_objects[-1].get("execution_object_id") or ""
+                    )
                 record = {
                     "task_id": task.get("task_id"),
                     "group_id": group_id,
@@ -3163,7 +3324,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     current_execution_object_id=execution_object_id,
                 )
                 stopped = True
-                stop_reason = f"Task {task.get('task_id')} failed execution-object gate."
+                stop_reason = (
+                    f"Task {task.get('task_id')} failed execution-object gate."
+                )
                 break
 
             reused_existing_output = False
@@ -3182,7 +3345,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 }
                 package_reports.append(package_report)
                 changed_files = [
-                    str(item) for item in previous_record.get("changed_files", []) if str(item)
+                    str(item)
+                    for item in previous_record.get("changed_files", [])
+                    if str(item)
                 ] or output_files
                 unexpected_changes = [
                     item for item in changed_files if item not in allowed_changed_files
@@ -3254,7 +3419,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     out_dir=out_dir,
                     defer_unity_batchmode=True,
                 )
-            if any(result.get("status") == "deferred" for result in verification_results):
+            if any(
+                result.get("status") == "deferred" for result in verification_results
+            ):
                 group_needs_unity_compile = True
             verification_errors = [
                 result
@@ -3263,7 +3430,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             ]
             status = (
                 "success"
-                if not codex_errors and not unexpected_changes and not verification_errors
+                if not codex_errors
+                and not unexpected_changes
+                and not verification_errors
                 else "failed"
             )
             record = {
@@ -3312,12 +3481,13 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     written_files=changed_files,
                     changed_state=[task.get("task_id")],
                     unfinished_actions=["verification"],
-                    error="; ".join(_compact_messages(codex_errors)) or "Task execution failed.",
+                    error="; ".join(_compact_messages(codex_errors))
+                    or "Task execution failed.",
                     rollback_needed=bool(changed_files),
                 )
-                record["execution_object_state"] = execution_store.get(execution_object_id).get(
-                    "state"
-                )
+                record["execution_object_state"] = execution_store.get(
+                    execution_object_id
+                ).get("state")
             elif execution_object_id and not any(
                 result.get("status") == "deferred" for result in verification_results
             ):
@@ -3345,9 +3515,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         error=str(exc),
                         rollback_needed=bool(changed_files),
                     )
-                    record["execution_object_state"] = execution_store.get(execution_object_id).get(
-                        "state"
-                    )
+                    record["execution_object_state"] = execution_store.get(
+                        execution_object_id
+                    ).get("state")
             execution_records.append(record)
             group_record_indexes.append(len(execution_records) - 1)
             changed_files_manifest.append(
@@ -3385,8 +3555,12 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             if runtime_control.stop_requested(BASE_DIR):
                 stopped = True
                 soft_stopped = True
-                resume_next_task_id = _next_stage10_task_id(ordered_task_ids, task.get("task_id"))
-                stop_reason = f"Operator requested soft stop after {task.get('task_id')}."
+                resume_next_task_id = _next_stage10_task_id(
+                    ordered_task_ids, task.get("task_id")
+                )
+                stop_reason = (
+                    f"Operator requested soft stop after {task.get('task_id')}."
+                )
                 _write_stage10_progress(
                     out_dir,
                     project_path=project_path,
@@ -3440,25 +3614,35 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     record["status"] = "failed"
                 execution_object_id = str(record.get("execution_object_id") or "")
                 if execution_object_id:
-                    current_state = execution_store.get(execution_object_id).get("state")
+                    current_state = execution_store.get(execution_object_id).get(
+                        "state"
+                    )
                     task = tasks_by_id.get(str(record.get("task_id")), {})
                     output_files = (
                         [str(item) for item in task.get("output_files", [])]
                         if isinstance(task, dict)
                         else []
                     )
-                    if record.get("status") == "success" and current_state == "executing":
+                    if (
+                        record.get("status") == "success"
+                        and current_state == "executing"
+                    ):
                         try:
                             verified_object = verify_program_task_execution_object(
                                 execution_store,
                                 execution_object_id=execution_object_id,
                                 project_path=project_path,
                                 output_files=output_files,
-                                written_files=record.get("changed_files", []) or output_files,
-                                verification_results=record.get("verification_results", []),
+                                written_files=record.get("changed_files", [])
+                                or output_files,
+                                verification_results=record.get(
+                                    "verification_results", []
+                                ),
                                 execution_record=record,
                             )
-                            record["execution_object_state"] = verified_object.get("state")
+                            record["execution_object_state"] = verified_object.get(
+                                "state"
+                            )
                         except Exception as exc:  # noqa: BLE001 - verifier boundary
                             record["status"] = "failed"
                             record.setdefault("codex_errors", []).append(str(exc))
@@ -3468,14 +3652,19 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                                 failure_stage="execution_object_group_verification",
                                 written_files=record.get("changed_files", []),
                                 changed_state=[record.get("task_id")],
-                                unfinished_actions=["execution_object_group_verification"],
+                                unfinished_actions=[
+                                    "execution_object_group_verification"
+                                ],
                                 error=str(exc),
                                 rollback_needed=bool(record.get("changed_files")),
                             )
                             record["execution_object_state"] = execution_store.get(
                                 execution_object_id
                             ).get("state")
-                    elif record.get("status") != "success" and current_state == "executing":
+                    elif (
+                        record.get("status") != "success"
+                        and current_state == "executing"
+                    ):
                         record_execution_object_failure(
                             execution_store,
                             execution_object_id=execution_object_id,
@@ -3483,7 +3672,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                             written_files=record.get("changed_files", []),
                             changed_state=[record.get("task_id")],
                             unfinished_actions=["unity_validation"],
-                            error="; ".join(_compact_messages(unity_result.get("errors", [])))
+                            error="; ".join(
+                                _compact_messages(unity_result.get("errors", []))
+                            )
                             or "Unity validation failed.",
                             rollback_needed=bool(record.get("changed_files")),
                         )
@@ -3501,7 +3692,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     changed_files_manifest=changed_files_manifest,
                     current_group_id=str(group_id),
                     current_task_id=str(record.get("task_id") or ""),
-                    current_execution_object_id=str(record.get("execution_object_id") or ""),
+                    current_execution_object_id=str(
+                        record.get("execution_object_id") or ""
+                    ),
                 )
             _sync_stage10_checkpoint(
                 out_dir,
@@ -3523,9 +3716,15 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             if runtime_control.stop_requested(BASE_DIR):
                 stopped = True
                 soft_stopped = True
-                last_task_id = str(execution_records[group_record_indexes[-1]].get("task_id") or "")
-                resume_next_task_id = _next_stage10_task_id(ordered_task_ids, last_task_id)
-                stop_reason = f"Operator requested soft stop after {group_id} validation."
+                last_task_id = str(
+                    execution_records[group_record_indexes[-1]].get("task_id") or ""
+                )
+                resume_next_task_id = _next_stage10_task_id(
+                    ordered_task_ids, last_task_id
+                )
+                stop_reason = (
+                    f"Operator requested soft stop after {group_id} validation."
+                )
                 _write_stage10_progress(
                     out_dir,
                     project_path=project_path,
@@ -3628,7 +3827,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         + (f"- Status: {status}\n" if status != "success" else "")
         + (f"- Next task: {resume_next_task_id}\n" if resume_next_task_id else "")
         + (f"- Stop reason: {stop_reason}\n" if soft_stopped and stop_reason else "")
-        + "\n".join(f"- {record['task_id']}: {record['status']}" for record in execution_records)
+        + "\n".join(
+            f"- {record['task_id']}: {record['status']}" for record in execution_records
+        )
         + ("\n" if execution_records else "- No tasks executed.\n"),
     )
     write_json(out_dir / "development_execution_log.json", result)
@@ -3644,7 +3845,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "executed_task_count": len(execution_records),
         "blocking_issues": len(blocking_issues) if status == "blocked" else 0,
         "ai_review_status": (
-            "passed" if status == "success" else "stopped" if status == "stopped" else "blocked"
+            "passed"
+            if status == "success"
+            else "stopped" if status == "stopped" else "blocked"
         ),
         "traceability_valid": all(record["source_refs"] for record in execution_records)
         and status == "success",
@@ -3671,7 +3874,9 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 produced_record=produced_record,
                 stage=11,
             )
-            produced_record["execution_object_id"] = verified_object.get("execution_object_id")
+            produced_record["execution_object_id"] = verified_object.get(
+                "execution_object_id"
+            )
             produced_record["execution_object_state"] = verified_object.get("state")
         except Exception as exc:  # noqa: BLE001 - workflow gate boundary
             matching_objects = [
@@ -3718,7 +3923,9 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "produced_assets": produced,
         "execution_object_store": rel(execution_store.path),
         "execution_object_ids": [
-            item.get("execution_object_id") for item in produced if item.get("execution_object_id")
+            item.get("execution_object_id")
+            for item in produced
+            if item.get("execution_object_id")
         ],
         "blocking_issues": blockers,
     }
@@ -3736,7 +3943,8 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "produced_asset_count": len(produced),
         "blocking_issues": len(blockers) if produced else 1,
         "ai_review_status": "passed" if produced and not blockers else "blocked",
-        "traceability_valid": all(item["source_refs"] for item in produced) and not blockers,
+        "traceability_valid": all(item["source_refs"] for item in produced)
+        and not blockers,
     }
 
 
@@ -3748,12 +3956,19 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     blockers = []
     if dev.get("status") != "success":
         blockers.append(
-            {"id": "DEVEXEC-NOT-SUCCESS", "message": "Development execution did not pass."}
+            {
+                "id": "DEVEXEC-NOT-SUCCESS",
+                "message": "Development execution did not pass.",
+            }
         )
     if art.get("status") != "success":
-        blockers.append({"id": "ARTPROD-NOT-SUCCESS", "message": "Art production did not pass."})
+        blockers.append(
+            {"id": "ARTPROD-NOT-SUCCESS", "message": "Art production did not pass."}
+        )
     records = dev.get("records", []) if isinstance(dev.get("records"), list) else []
-    changed_tasks = changed_manifest.get("tasks", []) if isinstance(changed_manifest, dict) else []
+    changed_tasks = (
+        changed_manifest.get("tasks", []) if isinstance(changed_manifest, dict) else []
+    )
     actual_changed_files = sorted(
         {
             str(path)
@@ -3774,9 +3989,12 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         verification
         for record in records
         for verification in record.get("verification_results", [])
-        if isinstance(verification, dict) and verification.get("id") == "unity_batchmode_compile"
+        if isinstance(verification, dict)
+        and verification.get("id") == "unity_batchmode_compile"
     ]
-    failed_unity_results = [item for item in unity_results if item.get("status") != "passed"]
+    failed_unity_results = [
+        item for item in unity_results if item.get("status") != "passed"
+    ]
     if not records:
         blockers.append(
             {
@@ -3792,7 +4010,9 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             }
         )
     if unexpected_changes:
-        blockers.append({"id": "ACTUAL-PROJECT-UNEXPECTED-CHANGES", "items": unexpected_changes})
+        blockers.append(
+            {"id": "ACTUAL-PROJECT-UNEXPECTED-CHANGES", "items": unexpected_changes}
+        )
     if not unity_results:
         blockers.append(
             {
@@ -3801,7 +4021,9 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             }
         )
     if failed_unity_results:
-        blockers.append({"id": "UNITY-VALIDATION-FAILED", "items": failed_unity_results})
+        blockers.append(
+            {"id": "UNITY-VALIDATION-FAILED", "items": failed_unity_results}
+        )
     execution_store = load_execution_object_store(BASE_DIR)
     dev_execution_object_ids = [
         record.get("execution_object_id")
@@ -3844,7 +4066,9 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 *[f"unity_file:{path}" for path in actual_changed_files],
             ],
         )
-        integration_execution_object_id = str(verified_object.get("execution_object_id") or "")
+        integration_execution_object_id = str(
+            verified_object.get("execution_object_id") or ""
+        )
 
     project_audit = {
         "schema_version": 1,
@@ -3873,19 +4097,32 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "execution_object_ids": [
             *dev_execution_object_ids,
             *art_execution_object_ids,
-            *([integration_execution_object_id] if integration_execution_object_id else []),
+            *(
+                [integration_execution_object_id]
+                if integration_execution_object_id
+                else []
+            ),
         ],
         "execution_object_validation": execution_object_validation,
         "checks": [
-            {"id": "actual_development_succeeded", "passed": dev.get("status") == "success"},
-            {"id": "actual_project_files_changed", "passed": bool(actual_changed_files)},
+            {
+                "id": "actual_development_succeeded",
+                "passed": dev.get("status") == "success",
+            },
+            {
+                "id": "actual_project_files_changed",
+                "passed": bool(actual_changed_files),
+            },
             {"id": "no_out_of_scope_file_changes", "passed": not unexpected_changes},
             {
                 "id": "unity_batchmode_validation_passed",
                 "passed": bool(unity_results) and not failed_unity_results,
             },
             {"id": "assets_traced", "passed": bool(art.get("produced_assets"))},
-            {"id": "execution_objects_verified", "passed": execution_object_validation["valid"]},
+            {
+                "id": "execution_objects_verified",
+                "passed": execution_object_validation["valid"],
+            },
             {
                 "id": "integration_relationship_object_verified",
                 "passed": bool(integration_execution_object_id),
@@ -3899,7 +4136,8 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "integration.json", report)
     write_text(
         out_dir / "integration.md",
-        "# Integration Validation\n\n" + ("- Passed\n" if not blockers else "- Blocked\n"),
+        "# Integration Validation\n\n"
+        + ("- Passed\n" if not blockers else "- Blocked\n"),
     )
     write_json(out_dir / "integration_validation_report.json", report)
     write_json(out_dir / "actual_project_file_audit.json", project_audit)
@@ -3933,7 +4171,10 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     blockers = []
     if integration.get("status") != "success":
         blockers.append(
-            {"id": "INTEGRATION-NOT-SUCCESS", "message": "Integration validation did not pass."}
+            {
+                "id": "INTEGRATION-NOT-SUCCESS",
+                "message": "Integration validation did not pass.",
+            }
         )
     if not project_audit.get("actual_changed_files"):
         blockers.append(
@@ -3997,9 +4238,13 @@ def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     execution_store = load_execution_object_store(BASE_DIR)
     blockers = []
     if build.get("status") != "success":
-        blockers.append({"id": "BUILD-NOT-SUCCESS", "message": "Build package did not pass."})
+        blockers.append(
+            {"id": "BUILD-NOT-SUCCESS", "message": "Build package did not pass."}
+        )
     changed_files = (
-        build_artifacts.get("changed_files", []) if isinstance(build_artifacts, dict) else []
+        build_artifacts.get("changed_files", [])
+        if isinstance(build_artifacts, dict)
+        else []
     )
     if not changed_files:
         blockers.append(
@@ -4019,7 +4264,9 @@ def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 ),
                 stage=14,
             )
-            rollback_execution_object_id = str(verified_object.get("execution_object_id") or "")
+            rollback_execution_object_id = str(
+                verified_object.get("execution_object_id") or ""
+            )
         except Exception as exc:  # noqa: BLE001 - workflow gate boundary
             blockers.append(
                 {
@@ -4055,7 +4302,9 @@ def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         out_dir / "delta_patch.md",
         "# Delta Patch\n\n- Delta records actual Unity project file changes.\n",
     )
-    write_json(out_dir / "release_history.json", {"schema_version": 1, "entries": [patch]})
+    write_json(
+        out_dir / "release_history.json", {"schema_version": 1, "entries": [patch]}
+    )
     write_text(
         out_dir / "rollback_plan.md",
         "# Rollback Plan\n\n"
@@ -4087,7 +4336,9 @@ def _load_current_design(base_dir: Path = BASE_DIR) -> dict[str, Any]:
         manifest = {}
     submission = _load_concept_submission(package_dir)
     notes = str(submission.get("notes") or "").strip()
-    valid_attachments, invalid_attachments = _concept_attachment_paths(package_dir, submission)
+    valid_attachments, invalid_attachments = _concept_attachment_paths(
+        package_dir, submission
+    )
     package_rel = rel(package_dir)
 
     if invalid_attachments:
@@ -4150,7 +4401,9 @@ def _load_current_design(base_dir: Path = BASE_DIR) -> dict[str, Any]:
     )
 
 
-def _update_stage_report(step_number: int, out_dir: Path, result: dict[str, Any]) -> dict[str, Any]:
+def _update_stage_report(
+    step_number: int, out_dir: Path, result: dict[str, Any]
+) -> dict[str, Any]:
     report_path = out_dir / "validation_report.json"
     report = read_json(report_path, {})
     if not isinstance(report, dict):
@@ -4164,7 +4417,8 @@ def _update_stage_report(step_number: int, out_dir: Path, result: dict[str, Any]
                 "ai_review_status", "passed" if blocking == 0 else "blocked"
             ),
             "blocking_issues": blocking,
-            "traceability_valid": bool(result.get("traceability_valid", True)) and blocking == 0,
+            "traceability_valid": bool(result.get("traceability_valid", True))
+            and blocking == 0,
             "scope_budget_valid": True,
             "business_quality": result,
         }
@@ -4206,7 +4460,9 @@ def _load_package_by_source_id(source_id: str) -> dict[str, Any]:
             if not isinstance(manifest, dict):
                 continue
             ids = {str(v) for v in manifest.get("source_ids", []) if v}
-            pkg_type = str(manifest.get("package_type") or manifest.get("source_id") or "")
+            pkg_type = str(
+                manifest.get("package_type") or manifest.get("source_id") or ""
+            )
             if source_id in ids or pkg_type == source_id:
                 root_candidates.append(item)
         if root_candidates:
@@ -4322,7 +4578,9 @@ def apply_development_plan_outputs(
     updated = _update_stage_report(step_number, out_dir, result)
     _refresh_indexes(step_number, out_dir)
     if result.get("status") == "stopped" or result.get("ai_review_status") == "stopped":
-        raise PipelineStopRequested(f"Stage {step_number:02d} stopped at a resumable boundary.")
+        raise PipelineStopRequested(
+            f"Stage {step_number:02d} stopped at a resumable boundary."
+        )
     if updated.get("valid") is False:
         raise RuntimeError(
             f"Development plan outputs failed for stage {step_number:02d}: {updated.get('business_quality')}"

@@ -1,5 +1,106 @@
 [
   {
+    "id": "2026-06-24-002",
+    "date": "2026-06-24",
+    "summary": "提交范围纠正：本地 bug 文档和临时开发计划不入库",
+    "changed_files": [
+      ".gitignore",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/code_conventions/anti_patterns.md",
+      "knowledge/ai_memory/session_history/2026-06-24-002.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-24-002.md"
+    ],
+    "next_tasks": [
+      "后续提交前确认暂存区不包含本地 bug 文档和临时执行计划",
+      "真实 Codex CLI 环境中仍需跑 Step02，确认 stdout JSON 能被 _parse_response() 接收"
+    ]
+  },
+  {
+    "id": "2026-06-24-001",
+    "date": "2026-06-24",
+    "summary": "修复 bug收集文档7.md 第七轮 BUG-024/025：AI 补全适配器连通性",
+    "changed_files": [
+      "core/adapters/base.py",
+      "core/adapters/codex/executor.py",
+      "core/adapters/claude_code_model_adapter.py",
+      "pipeline/step_02_design_review_freeze/supplement.py",
+      "core/tests/unit/test_model_adapters.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-24-001.md"
+    ],
+    "next_tasks": [
+      "在真实 Codex CLI 环境中跑 Step02，确认 stdout JSON 能被 _parse_response() 接收",
+      "当前工作树包含前几轮 L5 补全开发未提交内容，提交前需统一审查"
+    ]
+  },
+  {
+    "id": "2026-06-23-012",
+    "date": "2026-06-23",
+    "summary": "修复 bug收集文档6.md 第六轮 BUG-023：无效 adapter 不再击穿 Step02",
+    "changed_files": [
+      "pipeline/step_02_design_review_freeze/supplement.py",
+      "pipeline/step_02_design_review_freeze/supplement_contracts.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "core/tests/unit/test_l5_supplement.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-012.md"
+    ],
+    "next_tasks": [
+      "用真实 Hades 存档验证无效 adapter fallback 报告与合法 adapter AI 补全路径",
+      "当前工作树包含上一轮 L5 补全开发未提交内容，提交前需统一审查"
+    ]
+  },
+  {
+    "id": "2026-06-23-011",
+    "date": "2026-06-23",
+    "summary": "修复 bug收集文档5.md 第五轮 5 个 L5 AI 补全问题",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/runtime/preflight.py",
+      "core/ui/pipeline_panel.py",
+      "core/ui/unity_config_dialog.py",
+      "pipeline/step_01_gameplay_framework/helpers.py",
+      "pipeline/step_02_design_review_freeze/supplement.py",
+      "pipeline/step_02_design_review_freeze/supplement_entities.py",
+      "core/tests/unit/test_l5_supplement.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-011.md"
+    ],
+    "next_tasks": [
+      "用真实 Hades 存档和真实 AI 适配器跑 Step02，人工检查实体命名和 node_id 质量",
+      "当前工作树包含上一轮 L5 补全开发未提交内容，提交前需统一审查"
+    ]
+  },
+  {
+    "id": "2026-06-23-010",
+    "date": "2026-06-23",
+    "summary": "执行 l5_entity_ai_supplement：Step02 L5 实体 AI 补全、缓存、降级与测试",
+    "changed_files": [
+      "core/adapters/registry.py",
+      "core/engines/generation.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_02_design_review_freeze/supplement.py",
+      "pipeline/step_02_design_review_freeze/supplement_contracts.py",
+      "pipeline/step_02_design_review_freeze/supplement_entities.py",
+      "pipeline/step_02_design_review_freeze/prompts/supplement.txt",
+      "pipeline/step_02_design_review_freeze/data/genre_fallback_entities.json",
+      "core/tests/unit/test_l5_supplement.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-010.md"
+    ],
+    "next_tasks": [
+      "用真实 Hades 存档和真实 AI 适配器跑 Step02，人工检查实体命名和 node_id 质量",
+      "若需要默认禁用真实 AI，在 GUI 项目配置中选择 pipeline_adapter=none"
+    ]
+  },
+  {
     "id": "2026-06-23-009",
     "date": "2026-06-23",
     "summary": "溯源 范本：Hades 自动化开发 Step05 阻断：源包仍是 未命名游戏设计项目 空白状态",

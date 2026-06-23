@@ -34,7 +34,7 @@ class ClaudeCodeModelAdapter(ModelAdapter):
             capture_output=True,
             text=True,
             cwd=str(self.root),
-            timeout=600,
+            timeout=task.timeout_seconds,
             **hidden_subprocess_kwargs(env=child_process_env()),
         )
         if result.returncode != 0:

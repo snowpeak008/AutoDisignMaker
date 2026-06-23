@@ -13,6 +13,7 @@ class ModelTask:
     output_files: list[str] = field(default_factory=list)
     allowed_write_paths: list[str] = field(default_factory=list)
     timeout_seconds: int = 1800
+    sandbox: str = "workspace-write"
 
 
 @dataclass

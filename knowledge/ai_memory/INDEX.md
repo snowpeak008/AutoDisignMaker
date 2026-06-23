@@ -1,11 +1,106 @@
 # AI 会话记忆索引
 
-> 最后更新：2026-06-23
+> 最后更新：2026-06-24
 > 缓存状态：✓ 有效
 
 ---
 
 ## 上次会话摘要
+
+**日期**：2026-06-24
+**ID**：2026-06-24-002
+**摘要**：提交范围纠正：本地 bug 文档和临时开发计划不入库
+
+**完成内容**：
+- ✅ 从上一笔提交中移除 `bug收集文档*.md`、`bug优化文档*.md` 和 `plan/l5_entity_ai_supplement/`
+- ✅ `.gitignore` 增加小范围规则，防止本地 bug 文档和临时开发计划再次被误加
+- ✅ `knowledge/ai_memory/code_conventions/anti_patterns.md` 补充提交禁令
+- ✅ 记住提交前必须检查 `git status --short` 和 `git diff --cached --name-only`
+
+**自查修复**：
+- ✅ bug 文档只作为本地审查输入读取和处理，不提交到 git
+- ✅ 临时开发执行计划只作为本地任务材料使用，不提交到 git
+
+**验证**：
+- ✅ 更新项目记忆并运行 `python tools\memory\update_freshness.py`
+- ✅ 使用 amend 修正上一笔提交，不追加无意义修正提交
+
+**后续关注**：
+- [ ] 后续提交前确认暂存区不包含本地 bug 文档和临时执行计划
+- [ ] 真实 Codex CLI 环境中仍需跑 Step02，确认 stdout JSON 能被 `_parse_response()` 接收
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-24
+**ID**：2026-06-24-001
+**摘要**：修复 `bug收集文档7.md` 第七轮 BUG-024/025：AI 补全适配器连通性
+
+**完成内容**：
+- ✅ BUG-024：`ModelTask` 增加 `sandbox` 字段，默认仍为 `workspace-write`
+- ✅ BUG-024：`run_codex_exec()` 使用 `task.sandbox`，Step02 supplement 显式传 `sandbox="none"`
+- ✅ BUG-025：`ClaudeCodeModelAdapter.generate()` 改用 `task.timeout_seconds`，不再硬编码 600 秒
+- ✅ 新增适配器回归测试覆盖 Codex sandbox 和 Claude 超时透传
+
+**验证**：
+- ✅ `python -m pytest core\tests -q`：80 passed（仅 `.pytest_cache` 写入权限 warning）
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py`：通过
+- ✅ 本次触碰文件 black/flake8/mypy：通过
+
+---
+
+**日期**：2026-06-23
+**ID**：2026-06-23-012
+**摘要**：修复 `bug收集文档6.md` 第六轮 BUG-023：无效 adapter 不再击穿 Step02
+
+**完成内容**：
+- ✅ BUG-023：`_call_ai()` 继续让 `ValueError/ImportError` 暴露，保留底层配置错误可见性
+- ✅ `supplement()` 捕获 adapter 配置错误并降级到本地 fallback 实体，Step02 不再崩溃
+- ✅ `SupplementResult.error` 与 `entity_coverage_report.json.ai_supplement.error` 记录 `unknown adapter` 等原因
+- ✅ 补充分层回归测试：底层抛错、业务入口 fallback、`_stage2_outputs()` 无效 adapter 不崩溃
+
+**验证**：
+- ✅ `python -m pytest core\tests -q`：76 passed（仅 `.pytest_cache` 写入权限 warning）
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py`：通过
+- ✅ 本次触碰文件 black/flake8/mypy：通过
+
+---
+
+**日期**：2026-06-23
+**ID**：2026-06-23-011
+**摘要**：修复 `bug收集文档5.md` 第五轮 5 个 L5 AI 补全问题
+
+**完成内容**：
+- ✅ BUG-018：adapter 配置错误直接抛出，不再被 `_call_ai()` 静默降级
+- ✅ BUG-019：Step01 暴露公开 `pick_genre_template_key()`，Step02 不再导入私有 `_pick_template_key`
+- ✅ BUG-020：AI adapter 实例化移到重试循环外，避免重复创建
+- ✅ BUG-021：缺失 `pipeline_adapter` 时默认 `none`，Step02 AI 补全默认关闭
+- ✅ BUG-022：旧缓存缺少 `supplement_basis` 时仍可命中
+
+**验证**：
+- ✅ `python -m pytest core\tests -q`：74 passed（仅 `.pytest_cache` 写入权限 warning）
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py`：通过
+- ✅ 新增补全模块 black/flake8/mypy：通过
+
+---
+
+**日期**：2026-06-23
+**ID**：2026-06-23-010
+**摘要**：执行 `plan/l5_entity_ai_supplement`：Step02 L5 实体 AI 补全、缓存、降级与测试
+
+**完成内容**：
+- ✅ Step02 支持 `status=approximate` 概略实体解析和 `should_supplement()` 触发判断
+- ✅ 新增 `EntitySupplementAdapter`，支持 AI 调用、缓存、失败降级和实体合并
+- ✅ 新增补全提示词与多品类降级实体库
+- ✅ `generation.py` Step02 接入补全适配器，`pipeline_adapter=none` 可关闭
+- ✅ 新增 19 个 L5 supplement 单元/集成测试
+
+**验证**：
+- ✅ `python -m pytest core\tests -q`：66 passed（仅 `.pytest_cache` 写入权限 warning）
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py`：通过
+
+---
 
 **日期**：2026-06-23
 **ID**：2026-06-23-009
@@ -17,22 +112,12 @@
 - ✅ 对比失败 draft 时间和 `范本：Hades` 存档创建时间，确认流水线早于 Hades 存档创建
 - ✅ 记录排错经验：Step05 placeholder 阻断应向上检查导出源包和 Stage00/02/03 产物
 
-**自查修复**：
-- ✅ 已检查失败 draft 的 `source_artifacts`、`stage_00`、`stage_02`、`stage_03`、`stage_05` 产物
-- ✅ 本轮仅做溯源和记忆记录，没有修改运行时代码
-
 **验证**：
 - ✅ `stage_05/intelligent_review_report.json`：`verdict=BLOCKED`，阻断项为 `placeholder_rate`
 - ✅ `stage_03/program_requirements_contract.json`：4 条需求全部包含 `未命名游戏设计项目`
 - ✅ `source_artifacts/.../concept.md` / `design.md`：标题仍为 `未命名游戏设计项目`
 
-**后续关注**：
-- [ ] 重新运行自动化开发前，先确认导出的 `concept.md/design.md` 包含 Hades 内容
-- [ ] 增加导出前置校验，提前拦截 `未命名游戏设计项目` 和过低实体覆盖率源包
-
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-23
 **ID**：2026-06-23-008

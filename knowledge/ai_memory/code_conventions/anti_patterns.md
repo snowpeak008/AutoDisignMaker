@@ -270,6 +270,9 @@ settings/project_settings.json    # 含本地路径
 sandbox/                          # 运行时输出
 saves/                            # 存档
 logs/                             # 日志
+bug收集文档*.md                   # 用户本地 bug 检查输入，不入库
+bug优化文档*.md                   # 用户本地 bug 优化输入，不入库
+plan/l5_entity_ai_supplement/      # 临时开发执行计划，不入库
 *.pyc                             # 编译缓存
 __pycache__/                      # Python 缓存
 .venv/                            # 虚拟环境

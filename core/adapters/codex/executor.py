@@ -28,8 +28,10 @@ def run_codex_exec(task: ModelTask, cwd: Path) -> ModelResult:
         [
             _codex_command(),
             "exec",
-            "--cd", str(cwd),
-            "--sandbox", "workspace-write",
+            "--cd",
+            str(cwd),
+            "--sandbox",
+            task.sandbox,
             "--skip-git-repo-check",
             "-",
         ],

@@ -26,12 +26,18 @@ from core.ui.theme import (
 
 def _save_project_settings(settings: dict) -> None:
     try:
-        existing = json.loads(PROJECT_SETTINGS_FILE.read_text("utf-8")) if PROJECT_SETTINGS_FILE.exists() else {}
+        existing = (
+            json.loads(PROJECT_SETTINGS_FILE.read_text("utf-8"))
+            if PROJECT_SETTINGS_FILE.exists()
+            else {}
+        )
     except (OSError, json.JSONDecodeError):
         existing = {}
     existing.update({k: v for k, v in settings.items() if v is not None})
     PROJECT_SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    PROJECT_SETTINGS_FILE.write_text(json.dumps(existing, ensure_ascii=False, indent=2), "utf-8")
+    PROJECT_SETTINGS_FILE.write_text(
+        json.dumps(existing, ensure_ascii=False, indent=2), "utf-8"
+    )
 
 
 def _section(parent: tk.Widget, title: str) -> tk.Frame:
@@ -41,10 +47,15 @@ def _section(parent: tk.Widget, title: str) -> tk.Frame:
     header = tk.Frame(outer, bg=COLORS["bg"])
     header.pack(fill=tk.X, pady=(0, 4))
     tk.Label(
-        header, text=title,
-        bg=COLORS["bg"], fg=COLORS["muted"], font=FONT_BADGE,
+        header,
+        text=title,
+        bg=COLORS["bg"],
+        fg=COLORS["muted"],
+        font=FONT_BADGE,
     ).pack(side=tk.LEFT)
-    tk.Frame(header, bg=COLORS["border"], height=1).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(8, 0), pady=(4, 0))
+    tk.Frame(header, bg=COLORS["border"], height=1).pack(
+        side=tk.LEFT, fill=tk.X, expand=True, padx=(8, 0), pady=(4, 0)
+    )
     card = tk.Frame(
         outer,
         bg=COLORS["surface"],
@@ -59,7 +70,9 @@ def _section(parent: tk.Widget, title: str) -> tk.Frame:
 
 def _field_row(parent: tk.Widget, label: str) -> tuple[tk.Label, tk.Frame]:
     """Label above + content row below."""
-    lbl = tk.Label(parent, text=label, bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL)
+    lbl = tk.Label(
+        parent, text=label, bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL
+    )
     lbl.pack(anchor=tk.W)
     row = tk.Frame(parent, bg=COLORS["surface"])
     row.pack(fill=tk.X, pady=(4, 8))
@@ -98,12 +111,18 @@ class ProjectConfigDialog(tk.Toplevel):
         title_row = tk.Frame(root_frame, bg=COLORS["bg"])
         title_row.pack(fill=tk.X, pady=(0, 16))
         tk.Label(
-            title_row, text="项目配置",
-            bg=COLORS["bg"], fg=COLORS["text"], font=FONT_SECTION,
+            title_row,
+            text="项目配置",
+            bg=COLORS["bg"],
+            fg=COLORS["text"],
+            font=FONT_SECTION,
         ).pack(side=tk.LEFT)
         tk.Label(
-            title_row, text="设置游戏引擎与 AI 流水线适配器",
-            bg=COLORS["bg"], fg=COLORS["muted"], font=FONT_SMALL,
+            title_row,
+            text="设置游戏引擎与 AI 流水线适配器",
+            bg=COLORS["bg"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
         ).pack(side=tk.LEFT, padx=(10, 0), pady=(3, 0))
 
         # ── 环境设置卡片（引擎 + 适配器左右并排） ─────────────────
@@ -116,13 +135,22 @@ class ProjectConfigDialog(tk.Toplevel):
         # 引擎列
         engine_col = tk.Frame(env_cols, bg=COLORS["surface"])
         engine_col.grid(row=0, column=0, sticky="ew", padx=(0, 8))
-        tk.Label(engine_col, text="游戏引擎", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W)
+        tk.Label(
+            engine_col,
+            text="游戏引擎",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        ).pack(anchor=tk.W)
         self._engine_var = tk.StringVar(
             value=ENGINE_LABELS.get(settings.get("project_engine", "unity"), "Unity")
         )
         engine_combo = ttk.Combobox(
-            engine_col, textvariable=self._engine_var,
-            values=self._ENGINE_DISPLAY, state="readonly", width=18,
+            engine_col,
+            textvariable=self._engine_var,
+            values=self._ENGINE_DISPLAY,
+            state="readonly",
+            width=18,
         )
         engine_combo.pack(anchor=tk.W, pady=(4, 0))
         engine_combo.bind("<<ComboboxSelected>>", lambda _: self._on_engine_change())
@@ -130,12 +158,23 @@ class ProjectConfigDialog(tk.Toplevel):
         # AI 适配器列
         adapter_col = tk.Frame(env_cols, bg=COLORS["surface"])
         adapter_col.grid(row=0, column=1, sticky="ew")
-        tk.Label(adapter_col, text="AI 适配器（流水线）", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W)
-        current_adapter = settings.get("pipeline_adapter", "codex")
-        self._adapter_var = tk.StringVar(value=SUPPORTED_ADAPTERS.get(current_adapter, "Codex CLI"))
+        tk.Label(
+            adapter_col,
+            text="AI 适配器（流水线）",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        ).pack(anchor=tk.W)
+        current_adapter = settings.get("pipeline_adapter", "none")
+        self._adapter_var = tk.StringVar(
+            value=SUPPORTED_ADAPTERS.get(current_adapter, "禁用 AI")
+        )
         ttk.Combobox(
-            adapter_col, textvariable=self._adapter_var,
-            values=list(SUPPORTED_ADAPTERS.values()), state="readonly", width=18,
+            adapter_col,
+            textvariable=self._adapter_var,
+            values=list(SUPPORTED_ADAPTERS.values()),
+            state="readonly",
+            width=18,
         ).pack(anchor=tk.W, pady=(4, 0))
 
         # ── 自定义引擎名称（仅 custom 时显示） ─────────────────────
@@ -145,42 +184,77 @@ class ProjectConfigDialog(tk.Toplevel):
             bg=COLORS["surface"],
             highlightbackground=COLORS["border"],
             highlightthickness=1,
-            padx=14, pady=12,
+            padx=14,
+            pady=12,
         )
         custom_card.pack(fill=tk.X)
-        tk.Label(custom_card, text="引擎名称", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL).pack(anchor=tk.W)
-        self._custom_name_var = tk.StringVar(value=settings.get("custom_engine_name", ""))
-        ttk.Entry(custom_card, textvariable=self._custom_name_var, width=38).pack(anchor=tk.W, pady=(4, 0))
+        tk.Label(
+            custom_card,
+            text="引擎名称",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        ).pack(anchor=tk.W)
+        self._custom_name_var = tk.StringVar(
+            value=settings.get("custom_engine_name", "")
+        )
+        ttk.Entry(custom_card, textvariable=self._custom_name_var, width=38).pack(
+            anchor=tk.W, pady=(4, 0)
+        )
 
         # ── 路径区块（始终可见） ──────────────────────────────────
         self._paths_card = _section(root_frame, "路径配置")
 
-        self._dev_label = tk.Label(self._paths_card, text="", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL)
+        self._dev_label = tk.Label(
+            self._paths_card,
+            text="",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        )
         self._dev_label.pack(anchor=tk.W)
         self._dev_hint_label = tk.Label(
-            self._paths_card, text="",
-            bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL,
-            wraplength=480, justify=tk.LEFT,
+            self._paths_card,
+            text="",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+            wraplength=480,
+            justify=tk.LEFT,
         )
         dev_row = tk.Frame(self._paths_card, bg=COLORS["surface"])
         dev_row.pack(fill=tk.X, pady=(4, 10))
-        self._development_path_var = tk.StringVar(value=settings.get("development_path", ""))
-        ttk.Entry(dev_row, textvariable=self._development_path_var).pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self._development_path_var = tk.StringVar(
+            value=settings.get("development_path", "")
+        )
+        ttk.Entry(dev_row, textvariable=self._development_path_var).pack(
+            side=tk.LEFT, fill=tk.X, expand=True
+        )
         ttk.Button(
-            dev_row, text="浏览",
+            dev_row,
+            text="浏览",
             command=lambda: self._development_path_var.set(
                 filedialog.askdirectory() or self._development_path_var.get()
             ),
         ).pack(side=tk.LEFT, padx=(6, 0))
 
-        self._editor_label = tk.Label(self._paths_card, text="", bg=COLORS["surface"], fg=COLORS["muted"], font=FONT_SMALL)
+        self._editor_label = tk.Label(
+            self._paths_card,
+            text="",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+        )
         self._editor_label.pack(anchor=tk.W)
         editor_row = tk.Frame(self._paths_card, bg=COLORS["surface"])
         editor_row.pack(fill=tk.X, pady=(4, 0))
         self._editor_path_var = tk.StringVar(value=settings.get("editor_path", ""))
-        ttk.Entry(editor_row, textvariable=self._editor_path_var).pack(side=tk.LEFT, fill=tk.X, expand=True)
+        ttk.Entry(editor_row, textvariable=self._editor_path_var).pack(
+            side=tk.LEFT, fill=tk.X, expand=True
+        )
         ttk.Button(
-            editor_row, text="浏览",
+            editor_row,
+            text="浏览",
             command=lambda: self._editor_path_var.set(
                 filedialog.askopenfilename() or self._editor_path_var.get()
             ),
@@ -191,14 +265,21 @@ class ProjectConfigDialog(tk.Toplevel):
         bottom.pack(fill=tk.X, pady=(4, 0))
 
         self._result_label = tk.Label(
-            bottom, text="",
-            bg=COLORS["bg"], fg=COLORS["muted"], font=FONT_SMALL,
-            wraplength=440, justify=tk.LEFT, anchor=tk.W,
+            bottom,
+            text="",
+            bg=COLORS["bg"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+            wraplength=440,
+            justify=tk.LEFT,
+            anchor=tk.W,
         )
         self._result_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
         ttk.Button(bottom, text="关闭", command=self.destroy).pack(side=tk.RIGHT)
-        ttk.Button(bottom, text="保存并验证", command=self._save).pack(side=tk.RIGHT, padx=(0, 8))
+        ttk.Button(bottom, text="保存并验证", command=self._save).pack(
+            side=tk.RIGHT, padx=(0, 8)
+        )
 
         self._on_engine_change()
         self.update_idletasks()
@@ -215,10 +296,14 @@ class ProjectConfigDialog(tk.Toplevel):
     def _on_engine_change(self) -> None:
         engine = self._current_engine_key()
         is_custom = engine == "custom"
-        dev_label_text, editor_label_text = ENGINE_PATH_LABELS.get(engine, ("项目路径", "编辑器路径"))
+        dev_label_text, editor_label_text = ENGINE_PATH_LABELS.get(
+            engine, ("项目路径", "编辑器路径")
+        )
 
         if is_custom:
-            self._custom_name_outer.pack(fill=tk.X, pady=(0, 12), before=self._paths_card)
+            self._custom_name_outer.pack(
+                fill=tk.X, pady=(0, 12), before=self._paths_card
+            )
         else:
             self._custom_name_outer.pack_forget()
 
@@ -237,20 +322,30 @@ class ProjectConfigDialog(tk.Toplevel):
         engine = self._current_engine_key()
         adapter_key = next(
             (k for k, v in SUPPORTED_ADAPTERS.items() if v == self._adapter_var.get()),
-            "codex",
+            "none",
         )
-        _save_project_settings({
-            "project_engine": engine,
-            "pipeline_adapter": adapter_key,
-            "custom_engine_name": self._custom_name_var.get().strip() if engine == "custom" else "",
-            "development_path": self._development_path_var.get().strip(),
-            "editor_path": self._editor_path_var.get().strip() if engine != "custom" else "",
-        })
+        _save_project_settings(
+            {
+                "project_engine": engine,
+                "pipeline_adapter": adapter_key,
+                "custom_engine_name": (
+                    self._custom_name_var.get().strip() if engine == "custom" else ""
+                ),
+                "development_path": self._development_path_var.get().strip(),
+                "editor_path": (
+                    self._editor_path_var.get().strip() if engine != "custom" else ""
+                ),
+            }
+        )
         result = run_actual_development_preflight(PROJECT_ROOT)
         if result.get("status") == "passed":
             self._result_label.config(text="✓ 验证通过", fg=COLORS["success"])
         else:
-            msgs = "  ".join(b.get("message", "") for b in result.get("blockers", []) if isinstance(b, dict))
+            msgs = "  ".join(
+                b.get("message", "")
+                for b in result.get("blockers", [])
+                if isinstance(b, dict)
+            )
             self._result_label.config(text=f"✗ {msgs}", fg=COLORS["danger"])
 
 

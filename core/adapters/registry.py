@@ -9,6 +9,7 @@ from core.adapters.local_adapter import LocalAdapter
 from core.adapters.openai_adapter import OpenAIAdapter
 
 SUPPORTED_ADAPTERS: dict[str, str] = {
+    "none":   "禁用 AI",
     "codex":  "Codex CLI",
     "claude": "Claude Code CLI",
     "openai": "OpenAI API",
@@ -17,6 +18,8 @@ SUPPORTED_ADAPTERS: dict[str, str] = {
 
 
 def get_adapter(name: str) -> ModelAdapter:
+    if name == "none":
+        return LocalAdapter()
     if name == "codex":
         return CodexAdapter()
     if name == "claude":
