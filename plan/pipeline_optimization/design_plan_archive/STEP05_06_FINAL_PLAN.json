@@ -1,0 +1,50 @@
+{
+  "steps": "05-06",
+  "name": "程序与美术评审 (Reviews)",
+  "version": "v3.0 Final (Codex Reviewed)",
+  "status": "Approved - Ready for Implementation",
+  "priority": "Medium",
+  "codex_score": "8.0/10",
+  
+  "problems": [
+    "评审只检查格式，不检查内容质量",
+    "占位符需求也能通过评审",
+    "107个警告但仍PASS"
+  ],
+  
+  "solution": {
+    "new_module": "IntelligentReviewer",
+    "checks": [
+      "占位符检测 - >50% = BLOCKER",
+      "系统绑定检查 - <80% = WARNING",
+      "规格完整性 - 缺少specs = WARNING",
+      "资产数量检查 - <10 = CRITICAL"
+    ]
+  },
+  
+  "severity_levels": {
+    "BLOCKER": "halt pipeline",
+    "CRITICAL": "require review",
+    "WARNING": "log and continue",
+    "INFO": "informational only"
+  },
+  
+  "outputs": {
+    "ProgReview_report_enhanced.json": "含严重性分级",
+    "ArtReview_report_enhanced.json": "含规格检查"
+  },
+  
+  "implementation": {
+    "duration": "Week 8",
+    "tasks": [
+      "增强ProgReviewer",
+      "增强ArtReviewer",
+      "添加占位符检测"
+    ]
+  },
+  
+  "target": {
+    "step05_warnings": "107 -> 5-15",
+    "false_pass_rate": "100% -> 0%"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "step": "01",
+  "name": "玩法框架 (Gameplay Framework)",
+  "version": "v3.0 Final (Codex Reviewed)",
+  "status": "Approved - Ready for Implementation",
+  "priority": "Critical",
+  "codex_score": "9.0/10",
+  
+  "problems": [
+    "core_loop.json完全为空 (loop: [])",
+    "无systems.json输出",
+    "不读取步骤00输出",
+    "无法推导系统"
+  ],
+  
+  "solution": {
+    "new_modules": ["LoopExtractor", "SystemDeducer", "ResourceAnalyzer"],
+    "data_files": ["genre_templates.json (3 genres)"],
+    "data_inheritance": "读取步骤00的design_extraction_enhanced.json",
+    "codex_integration": ["循环提取", "系统推导"]
+  },
+  
+  "outputs": {
+    "core_loop.json": "100% output rate",
+    "systems.json": "3-8 systems per project"
+  },
+  
+  "implementation": {
+    "duration": "Week 3 (5 days)",
+    "deliverable": "core_loop和systems输出率100%"
+  },
+  
+  "target": {
+    "core_loop_output_rate": "0% -> 100%",
+    "systems_definition_rate": "0% -> 100%",
+    "quality_score": "5/100 -> 60-70/100"
+  }
+}

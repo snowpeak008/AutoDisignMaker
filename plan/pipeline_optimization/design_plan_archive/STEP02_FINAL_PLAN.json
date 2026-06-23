@@ -1,0 +1,47 @@
+{
+  "step": "02",
+  "name": "设计冻结 (Design Freeze)",
+  "version": "v3.0 Final (Codex Reviewed)",
+  "status": "Approved - CRITICAL: Depends on PLAN-002 fix",
+  "priority": "Critical",
+  "codex_score": "7.5/10",
+  
+  "critical_blocker": "MUST verify PLAN-002 fix in Phase 0 Week 1",
+  
+  "problems": [
+    "designEntities完全丢失 (PLAN-002 bug)",
+    "103个节点全是占位符",
+    "无系统关系图",
+    "无分阶段设计"
+  ],
+  
+  "phase_0_requirement": {
+    "task": "验证PLAN-002修复",
+    "test": "加载Hades模板 -> 检查entity_coverage",
+    "expected": "39/103节点有实体",
+    "if_failed": "立即修复 (2-3天)"
+  },
+  
+  "solution": {
+    "new_modules": ["EntityValidator", "GraphGenerator", "PhaseClassifier"],
+    "codex_integration": "entity_coverage < 20% -> 补全实体"
+  },
+  
+  "outputs": [
+    "entity_validation_report.json",
+    "system_dependencies.mmd",
+    "frozen_design_core.md",
+    "phase_roadmap.json"
+  ],
+  
+  "implementation": {
+    "duration": "Week 4 (5 days)",
+    "prerequisite": "PLAN-002已修复"
+  },
+  
+  "target": {
+    "entity_transmission_rate": "0% -> 85-95%",
+    "frozen_design_lines": "117 -> 400-600",
+    "quality_score": "10/100 -> 55-65/100"
+  }
+}

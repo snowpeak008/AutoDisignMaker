@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from core.paths import PROJECT_ROOT as BASE_DIR, ARTIFACTS_DIR
+from core.paths import PROJECT_ROOT as BASE_DIR
 from core.io import file_manifest, now_iso, read_json, rel, write_json, write_text
 from core.source.importer import refresh_reference_manifest_file_inventory
 from core.stage import stage_dir
@@ -40,6 +40,20 @@ from core.runtime.control import PipelineStopRequested
 from core.adapters.codex.executor import run_codex_exec
 from core.adapters.codex.task_builder import build_file_generation_task
 from core.skill_loader import write_skill_guidance
+from pipeline.step_00_idea_intake.helpers import ConceptProcessor, QuestionEngine
+from pipeline.step_01_gameplay_framework.helpers import LoopExtractor, SystemDeducer
+from pipeline.step_02_design_review_freeze.helpers import (
+    EntityValidator,
+    GraphGenerator,
+    PhaseClassifier,
+)
+from pipeline.step_03_program_requirements.helpers import (
+    EntityToRequirementConverter,
+    SystemBinder,
+    build_requirement_quality_report,
+)
+from pipeline.step_04_art_requirements.helpers import EntityToAssetConverter, MarketResearchSkill
+from pipeline.step_05_program_review.helpers import IntelligentReviewer
 
 
 ALLOWED_DESIGN_SOURCE_SUFFIXES = {".md", ".txt"}
@@ -208,7 +222,11 @@ def _split_values(value: str) -> list[str]:
     raw = value.strip()
     if not raw or raw == "无":
         return []
-    return [item.strip() for item in re.split(r"[、,，;；]+", raw) if item.strip() and item.strip() != "无"]
+    return [
+        item.strip()
+        for item in re.split(r"[、,，;；]+", raw)
+        if item.strip() and item.strip() != "无"
+    ]
 
 
 class DesignSourceError(RuntimeError):
@@ -263,7 +281,12 @@ def _parse_design_text(
             current_selection = None
             continue
 
-        if current_layer["number"] and "/" in line and line == line.strip() and not line.startswith("- "):
+        if (
+            current_layer["number"]
+            and "/" in line
+            and line == line.strip()
+            and not line.startswith("- ")
+        ):
             current_layer["status"] = line.strip()
             continue
 
@@ -319,7 +342,9 @@ def _parse_design_text(
         "source": source,
         "source_path": source_path,
         "source_sha256": source_sha256 or hashlib.sha256(text.encode("utf-8")).hexdigest(),
-        "source_size_bytes": source_size_bytes if source_size_bytes is not None else len(text.encode("utf-8")),
+        "source_size_bytes": (
+            source_size_bytes if source_size_bytes is not None else len(text.encode("utf-8"))
+        ),
         "source_line_count": len(lines),
         "parsed_at": now_iso(),
         "layers": layers,
@@ -340,24 +365,30 @@ def _parse_design_doc(path: Path) -> dict[str, Any]:
 
 
 def _latest_concept_package(base_dir: Path = BASE_DIR) -> Path | None:
-    from core.paths import SOURCE_ARTIFACTS_DIR
-    source_dir = SOURCE_ARTIFACTS_DIR
-    if not source_dir.exists():
-        return None
+    from core.source.finder import source_artifact_roots
 
     candidates: list[Path] = []
-    for item in source_dir.iterdir():
-        if not item.is_dir():
+    for source_dir in source_artifact_roots():
+        if not source_dir.exists():
             continue
-        manifest = read_json(item / "package_manifest.json", {})
-        if not isinstance(manifest, dict):
-            manifest = {}
-        source_ids = {str(value) for value in manifest.get("source_ids", []) if value}
-        package_type = str(manifest.get("package_type") or manifest.get("source_id") or "")
-        if manifest.get("stage") == 0 and ("Concept" in source_ids or package_type == "Concept"):
-            candidates.append(item)
-        elif item.name.startswith("s00_cpt_v"):
-            candidates.append(item)
+        root_candidates: list[Path] = []
+        for item in source_dir.iterdir():
+            if not item.is_dir():
+                continue
+            manifest = read_json(item / "package_manifest.json", {})
+            if not isinstance(manifest, dict):
+                manifest = {}
+            source_ids = {str(value) for value in manifest.get("source_ids", []) if value}
+            package_type = str(manifest.get("package_type") or manifest.get("source_id") or "")
+            if manifest.get("stage") == 0 and (
+                "Concept" in source_ids or package_type == "Concept"
+            ):
+                root_candidates.append(item)
+            elif item.name.startswith("s00_cpt_v"):
+                root_candidates.append(item)
+        if root_candidates:
+            candidates = root_candidates
+            break
 
     if not candidates:
         return None
@@ -375,7 +406,9 @@ def _load_concept_submission(package_dir: Path) -> dict[str, Any]:
     return submission if isinstance(submission, dict) else {}
 
 
-def _concept_attachment_paths(package_dir: Path, submission: dict[str, Any]) -> tuple[list[Path], list[str]]:
+def _concept_attachment_paths(
+    package_dir: Path, submission: dict[str, Any]
+) -> tuple[list[Path], list[str]]:
     valid: list[Path] = []
     invalid: list[str] = []
     raw_attachments = submission.get("attachments", [])
@@ -478,30 +511,34 @@ def _coverage(parsed: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], d
         question_ref = taxonomy_item["question_ref"]
         selected = selections_by_question.get(question_ref, [])
         answered = bool(selected)
-        questions.append({
-            "question_ref": question_ref,
-            "domain": taxonomy_item["domain"],
-            "decision": taxonomy_item["decision"],
-            "question": taxonomy_item["question"],
-            "answered": answered,
-            "selected_options": [
-                {
-                    "code": _option_code(item),
-                    "label": item.option,
-                    "source": item.source_ref,
-                    "confidence": "explicit",
-                }
-                for item in selected
-            ],
-        })
-        if not answered:
-            open_questions.append({
-                "id": f"OQ-{len(open_questions) + 1:03d}",
+        questions.append(
+            {
                 "question_ref": question_ref,
+                "domain": taxonomy_item["domain"],
+                "decision": taxonomy_item["decision"],
                 "question": taxonomy_item["question"],
-                "reason": "当前项目设计文档没有明确回答该设计问题。",
-                "status": "needs_human_input",
-            })
+                "answered": answered,
+                "selected_options": [
+                    {
+                        "code": _option_code(item),
+                        "label": item.option,
+                        "source": item.source_ref,
+                        "confidence": "explicit",
+                    }
+                    for item in selected
+                ],
+            }
+        )
+        if not answered:
+            open_questions.append(
+                {
+                    "id": f"OQ-{len(open_questions) + 1:03d}",
+                    "question_ref": question_ref,
+                    "question": taxonomy_item["question"],
+                    "reason": "当前项目设计文档没有明确回答该设计问题。",
+                    "status": "needs_human_input",
+                }
+            )
 
     project_selection = {
         "schema_version": 1,
@@ -564,7 +601,9 @@ def _classify_phase(item: Selection) -> str:
     text = item.label + " " + item.purpose
     if any(token in text for token in ("社交", "好友", "排行榜")):
         return "social"
-    if any(token in text for token in ("发布", "Demo", "试玩", "QA", "回归", "客服", "公告", "合规")):
+    if any(
+        token in text for token in ("发布", "Demo", "试玩", "QA", "回归", "客服", "公告", "合规")
+    ):
         return "launch_ops"
     if any(token in text for token in ("活动", "赛季", "版本", "内容")):
         return "content_ops"
@@ -588,12 +627,14 @@ def _phase_map(parsed: dict[str, Any]) -> dict[str, Any]:
     }
     for item in parsed["selections"]:
         phase = _classify_phase(item)
-        phases.setdefault(phase, []).append({
-            "selection_id": item.id,
-            "label": item.label,
-            "source": item.source_ref,
-            "reason": "根据项目设计文档中的术语和目的进行确定性分批。",
-        })
+        phases.setdefault(phase, []).append(
+            {
+                "selection_id": item.id,
+                "label": item.label,
+                "source": item.source_ref,
+                "reason": "根据项目设计文档中的术语和目的进行确定性分批。",
+            }
+        )
     return {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -663,39 +704,47 @@ def _graph(parsed: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict
         for dep in item.dependencies:
             target = lookup.get(dep)
             if target and target.id in node_ids:
-                edges.append({
-                    "from": target.id,
-                    "to": item.id,
-                    "relation": "depends_on",
-                    "resource": "",
-                    "source": item.source_ref,
-                })
+                edges.append(
+                    {
+                        "from": target.id,
+                        "to": item.id,
+                        "relation": "depends_on",
+                        "resource": "",
+                        "source": item.source_ref,
+                    }
+                )
             else:
-                unresolved.append({
-                    "selection_id": item.id,
-                    "label": item.label,
-                    "reference": dep,
-                    "kind": "dependency",
-                    "source": item.source_ref,
-                })
+                unresolved.append(
+                    {
+                        "selection_id": item.id,
+                        "label": item.label,
+                        "reference": dep,
+                        "kind": "dependency",
+                        "source": item.source_ref,
+                    }
+                )
         for unlock in item.unlocks:
             target = lookup.get(unlock)
             if target and target.id in node_ids:
-                edges.append({
-                    "from": item.id,
-                    "to": target.id,
-                    "relation": "triggers",
-                    "resource": "",
-                    "source": item.source_ref,
-                })
+                edges.append(
+                    {
+                        "from": item.id,
+                        "to": target.id,
+                        "relation": "triggers",
+                        "resource": "",
+                        "source": item.source_ref,
+                    }
+                )
             else:
-                unresolved.append({
-                    "selection_id": item.id,
-                    "label": item.label,
-                    "reference": unlock,
-                    "kind": "candidate_unlock_not_selected",
-                    "source": item.source_ref,
-                })
+                unresolved.append(
+                    {
+                        "selection_id": item.id,
+                        "label": item.label,
+                        "reference": unlock,
+                        "kind": "candidate_unlock_not_selected",
+                        "source": item.source_ref,
+                    }
+                )
 
     system_graph = {
         "schema_version": 1,
@@ -737,7 +786,9 @@ def _resource_storage(item: Selection) -> str:
     return "none"
 
 
-def _resource_graph(parsed: dict[str, Any], nodes_source: list[Selection], lookup: dict[str, Selection]) -> dict[str, Any]:
+def _resource_graph(
+    parsed: dict[str, Any], nodes_source: list[Selection], lookup: dict[str, Selection]
+) -> dict[str, Any]:
     resources: list[dict[str, Any]] = []
     flows: list[dict[str, Any]] = []
     consumers_by_resource: dict[str, list[Selection]] = {}
@@ -753,36 +804,58 @@ def _resource_graph(parsed: dict[str, Any], nodes_source: list[Selection], looku
         resource_id = f"RES-{index:03d}"
         producers = [lookup[dep].id for dep in item.dependencies if dep in lookup]
         consumers = [lookup[unlock].id for unlock in item.unlocks if unlock in lookup]
-        consumers.extend(node.id for node in consumers_by_resource.get(item.label, []) if node.id not in consumers)
-        consumers.extend(node.id for node in consumers_by_resource.get(item.option, []) if node.id not in consumers)
-        consumers.extend(node.id for node in unlock_consumers_by_resource.get(item.label, []) if node.id not in consumers)
-        consumers.extend(node.id for node in unlock_consumers_by_resource.get(item.option, []) if node.id not in consumers)
+        consumers.extend(
+            node.id
+            for node in consumers_by_resource.get(item.label, [])
+            if node.id not in consumers
+        )
+        consumers.extend(
+            node.id
+            for node in consumers_by_resource.get(item.option, [])
+            if node.id not in consumers
+        )
+        consumers.extend(
+            node.id
+            for node in unlock_consumers_by_resource.get(item.label, [])
+            if node.id not in consumers
+        )
+        consumers.extend(
+            node.id
+            for node in unlock_consumers_by_resource.get(item.option, [])
+            if node.id not in consumers
+        )
         if not consumers:
             consumers.extend(producer for producer in producers if producer not in consumers)
-        resources.append({
-            "id": resource_id,
-            "name": item.label,
-            "source": item.source_ref,
-            "producers": producers,
-            "consumers": consumers,
-            "storage": _resource_storage(item),
-        })
+        resources.append(
+            {
+                "id": resource_id,
+                "name": item.label,
+                "source": item.source_ref,
+                "producers": producers,
+                "consumers": consumers,
+                "storage": _resource_storage(item),
+            }
+        )
         for producer in producers:
-            flows.append({
-                "from": producer,
-                "to": resource_id,
-                "resource": resource_id,
-                "operation": "grant",
-                "source": item.source_ref,
-            })
+            flows.append(
+                {
+                    "from": producer,
+                    "to": resource_id,
+                    "resource": resource_id,
+                    "operation": "grant",
+                    "source": item.source_ref,
+                }
+            )
         for consumer in consumers:
-            flows.append({
-                "from": resource_id,
-                "to": consumer,
-                "resource": resource_id,
-                "operation": "consume",
-                "source": item.source_ref,
-            })
+            flows.append(
+                {
+                    "from": resource_id,
+                    "to": consumer,
+                    "resource": resource_id,
+                    "operation": "consume",
+                    "source": item.source_ref,
+                }
+            )
 
     return {
         "schema_version": 1,
@@ -826,7 +899,7 @@ def _resource_graph_mmd(graph: dict[str, Any], system_graph: dict[str, Any]) -> 
         left = str(flow["from"]).replace("-", "_")
         right = str(flow["to"]).replace("-", "_")
         label = f'{flow["operation"]}:{resource_names.get(flow["resource"], flow["resource"])}'
-        lines.append(f'  {left} -->|{_mmd_label(label)}| {right}')
+        lines.append(f"  {left} -->|{_mmd_label(label)}| {right}")
     return "\n".join(lines) + "\n"
 
 
@@ -856,6 +929,8 @@ def _source_digest(parsed: dict[str, Any], coverage: dict[str, Any]) -> str:
 
 def _stage0_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     coverage, project_selection, open_questions = _coverage(parsed)
+    concept_profile = ConceptProcessor().build_profile(parsed)
+    question_coverage = QuestionEngine().evaluate(parsed)
     phase_map = _phase_map(parsed)
     scope_catalog = _scope_catalog(parsed, phase_map)
     source_manifest = {
@@ -898,6 +973,8 @@ def _stage0_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "design_source_manifest.json", source_manifest)
     write_json(out_dir / "design_extraction.json", design_extraction)
     write_json(out_dir / "option_coverage_report.json", coverage)
+    write_json(out_dir / "concept_profile.json", concept_profile)
+    write_json(out_dir / "core_question_coverage_report.json", question_coverage)
     write_json(out_dir / "project_option_selection.json", project_selection)
     write_json(out_dir / "full_scope_catalog.json", scope_catalog)
     write_json(out_dir / "implementation_phase_map.json", phase_map)
@@ -907,17 +984,9 @@ def _stage0_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "content_exists": True,
         "selection_count": len(parsed["selections"]),
         "open_questions": len(open_questions["questions"]),
+        "core_question_coverage_rate": question_coverage["coverage_rate"],
         "main_design_source": main_source,
     }
-
-
-def _core_loop_steps(parsed: dict[str, Any]) -> list[str]:
-    loop_items = [item for item in parsed["selections"] if item.item_type == "核心循环"]
-    if not loop_items:
-        return []
-    value = loop_items[0].option
-    parts = [item.strip() for item in re.split(r"[-—>→]+", value) if item.strip()]
-    return parts or [value]
 
 
 def _stage1_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
@@ -925,17 +994,20 @@ def _stage1_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     phase_map = _phase_map(parsed)
     scope_catalog = _scope_catalog(parsed, phase_map)
     system_graph, resource_graph, reference_questions = _graph(parsed)
+    loop_report = LoopExtractor().extract(parsed)
+    system_definitions = SystemDeducer().deduce(parsed, system_graph)
     combined_questions = list(open_questions["questions"]) + list(reference_questions["questions"])
     gameplay_framework = _gameplay_framework_md(parsed, phase_map, system_graph, resource_graph)
     core_loop = {
         "schema_version": 1,
         "generated_at": now_iso(),
         "source": parsed["source"],
-        "loop": _core_loop_steps(parsed),
+        "loop": loop_report["loop"],
+        "template_key": loop_report["template_key"],
+        "source_kind": loop_report["source_kind"],
+        "output_rate": loop_report["output_rate"],
         "source_selection": [
-            _selection_dict(item)
-            for item in parsed["selections"]
-            if item.item_type == "核心循环"
+            _selection_dict(item) for item in parsed["selections"] if item.item_type == "核心循环"
         ],
     }
     system_boundary = {
@@ -954,21 +1026,29 @@ def _stage1_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
     write_text(out_dir / "gameplay_framework.md", gameplay_framework)
     write_json(out_dir / "core_loop.json", core_loop)
+    write_json(out_dir / "system_definitions.json", system_definitions)
     write_json(out_dir / "system_boundary.json", system_boundary)
     write_json(out_dir / "full_feature_scope.json", scope_catalog)
     write_json(out_dir / "core_playable_slice.json", core_slice)
     write_json(out_dir / "implementation_phase_map.json", phase_map)
     write_json(out_dir / "option_coverage_report.json", coverage)
     write_json(out_dir / "project_option_selection.json", project_selection)
-    write_json(out_dir / "open_questions.json", {"schema_version": 1, "generated_at": now_iso(), "questions": combined_questions})
+    write_json(
+        out_dir / "open_questions.json",
+        {"schema_version": 1, "generated_at": now_iso(), "questions": combined_questions},
+    )
     write_json(out_dir / "system_relation_graph.json", system_graph)
     write_text(out_dir / "system_relation_graph.mmd", _system_graph_mmd(system_graph))
     write_json(out_dir / "resource_flow_graph.json", resource_graph)
-    write_text(out_dir / "resource_flow_graph.mmd", _resource_graph_mmd(resource_graph, system_graph))
+    write_text(
+        out_dir / "resource_flow_graph.mmd", _resource_graph_mmd(resource_graph, system_graph)
+    )
     return {
         "content_exists": True,
-        "system_nodes": len(system_graph["nodes"]),
+        "system_nodes": max(len(system_graph["nodes"]), system_definitions["system_count"]),
         "resource_nodes": len(resource_graph["resources"]),
+        "core_loop_output_rate": loop_report["output_rate"],
+        "system_definition_rate": system_definitions["definition_rate"],
         "open_questions": len(combined_questions),
     }
 
@@ -1021,7 +1101,9 @@ def _gameplay_framework_md(
     return "\n".join(lines)
 
 
-def _validate_graphs(system_graph: dict[str, Any], resource_graph: dict[str, Any]) -> list[dict[str, Any]]:
+def _validate_graphs(
+    system_graph: dict[str, Any], resource_graph: dict[str, Any]
+) -> list[dict[str, Any]]:
     blocking: list[dict[str, Any]] = []
     for node in system_graph.get("nodes", []):
         if not node.get("source"):
@@ -1035,7 +1117,18 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     phase_map = _phase_map(parsed)
     scope_catalog = _scope_catalog(parsed, phase_map)
     system_graph, resource_graph, reference_questions = _graph(parsed)
+    entity_report = EntityValidator().validate(parsed)
+    entity_graph = GraphGenerator().generate(system_graph, entity_report)
+    entity_phase_map = PhaseClassifier().classify(entity_report)
     blocking = _validate_graphs(system_graph, resource_graph)
+    if not entity_graph["cycle_free"]:
+        blocking.append(
+            {
+                "id": "ENTITY-GRAPH-CYCLE",
+                "message": "Entity dependency graph contains cycles.",
+                "cycles": entity_graph["cycles"],
+            }
+        )
     frozen_lines = [
         "# Frozen Game Design",
         "",
@@ -1046,7 +1139,9 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "",
     ]
     for item in scope_catalog["items"]:
-        frozen_lines.append(f"- {item['label']} -> {item['implementation_phase']} ({item['source']})")
+        frozen_lines.append(
+            f"- {item['label']} -> {item['implementation_phase']} ({item['source']})"
+        )
     frozen_lines.append("")
     freeze_contract = {
         "schema_version": 1,
@@ -1083,10 +1178,16 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "status": "passed" if not blocking else "blocked",
         "blocking_issues": blocking,
         "warnings": reference_questions["questions"],
+        "entity_warnings": entity_report["invalid_entities"] + entity_report["missing_entities"],
         "checks": {
             "source_exists": True,
-            "all_scope_has_phase": all(item.get("implementation_phase") for item in scope_catalog["items"]),
+            "all_scope_has_phase": all(
+                item.get("implementation_phase") for item in scope_catalog["items"]
+            ),
             "system_nodes_have_source": all(node.get("source") for node in system_graph["nodes"]),
+            "entity_coverage_rate": entity_report["entity_coverage_rate"],
+            "entity_count": entity_report["entity_count"],
+            "entity_graph_cycle_free": entity_graph["cycle_free"],
             "resources_have_flow": not any(
                 not item.get("producers") or not item.get("consumers") or not item.get("storage")
                 for item in resource_graph["resources"]
@@ -1106,15 +1207,22 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_json(out_dir / "phase_backlog.json", phase_backlog)
     write_json(out_dir / "design_review_report.json", review_report)
     write_json(out_dir / "repair_patch.json", repair_patch)
+    write_json(out_dir / "entity_coverage_report.json", entity_report)
+    write_json(out_dir / "entity_dependency_graph.json", entity_graph)
+    write_json(out_dir / "entity_phase_classification.json", entity_phase_map)
     write_json(out_dir / "system_relation_graph.json", system_graph)
     write_json(out_dir / "resource_flow_graph.json", resource_graph)
     write_text(out_dir / "system_relation_graph.mmd", _system_graph_mmd(system_graph))
-    write_text(out_dir / "resource_flow_graph.mmd", _resource_graph_mmd(resource_graph, system_graph))
+    write_text(
+        out_dir / "resource_flow_graph.mmd", _resource_graph_mmd(resource_graph, system_graph)
+    )
     return {
         "content_exists": True,
         "blocking_issues": len(blocking),
         "ai_review_status": review_report["status"],
         "traceability_valid": not blocking,
+        "design_entity_count": entity_report["entity_count"],
+        "entity_coverage_rate": entity_report["entity_coverage_rate"],
     }
 
 
@@ -1126,67 +1234,40 @@ def _requirement_text(item: Selection) -> str:
 
 def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     preflight = run_actual_development_preflight(BASE_DIR, write_report=True)
-    if preflight.get("status") != "passed":
-        blockers = preflight.get("blockers", [])
-        blocked_contract = {
-            "schema_version": 1,
-            "generated_at": now_iso(),
-            "valid": False,
-            "source": parsed["source"],
-            "requirements": [],
-            "blocking_issues": blockers,
-            "rule": "Stage 03 cannot pass until actual Unity development preflight passes.",
-        }
-        write_json(out_dir / "actual_development_preflight_dependency.json", preflight)
-        write_json(out_dir / "program_requirements_contract.json", blocked_contract)
-        write_json(out_dir / "traceability_matrix.json", {
-            "schema_version": 1,
-            "generated_at": now_iso(),
-            "source": parsed["source"],
-            "traceability_valid": False,
-            "traces": [],
-            "blocking_issues": blockers,
-        })
-        write_json(out_dir / "program_structure_spec.json", {
-            "schema_version": 1,
-            "generated_at": now_iso(),
-            "valid": False,
-            "project_type": "Unity",
-            "allowed_roots": list(UNITY_PROGRAM_ALLOWED_ROOTS),
-            "blocking_issues": blockers,
-        })
-        write_text(
-            out_dir / "program_structure_spec.md",
-            "# Program Structure Spec\n\n"
-            "- Status: blocked\n"
-            "- Reason: actual Unity development preflight did not pass.\n"
-            "- Required settings: development_path and Unity editor_path.\n"
-            "- Required Unity markers: Assets/, ProjectSettings/, Packages/manifest.json.\n",
-        )
-        return {
-            "content_exists": True,
-            "requirement_count": 0,
-            "traceability_valid": False,
-            "blocking_issues": len(blockers) or 1,
-            "ai_review_status": "blocked",
-        }
+    preflight_blockers = (
+        preflight.get("blockers", []) if preflight.get("status") != "passed" else []
+    )
+    preflight_settings = (
+        preflight.get("settings", {}) if isinstance(preflight.get("settings"), dict) else {}
+    )
+    write_json(out_dir / "actual_development_preflight_dependency.json", preflight)
 
     phase_map = _phase_map(parsed)
     system_graph, resource_graph, _ = _graph(parsed)
     nodes_by_id = {node["id"]: node for node in system_graph["nodes"]}
+    binder = SystemBinder()
     requirements = []
     for index, item in enumerate(parsed["selections"], 1):
         req_id = f"REQ-{index:03d}"
         phase = _classify_phase(item)
-        requirements.append({
-            "id": req_id,
-            "requirement": _requirement_text(item),
-            "selection_id": item.id,
-            "source_refs": [item.source_ref],
-            "phase": phase,
-            "system_ids": [item.id] if item.id in nodes_by_id else [],
-            "acceptance": f"可通过配置、运行流程或人工检查证明“{item.label}”已按来源实现。",
-        })
+        requirements.append(
+            {
+                "id": req_id,
+                "requirement": _requirement_text(item),
+                "selection_id": item.id,
+                "source_refs": [item.source_ref],
+                "phase": phase,
+                "system_ids": [item.id] if item.id in nodes_by_id else [],
+                "system_binding": {},
+                "inputs": ["design_selection"],
+                "outputs": [_phase_target_path(phase)],
+                "dependencies": item.dependencies,
+                "acceptance": f"可通过配置、运行流程或人工检查证明“{item.label}”已按来源实现。",
+                "trace_kind": "selection",
+            }
+        )
+    requirements.extend(EntityToRequirementConverter().convert(parsed))
+    binder.bind(requirements, system_graph)
 
     systems_md = ["# Systems", ""]
     for node in system_graph["nodes"]:
@@ -1199,42 +1280,51 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
     entities_md = ["# Entities", "", "## Resources", ""]
     for resource in resource_graph["resources"]:
-        entities_md.append(f"- {resource['id']} {resource['name']} storage={resource['storage']} source={resource['source']}")
+        entities_md.append(
+            f"- {resource['id']} {resource['name']} storage={resource['storage']} source={resource['source']}"
+        )
     entities_md.extend(["", "## Project Selections", ""])
     for item in parsed["selections"]:
         entities_md.append(f"- {item.id} {item.label} source={item.source_ref}")
 
     contracts_md = ["# Contracts", ""]
     for node in system_graph["nodes"]:
-        contracts_md.append(f"- {node['id']} exposes source-traced behavior for {node['name']}. Source: {node['source']}")
+        contracts_md.append(
+            f"- {node['id']} exposes source-traced behavior for {node['name']}. Source: {node['source']}"
+        )
 
     acceptance_md = ["# Acceptance Criteria", ""]
     for req in requirements:
-        acceptance_md.append(f"- {req['id']}: {req['acceptance']} Source: {', '.join(req['source_refs'])}")
+        acceptance_md.append(
+            f"- {req['id']}: {req['acceptance']} Source: {', '.join(req['source_refs'])}"
+        )
 
     path_bindings = []
     for req in requirements:
         phase = str(req.get("phase") or "core_playable")
         module = _module_for_phase(phase)
-        path_bindings.append({
-            "requirement_id": req["id"],
-            "selection_id": req["selection_id"],
-            "phase": phase,
-            "module": module,
-            "target_path": _phase_target_path(phase),
-            "test_path": _phase_test_path(phase),
-            "allowed_write_paths": [_phase_target_path(phase), _phase_test_path(phase)],
-            "source_refs": req["source_refs"],
-        })
+        path_bindings.append(
+            {
+                "requirement_id": req["id"],
+                "selection_id": req["selection_id"],
+                "phase": phase,
+                "module": module,
+                "target_path": _phase_target_path(phase),
+                "test_path": _phase_test_path(phase),
+                "allowed_write_paths": [_phase_target_path(phase), _phase_test_path(phase)],
+                "source_refs": req["source_refs"],
+            }
+        )
 
     structure_spec = {
         "schema_version": 1,
         "generated_at": now_iso(),
-        "valid": True,
-        "project_type": "Unity",
-        "development_path": preflight.get("development_path"),
-        "editor_path": preflight.get("editor_path"),
+        "valid": not preflight_blockers,
+        "project_type": preflight_settings.get("project_engine", "unity"),
+        "development_path": preflight_settings.get("development_path", ""),
+        "editor_path": preflight_settings.get("editor_path", ""),
         "allowed_roots": list(UNITY_PROGRAM_ALLOWED_ROOTS),
+        "preflight_blocking_issues": preflight_blockers,
         "system_path_map": path_bindings,
         "output_file_rules": [
             "Stage 07 must bind every task to target_path and output_files.",
@@ -1258,9 +1348,10 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     structure_md = [
         "# Program Structure Spec",
         "",
-        "- Project type: Unity",
-        f"- Development path: {preflight.get('development_path')}",
-        f"- Unity editor path: {preflight.get('editor_path')}",
+        f"- Project type: {preflight_settings.get('project_engine', 'unity')}",
+        f"- Development path: {preflight_settings.get('development_path', '')}",
+        f"- Editor path: {preflight_settings.get('editor_path', '')}",
+        f"- Preflight status: {preflight.get('status')}",
         "- Rule: Stage 03 owns the Unity program skeleton contract.",
         "- Rule: Stage 07 binds tasks to concrete paths and files.",
         "- Rule: Stage 10 executes only declared output files and cannot invent structure.",
@@ -1293,12 +1384,13 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     contract = {
         "schema_version": 1,
         "generated_at": now_iso(),
-        "valid": True,
+        "valid": not preflight_blockers,
         "source": parsed["source"],
         "requirements": requirements,
         "system_count": len(system_graph["nodes"]),
         "resource_count": len(resource_graph["resources"]),
         "program_structure_spec": "program_structure_spec.json",
+        "preflight_blocking_issues": preflight_blockers,
     }
     traceability = {
         "schema_version": 1,
@@ -1325,10 +1417,15 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_text(out_dir / "program_requirements.md", "\n".join(program_md))
     write_json(out_dir / "program_requirements_contract.json", contract)
     write_json(out_dir / "traceability_matrix.json", traceability)
+    write_json(
+        out_dir / "requirement_quality_report.json", build_requirement_quality_report(requirements)
+    )
     return {
         "content_exists": True,
         "requirement_count": len(requirements),
         "traceability_valid": traceability["traceability_valid"],
+        "blocking_issues": len(preflight_blockers),
+        "ai_review_status": "blocked" if preflight_blockers else "passed",
     }
 
 
@@ -1345,34 +1442,59 @@ def _asset_type(item: Selection) -> str:
     return "art_asset"
 
 
+def _asset_priority(asset_type: str) -> str:
+    return "P0" if asset_type in {"ui", "effect", "art_asset"} else "P1"
+
+
+def _asset_complexity(asset_type: str) -> str:
+    if asset_type in {"ui", "config"}:
+        return "s"
+    if asset_type in {"effect", "environment"}:
+        return "m"
+    return "xs"
+
+
 def _asset_items(parsed: dict[str, Any]) -> list[dict[str, Any]]:
     candidates = [
         item
         for item in parsed["selections"]
         if item.item_type in {"资源", "表现"}
-        or any(token in item.label + item.purpose for token in ("UI", "HUD", "素材", "镜头", "反馈", "环境"))
+        or any(
+            token in item.label + item.purpose
+            for token in ("UI", "HUD", "素材", "镜头", "反馈", "环境")
+        )
     ]
     result = []
     for index, item in enumerate(candidates, 1):
-        result.append({
-            "asset_id": f"ASSET-{index:03d}",
-            "name": item.label,
-            "asset_type": _asset_type(item),
-            "source": item.source_ref,
-            "purpose": item.purpose,
-            "dependencies": item.dependencies,
-            "unlocks": item.unlocks,
-            "required_for_phase": _classify_phase(item),
-            "status": "requirement_defined",
-        })
+        asset_type = _asset_type(item)
+        result.append(
+            {
+                "asset_id": f"ASSET-{index:03d}",
+                "name": item.label,
+                "asset_type": asset_type,
+                "source": item.source_ref,
+                "purpose": item.purpose,
+                "dependencies": item.dependencies,
+                "unlocks": item.unlocks,
+                "priority": _asset_priority(asset_type),
+                "complexity": _asset_complexity(asset_type),
+                "required_for_phase": _classify_phase(item),
+                "status": "requirement_defined",
+                "trace_kind": "selection",
+            }
+        )
     return result
 
 
 def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     assets = _asset_items(parsed)
+    assets.extend(EntityToAssetConverter().convert(parsed))
+    market_research = MarketResearchSkill().local_fallback(parsed)
     concept_assets = [item for item in assets if item["asset_type"] == "environment"]
     ui_assets = [item for item in assets if item["asset_type"] in {"ui", "config"}]
-    effect_assets = [item for item in assets if item["asset_type"] == "effect"]
+    effect_assets = [
+        item for item in assets if item["asset_type"] in {"effect", "audio", "art_asset"}
+    ]
     art_path_bindings = []
     asset_root_by_type = {
         "ui": "Assets/UI/",
@@ -1383,12 +1505,14 @@ def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
     for asset in assets:
         target_path = asset_root_by_type.get(str(asset.get("asset_type")), "Assets/Art/")
-        art_path_bindings.append({
-            "asset_id": asset.get("asset_id"),
-            "asset_type": asset.get("asset_type"),
-            "target_path": target_path,
-            "source": asset.get("source"),
-        })
+        art_path_bindings.append(
+            {
+                "asset_id": asset.get("asset_id"),
+                "asset_type": asset.get("asset_type"),
+                "target_path": target_path,
+                "source": asset.get("source"),
+            }
+        )
     art_structure_spec = {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -1408,6 +1532,7 @@ def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "source": parsed["source"],
         "valid": bool(assets),
         "assets": assets,
+        "market_research": market_research,
         "rule": "Art requirements are generated only from current-project resource and presentation selections.",
     }
     asset_registry = {
@@ -1449,6 +1574,7 @@ def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "- Unspecified style, audio, and monetization art remain uncommitted.\n",
     )
     write_json(out_dir / "asset_registry.json", asset_registry)
+    write_json(out_dir / "market_research.json", market_research)
     write_json(out_dir / "art_structure_spec.json", art_structure_spec)
     write_json(out_dir / "art_requirements_contract.json", contract)
     write_skill_guidance(out_dir, "frontend-design")
@@ -1517,16 +1643,15 @@ def _review_outputs(
 def _stage5_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     requirements = _program_requirements()
-    blockers = []
-    if not requirements:
-        blockers.append({"id": "PROGREQ-MISSING", "message": "Stage 03 did not produce program requirements."})
-    for req in requirements:
-        if not req.get("source_refs"):
-            blockers.append({"id": "PROGREQ-TRACE-MISSING", "requirement_id": req.get("id"), "message": "Requirement has no source trace."})
+    intelligent_report = IntelligentReviewer().review_program(requirements)
+    write_json(out_dir / "intelligent_review_report.json", intelligent_report)
+    blockers = [
+        issue for issue in intelligent_report["issues"] if issue.get("severity") == "BLOCKER"
+    ]
     warnings = [
-        {"id": "PROGREQ-NO-SYSTEM", "requirement_id": req.get("id"), "message": "Requirement is source-traced but not tied to a system node."}
-        for req in requirements
-        if not req.get("system_ids")
+        issue
+        for issue in intelligent_report["issues"]
+        if issue.get("severity") in {"CRITICAL", "WARNING"}
     ]
     return _review_outputs(
         out_dir,
@@ -1542,18 +1667,22 @@ def _stage5_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 def _stage6_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     assets = _art_assets()
-    blockers = []
-    if not assets:
-        blockers.append({"id": "ARTREQ-MISSING", "message": "Stage 04 did not produce asset requirements."})
-    for asset in assets:
-        if not asset.get("source"):
-            blockers.append({"id": "ARTREQ-TRACE-MISSING", "asset_id": asset.get("asset_id"), "message": "Asset has no source trace."})
+    intelligent_report = IntelligentReviewer().review_art(assets)
+    write_json(out_dir / "intelligent_review_report.json", intelligent_report)
+    blockers = [
+        issue for issue in intelligent_report["issues"] if issue.get("severity") == "BLOCKER"
+    ]
+    warnings = [
+        issue
+        for issue in intelligent_report["issues"]
+        if issue.get("severity") in {"CRITICAL", "WARNING"}
+    ]
     return _review_outputs(
         out_dir,
         prefix="ArtReview",
         title="Art Requirements Review",
         blockers=blockers,
-        warnings=[],
+        warnings=warnings,
         weak_items=[],
         missing_items=[],
     )
@@ -1649,35 +1778,37 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         target_path = str(binding.get("target_path") or _phase_target_path(phase))
         test_path = str(binding.get("test_path") or _phase_test_path(phase))
         output_files = _task_output_files(task_id, phase)
-        tasks.append({
-            "task_id": task_id,
-            "requirement_id": req.get("id"),
-            "title": str(req.get("requirement", ""))[:80],
-            "phase": phase,
-            "target_path": target_path,
-            "output_files": output_files,
-            "allowed_write_paths": [target_path, test_path],
-            "verification_commands": [
-                {
-                    "id": "static_csharp_contract",
-                    "type": "internal",
-                    "required": True,
-                    "description": "Check declared C# outputs and public type names.",
-                },
-                {
-                    "id": "unity_batchmode_compile",
-                    "type": "unity_batchmode",
-                    "required": True,
-                    "description": "Open the project with Unity Editor in batchmode and fail on compile errors.",
-                },
-            ],
-            "package_changes": [],
-            "source_refs": req.get("source_refs", []),
-            "acceptance": req.get("acceptance", ""),
-            "dependencies": [],
-            "execution_policy": "ai_edit_declared_files_only",
-            "status": "planned",
-        })
+        tasks.append(
+            {
+                "task_id": task_id,
+                "requirement_id": req.get("id"),
+                "title": str(req.get("requirement", ""))[:80],
+                "phase": phase,
+                "target_path": target_path,
+                "output_files": output_files,
+                "allowed_write_paths": [target_path, test_path],
+                "verification_commands": [
+                    {
+                        "id": "static_csharp_contract",
+                        "type": "internal",
+                        "required": True,
+                        "description": "Check declared C# outputs and public type names.",
+                    },
+                    {
+                        "id": "unity_batchmode_compile",
+                        "type": "unity_batchmode",
+                        "required": True,
+                        "description": "Open the project with Unity Editor in batchmode and fail on compile errors.",
+                    },
+                ],
+                "package_changes": [],
+                "source_refs": req.get("source_refs", []),
+                "acceptance": req.get("acceptance", ""),
+                "dependencies": [],
+                "execution_policy": "ai_edit_declared_files_only",
+                "status": "planned",
+            }
+        )
     by_phase: dict[str, list[dict[str, Any]]] = {phase: [] for phase in _phase_order()}
     for task in tasks:
         by_phase.setdefault(str(task["phase"]), []).append(task)
@@ -1692,21 +1823,25 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         if not task_ids:
             continue
         group_id = f"PG-{len(parallel_groups) + 1:03d}-{phase}"
-        parallel_groups.append({
-            "group_id": group_id,
-            "phase": phase,
-            "task_ids": task_ids,
-            "depends_on_groups": [previous_group_id] if previous_group_id else [],
-            "execution": "parallel_allowed",
-        })
+        parallel_groups.append(
+            {
+                "group_id": group_id,
+                "phase": phase,
+                "task_ids": task_ids,
+                "depends_on_groups": [previous_group_id] if previous_group_id else [],
+                "execution": "parallel_allowed",
+            }
+        )
         for task in phase_tasks:
             task["dependencies"] = list(previous_phase_task_ids)
             for previous_task_id in previous_phase_task_ids:
-                dependencies.append({
-                    "from": previous_task_id,
-                    "to": task["task_id"],
-                    "relation": "phase_order",
-                })
+                dependencies.append(
+                    {
+                        "from": previous_task_id,
+                        "to": task["task_id"],
+                        "relation": "phase_order",
+                    }
+                )
         previous_phase_task_ids = task_ids
         previous_group_id = group_id
 
@@ -1714,11 +1849,13 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     for task in tasks:
         for output in task.get("output_files", []):
             if not _is_under_allowed_roots(str(output), allowed_roots):
-                path_binding_errors.append({
-                    "task_id": task.get("task_id"),
-                    "output_file": output,
-                    "message": "Output file is outside Stage 03 allowed roots.",
-                })
+                path_binding_errors.append(
+                    {
+                        "task_id": task.get("task_id"),
+                        "output_file": output,
+                        "message": "Output file is outside Stage 03 allowed roots.",
+                    }
+                )
 
     lines = ["# Program Plan Index", ""]
     for phase in _phase_order():
@@ -1765,24 +1902,33 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
     write_text(out_dir / "program_plan_index.md", "\n".join(lines))
     write_json(out_dir / "program_task_breakdown.json", plan)
-    write_json(out_dir / "phase_task_map.json", {"schema_version": 1, "generated_at": now_iso(), "phases": by_phase})
-    write_json(out_dir / "build_config.json", {"schema_version": 1, "target": "actual_unity_project", "configuration": "development"})
-    write_json(out_dir / "config_schema.json", {
-        "schema_version": 2,
-        "schema": "actual_unity_program_plan_v1",
-        "required_task_fields": [
-            "task_id",
-            "requirement_id",
-            "phase",
-            "target_path",
-            "output_files",
-            "allowed_write_paths",
-            "verification_commands",
-            "source_refs",
-            "acceptance",
-        ],
-        "required_topology_fields": ["dependencies", "parallel_groups"],
-    })
+    write_json(
+        out_dir / "phase_task_map.json",
+        {"schema_version": 1, "generated_at": now_iso(), "phases": by_phase},
+    )
+    write_json(
+        out_dir / "build_config.json",
+        {"schema_version": 1, "target": "actual_unity_project", "configuration": "development"},
+    )
+    write_json(
+        out_dir / "config_schema.json",
+        {
+            "schema_version": 2,
+            "schema": "actual_unity_program_plan_v1",
+            "required_task_fields": [
+                "task_id",
+                "requirement_id",
+                "phase",
+                "target_path",
+                "output_files",
+                "allowed_write_paths",
+                "verification_commands",
+                "source_refs",
+                "acceptance",
+            ],
+            "required_topology_fields": ["dependencies", "parallel_groups"],
+        },
+    )
     write_text(
         out_dir / "program_structure_spec.md",
         "# Program Structure Binding\n\n"
@@ -1804,25 +1950,41 @@ def _stage8_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     assets = _art_assets()
     tasks = []
     for index, asset in enumerate(assets, 1):
-        tasks.append({
-            "task_id": f"ART-{index:03d}",
-            "asset_id": asset.get("asset_id"),
-            "title": asset.get("name"),
-            "asset_type": asset.get("asset_type"),
-            "phase": asset.get("required_for_phase", "core_playable"),
-            "source_refs": [asset.get("source")] if asset.get("source") else [],
-            "status": "planned",
-        })
+        tasks.append(
+            {
+                "task_id": f"ART-{index:03d}",
+                "asset_id": asset.get("asset_id"),
+                "title": asset.get("name"),
+                "asset_type": asset.get("asset_type"),
+                "phase": asset.get("required_for_phase", "core_playable"),
+                "source_refs": [asset.get("source")] if asset.get("source") else [],
+                "status": "planned",
+            }
+        )
     lines = ["# Art Plan Index", ""]
     for task in tasks:
         lines.append(f"- {task['task_id']} {task['title']} ({task['asset_type']})")
     if not tasks:
         lines.append("- none")
     write_text(out_dir / "art_plan_index.md", "\n".join(lines) + "\n")
-    write_text(out_dir / "ART-001.md", "# ART-001 Asset Production Batch\n\n" + "\n".join(f"- {task['task_id']}: {task['title']}" for task in tasks) + "\n")
-    write_json(out_dir / "art_task_breakdown.json", {"schema_version": 1, "generated_at": now_iso(), "tasks": tasks})
-    write_text(out_dir / "art_structure_spec.md", "# Art Structure Spec\n\n- Art tasks map to asset_registry entries.\n- Every produced asset must preserve its source trace.\n")
-    write_json(out_dir / "validation_report_art_plan.json", {"valid": bool(tasks), "task_count": len(tasks)})
+    write_text(
+        out_dir / "ART-001.md",
+        "# ART-001 Asset Production Batch\n\n"
+        + "\n".join(f"- {task['task_id']}: {task['title']}" for task in tasks)
+        + "\n",
+    )
+    write_json(
+        out_dir / "art_task_breakdown.json",
+        {"schema_version": 1, "generated_at": now_iso(), "tasks": tasks},
+    )
+    write_text(
+        out_dir / "art_structure_spec.md",
+        "# Art Structure Spec\n\n- Art tasks map to asset_registry entries.\n- Every produced asset must preserve its source trace.\n",
+    )
+    write_json(
+        out_dir / "validation_report_art_plan.json",
+        {"valid": bool(tasks), "task_count": len(tasks)},
+    )
     write_skill_guidance(out_dir, "frontend-design")
     return {
         "content_exists": bool(tasks),
@@ -1849,12 +2011,24 @@ def _validate_actual_development_plan(plan: dict[str, Any]) -> list[dict[str, An
     blockers: list[dict[str, Any]] = []
     tasks = plan.get("tasks")
     if not isinstance(tasks, list) or not tasks:
-        blockers.append({"code": "TASKS_MISSING", "message": "Stage 07 produced no executable tasks."})
+        blockers.append(
+            {"code": "TASKS_MISSING", "message": "Stage 07 produced no executable tasks."}
+        )
         tasks = []
     if not isinstance(plan.get("dependencies"), list):
-        blockers.append({"code": "DEPENDENCIES_MISSING", "message": "Stage 07 must declare top-level dependencies."})
+        blockers.append(
+            {
+                "code": "DEPENDENCIES_MISSING",
+                "message": "Stage 07 must declare top-level dependencies.",
+            }
+        )
     if not isinstance(plan.get("parallel_groups"), list):
-        blockers.append({"code": "PARALLEL_GROUPS_MISSING", "message": "Stage 07 must declare top-level parallel_groups."})
+        blockers.append(
+            {
+                "code": "PARALLEL_GROUPS_MISSING",
+                "message": "Stage 07 must declare top-level parallel_groups.",
+            }
+        )
 
     allowed_roots = plan.get("allowed_roots")
     if not isinstance(allowed_roots, list) or not allowed_roots:
@@ -1877,34 +2051,40 @@ def _validate_actual_development_plan(plan: dict[str, Any]) -> list[dict[str, An
             task_ids.add(task_id)
         for field_name in required:
             if task.get(field_name) in ("", [], None):
-                blockers.append({
-                    "code": "TASK_FIELD_MISSING",
-                    "task_id": task_id,
-                    "field": field_name,
-                    "message": "Task is missing a required actual-development field.",
-                })
+                blockers.append(
+                    {
+                        "code": "TASK_FIELD_MISSING",
+                        "task_id": task_id,
+                        "field": field_name,
+                        "message": "Task is missing a required actual-development field.",
+                    }
+                )
         task_outputs = task.get("output_files", [])
         if not isinstance(task_outputs, list):
             task_outputs = []
         for output in task_outputs:
             if not _is_under_allowed_roots(str(output), allowed_roots):
-                blockers.append({
-                    "code": "OUTPUT_OUTSIDE_ALLOWED_ROOT",
-                    "task_id": task_id,
-                    "output_file": output,
-                    "allowed_roots": allowed_roots,
-                })
+                blockers.append(
+                    {
+                        "code": "OUTPUT_OUTSIDE_ALLOWED_ROOT",
+                        "task_id": task_id,
+                        "output_file": output,
+                        "allowed_roots": allowed_roots,
+                    }
+                )
 
     plan_dependencies = plan.get("dependencies", [])
     if not isinstance(plan_dependencies, list):
         plan_dependencies = []
     for edge in plan_dependencies:
         if str(edge.get("from")) not in task_ids or str(edge.get("to")) not in task_ids:
-            blockers.append({
-                "code": "DEPENDENCY_UNKNOWN_TASK",
-                "edge": edge,
-                "message": "Dependency references an unknown task id.",
-            })
+            blockers.append(
+                {
+                    "code": "DEPENDENCY_UNKNOWN_TASK",
+                    "edge": edge,
+                    "message": "Dependency references an unknown task id.",
+                }
+            )
 
     output_by_task = {
         str(task.get("task_id")): [str(item) for item in task.get("output_files", [])]
@@ -1914,29 +2094,39 @@ def _validate_actual_development_plan(plan: dict[str, Any]) -> list[dict[str, An
     if not isinstance(plan_parallel_groups, list):
         plan_parallel_groups = []
     for group in plan_parallel_groups:
-        if not isinstance(group, dict) or not isinstance(group.get("task_ids"), list) or not group.get("task_ids"):
-            blockers.append({
-                "code": "PARALLEL_GROUP_INVALID",
-                "group": group,
-                "message": "Parallel group must declare non-empty task_ids.",
-            })
+        if (
+            not isinstance(group, dict)
+            or not isinstance(group.get("task_ids"), list)
+            or not group.get("task_ids")
+        ):
+            blockers.append(
+                {
+                    "code": "PARALLEL_GROUP_INVALID",
+                    "group": group,
+                    "message": "Parallel group must declare non-empty task_ids.",
+                }
+            )
             continue
         seen: dict[str, str] = {}
         for task_id in group.get("task_ids", []):
             if str(task_id) not in task_ids:
-                blockers.append({
-                    "code": "PARALLEL_GROUP_UNKNOWN_TASK",
-                    "group_id": group.get("group_id"),
-                    "task_id": task_id,
-                })
+                blockers.append(
+                    {
+                        "code": "PARALLEL_GROUP_UNKNOWN_TASK",
+                        "group_id": group.get("group_id"),
+                        "task_id": task_id,
+                    }
+                )
             for output in output_by_task.get(str(task_id), []):
                 if output in seen:
-                    blockers.append({
-                        "code": "PARALLEL_OUTPUT_CONFLICT",
-                        "group_id": group.get("group_id"),
-                        "output_file": output,
-                        "task_ids": [seen[output], str(task_id)],
-                    })
+                    blockers.append(
+                        {
+                            "code": "PARALLEL_OUTPUT_CONFLICT",
+                            "group_id": group.get("group_id"),
+                            "output_file": output,
+                            "task_ids": [seen[output], str(task_id)],
+                        }
+                    )
                 else:
                     seen[output] = str(task_id)
     return blockers
@@ -1979,7 +2169,9 @@ def _changed_files(before: dict[str, str], after: dict[str, str]) -> list[str]:
     return [key for key in keys if before.get(key) != after.get(key)]
 
 
-def _unity_allowed_companion_files(output_files: list[str], allowed_write_paths: list[str]) -> set[str]:
+def _unity_allowed_companion_files(
+    output_files: list[str], allowed_write_paths: list[str]
+) -> set[str]:
     companions: set[str] = set()
     for output in output_files:
         normalized = Path(output).as_posix()
@@ -2007,7 +2199,9 @@ def _compact_messages(messages: list[str], *, limit: int = 1200) -> list[str]:
     return compacted
 
 
-def _apply_package_changes(project_path: Path, package_changes: list[dict[str, Any]]) -> dict[str, Any]:
+def _apply_package_changes(
+    project_path: Path, package_changes: list[dict[str, Any]]
+) -> dict[str, Any]:
     manifest_path = project_path / "Packages" / "manifest.json"
     report = {
         "manifest": "Packages/manifest.json",
@@ -2039,20 +2233,24 @@ def _apply_package_changes(project_path: Path, package_changes: list[dict[str, A
             continue
         if action in {"remove", "delete"}:
             dependencies.pop(package_name, None)
-            applied.append({
-                "package_name": package_name,
-                "action": action,
-                "before": before_dependencies.get(package_name),
-                "after": None,
-            })
+            applied.append(
+                {
+                    "package_name": package_name,
+                    "action": action,
+                    "before": before_dependencies.get(package_name),
+                    "after": None,
+                }
+            )
         elif version:
             dependencies[package_name] = version
-            applied.append({
-                "package_name": package_name,
-                "action": "upsert",
-                "before": before_dependencies.get(package_name),
-                "after": version,
-            })
+            applied.append(
+                {
+                    "package_name": package_name,
+                    "action": "upsert",
+                    "before": before_dependencies.get(package_name),
+                    "after": version,
+                }
+            )
         else:
             report["status"] = "failed"
             report["errors"].append(f"package change for {package_name} is missing version/source.")
@@ -2070,11 +2268,13 @@ def _static_csharp_contract(project_path: Path, output_files: list[str]) -> dict
             continue
         path = project_path / relative
         if not path.exists():
-            blockers.append({
-                "code": "CS_OUTPUT_MISSING",
-                "file": relative,
-                "message": "Declared C# output file was not created.",
-            })
+            blockers.append(
+                {
+                    "code": "CS_OUTPUT_MISSING",
+                    "file": relative,
+                    "message": "Declared C# output file was not created.",
+                }
+            )
             continue
         text = path.read_text(encoding="utf-8-sig", errors="replace")
         public_types = re.findall(
@@ -2082,12 +2282,14 @@ def _static_csharp_contract(project_path: Path, output_files: list[str]) -> dict
             text,
         )
         if public_types and path.stem not in public_types:
-            blockers.append({
-                "code": "CS_PUBLIC_TYPE_NAME_MISMATCH",
-                "file": relative,
-                "expected": path.stem,
-                "public_types": public_types,
-            })
+            blockers.append(
+                {
+                    "code": "CS_PUBLIC_TYPE_NAME_MISMATCH",
+                    "file": relative,
+                    "expected": path.stem,
+                    "public_types": public_types,
+                }
+            )
         if "/Tests/" in Path(relative).as_posix():
             lines = text.splitlines()
             guard_stack: list[bool] = []
@@ -2095,9 +2297,13 @@ def _static_csharp_contract(project_path: Path, output_files: list[str]) -> dict
             def uses_nunit_symbol(code: str) -> bool:
                 if code == "using NUnit.Framework;":
                     return True
-                if re.match(r"^\[\s*(?:Test|TestCase|SetUp|TearDown|OneTimeSetUp|OneTimeTearDown)\b", code):
+                if re.match(
+                    r"^\[\s*(?:Test|TestCase|SetUp|TearDown|OneTimeSetUp|OneTimeTearDown)\b", code
+                ):
                     return True
-                return bool(re.search(r"\b(?:Assert|StringAssert|CollectionAssert|Is|Does)\s*\.", code))
+                return bool(
+                    re.search(r"\b(?:Assert|StringAssert|CollectionAssert|Is|Does)\s*\.", code)
+                )
 
             for index, line in enumerate(lines):
                 stripped = line.strip()
@@ -2123,13 +2329,15 @@ def _static_csharp_contract(project_path: Path, output_files: list[str]) -> dict
                 if not code or not uses_nunit_symbol(code):
                     continue
                 if not any(guard_stack):
-                    blockers.append({
-                        "code": "CS_UNGUARDED_NUNIT_REFERENCE",
-                        "file": relative,
-                        "line": index + 1,
-                        "text": code,
-                        "message": "NUnit references in generated test helpers must be guarded by a task-specific DEVxxx_ENABLE_NUNIT_TESTS symbol.",
-                    })
+                    blockers.append(
+                        {
+                            "code": "CS_UNGUARDED_NUNIT_REFERENCE",
+                            "file": relative,
+                            "line": index + 1,
+                            "text": code,
+                            "message": "NUnit references in generated test helpers must be guarded by a task-specific DEVxxx_ENABLE_NUNIT_TESTS symbol.",
+                        }
+                    )
     return {
         "id": "static_csharp_contract",
         "status": "passed" if not blockers else "failed",
@@ -2173,7 +2381,9 @@ def _run_unity_batchmode_compile(
             "log_file": str(log_path),
             "errors": [str(exc)],
         }
-    log_text = log_path.read_text(encoding="utf-8-sig", errors="replace") if log_path.exists() else ""
+    log_text = (
+        log_path.read_text(encoding="utf-8-sig", errors="replace") if log_path.exists() else ""
+    )
     compile_markers = ["Compiler errors", "error CS", "Compilation failed"]
     marker_errors = [marker for marker in compile_markers if marker in log_text]
     errors = []
@@ -2202,36 +2412,44 @@ def _run_task_verification(
     output_files = [str(item) for item in task.get("output_files", [])]
     for command in task.get("verification_commands", []):
         if not isinstance(command, dict):
-            results.append({
-                "id": "invalid_verification_command",
-                "status": "failed",
-                "errors": ["verification command must be an object"],
-            })
+            results.append(
+                {
+                    "id": "invalid_verification_command",
+                    "status": "failed",
+                    "errors": ["verification command must be an object"],
+                }
+            )
             continue
         command_type = command.get("type")
         if command_type == "internal":
             results.append(_static_csharp_contract(project_path, output_files))
         elif command_type == "unity_batchmode":
             if defer_unity_batchmode:
-                results.append({
-                    "id": "unity_batchmode_compile",
-                    "status": "deferred",
-                    "scope": "parallel_group",
-                    "message": "Unity compile is run once after the declared parallel group completes.",
-                })
+                results.append(
+                    {
+                        "id": "unity_batchmode_compile",
+                        "status": "deferred",
+                        "scope": "parallel_group",
+                        "message": "Unity compile is run once after the declared parallel group completes.",
+                    }
+                )
                 continue
             log_path = out_dir / "unity_logs" / f"{task.get('task_id')}.log"
-            results.append(_run_unity_batchmode_compile(
-                editor_path=editor_path,
-                project_path=project_path,
-                log_path=log_path,
-            ))
+            results.append(
+                _run_unity_batchmode_compile(
+                    editor_path=editor_path,
+                    project_path=project_path,
+                    log_path=log_path,
+                )
+            )
         else:
-            results.append({
-                "id": command.get("id", "unknown"),
-                "status": "failed",
-                "errors": [f"Unsupported verification command type: {command_type}"],
-            })
+            results.append(
+                {
+                    "id": command.get("id", "unknown"),
+                    "status": "failed",
+                    "errors": [f"Unsupported verification command type: {command_type}"],
+                }
+            )
     return results
 
 
@@ -2291,7 +2509,9 @@ def _previous_records_by_task() -> dict[str, dict[str, Any]]:
     if isinstance(save_index, dict):
         save_id = str(save_index.get("current_save_id") or "")
         if save_id:
-            saved_stage10 = BASE_DIR / "save" / save_id / "workspace" / "outputs" / "artifacts" / "stage_10"
+            saved_stage10 = (
+                BASE_DIR / "save" / save_id / "workspace" / "outputs" / "artifacts" / "stage_10"
+            )
             for path in saved_stage10.glob("DEV-*_execution.json"):
                 record = read_json(path, {})
                 if isinstance(record, dict) and record.get("task_id"):
@@ -2354,12 +2574,15 @@ def _write_stage10_progress(
     }
     write_json(out_dir / "devexecution_progress.json", progress)
     write_json(out_dir / "development_execution_log.json", progress)
-    write_json(out_dir / "changed_files_manifest.json", {
-        "schema_version": 1,
-        "generated_at": now_iso(),
-        "status": status,
-        "tasks": changed_files_manifest,
-    })
+    write_json(
+        out_dir / "changed_files_manifest.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "status": status,
+            "tasks": changed_files_manifest,
+        },
+    )
     write_text(
         out_dir / "devexecution.md",
         "# Development Execution\n\n"
@@ -2368,30 +2591,39 @@ def _write_stage10_progress(
         + (f"- Current task: {current_task_id}\n" if current_task_id else "")
         + (f"- Next task: {next_task_id}\n" if next_task_id else "")
         + (f"- Stop reason: {stop_reason}\n" if stop_reason else "")
-        + ("\n".join(f"- {record['task_id']}: {record['status']}" for record in execution_records) + "\n" if execution_records else ""),
+        + (
+            "\n".join(f"- {record['task_id']}: {record['status']}" for record in execution_records)
+            + "\n"
+            if execution_records
+            else ""
+        ),
     )
     report = read_json(out_dir / "validation_report.json", {})
     if not isinstance(report, dict):
         report = {}
-    report.update({
-        "status": status,
-        "valid": False,
-        "content_exists": bool(execution_records) or bool(current_task_id) or status == "stopped",
-        "ai_review_status": status,
-        "blocking_issues": 0,
-        "traceability_valid": False,
-        "scope_budget_valid": True,
-        "business_quality": {
+    report.update(
+        {
             "status": status,
-            "executed_task_count": len(execution_records),
-            "successful_task_count": successful_count,
-            "task_count": expected_count,
-            "current_group_id": current_group_id,
-            "current_task_id": current_task_id,
-            "next_task_id": next_task_id,
-            "stop_reason": stop_reason,
-        },
-    })
+            "valid": False,
+            "content_exists": bool(execution_records)
+            or bool(current_task_id)
+            or status == "stopped",
+            "ai_review_status": status,
+            "blocking_issues": 0,
+            "traceability_valid": False,
+            "scope_budget_valid": True,
+            "business_quality": {
+                "status": status,
+                "executed_task_count": len(execution_records),
+                "successful_task_count": successful_count,
+                "task_count": expected_count,
+                "current_group_id": current_group_id,
+                "current_task_id": current_task_id,
+                "next_task_id": next_task_id,
+                "stop_reason": stop_reason,
+            },
+        }
+    )
     write_json(out_dir / "validation_report.json", report)
     runtime_control.write_run_state(
         BASE_DIR,
@@ -2419,13 +2651,16 @@ def _sync_stage10_checkpoint(out_dir: Path, *, event: str, message: str = "") ->
             delay_seconds=1,
         )
     except Exception as exc:  # noqa: BLE001 - checkpoint sync should be reported, not hidden
-        write_json(out_dir / "save_sync_warning.json", {
-            "schema_version": 1,
-            "generated_at": now_iso(),
-            "event": event,
-            "message": message,
-            "error": str(exc),
-        })
+        write_json(
+            out_dir / "save_sync_warning.json",
+            {
+                "schema_version": 1,
+                "generated_at": now_iso(),
+                "event": event,
+                "message": message,
+                "error": str(exc),
+            },
+        )
 
 
 def _ordered_stage10_task_ids(parallel_groups: list[Any]) -> list[str]:
@@ -2507,14 +2742,20 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             for task in program_tasks
             if source and source in task.get("source_refs", [])
         ]
-        links.append({
-            "asset_id": asset.get("asset_id"),
-            "asset_name": asset.get("name"),
-            "source": source,
-            "art_tasks": [task["task_id"] for task in art_tasks if task.get("asset_id") == asset.get("asset_id")],
-            "program_tasks": related_program,
-            "status": "aligned" if source else "missing_source",
-        })
+        links.append(
+            {
+                "asset_id": asset.get("asset_id"),
+                "asset_name": asset.get("name"),
+                "source": source,
+                "art_tasks": [
+                    task["task_id"]
+                    for task in art_tasks
+                    if task.get("asset_id") == asset.get("asset_id")
+                ],
+                "program_tasks": related_program,
+                "status": "aligned" if source else "missing_source",
+            }
+        )
     gaps = [item for item in links if item["status"] != "aligned"]
 
     path_blockers = []
@@ -2532,33 +2773,41 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         task_id = task.get("task_id")
         for field_name in required_task_fields:
             if field_name not in task or task.get(field_name) in ("", [], None):
-                path_blockers.append({
-                    "code": "TASK_FIELD_MISSING",
-                    "task_id": task_id,
-                    "field": field_name,
-                    "message": "Stage 07 task is missing a required actual-development field.",
-                })
+                path_blockers.append(
+                    {
+                        "code": "TASK_FIELD_MISSING",
+                        "task_id": task_id,
+                        "field": field_name,
+                        "message": "Stage 07 task is missing a required actual-development field.",
+                    }
+                )
         task_outputs = task.get("output_files", [])
         if not isinstance(task_outputs, list):
             task_outputs = []
         for output in task_outputs:
             if not _is_under_allowed_roots(str(output), allowed_roots):
-                path_blockers.append({
-                    "code": "OUTPUT_OUTSIDE_ALLOWED_ROOT",
-                    "task_id": task_id,
-                    "output_file": output,
-                    "allowed_roots": allowed_roots,
-                })
+                path_blockers.append(
+                    {
+                        "code": "OUTPUT_OUTSIDE_ALLOWED_ROOT",
+                        "task_id": task_id,
+                        "output_file": output,
+                        "allowed_roots": allowed_roots,
+                    }
+                )
     if not isinstance(program_plan.get("dependencies"), list):
-        path_blockers.append({
-            "code": "TOPOLOGY_DEPENDENCIES_MISSING",
-            "message": "Stage 07 program_task_breakdown.json must include top-level dependencies.",
-        })
+        path_blockers.append(
+            {
+                "code": "TOPOLOGY_DEPENDENCIES_MISSING",
+                "message": "Stage 07 program_task_breakdown.json must include top-level dependencies.",
+            }
+        )
     if not isinstance(program_plan.get("parallel_groups"), list):
-        path_blockers.append({
-            "code": "TOPOLOGY_PARALLEL_GROUPS_MISSING",
-            "message": "Stage 07 program_task_breakdown.json must include top-level parallel_groups.",
-        })
+        path_blockers.append(
+            {
+                "code": "TOPOLOGY_PARALLEL_GROUPS_MISSING",
+                "message": "Stage 07 program_task_breakdown.json must include top-level parallel_groups.",
+            }
+        )
 
     task_ids = {str(task.get("task_id")) for task in program_tasks}
     dependency_blockers = []
@@ -2567,11 +2816,13 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         plan_dependencies = []
     for edge in plan_dependencies:
         if str(edge.get("from")) not in task_ids or str(edge.get("to")) not in task_ids:
-            dependency_blockers.append({
-                "code": "DEPENDENCY_UNKNOWN_TASK",
-                "edge": edge,
-                "message": "Dependency references an unknown task id.",
-            })
+            dependency_blockers.append(
+                {
+                    "code": "DEPENDENCY_UNKNOWN_TASK",
+                    "edge": edge,
+                    "message": "Dependency references an unknown task id.",
+                }
+            )
 
     conflict_items = []
     output_by_task = {
@@ -2589,12 +2840,14 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         for task_id in group_task_ids:
             for output in output_by_task.get(str(task_id), []):
                 if output in seen:
-                    conflict_items.append({
-                        "code": "PARALLEL_OUTPUT_CONFLICT",
-                        "group_id": group.get("group_id"),
-                        "output_file": output,
-                        "task_ids": [seen[output], str(task_id)],
-                    })
+                    conflict_items.append(
+                        {
+                            "code": "PARALLEL_OUTPUT_CONFLICT",
+                            "group_id": group.get("group_id"),
+                            "output_file": output,
+                            "task_ids": [seen[output], str(task_id)],
+                        }
+                    )
                 else:
                     seen[output] = str(task_id)
 
@@ -2606,8 +2859,23 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "- Stage 09 also validates actual Unity path binding before Stage 10.\n"
         "- Output files outside Stage 03 allowed roots block actual development.\n",
     )
-    write_text(out_dir / "program_assets.md", "# Program Asset References\n\n" + "\n".join(f"- {link['asset_id']}: program_tasks={link['program_tasks'] or 'none'}" for link in links) + "\n")
-    write_text(out_dir / "art_assets.md", "# Art Asset Deliverables\n\n" + "\n".join(f"- {link['asset_id']}: art_tasks={link['art_tasks'] or 'none'}" for link in links) + "\n")
+    write_text(
+        out_dir / "program_assets.md",
+        "# Program Asset References\n\n"
+        + "\n".join(
+            f"- {link['asset_id']}: program_tasks={link['program_tasks'] or 'none'}"
+            for link in links
+        )
+        + "\n",
+    )
+    write_text(
+        out_dir / "art_assets.md",
+        "# Art Asset Deliverables\n\n"
+        + "\n".join(
+            f"- {link['asset_id']}: art_tasks={link['art_tasks'] or 'none'}" for link in links
+        )
+        + "\n",
+    )
     write_text(
         out_dir / "dependency_graph.md",
         "# Dependency Graph\n\n"
@@ -2620,32 +2888,49 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_text(
         out_dir / "gap_analysis.md",
         "# Gap Analysis\n\n"
-        + ("- No blocking gaps.\n" if not gaps and not all_plan_blockers else "\n".join(
-            f"- {item.get('code', item.get('status', 'gap'))}: {item}"
-            for item in gaps + all_plan_blockers
-        ) + "\n"),
+        + (
+            "- No blocking gaps.\n"
+            if not gaps and not all_plan_blockers
+            else "\n".join(
+                f"- {item.get('code', item.get('status', 'gap'))}: {item}"
+                for item in gaps + all_plan_blockers
+            )
+            + "\n"
+        ),
     )
-    write_json(out_dir / "asset_alignment_matrix.json", {"schema_version": 1, "generated_at": now_iso(), "links": links, "gaps": gaps})
-    write_json(out_dir / "path_binding_validation.json", {
-        "schema_version": 1,
-        "generated_at": now_iso(),
-        "valid": not path_blockers and not dependency_blockers,
-        "allowed_roots": allowed_roots,
-        "blockers": path_blockers + dependency_blockers,
-    })
-    write_json(out_dir / "parallel_conflict_report.json", {
-        "schema_version": 1,
-        "generated_at": now_iso(),
-        "valid": not conflict_items,
-        "conflicts": conflict_items,
-    })
-    write_json(out_dir / "validation_report_alignment.json", {
-        "valid": not gaps and not all_plan_blockers,
-        "gap_count": len(gaps),
-        "path_blocker_count": len(path_blockers),
-        "dependency_blocker_count": len(dependency_blockers),
-        "parallel_conflict_count": len(conflict_items),
-    })
+    write_json(
+        out_dir / "asset_alignment_matrix.json",
+        {"schema_version": 1, "generated_at": now_iso(), "links": links, "gaps": gaps},
+    )
+    write_json(
+        out_dir / "path_binding_validation.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "valid": not path_blockers and not dependency_blockers,
+            "allowed_roots": allowed_roots,
+            "blockers": path_blockers + dependency_blockers,
+        },
+    )
+    write_json(
+        out_dir / "parallel_conflict_report.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "valid": not conflict_items,
+            "conflicts": conflict_items,
+        },
+    )
+    write_json(
+        out_dir / "validation_report_alignment.json",
+        {
+            "valid": not gaps and not all_plan_blockers,
+            "gap_count": len(gaps),
+            "path_blocker_count": len(path_blockers),
+            "dependency_blocker_count": len(dependency_blockers),
+            "parallel_conflict_count": len(conflict_items),
+        },
+    )
     write_skill_guidance(out_dir, "imagegen")
     return {
         "content_exists": bool(links) or bool(program_tasks),
@@ -2671,7 +2956,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     if isinstance(parallel_validation, dict) and parallel_validation.get("valid") is False:
         plan_blockers.extend(parallel_validation.get("conflicts", []))
 
-    preflight_blockers = preflight.get("blockers", []) if preflight.get("status") != "passed" else []
+    preflight_blockers = (
+        preflight.get("blockers", []) if preflight.get("status") != "passed" else []
+    )
     blocking_before_execution = list(preflight_blockers) + list(plan_blockers)
     if blocking_before_execution:
         result = {
@@ -2786,11 +3073,15 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 package_changes = []
             allowed_changed_files = set(output_files)
             allowed_write_paths = [str(item) for item in task.get("allowed_write_paths", [])]
-            allowed_changed_files.update(_unity_allowed_companion_files(output_files, allowed_write_paths))
+            allowed_changed_files.update(
+                _unity_allowed_companion_files(output_files, allowed_write_paths)
+            )
             if package_changes:
                 allowed_changed_files.add("Packages/manifest.json")
 
-            execution_object_id = _stage10_active_execution_object_id(execution_store, task.get("task_id"))
+            execution_object_id = _stage10_active_execution_object_id(
+                execution_store, task.get("task_id")
+            )
             try:
                 if not execution_object_id:
                     execution_object = begin_program_task_execution_object(
@@ -2840,18 +3131,24 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     "verification_results": [],
                     "source_refs": task.get("source_refs", []),
                     "execution_object_id": execution_object_id,
-                    "execution_object_state": execution_store.get(execution_object_id).get("state") if execution_object_id else "",
+                    "execution_object_state": (
+                        execution_store.get(execution_object_id).get("state")
+                        if execution_object_id
+                        else ""
+                    ),
                     "execution_note": "Blocked by execution-object workflow before writing project files.",
                 }
                 execution_records.append(record)
                 group_record_indexes.append(len(execution_records) - 1)
-                changed_files_manifest.append({
-                    "task_id": task.get("task_id"),
-                    "allowed_files": sorted(allowed_changed_files),
-                    "changed_files": [],
-                    "unexpected_changes": [],
-                    "execution_object_id": execution_object_id,
-                })
+                changed_files_manifest.append(
+                    {
+                        "task_id": task.get("task_id"),
+                        "allowed_files": sorted(allowed_changed_files),
+                        "changed_files": [],
+                        "unexpected_changes": [],
+                        "execution_object_id": execution_object_id,
+                    }
+                )
                 _write_stage10_task_record(out_dir, task.get("task_id"), record)
                 _write_stage10_progress(
                     out_dir,
@@ -2885,14 +3182,10 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 }
                 package_reports.append(package_report)
                 changed_files = [
-                    str(item)
-                    for item in previous_record.get("changed_files", [])
-                    if str(item)
+                    str(item) for item in previous_record.get("changed_files", []) if str(item)
                 ] or output_files
                 unexpected_changes = [
-                    item
-                    for item in changed_files
-                    if item not in allowed_changed_files
+                    item for item in changed_files if item not in allowed_changed_files
                 ]
             else:
                 before = _snapshot_project_files(project_path)
@@ -2903,21 +3196,23 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 if package_report.get("status") == "failed":
                     codex_errors.extend(package_report.get("errors", []))
                 else:
-                    goal = "\n".join([
-                        "Implement this Unity C# development task in the existing project.",
-                        f"Task: {task.get('task_id')}",
-                        f"Requirement: {task.get('title')}",
-                        f"Acceptance: {task.get('acceptance')}",
-                        "Rules:",
-                        "- Edit only the declared output files.",
-                        "- Do not create a Unity project or change project structure.",
-                        "- Keep code compatible with the current Unity project.",
-                        "- The primary public type in each C# file must match the filename.",
-                        "- Treat this prompt as the complete task brief; do not read full pipeline JSON files.",
-                        "- Keep each file concise and self-contained. Prefer simple data models, validation methods, and manual-check helpers.",
-                        "- Avoid broad project searches. Inspect only the target folder if you need local naming conventions.",
-                        "- Do not add unguarded NUnit references. If you use NUnit.Framework, [Test], or NUnit assertions, wrap the entire NUnit-dependent test file with DEVxxx_ENABLE_NUNIT_TESTS or replace them with local helper methods.",
-                    ])
+                    goal = "\n".join(
+                        [
+                            "Implement this Unity C# development task in the existing project.",
+                            f"Task: {task.get('task_id')}",
+                            f"Requirement: {task.get('title')}",
+                            f"Acceptance: {task.get('acceptance')}",
+                            "Rules:",
+                            "- Edit only the declared output files.",
+                            "- Do not create a Unity project or change project structure.",
+                            "- Keep code compatible with the current Unity project.",
+                            "- The primary public type in each C# file must match the filename.",
+                            "- Treat this prompt as the complete task brief; do not read full pipeline JSON files.",
+                            "- Keep each file concise and self-contained. Prefer simple data models, validation methods, and manual-check helpers.",
+                            "- Avoid broad project searches. Inspect only the target folder if you need local naming conventions.",
+                            "- Do not add unguarded NUnit references. If you use NUnit.Framework, [Test], or NUnit assertions, wrap the entire NUnit-dependent test file with DEVxxx_ENABLE_NUNIT_TESTS or replace them with local helper methods.",
+                        ]
+                    )
                     model_task = build_file_generation_task(
                         task_id=str(task.get("task_id")),
                         goal=goal,
@@ -2929,7 +3224,10 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     try:
                         from core.adapters.registry import get_adapter
                         from core.runtime.preflight import load_project_settings
-                        _adapter_name = load_project_settings(BASE_DIR).get("pipeline_adapter", "codex")
+
+                        _adapter_name = load_project_settings(BASE_DIR).get(
+                            "pipeline_adapter", "codex"
+                        )
                         codex_result = get_adapter(_adapter_name).generate(model_task)
                         codex_errors.extend(codex_result.errors)
                     except Exception as exc:
@@ -2938,11 +3236,13 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 after = _snapshot_project_files(project_path)
                 changed_files = _changed_files(before, after)
                 unexpected_changes = [
-                    item
-                    for item in changed_files
-                    if item not in allowed_changed_files
+                    item for item in changed_files if item not in allowed_changed_files
                 ]
-            if codex_errors and _can_reuse_existing_task_output(task, project_path) and not unexpected_changes:
+            if (
+                codex_errors
+                and _can_reuse_existing_task_output(task, project_path)
+                and not unexpected_changes
+            ):
                 codex_warnings.extend(codex_errors)
                 codex_errors = []
             verification_results = []
@@ -2961,16 +3261,26 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 for result in verification_results
                 if result.get("status") not in {"passed", "deferred"}
             ]
-            status = "success" if not codex_errors and not unexpected_changes and not verification_errors else "failed"
+            status = (
+                "success"
+                if not codex_errors and not unexpected_changes and not verification_errors
+                else "failed"
+            )
             record = {
                 "task_id": task.get("task_id"),
                 "group_id": group_id,
                 "requirement_id": task.get("requirement_id"),
                 "phase": task.get("phase"),
                 "status": status,
-                "codex_status": "reused_previous_output"
-                if reused_existing_output
-                else codex_result.status if codex_result else "not_run" if codex_errors else "unknown",
+                "codex_status": (
+                    "reused_previous_output"
+                    if reused_existing_output
+                    else (
+                        codex_result.status
+                        if codex_result
+                        else "not_run" if codex_errors else "unknown"
+                    )
+                ),
                 "codex_errors": _compact_messages(codex_errors),
                 "codex_warnings": _compact_messages(codex_warnings),
                 "changed_files": changed_files,
@@ -2983,10 +3293,16 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 "verification_results": verification_results,
                 "source_refs": task.get("source_refs", []),
                 "execution_object_id": execution_object_id,
-                "execution_object_state": execution_store.get(execution_object_id).get("state") if execution_object_id else "",
-                "execution_note": "Reused existing Codex-generated outputs from the previous Stage 10 attempt."
-                if reused_existing_output
-                else "Executed serially inside the Stage 07 declared parallel group for post-run audit isolation.",
+                "execution_object_state": (
+                    execution_store.get(execution_object_id).get("state")
+                    if execution_object_id
+                    else ""
+                ),
+                "execution_note": (
+                    "Reused existing Codex-generated outputs from the previous Stage 10 attempt."
+                    if reused_existing_output
+                    else "Executed serially inside the Stage 07 declared parallel group for post-run audit isolation."
+                ),
             }
             if execution_object_id and status != "success":
                 record_execution_object_failure(
@@ -2999,8 +3315,12 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     error="; ".join(_compact_messages(codex_errors)) or "Task execution failed.",
                     rollback_needed=bool(changed_files),
                 )
-                record["execution_object_state"] = execution_store.get(execution_object_id).get("state")
-            elif execution_object_id and not any(result.get("status") == "deferred" for result in verification_results):
+                record["execution_object_state"] = execution_store.get(execution_object_id).get(
+                    "state"
+                )
+            elif execution_object_id and not any(
+                result.get("status") == "deferred" for result in verification_results
+            ):
                 try:
                     verified_object = verify_program_task_execution_object(
                         execution_store,
@@ -3025,16 +3345,20 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         error=str(exc),
                         rollback_needed=bool(changed_files),
                     )
-                    record["execution_object_state"] = execution_store.get(execution_object_id).get("state")
+                    record["execution_object_state"] = execution_store.get(execution_object_id).get(
+                        "state"
+                    )
             execution_records.append(record)
             group_record_indexes.append(len(execution_records) - 1)
-            changed_files_manifest.append({
-                "task_id": task.get("task_id"),
-                "allowed_files": sorted(allowed_changed_files),
-                "changed_files": changed_files,
-                "unexpected_changes": unexpected_changes,
-                "execution_object_id": execution_object_id,
-            })
+            changed_files_manifest.append(
+                {
+                    "task_id": task.get("task_id"),
+                    "allowed_files": sorted(allowed_changed_files),
+                    "changed_files": changed_files,
+                    "unexpected_changes": unexpected_changes,
+                    "execution_object_id": execution_object_id,
+                }
+            )
             status = str(record.get("status"))
             _write_stage10_task_record(out_dir, task.get("task_id"), record)
             _write_stage10_progress(
@@ -3104,7 +3428,12 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             for record_index in group_record_indexes:
                 record = execution_records[record_index]
                 record["verification_results"] = [
-                    unity_result if result.get("id") == "unity_batchmode_compile" and result.get("status") == "deferred" else result
+                    (
+                        unity_result
+                        if result.get("id") == "unity_batchmode_compile"
+                        and result.get("status") == "deferred"
+                        else result
+                    )
                     for result in record.get("verification_results", [])
                 ]
                 if unity_result.get("status") != "passed":
@@ -3113,7 +3442,11 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 if execution_object_id:
                     current_state = execution_store.get(execution_object_id).get("state")
                     task = tasks_by_id.get(str(record.get("task_id")), {})
-                    output_files = [str(item) for item in task.get("output_files", [])] if isinstance(task, dict) else []
+                    output_files = (
+                        [str(item) for item in task.get("output_files", [])]
+                        if isinstance(task, dict)
+                        else []
+                    )
                     if record.get("status") == "success" and current_state == "executing":
                         try:
                             verified_object = verify_program_task_execution_object(
@@ -3139,7 +3472,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                                 error=str(exc),
                                 rollback_needed=bool(record.get("changed_files")),
                             )
-                            record["execution_object_state"] = execution_store.get(execution_object_id).get("state")
+                            record["execution_object_state"] = execution_store.get(
+                                execution_object_id
+                            ).get("state")
                     elif record.get("status") != "success" and current_state == "executing":
                         record_execution_object_failure(
                             execution_store,
@@ -3148,10 +3483,13 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                             written_files=record.get("changed_files", []),
                             changed_state=[record.get("task_id")],
                             unfinished_actions=["unity_validation"],
-                            error="; ".join(_compact_messages(unity_result.get("errors", []))) or "Unity validation failed.",
+                            error="; ".join(_compact_messages(unity_result.get("errors", [])))
+                            or "Unity validation failed.",
                             rollback_needed=bool(record.get("changed_files")),
                         )
-                        record["execution_object_state"] = execution_store.get(execution_object_id).get("state")
+                        record["execution_object_state"] = execution_store.get(
+                            execution_object_id
+                        ).get("state")
                 _write_stage10_task_record(out_dir, record.get("task_id"), record)
                 _write_stage10_progress(
                     out_dir,
@@ -3218,20 +3556,28 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 )
                 break
 
-    executed_successfully = [record for record in execution_records if record.get("status") == "success"]
-    status = "success" if len(executed_successfully) == expected_count and not stopped else "stopped" if soft_stopped else "blocked"
+    executed_successfully = [
+        record for record in execution_records if record.get("status") == "success"
+    ]
+    status = (
+        "success"
+        if len(executed_successfully) == expected_count and not stopped
+        else "stopped" if soft_stopped else "blocked"
+    )
     blocking_issues = []
     if stop_reason and not soft_stopped:
         blocking_issues.append({"code": "EXECUTION_STOPPED", "message": stop_reason})
     for record in execution_records:
         if record.get("status") != "success":
-            blocking_issues.append({
-                "code": "TASK_EXECUTION_FAILED",
-                "task_id": record.get("task_id"),
-                "codex_errors": record.get("codex_errors", []),
-                "unexpected_changes": record.get("unexpected_changes", []),
-                "verification_results": record.get("verification_results", []),
-            })
+            blocking_issues.append(
+                {
+                    "code": "TASK_EXECUTION_FAILED",
+                    "task_id": record.get("task_id"),
+                    "codex_errors": record.get("codex_errors", []),
+                    "unexpected_changes": record.get("unexpected_changes", []),
+                    "verification_results": record.get("verification_results", []),
+                }
+            )
 
     result = {
         "schema_version": 2,
@@ -3260,16 +3606,22 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     if status != "success":
         write_json(out_dir / "actual_development_blocked.json", result)
     write_json(out_dir / "actual_development_report.json", result)
-    write_json(out_dir / "changed_files_manifest.json", {
-        "schema_version": 1,
-        "generated_at": now_iso(),
-        "tasks": changed_files_manifest,
-    })
-    write_json(out_dir / "package_change_report.json", {
-        "schema_version": 1,
-        "generated_at": now_iso(),
-        "reports": package_reports,
-    })
+    write_json(
+        out_dir / "changed_files_manifest.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "tasks": changed_files_manifest,
+        },
+    )
+    write_json(
+        out_dir / "package_change_report.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "reports": package_reports,
+        },
+    )
     write_text(
         out_dir / "devexecution.md",
         "# Development Execution\n\n"
@@ -3291,8 +3643,11 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "content_exists": bool(execution_records),
         "executed_task_count": len(execution_records),
         "blocking_issues": len(blocking_issues) if status == "blocked" else 0,
-        "ai_review_status": "passed" if status == "success" else "stopped" if status == "stopped" else "blocked",
-        "traceability_valid": all(record["source_refs"] for record in execution_records) and status == "success",
+        "ai_review_status": (
+            "passed" if status == "success" else "stopped" if status == "stopped" else "blocked"
+        ),
+        "traceability_valid": all(record["source_refs"] for record in execution_records)
+        and status == "success",
     }
 
 
@@ -3325,7 +3680,11 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 if obj.get("metadata", {}).get("stage") == 11
                 and obj.get("metadata", {}).get("business_id") == task.get("task_id")
             ]
-            execution_object_id = str(matching_objects[-1].get("execution_object_id") or "") if matching_objects else ""
+            execution_object_id = (
+                str(matching_objects[-1].get("execution_object_id") or "")
+                if matching_objects
+                else ""
+            )
             if execution_object_id:
                 record_execution_object_failure(
                     execution_store,
@@ -3338,15 +3697,19 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     rollback_needed=False,
                 )
                 produced_record["execution_object_id"] = execution_object_id
-                produced_record["execution_object_state"] = execution_store.get(execution_object_id).get("state")
+                produced_record["execution_object_state"] = execution_store.get(
+                    execution_object_id
+                ).get("state")
             produced_record["status"] = "blocked_by_execution_object"
             produced_record["error"] = str(exc)
-            blockers.append({
-                "id": "ART-EXECUTION-OBJECT-BLOCKED",
-                "task_id": task.get("task_id"),
-                "execution_object_id": execution_object_id,
-                "message": str(exc),
-            })
+            blockers.append(
+                {
+                    "id": "ART-EXECUTION-OBJECT-BLOCKED",
+                    "task_id": task.get("task_id"),
+                    "execution_object_id": execution_object_id,
+                    "message": str(exc),
+                }
+            )
         produced.append(produced_record)
     result = {
         "schema_version": 1,
@@ -3355,14 +3718,17 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "produced_assets": produced,
         "execution_object_store": rel(execution_store.path),
         "execution_object_ids": [
-            item.get("execution_object_id")
-            for item in produced
-            if item.get("execution_object_id")
+            item.get("execution_object_id") for item in produced if item.get("execution_object_id")
         ],
         "blocking_issues": blockers,
     }
     write_json(out_dir / "artproduction.json", result)
-    write_text(out_dir / "artproduction.md", "# Art Production\n\n" + "\n".join(f"- {item['asset_id']}: {item['status']}" for item in produced) + "\n")
+    write_text(
+        out_dir / "artproduction.md",
+        "# Art Production\n\n"
+        + "\n".join(f"- {item['asset_id']}: {item['status']}" for item in produced)
+        + "\n",
+    )
     write_json(out_dir / "produced_assets_manifest.json", result)
     write_skill_guidance(out_dir, "imagegen")
     return {
@@ -3381,17 +3747,21 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     changed_manifest = read_json(stage_dir(10) / "changed_files_manifest.json", {})
     blockers = []
     if dev.get("status") != "success":
-        blockers.append({"id": "DEVEXEC-NOT-SUCCESS", "message": "Development execution did not pass."})
+        blockers.append(
+            {"id": "DEVEXEC-NOT-SUCCESS", "message": "Development execution did not pass."}
+        )
     if art.get("status") != "success":
         blockers.append({"id": "ARTPROD-NOT-SUCCESS", "message": "Art production did not pass."})
     records = dev.get("records", []) if isinstance(dev.get("records"), list) else []
     changed_tasks = changed_manifest.get("tasks", []) if isinstance(changed_manifest, dict) else []
-    actual_changed_files = sorted({
-        str(path)
-        for task in changed_tasks
-        if isinstance(task, dict)
-        for path in task.get("changed_files", [])
-    })
+    actual_changed_files = sorted(
+        {
+            str(path)
+            for task in changed_tasks
+            if isinstance(task, dict)
+            for path in task.get("changed_files", [])
+        }
+    )
     unexpected_changes = [
         {
             "task_id": task.get("task_id"),
@@ -3408,13 +3778,28 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     ]
     failed_unity_results = [item for item in unity_results if item.get("status") != "passed"]
     if not records:
-        blockers.append({"id": "ACTUAL-DEV-NO-RECORDS", "message": "Stage 10 produced no real development records."})
+        blockers.append(
+            {
+                "id": "ACTUAL-DEV-NO-RECORDS",
+                "message": "Stage 10 produced no real development records.",
+            }
+        )
     if not actual_changed_files:
-        blockers.append({"id": "ACTUAL-PROJECT-NO-CHANGES", "message": "No actual Unity project files were changed."})
+        blockers.append(
+            {
+                "id": "ACTUAL-PROJECT-NO-CHANGES",
+                "message": "No actual Unity project files were changed.",
+            }
+        )
     if unexpected_changes:
         blockers.append({"id": "ACTUAL-PROJECT-UNEXPECTED-CHANGES", "items": unexpected_changes})
     if not unity_results:
-        blockers.append({"id": "UNITY-VALIDATION-MISSING", "message": "Stage 10 did not record Unity batchmode validation."})
+        blockers.append(
+            {
+                "id": "UNITY-VALIDATION-MISSING",
+                "message": "Stage 10 did not record Unity batchmode validation.",
+            }
+        )
     if failed_unity_results:
         blockers.append({"id": "UNITY-VALIDATION-FAILED", "items": failed_unity_results})
     execution_store = load_execution_object_store(BASE_DIR)
@@ -3434,11 +3819,13 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         required_state="verified",
     )
     if not execution_object_validation["valid"]:
-        blockers.append({
-            "id": "EXECUTION-OBJECTS-NOT-VERIFIED",
-            "message": "Stage 10/11 execution objects must be verified before integration.",
-            "details": execution_object_validation,
-        })
+        blockers.append(
+            {
+                "id": "EXECUTION-OBJECTS-NOT-VERIFIED",
+                "message": "Stage 10/11 execution objects must be verified before integration.",
+                "details": execution_object_validation,
+            }
+        )
     integration_execution_object_id = ""
     if not blockers:
         verified_object = complete_relationship_graph_execution_object(
@@ -3452,7 +3839,10 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 "actual_changed_files": actual_changed_files,
                 "unity_validation_count": len(unity_results),
             },
-            write_scope=["relationship_graph:integration", *[f"unity_file:{path}" for path in actual_changed_files]],
+            write_scope=[
+                "relationship_graph:integration",
+                *[f"unity_file:{path}" for path in actual_changed_files],
+            ],
         )
         integration_execution_object_id = str(verified_object.get("execution_object_id") or "")
 
@@ -3490,20 +3880,43 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             {"id": "actual_development_succeeded", "passed": dev.get("status") == "success"},
             {"id": "actual_project_files_changed", "passed": bool(actual_changed_files)},
             {"id": "no_out_of_scope_file_changes", "passed": not unexpected_changes},
-            {"id": "unity_batchmode_validation_passed", "passed": bool(unity_results) and not failed_unity_results},
+            {
+                "id": "unity_batchmode_validation_passed",
+                "passed": bool(unity_results) and not failed_unity_results,
+            },
             {"id": "assets_traced", "passed": bool(art.get("produced_assets"))},
             {"id": "execution_objects_verified", "passed": execution_object_validation["valid"]},
-            {"id": "integration_relationship_object_verified", "passed": bool(integration_execution_object_id)},
-            {"id": "replayable_pipeline", "passed": dev.get("execution_mode") == "actual_unity_ai_development"},
+            {
+                "id": "integration_relationship_object_verified",
+                "passed": bool(integration_execution_object_id),
+            },
+            {
+                "id": "replayable_pipeline",
+                "passed": dev.get("execution_mode") == "actual_unity_ai_development",
+            },
         ],
     }
     write_json(out_dir / "integration.json", report)
-    write_text(out_dir / "integration.md", "# Integration Validation\n\n" + ("- Passed\n" if not blockers else "- Blocked\n"))
+    write_text(
+        out_dir / "integration.md",
+        "# Integration Validation\n\n" + ("- Passed\n" if not blockers else "- Blocked\n"),
+    )
     write_json(out_dir / "integration_validation_report.json", report)
     write_json(out_dir / "actual_project_file_audit.json", project_audit)
     write_json(out_dir / "unity_validation_summary.json", unity_summary)
-    write_json(out_dir / "automated_test_results.json", {"schema_version": 1, "generated_at": now_iso(), "tests": report["checks"], "passed": not blockers})
-    write_json(out_dir / "issue_fix_log.json", {"schema_version": 1, "generated_at": now_iso(), "issues": blockers})
+    write_json(
+        out_dir / "automated_test_results.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "tests": report["checks"],
+            "passed": not blockers,
+        },
+    )
+    write_json(
+        out_dir / "issue_fix_log.json",
+        {"schema_version": 1, "generated_at": now_iso(), "issues": blockers},
+    )
     return {
         "content_exists": True,
         "blocking_issues": len(blockers),
@@ -3519,11 +3932,23 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     unity_summary = read_json(stage_dir(12) / "unity_validation_summary.json", {})
     blockers = []
     if integration.get("status") != "success":
-        blockers.append({"id": "INTEGRATION-NOT-SUCCESS", "message": "Integration validation did not pass."})
+        blockers.append(
+            {"id": "INTEGRATION-NOT-SUCCESS", "message": "Integration validation did not pass."}
+        )
     if not project_audit.get("actual_changed_files"):
-        blockers.append({"id": "BUILD-NO-ACTUAL-PROJECT-CHANGES", "message": "No actual Unity project changes are available to package."})
+        blockers.append(
+            {
+                "id": "BUILD-NO-ACTUAL-PROJECT-CHANGES",
+                "message": "No actual Unity project changes are available to package.",
+            }
+        )
     if unity_summary.get("valid") is not True:
-        blockers.append({"id": "BUILD-UNITY-VALIDATION-MISSING", "message": "Unity validation summary is missing or failed."})
+        blockers.append(
+            {
+                "id": "BUILD-UNITY-VALIDATION-MISSING",
+                "message": "Unity validation summary is missing or failed.",
+            }
+        )
     artifact_manifest = {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -3547,7 +3972,15 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
     write_json(out_dir / "build_report.json", report)
     write_json(out_dir / "build_artifact_manifest.json", artifact_manifest)
-    write_text(out_dir / "build_package.md", "# Build Package\n\n" + ("- Actual Unity project validation recorded.\n" if not blockers else "- Build blocked.\n"))
+    write_text(
+        out_dir / "build_package.md",
+        "# Build Package\n\n"
+        + (
+            "- Actual Unity project validation recorded.\n"
+            if not blockers
+            else "- Build blocked.\n"
+        ),
+    )
     write_json(out_dir / "package_manifest.json", report)
     return {
         "content_exists": True,
@@ -3565,24 +3998,35 @@ def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     blockers = []
     if build.get("status") != "success":
         blockers.append({"id": "BUILD-NOT-SUCCESS", "message": "Build package did not pass."})
-    changed_files = build_artifacts.get("changed_files", []) if isinstance(build_artifacts, dict) else []
+    changed_files = (
+        build_artifacts.get("changed_files", []) if isinstance(build_artifacts, dict) else []
+    )
     if not changed_files:
-        blockers.append({"id": "PATCH-NO-ACTUAL-PROJECT-CHANGES", "message": "No actual Unity project file changes were recorded."})
+        blockers.append(
+            {
+                "id": "PATCH-NO-ACTUAL-PROJECT-CHANGES",
+                "message": "No actual Unity project file changes were recorded.",
+            }
+        )
     rollback_execution_object_id = ""
     if not blockers:
         try:
             verified_object = complete_rollback_plan_execution_object(
                 execution_store,
                 changed_files=[str(item) for item in changed_files],
-                rollback_source=str(build.get("artifact_manifest") or "build_artifact_manifest.json"),
+                rollback_source=str(
+                    build.get("artifact_manifest") or "build_artifact_manifest.json"
+                ),
                 stage=14,
             )
             rollback_execution_object_id = str(verified_object.get("execution_object_id") or "")
         except Exception as exc:  # noqa: BLE001 - workflow gate boundary
-            blockers.append({
-                "id": "ROLLBACK-EXECUTION-OBJECT-BLOCKED",
-                "message": str(exc),
-            })
+            blockers.append(
+                {
+                    "id": "ROLLBACK-EXECUTION-OBJECT-BLOCKED",
+                    "message": str(exc),
+                }
+            )
     patch = {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -3593,16 +4037,24 @@ def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "changed_scope": "actual Unity project files",
         "changed_files": changed_files,
         "execution_object_store": rel(execution_store.path),
-        "execution_object_ids": [rollback_execution_object_id] if rollback_execution_object_id else [],
+        "execution_object_ids": (
+            [rollback_execution_object_id] if rollback_execution_object_id else []
+        ),
     }
     write_json(out_dir / "patch_manifest.json", patch)
-    write_json(out_dir / "changed_files_manifest.json", {
-        "schema_version": 1,
-        "generated_at": now_iso(),
-        "development_path": build_artifacts.get("development_path"),
-        "changed_files": changed_files,
-    })
-    write_text(out_dir / "delta_patch.md", "# Delta Patch\n\n- Delta records actual Unity project file changes.\n")
+    write_json(
+        out_dir / "changed_files_manifest.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "development_path": build_artifacts.get("development_path"),
+            "changed_files": changed_files,
+        },
+    )
+    write_text(
+        out_dir / "delta_patch.md",
+        "# Delta Patch\n\n- Delta records actual Unity project file changes.\n",
+    )
     write_json(out_dir / "release_history.json", {"schema_version": 1, "entries": [patch]})
     write_text(
         out_dir / "rollback_plan.md",
@@ -3630,6 +4082,9 @@ def _load_current_design(base_dir: Path = BASE_DIR) -> dict[str, Any]:
             },
         )
 
+    manifest = read_json(package_dir / "package_manifest.json", {})
+    if not isinstance(manifest, dict):
+        manifest = {}
     submission = _load_concept_submission(package_dir)
     notes = str(submission.get("notes") or "").strip()
     valid_attachments, invalid_attachments = _concept_attachment_paths(package_dir, submission)
@@ -3662,6 +4117,7 @@ def _load_current_design(base_dir: Path = BASE_DIR) -> dict[str, Any]:
         path = valid_attachments[0]
         parsed = _parse_design_doc(path)
         parsed["source_package"] = package_rel
+        parsed["design_summary"] = manifest.get("design_summary", {})
         parsed["source_input_type"] = "concept_attachment"
         if parsed["selections"]:
             return parsed
@@ -3679,6 +4135,7 @@ def _load_current_design(base_dir: Path = BASE_DIR) -> dict[str, Any]:
         source = f"{package_rel}/operator_submission.json#notes"
         parsed = _manual_notes_as_design(notes, source)
         parsed["source_package"] = package_rel
+        parsed["design_summary"] = manifest.get("design_summary", {})
         parsed["source_input_type"] = "operator_notes"
         if parsed["selections"]:
             return parsed
@@ -3700,14 +4157,18 @@ def _update_stage_report(step_number: int, out_dir: Path, result: dict[str, Any]
         report = {}
     blocking = int(result.get("blocking_issues") or 0)
     content_exists = bool(result.get("content_exists"))
-    report.update({
-        "content_exists": content_exists,
-        "ai_review_status": result.get("ai_review_status", "passed" if blocking == 0 else "blocked"),
-        "blocking_issues": blocking,
-        "traceability_valid": bool(result.get("traceability_valid", True)) and blocking == 0,
-        "scope_budget_valid": True,
-        "business_quality": result,
-    })
+    report.update(
+        {
+            "content_exists": content_exists,
+            "ai_review_status": result.get(
+                "ai_review_status", "passed" if blocking == 0 else "blocked"
+            ),
+            "blocking_issues": blocking,
+            "traceability_valid": bool(result.get("traceability_valid", True)) and blocking == 0,
+            "scope_budget_valid": True,
+            "business_quality": result,
+        }
+    )
     if not content_exists:
         report["status"] = "content_missing"
         report["valid"] = False
@@ -3731,10 +4192,14 @@ def _refresh_indexes(step_number: int, out_dir: Path) -> None:
 
 def _load_package_by_source_id(source_id: str) -> dict[str, Any]:
     """Load and parse a concept-format package by its source_id (Concept/GameplayFramework/Design)."""
-    from core.paths import SOURCE_ARTIFACTS_DIR
+    from core.source.finder import source_artifact_roots
+
     candidates: list[Path] = []
-    if SOURCE_ARTIFACTS_DIR.exists():
-        for item in SOURCE_ARTIFACTS_DIR.iterdir():
+    for source_dir in source_artifact_roots():
+        if not source_dir.exists():
+            continue
+        root_candidates: list[Path] = []
+        for item in source_dir.iterdir():
             if not item.is_dir():
                 continue
             manifest = read_json(item / "package_manifest.json", {})
@@ -3743,12 +4208,17 @@ def _load_package_by_source_id(source_id: str) -> dict[str, Any]:
             ids = {str(v) for v in manifest.get("source_ids", []) if v}
             pkg_type = str(manifest.get("package_type") or manifest.get("source_id") or "")
             if source_id in ids or pkg_type == source_id:
-                candidates.append(item)
+                root_candidates.append(item)
+        if root_candidates:
+            candidates = root_candidates
+            break
     if not candidates:
         raise DesignSourceError(
             f"Stage has no submitted {source_id} source package.",
-            {"code": f"STAGE_{source_id.upper()}_SOURCE_MISSING",
-             "fix": f"Run 导出到流水线 to generate the {source_id} package."},
+            {
+                "code": f"STAGE_{source_id.upper()}_SOURCE_MISSING",
+                "fix": f"Run 导出到流水线 to generate the {source_id} package.",
+            },
         )
     candidates.sort(key=lambda p: p.stat().st_mtime, reverse=True)
     package_dir = candidates[0]
@@ -3759,8 +4229,12 @@ def _load_package_by_source_id(source_id: str) -> dict[str, Any]:
             f"{source_id} package has no valid attachment.",
             {"code": f"STAGE_{source_id.upper()}_ATTACHMENT_MISSING"},
         )
+    manifest = read_json(package_dir / "package_manifest.json", {})
+    if not isinstance(manifest, dict):
+        manifest = {}
     parsed = _parse_design_doc(valid_attachments[0])
     parsed["source_package"] = rel(package_dir)
+    parsed["design_summary"] = manifest.get("design_summary", {})
     parsed["source_input_type"] = f"{source_id.lower()}_attachment"
     return parsed
 
@@ -3785,7 +4259,9 @@ def _load_design_for_stage(step_number: int) -> dict[str, Any]:
         return _load_current_design(BASE_DIR)
 
 
-def apply_development_plan_outputs(step_number: int, report: dict[str, Any] | None = None) -> dict[str, Any]:
+def apply_development_plan_outputs(
+    step_number: int, report: dict[str, Any] | None = None
+) -> dict[str, Any]:
     """Add controlled-plan artifacts to a stage output directory.
 
     Stage-aware loading:
@@ -3848,5 +4324,7 @@ def apply_development_plan_outputs(step_number: int, report: dict[str, Any] | No
     if result.get("status") == "stopped" or result.get("ai_review_status") == "stopped":
         raise PipelineStopRequested(f"Stage {step_number:02d} stopped at a resumable boundary.")
     if updated.get("valid") is False:
-        raise RuntimeError(f"Development plan outputs failed for stage {step_number:02d}: {updated.get('business_quality')}")
+        raise RuntimeError(
+            f"Development plan outputs failed for stage {step_number:02d}: {updated.get('business_quality')}"
+        )
     return updated

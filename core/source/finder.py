@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from core.io import read_json
-from core.paths import SOURCE_ARTIFACTS_DIR
+from core.paths import DRAFTS_DIR, PROJECT_ROOT, SOURCE_ARTIFACTS_DIR
 from core.source.groups import SOURCE_MARKERS, SOURCE_TYPES, SourceGroup
 
 
@@ -42,6 +42,37 @@ def source_package_metadata(path: Path) -> dict[str, Any]:
     return submission if isinstance(submission, dict) else {}
 
 
+def source_artifact_roots() -> list[Path]:
+    """Return current and fallback source artifact roots in precedence order."""
+    roots: list[Path] = []
+    seen: set[Path] = set()
+
+    def add(root: Path) -> None:
+        resolved = root.resolve()
+        if resolved in seen:
+            return
+        seen.add(resolved)
+        roots.append(root)
+
+    add(SOURCE_ARTIFACTS_DIR)
+
+    if DRAFTS_DIR.exists():
+        draft_roots = [
+            draft / "source_artifacts"
+            for draft in DRAFTS_DIR.iterdir()
+            if draft.is_dir() and (draft / "source_artifacts").is_dir()
+        ]
+        draft_roots.sort(key=lambda root: root.stat().st_mtime, reverse=True)
+        for root in draft_roots:
+            add(root)
+
+    legacy_root = PROJECT_ROOT / "sandbox" / "source_artifacts"
+    if legacy_root.is_dir():
+        add(legacy_root)
+
+    return roots
+
+
 def infer_source_ids(path: Path) -> tuple[str, ...]:
     ids: list[str] = []
     metadata = source_package_metadata(path)
@@ -72,9 +103,7 @@ def source_matches_ids(path: Path, expected_ids: Iterable[str]) -> bool:
 
 def _source_sort_key(path: Path) -> tuple[str, int, float, str]:
     metadata = source_package_metadata(path)
-    created_at = str(
-        metadata.get("created_at") or metadata.get("timestamp") or _parse_date(path)
-    )
+    created_at = str(metadata.get("created_at") or metadata.get("timestamp") or _parse_date(path))
     version = metadata.get("version")
     try:
         parsed_version = int(version)
@@ -85,6 +114,7 @@ def _source_sort_key(path: Path) -> tuple[str, int, float, str]:
 
 def _safe_component(value: Any, fallback: str = "source") -> str:
     import re as _re
+
     raw = _re.sub(r"[^A-Za-z0-9_.-]+", "_", str(value or "").strip())
     raw = raw.strip("._-")
     return raw or fallback
@@ -105,17 +135,24 @@ def find_sources(
     mode: str = "latest",
     source_ids: Iterable[str] = (),
 ) -> list[Path]:
-    found: dict[Path, Path] = {}
     expected_ids = tuple(source_ids) or _source_ids_from_patterns(patterns)
-    if expected_ids and SOURCE_ARTIFACTS_DIR.exists():
-        for path in SOURCE_ARTIFACTS_DIR.iterdir():
-            if path.is_dir() and source_matches_ids(path, expected_ids):
-                found[path.resolve()] = path
-    if not found:
-        for pattern in patterns:
-            for path in SOURCE_ARTIFACTS_DIR.glob(pattern):
-                if path.is_dir():
-                    found[path.resolve()] = path
+    found: dict[Path, Path] = {}
+    for root in source_artifact_roots():
+        if not root.exists():
+            continue
+        root_found: dict[Path, Path] = {}
+        if expected_ids:
+            for path in root.iterdir():
+                if path.is_dir() and source_matches_ids(path, expected_ids):
+                    root_found[path.resolve()] = path
+        if not root_found:
+            for pattern in patterns:
+                for path in root.glob(pattern):
+                    if path.is_dir():
+                        root_found[path.resolve()] = path
+        if root_found:
+            found = root_found
+            break
     ordered = sorted(found.values(), key=_source_sort_key)
     if mode == "all":
         return ordered

@@ -1,5 +1,209 @@
 [
   {
+    "id": "2026-06-23-009",
+    "date": "2026-06-23",
+    "summary": "溯源 范本：Hades 自动化开发 Step05 阻断：源包仍是 未命名游戏设计项目 空白状态",
+    "changed_files": [
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-23-009.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-009.md"
+    ],
+    "next_tasks": [
+      "重新运行自动化开发前，先确认导出的 concept.md/design.md 包含 Hades 内容",
+      "增加导出前置校验，提前拦截 未命名游戏设计项目 和过低实体覆盖率源包"
+    ]
+  },
+  {
+    "id": "2026-06-23-008",
+    "date": "2026-06-23",
+    "summary": "修复 bug收集文档4.md 第四轮 3 个问题：Step00 新品类 inference、Step04 roguelike_action 键名兼容、CQ-013/014 证据入口",
+    "changed_files": [
+      "pipeline/step_00_idea_intake/helpers.py",
+      "pipeline/step_00_idea_intake/data/core_questions.json",
+      "pipeline/step_04_art_requirements/helpers.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-008.md"
+    ],
+    "next_tasks": [
+      "真实 L5 高覆盖目标仍需用户在 DesignEngine 录入 >=40 个 L5 实体后验证",
+      "全仓 pre-commit 仍有既有问题，当前只保证本次改动范围门禁通过"
+    ]
+  },
+  {
+    "id": "2026-06-23-007",
+    "date": "2026-06-23",
+    "summary": "修复 bug收集文档3.md 第三轮 5 个问题：阶段误判、模板缓存污染、市场库读取、资产阶段和 warning verdict",
+    "changed_files": [
+      "pipeline/step_01_gameplay_framework/helpers.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_04_art_requirements/helpers.py",
+      "pipeline/step_05_program_review/helpers.py",
+      "core/tests/conftest.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-007.md"
+    ],
+    "next_tasks": [
+      "在 DesignEngine 录入真实 L5 实体后继续验证 v5 的高覆盖目标",
+      "全仓 pre-commit run --all-files 仍需单独治理既有 flake8/mypy 问题"
+    ]
+  },
+  {
+    "id": "2026-06-23-006",
+    "date": "2026-06-23",
+    "summary": "执行 v5_engineering_plan：Step00-05 能力增强、Phase0 基础设施、多品类模板验证和质量门禁",
+    "changed_files": [
+      ".pre-commit-config.yaml",
+      "pipeline/step_00_idea_intake/helpers.py",
+      "pipeline/step_00_idea_intake/data/core_questions.json",
+      "pipeline/step_01_gameplay_framework/helpers.py",
+      "pipeline/step_01_gameplay_framework/data/genre_templates.json",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_03_program_requirements/helpers.py",
+      "pipeline/step_04_art_requirements/helpers.py",
+      "pipeline/step_05_program_review/helpers.py",
+      "tools/validators/pipeline_quality.py",
+      "tools/dev/scaffold_step.py",
+      "core/tests/conftest.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py",
+      "knowledge/governance/L5_ENTITY_GUIDE.md",
+      "knowledge/market_data/roguelike.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-006.md"
+    ],
+    "next_tasks": [
+      "在 DesignEngine 录入 >=40 个真实 L5 实体后验证 entity coverage >=0.75 和资产数 >=80",
+      "GUI 中手动验收 D4 handoff 和 Step 00-06 展示路径",
+      "验证 Codex/Claude adapter 切换",
+      "验证保存/加载端到端和旧流水线存档过滤"
+    ]
+  },
+  {
+    "id": "2026-06-23-005",
+    "date": "2026-06-23",
+    "summary": "修复 bug优化文档.md 第二轮 3 个问题：覆盖率最终回退、模板重复读取、requires_action_count 漏计 BLOCKER",
+    "changed_files": [
+      "pipeline/step_01_gameplay_framework/helpers.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_05_program_review/helpers.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-005.md"
+    ],
+    "next_tasks": [
+      "GUI 中手动验收 D4 handoff 和 Step 00-06 展示路径",
+      "验证 Codex/Claude adapter 切换",
+      "验证保存/加载端到端和旧流水线存档过滤",
+      "在 GUI/本地配置下验证引擎切换 preflight"
+    ]
+  },
+  {
+    "id": "2026-06-23-004",
+    "date": "2026-06-23",
+    "summary": "修复 bug收集文档.md 中列出的 6 个 pipeline optimization 回归问题，并补充测试",
+    "changed_files": [
+      "core/design/export_adapter.py",
+      "core/engines/generation.py",
+      "pipeline/step_01_gameplay_framework/helpers.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_03_program_requirements/helpers.py",
+      "pipeline/step_05_program_review/helpers.py",
+      "tools/validators/pipeline_quality.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py",
+      "plan/pipeline_optimization/README.md",
+      "plan/status_snapshot_2026-06-23.md"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-004.md"
+    ],
+    "next_tasks": [
+      "GUI 中手动验收 D4 handoff 和 Step 00-06 展示路径",
+      "验证 Codex/Claude adapter 切换",
+      "验证保存/加载端到端和旧流水线存档过滤",
+      "在 GUI/本地配置下验证引擎切换 preflight"
+    ]
+  },
+  {
+    "id": "2026-06-23-003",
+    "date": "2026-06-23",
+    "summary": "完成 pipeline_optimization 收尾：跨进程 D4 源包发现、无 L5 实体本地补全、资产字段完整性与最终端到端自检",
+    "changed_files": [
+      "core/source/finder.py",
+      "core/engines/generation.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_04_art_requirements/helpers.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py",
+      "plan/pipeline_optimization/README.md",
+      "plan/status_snapshot_2026-06-23.md"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-003.md"
+    ],
+    "next_tasks": [
+      "GUI 中手动验收 D4 handoff 和 Step 00-06 展示路径",
+      "验证 Codex/Claude adapter 切换",
+      "验证存档创建、重命名、关闭重开、加载和旧存档过滤",
+      "在 GUI/本地配置下验证引擎切换 preflight"
+    ]
+  },
+  {
+    "id": "2026-06-23-002",
+    "date": "2026-06-23",
+    "summary": "继续完成开发计划收尾：质量工具修复、根目录设计蓝图归档、最终自检",
+    "changed_files": [
+      "core/design/export_adapter.py",
+      "core/engines/generation.py",
+      "tools/validators/pipeline_quality.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py",
+      "plan/pipeline_optimization/README.md",
+      "plan/status_snapshot_2026-06-23.md"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-23-002.md",
+      "plan/pipeline_optimization/design_plan_archive/"
+    ],
+    "next_tasks": [
+      "在 GUI 中完成 Hades L5 Complete 真实载入、D4 handoff 和 Step 00-06 验收",
+      "验证 Codex/Claude adapter 切换",
+      "验证存档创建、重命名、关闭重开、加载和过滤旧存档",
+      "在 GUI/本地配置下验证引擎切换 preflight"
+    ]
+  },
+  {
+    "id": "2026-06-23-001",
+    "date": "2026-06-23",
+    "summary": "完成 D4 designEntities 导出与步骤00-06质量优化基础设施",
+    "changed_files": [
+      "core/design/export_adapter.py",
+      "core/engines/generation.py",
+      "pipeline/step_00_idea_intake/helpers.py",
+      "pipeline/step_01_gameplay_framework/helpers.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_03_program_requirements/helpers.py",
+      "pipeline/step_04_art_requirements/helpers.py",
+      "pipeline/step_05_program_review/helpers.py",
+      "tools/validators/pipeline_quality.py"
+    ],
+    "artifacts_created": [
+      "plan/pipeline_optimization/README.md",
+      "plan/status_snapshot_2026-06-23.md",
+      "knowledge/decisions/ADR-2026-06-23-draft-archive-execution-objects.md"
+    ],
+    "next_tasks": [
+      "在 GUI 中完成 Hades L5 Complete 真实载入、D4 handoff 和 Step 00-06 验收",
+      "验证 Codex/Claude adapter 切换",
+      "验证存档创建、重命名、关闭重开、加载和过滤旧存档"
+    ]
+  },
+  {
     "id": "2026-06-19-001",
     "date": "2026-06-19",
     "summary": "项目首次完整阅读，建立记忆系统基线，制定两份开发计划",

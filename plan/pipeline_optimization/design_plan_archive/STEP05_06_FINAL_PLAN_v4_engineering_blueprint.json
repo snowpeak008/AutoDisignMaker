@@ -1,0 +1,268 @@
+{
+  "steps": "05-06",
+  "name": "程序与美术评审 (Intelligent Reviews)",
+  "version": "v4.0 Engineering Blueprint",
+  "status": "pending",
+  "priority": "medium",
+
+  "problems": {
+    "current_issues": [
+      "评审只检查格式，不检查内容质量",
+      "占位符需求也能通过评审",
+      "107个警告但评审结果仍为 PASS",
+      "无严重性分级（所有问题一视同仁）"
+    ],
+    "root_causes": [
+      "ProgReviewer 和 ArtReviewer 只做结构检查",
+      "无占位符语义检测",
+      "无内容完整性评分"
+    ]
+  },
+
+  "module_structure": {
+    "shared_module": "pipeline/step_05_program_review/core/ 与 step_06_art_review/core/ 共享 base_reviewer.py",
+    "files": {
+      "shared/base_reviewer.py": {
+        "class": "BaseIntelligentReviewer",
+        "docstring": "智能评审基类，提供占位符检测、严重性分级、评分计算",
+        "methods": [
+          {
+            "name": "review",
+            "signature": "(self, data: dict) -> ReviewReport",
+            "note": "模板方法：调用所有检查器，汇总结果"
+          },
+          {
+            "name": "_run_checks",
+            "signature": "(self) -> list[Finding]",
+            "note": "子类实现具体检查逻辑"
+          },
+          {
+            "name": "_compute_score",
+            "signature": "(self, findings: list[Finding]) -> int",
+            "note": "BLOCKER=-30, CRITICAL=-10, WARNING=-3, INFO=0；满分100"
+          },
+          {
+            "name": "_determine_verdict",
+            "signature": "(self, score: int, findings: list[Finding]) -> Literal['PASS','WARN','FAIL','BLOCKED']",
+            "rules": {
+              "BLOCKED": "任意 BLOCKER 存在",
+              "FAIL": "score < 50",
+              "WARN": "50 <= score < 75",
+              "PASS": "score >= 75"
+            }
+          }
+        ],
+        "data_classes": {
+          "Finding": {
+            "fields": {
+              "id": "str",
+              "severity": "Literal['BLOCKER','CRITICAL','WARNING','INFO']",
+              "category": "str",
+              "message": "str",
+              "location": "str | None",
+              "suggestion": "str | None"
+            }
+          },
+          "ReviewReport": {
+            "fields": {
+              "verdict": "Literal['PASS','WARN','FAIL','BLOCKED']",
+              "score": "int",
+              "findings": "list[Finding]",
+              "blocker_count": "int",
+              "critical_count": "int",
+              "warning_count": "int",
+              "summary": "str"
+            }
+          }
+        }
+      },
+      "shared/placeholder_detector.py": {
+        "class": "PlaceholderDetector",
+        "docstring": "检测文本内容是否为占位符（正则 + 关键词匹配）",
+        "methods": [
+          {
+            "name": "is_placeholder",
+            "signature": "(self, text: str) -> bool"
+          },
+          {
+            "name": "placeholder_rate",
+            "signature": "(self, texts: list[str]) -> float"
+          },
+          {
+            "name": "_check_patterns",
+            "signature": "(self, text: str) -> bool",
+            "patterns": [
+              "r'^\\[.*\\]$'",
+              "r'TODO|FIXME|PLACEHOLDER|TBD|待填写|占位'",
+              "r'^\\s*$'",
+              "len(text.strip()) < 10"
+            ]
+          }
+        ]
+      },
+      "step_05/core/program_reviewer.py": {
+        "class": "ProgramRequirementReviewer",
+        "inherits": "BaseIntelligentReviewer",
+        "check_methods": [
+          {
+            "name": "_check_placeholder_rate",
+            "threshold_blocker": ">50%",
+            "threshold_critical": ">30%",
+            "threshold_warning": ">15%"
+          },
+          {
+            "name": "_check_system_binding_rate",
+            "threshold_blocker": "<50%",
+            "threshold_critical": "<70%",
+            "threshold_warning": "<90%"
+          },
+          {
+            "name": "_check_acceptance_criteria",
+            "rule": "每条需求至少1个验收标准；缺失 → WARNING"
+          },
+          {
+            "name": "_check_requirement_count",
+            "threshold_critical": "<20 总需求数"
+          },
+          {
+            "name": "_check_priority_distribution",
+            "rule": "P0不超过30%，否则 WARNING"
+          }
+        ]
+      },
+      "step_06/core/art_reviewer.py": {
+        "class": "ArtRequirementReviewer",
+        "inherits": "BaseIntelligentReviewer",
+        "check_methods": [
+          {
+            "name": "_check_asset_count",
+            "threshold_blocker": "<10 总资产数",
+            "threshold_critical": "<25",
+            "threshold_warning": "<40"
+          },
+          {
+            "name": "_check_type_coverage",
+            "rule": "必须有 character_art/vfx/ui 三类；缺任一 → CRITICAL"
+          },
+          {
+            "name": "_check_resolution_specs",
+            "rule": "P0/P1 资产必须有 resolution 字段；缺失 → WARNING"
+          },
+          {
+            "name": "_check_style_consistency",
+            "rule": "reference_style 字段非空率 >50%；否则 INFO"
+          }
+        ]
+      }
+    }
+  },
+
+  "severity_rules": {
+    "BLOCKER": {
+      "description": "立即停止流水线，必须修复后重跑",
+      "examples": ["占位符率 >50%", "资产数量 <10"],
+      "pipeline_action": "halt_pipeline"
+    },
+    "CRITICAL": {
+      "description": "记录错误，需人工确认后继续",
+      "examples": ["系统绑定率 <70%", "缺少核心资产类型"],
+      "pipeline_action": "require_human_confirmation"
+    },
+    "WARNING": {
+      "description": "记录警告，自动继续",
+      "examples": ["占位符率 15-30%", "缺少验收标准"],
+      "pipeline_action": "log_and_continue"
+    },
+    "INFO": {
+      "description": "信息提示，不影响流水线",
+      "pipeline_action": "log_only"
+    }
+  },
+
+  "data_contracts": {
+    "step_05_input": {
+      "from_step_03": ["program_requirements.md", "program_requirements_enhanced.json"]
+    },
+    "step_05_output": {
+      "ProgReview_report_enhanced.json": "含严重性分级的程序评审报告",
+      "verdict": "PASS/WARN/FAIL/BLOCKED"
+    },
+    "step_06_input": {
+      "from_step_04": ["asset_registry.json", "art_requirements.md"]
+    },
+    "step_06_output": {
+      "ArtReview_report_enhanced.json": "含规格完整性检查的美术评审报告"
+    }
+  },
+
+  "implementation_tasks": [
+    {"id": "T05-01", "task": "实现 Finding + ReviewReport dataclass", "hours": 1, "status": "pending"},
+    {"id": "T05-02", "task": "实现 BaseIntelligentReviewer.review() + _compute_score() + _determine_verdict()", "hours": 4, "status": "pending"},
+    {"id": "T05-03", "task": "实现 PlaceholderDetector（正则+关键词）", "hours": 3, "status": "pending"},
+    {"id": "T05-04", "task": "实现 ProgramRequirementReviewer 全部检查方法（5个）", "hours": 5, "status": "pending"},
+    {"id": "T05-05", "task": "实现 ArtRequirementReviewer 全部检查方法（4个）", "hours": 4, "status": "pending"},
+    {"id": "T05-06", "task": "重构 step_05/plugin.py 使用新评审器", "hours": 2, "status": "pending"},
+    {"id": "T05-07", "task": "重构 step_06/plugin.py 使用新评审器", "hours": 2, "status": "pending"},
+    {"id": "T05-08", "task": "单元测试（PlaceholderDetector 6个用例）", "hours": 2, "status": "pending"},
+    {"id": "T05-09", "task": "单元测试（ProgramRequirementReviewer 6个用例）", "hours": 3, "status": "pending"},
+    {"id": "T05-10", "task": "单元测试（ArtRequirementReviewer 5个用例）", "hours": 3, "status": "pending"},
+    {"id": "T05-11", "task": "集成测试（旧占位符需求 → 应返回 BLOCKED）", "hours": 2, "status": "pending"},
+    {"id": "T05-12", "task": "集成测试（新生成需求 → 应返回 PASS/WARN）", "hours": 2, "status": "pending"}
+  ],
+
+  "test_cases": {
+    "unit": {
+      "test_placeholder_detector.py": [
+        "test_bracket_placeholder_detected",
+        "test_todo_keyword_detected",
+        "test_empty_string_detected",
+        "test_short_text_detected",
+        "test_valid_text_not_flagged",
+        "test_placeholder_rate_computed"
+      ],
+      "test_program_reviewer.py": [
+        "test_all_placeholders_returns_blocked",
+        "test_good_requirements_returns_pass",
+        "test_no_system_binding_returns_critical",
+        "test_score_decreases_with_findings",
+        "test_verdict_blocked_halts_pipeline",
+        "test_mixed_findings_correct_score"
+      ],
+      "test_art_reviewer.py": [
+        "test_few_assets_returns_blocked",
+        "test_missing_vfx_type_returns_critical",
+        "test_full_registry_returns_pass",
+        "test_p0_without_resolution_returns_warning",
+        "test_old_3_asset_registry_returns_blocked"
+      ]
+    },
+    "integration": {
+      "test_step05_integration.py": [
+        "test_old_placeholder_requirements_blocked",
+        "test_new_bound_requirements_pass",
+        "test_report_json_schema_valid"
+      ],
+      "test_step06_integration.py": [
+        "test_old_3_assets_blocked",
+        "test_new_40plus_assets_pass",
+        "test_report_json_schema_valid"
+      ]
+    }
+  },
+
+  "acceptance_criteria": {
+    "functional": [
+      "占位符率 >50% 的输入返回 BLOCKED 裁决",
+      "BLOCKED 裁决阻止流水线继续",
+      "评审报告包含所有 Finding 的 severity/category/message",
+      "score 计算与 BLOCKER/CRITICAL/WARNING 计数一致",
+      "新生成的规范需求返回 PASS 或 WARN"
+    ]
+  },
+
+  "target_metrics": {
+    "step05_warnings": "107 → <15",
+    "false_pass_rate": "100% → 0%",
+    "blocker_detection_rate": "0% → 100%"
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "step": "02",
+  "name": "设计冻结 (Design Freeze)",
+  "version": "v4.0 Engineering Blueprint",
+  "status": "pending",
+  "priority": "critical",
+
+  "blocking_prerequisite": {
+    "issue": "PLAN-002 — designEntities 在 export_adapter.py 中丢失",
+    "file": "core/design/export_adapter.py",
+    "verification_command": "python tools/validators/pipeline_quality.py --check plan-002",
+    "expected_result": "entity_coverage >= 38/103 for Hades template",
+    "action_if_failed": "立即修复，预留 3 天，Phase 0 完成前不开始本步骤工作"
+  },
+
+  "problems": {
+    "current_issues": [
+      "designEntities 完全丢失（PLAN-002 bug）",
+      "103个设计节点全是占位符",
+      "无系统关系图（Mermaid 格式）",
+      "无分阶段设计（MVP/full_feature）",
+      "无冻结设计完整性验证"
+    ],
+    "root_causes": [
+      "export_adapter.py 未正确传递 entities 字段",
+      "无实体覆盖率检测机制"
+    ]
+  },
+
+  "module_structure": {
+    "root": "pipeline/step_02_design_review_freeze/",
+    "files": {
+      "plugin.py": {
+        "class": "Plugin",
+        "inherits": "StagePlugin",
+        "stage_id": "2",
+        "responsibility": "编排：加载上游数据 → 实体验证 → 图生成 → 阶段分类 → 打包冻结",
+        "execute_body_outline": [
+          "1. run_import_step()",
+          "2. step01_data = DataInheritor(ctx).load()",
+          "3. validation = EntityValidator(ctx).validate(step01_data)",
+          "4. if validation.coverage < 0.20: AIAdapter(ctx).supplement_entities(validation)",
+          "5. graph = GraphGenerator.generate(step01_data.systems, step01_data.entities)",
+          "6. phases = PhaseClassifier.classify(step01_data.entities, step01_data.systems)",
+          "7. frozen = FreezeBundler.bundle(step01_data, validation, graph, phases)",
+          "8. validate output schemas",
+          "9. return StageResult"
+        ]
+      },
+      "core/entity_validator.py": {
+        "class": "EntityValidator",
+        "docstring": "验证 designEntities 的覆盖率和完整性",
+        "init_signature": "(self, ctx: StageContext)",
+        "methods": [
+          {
+            "name": "validate",
+            "signature": "(self, data: UpstreamData) -> EntityValidationResult"
+          },
+          {
+            "name": "_compute_coverage",
+            "signature": "(self, entities: list[DesignEntity]) -> float",
+            "note": "covered_entities / total_design_nodes"
+          },
+          {
+            "name": "_find_missing_entities",
+            "signature": "(self, entities: list[DesignEntity]) -> list[str]",
+            "note": "返回 design_nodes 中无对应实体的节点 id 列表"
+          },
+          {
+            "name": "_validate_entity_schema",
+            "signature": "(self, entity: dict) -> list[str]",
+            "returns": "validation error messages list"
+          }
+        ],
+        "data_classes": {
+          "DesignEntity": {
+            "fields": {
+              "id": "str",
+              "node_id": "str",
+              "name": "str",
+              "schema_type": "str",
+              "attributes": "dict",
+              "system_id": "str | None"
+            }
+          },
+          "EntityValidationResult": {
+            "fields": {
+              "total_nodes": "int",
+              "covered_nodes": "int",
+              "coverage_rate": "float",
+              "missing_node_ids": "list[str]",
+              "schema_errors": "dict[str, list[str]]",
+              "needs_ai_supplement": "bool"
+            }
+          }
+        }
+      },
+      "core/graph_generator.py": {
+        "class": "GraphGenerator",
+        "docstring": "生成 Mermaid 格式的系统依赖图，含环检测",
+        "methods": [
+          {
+            "name": "generate",
+            "signature": "(cls, systems: list[GameSystem], entities: list[DesignEntity]) -> GraphResult",
+            "is_classmethod": true
+          },
+          {
+            "name": "_build_adjacency",
+            "signature": "(cls, systems: list[GameSystem]) -> dict[str, list[str]]"
+          },
+          {
+            "name": "_detect_cycles",
+            "signature": "(cls, adjacency: dict) -> list[list[str]]",
+            "algorithm": "DFS with color marking (white/gray/black)"
+          },
+          {
+            "name": "_render_mermaid",
+            "signature": "(cls, adjacency: dict, entities: list[DesignEntity]) -> str"
+          }
+        ],
+        "data_class": {
+          "name": "GraphResult",
+          "fields": {
+            "mermaid_diagram": "str",
+            "adjacency": "dict[str, list[str]]",
+            "cycles_detected": "list[list[str]]",
+            "node_count": "int",
+            "edge_count": "int"
+          }
+        }
+      },
+      "core/phase_classifier.py": {
+        "class": "PhaseClassifier",
+        "docstring": "将系统和实体按开发阶段分类：core_playable / social / full_feature",
+        "methods": [
+          {
+            "name": "classify",
+            "signature": "(cls, entities: list[DesignEntity], systems: list[GameSystem]) -> PhaseRoadmap",
+            "algorithm": "依据 system.complexity + system.type + entity.schema_type 打分分类"
+          },
+          {
+            "name": "_score_system",
+            "signature": "(cls, system: GameSystem) -> tuple[str, int]",
+            "returns": "(phase_label, priority_score)"
+          }
+        ],
+        "data_class": {
+          "name": "PhaseRoadmap",
+          "fields": {
+            "core_playable": {"systems": "list[str]", "entities": "list[str]", "estimated_weeks": "int"},
+            "social": {"systems": "list[str]", "entities": "list[str]", "estimated_weeks": "int"},
+            "full_feature": {"systems": "list[str]", "entities": "list[str]", "estimated_weeks": "int"}
+          }
+        }
+      },
+      "core/freeze_bundler.py": {
+        "class": "FreezeBundler",
+        "docstring": "打包所有冻结设计数据为最终输出集",
+        "methods": [
+          {
+            "name": "bundle",
+            "signature": "(cls, data: UpstreamData, validation: EntityValidationResult, graph: GraphResult, phases: PhaseRoadmap) -> FrozenDesignBundle"
+          }
+        ],
+        "data_class": {
+          "name": "FrozenDesignBundle",
+          "fields": {
+            "frozen_design": "dict",
+            "design_entities": "list[dict]",
+            "entity_validation_report": "dict",
+            "system_dependencies": "str",
+            "phase_roadmap": "dict"
+          }
+        }
+      },
+      "adapters/ai_adapter.py": {
+        "class": "EntitySupplementAdapter",
+        "methods": [
+          {
+            "name": "supplement_entities",
+            "signature": "(self, validation: EntityValidationResult) -> list[DesignEntity]",
+            "fallback": "generate minimal placeholder entities with schema defaults"
+          }
+        ]
+      }
+    }
+  },
+
+  "data_contracts": {
+    "input": {
+      "from_step_01": ["core_loop.json", "systems.json"],
+      "from_step_00": ["design_extraction_enhanced.json"],
+      "from_design_engine": "DesignEngine.get_all_nodes() via core/design/engine.py"
+    },
+    "output": {
+      "frozen_design.json": "冻结设计主文档",
+      "design_entities.json": "实体列表（来自 DesignEngine，经过补全）",
+      "entity_validation_report.json": "覆盖率报告",
+      "system_dependencies.mmd": "Mermaid 依赖图源码",
+      "phase_roadmap.json": "三阶段开发路线图"
+    }
+  },
+
+  "implementation_tasks": [
+    {"id": "T02-00", "task": "Phase 0: 修复并验证 PLAN-002", "hours": 8, "status": "pending", "blocking": true},
+    {"id": "T02-01", "task": "创建五层模块目录结构", "hours": 1, "status": "pending", "blocked_by": "T02-00"},
+    {"id": "T02-02", "task": "实现 DesignEntity + EntityValidationResult dataclass", "hours": 2, "status": "pending"},
+    {"id": "T02-03", "task": "实现 EntityValidator._compute_coverage() + _find_missing_entities()", "hours": 3, "status": "pending"},
+    {"id": "T02-04", "task": "实现 EntityValidator.validate()", "hours": 2, "status": "pending"},
+    {"id": "T02-05", "task": "实现 GraphGenerator._build_adjacency() + _detect_cycles()", "hours": 4, "status": "pending"},
+    {"id": "T02-06", "task": "实现 GraphGenerator._render_mermaid() + generate()", "hours": 3, "status": "pending"},
+    {"id": "T02-07", "task": "实现 PhaseClassifier._score_system() + classify()", "hours": 4, "status": "pending"},
+    {"id": "T02-08", "task": "实现 FreezeBundler.bundle()", "hours": 2, "status": "pending"},
+    {"id": "T02-09", "task": "实现 EntitySupplementAdapter（含回退）", "hours": 3, "status": "pending"},
+    {"id": "T02-10", "task": "重构 plugin.py 为编排层", "hours": 2, "status": "pending"},
+    {"id": "T02-11", "task": "单元测试（EntityValidator 5个用例）", "hours": 3, "status": "pending"},
+    {"id": "T02-12", "task": "单元测试（GraphGenerator 4个用例含环检测）", "hours": 3, "status": "pending"},
+    {"id": "T02-13", "task": "单元测试（PhaseClassifier 3个用例）", "hours": 2, "status": "pending"},
+    {"id": "T02-14", "task": "集成测试（Hades模板完整验证）", "hours": 3, "status": "pending"}
+  ],
+
+  "test_cases": {
+    "unit": {
+      "test_entity_validator.py": [
+        "test_full_coverage_returns_100_percent",
+        "test_partial_coverage_computed_correctly",
+        "test_missing_entities_identified",
+        "test_schema_errors_reported",
+        "test_needs_ai_supplement_true_below_threshold"
+      ],
+      "test_graph_generator.py": [
+        "test_simple_dependency_graph_generated",
+        "test_cycle_detected_in_circular_deps",
+        "test_no_cycle_in_valid_graph",
+        "test_mermaid_output_valid_syntax"
+      ],
+      "test_phase_classifier.py": [
+        "test_core_systems_in_core_playable",
+        "test_meta_systems_in_full_feature",
+        "test_estimated_weeks_positive"
+      ]
+    },
+    "integration": {
+      "test_step02_integration.py": [
+        "test_hades_template_entity_coverage_ge_38_percent",
+        "test_output_files_all_present",
+        "test_system_deps_graph_no_cycles",
+        "test_phase_roadmap_covers_all_systems"
+      ]
+    }
+  },
+
+  "acceptance_criteria": {
+    "functional": [
+      "Hades 模板 entity_coverage >= 38%（PLAN-002 修复验证）",
+      "EntityValidator 在覆盖率 <20% 时触发 AI 补全",
+      "GraphGenerator 输出合法 Mermaid 图，无环",
+      "PhaseClassifier 将所有系统分配到3个阶段",
+      "所有输出文件通过对应 Schema 验证"
+    ],
+    "quality": [
+      "单元测试覆盖率 >80%",
+      "通过 mypy --strict",
+      "通过 flake8"
+    ]
+  },
+
+  "target_metrics": {
+    "entity_transmission_rate": "0% → 85-95%",
+    "frozen_design_lines": "117 → 400-600",
+    "quality_score": "10/100 → 55-65/100"
+  }
+}

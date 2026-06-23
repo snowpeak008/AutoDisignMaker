@@ -1,0 +1,49 @@
+{
+  "step": "03",
+  "name": "程序需求 (Program Requirements)",
+  "version": "v3.0 Final (Codex Reviewed)",
+  "status": "Approved - Ready for Implementation",
+  "priority": "High",
+  "codex_score": "8.0/10",
+  
+  "problems": [
+    "107条需求全是占位符",
+    "所有需求未绑定系统 (107个PROGREQ-NO-SYSTEM警告)",
+    "无法从designEntities提取功能"
+  ],
+  
+  "solution": {
+    "new_modules": [
+      "EntityToRequirementConverter - 实体转需求",
+      "SystemBinder - 自动绑定需求到系统",
+      "ConverterRegistry - 注册15+种entity schema"
+    ],
+    "codex_integration": "需求全占位符 -> AI生成",
+    "codex_feedback": "Build converter registry for 15+ schemas"
+  },
+  
+  "converter_registry": {
+    "phase_1": ["skill_card", "character_card", "item_card", "system_card", "operation_card"],
+    "phase_2": "remaining 10+ schemas",
+    "generic": "fallback converter for unknown schemas"
+  },
+  
+  "outputs": {
+    "program_requirements.md": "具体可执行需求",
+    "requirements_by_system.json": "按系统分组",
+    "program_requirements_enhanced.json": "含系统绑定"
+  },
+  
+  "implementation": {
+    "duration": "Weeks 5-7",
+    "week_6": "实体转需求转换器 (Phase 1: 5种schema)",
+    "week_7": "系统绑定器 + 模糊匹配"
+  },
+  
+  "target": {
+    "placeholder_rate": "100% -> 15-25%",
+    "system_binding_rate": "0% -> 90-95%",
+    "step05_warnings": "107 -> 5-15",
+    "quality_score": "18/100 -> 65-75/100"
+  }
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "id": "CQ-001",
+    "domain": "project",
+    "question": "项目的产品定位是什么？",
+    "item_types": ["项目定位", "游戏类型", "玩法想法"],
+    "keywords": ["定位", "类型", "愿景", "承诺"]
+  },
+  {
+    "id": "CQ-002",
+    "domain": "project",
+    "question": "目标玩家和游玩场景是什么？",
+    "item_types": ["目标玩家", "玩家"],
+    "keywords": ["玩家", "受众", "人群", "session"]
+  },
+  {
+    "id": "CQ-003",
+    "domain": "project",
+    "question": "目标平台和输入方式是什么？",
+    "item_types": ["平台"],
+    "keywords": ["平台", "pc", "console", "mobile", "触屏", "手柄"]
+  },
+  {
+    "id": "CQ-004",
+    "domain": "business",
+    "question": "商业模式和运营方式是什么？",
+    "item_types": ["商业模式"],
+    "keywords": ["商业", "付费", "买断", "内购", "广告", "运营"]
+  },
+  {
+    "id": "CQ-005",
+    "domain": "core",
+    "question": "核心循环是否明确？",
+    "item_types": ["核心循环", "core_loop", "主循环", "Loop", "玩法循环", "游戏循环"],
+    "keywords": ["循环", "loop", "->", "→", "进入", "战斗", "奖励", "升级", "挑战", "成长"]
+  },
+  {
+    "id": "CQ-006",
+    "domain": "core",
+    "question": "主要压力来源是什么？",
+    "item_types": ["压力来源", "challenge_profile", "risk_pressure", "失败条件", "挑战"],
+    "keywords": ["压力", "挑战", "失败", "风险", "敌人", "首领", "时间", "资源不足", "死亡"]
+  },
+  {
+    "id": "CQ-007",
+    "domain": "core",
+    "question": "奖励节奏如何驱动重玩？",
+    "item_types": ["奖励节奏", "reward_loop", "奖励系统", "成长节奏", "掉落"],
+    "keywords": ["奖励", "掉落", "解锁", "成长", "反馈", "构筑", "祝福", "永久成长", "重玩"]
+  },
+  {
+    "id": "CQ-008",
+    "domain": "systems",
+    "question": "顶层系统拆分是否明确？",
+    "item_types": ["system_layer", "玩法系统", "系统图", "Layer 3", "游戏系统"],
+    "keywords": ["系统", "system", "模块", "战斗系统", "经济系统", "成长系统", "房间系统"]
+  },
+  {
+    "id": "CQ-009",
+    "domain": "content",
+    "question": "核心内容对象有哪些？",
+    "item_types": ["内容", "L5实体", "content_type_decision", "character_unit_decision", "item_resource"],
+    "keywords": ["角色", "敌人", "武器", "房间", "关卡", "实体", "weapon", "enemy", "ability", "技能", "物品"]
+  },
+  {
+    "id": "CQ-010",
+    "domain": "resources",
+    "question": "关键资源和消耗关系是什么？",
+    "item_types": ["资源", "resource_flow", "经济系统", "货币", "item_resource"],
+    "keywords": ["资源", "货币", "消耗", "产出", "经济", "升级", "解锁", "商店", "cost"]
+  },
+  {
+    "id": "CQ-011",
+    "domain": "runtime",
+    "question": "关键运行时流程是否可追踪？",
+    "item_types": ["运行时", "runtime_flow", "状态机", "流程", "系统图"],
+    "keywords": ["流程", "运行时", "状态", "存档", "事件", "触发", "输入", "输出", "结算"]
+  },
+  {
+    "id": "CQ-012",
+    "domain": "presentation",
+    "question": "反馈、UI和表现需求是否出现？",
+    "item_types": ["表现", "资源", "ui_feedback", "反馈", "美术资源", "音效"],
+    "keywords": ["UI", "界面", "反馈", "特效", "表现", "音效", "动画", "图标", "提示"]
+  },
+  {
+    "id": "CQ-013",
+    "domain": "technology",
+    "question": "技术约束是否明确？",
+    "item_types": ["技术", "平台范围", "运营模式", "商业模式", "项目规模"],
+    "keywords": ["技术", "引擎", "配置", "平台", "性能", "indie", "买断", "离线", "offline", "multi_platform"]
+  },
+  {
+    "id": "CQ-014",
+    "domain": "production",
+    "question": "开发阶段和验证方式是否可推导？",
+    "item_types": ["生产", "QA", "项目规模", "社交模式"],
+    "keywords": ["阶段", "验收", "测试", "QA", "里程碑", "成长", "解锁", "成就", "indie", "community"]
+  },
+  {
+    "id": "CQ-015",
+    "domain": "risk",
+    "question": "主要风险和边界是否记录？",
+    "item_types": ["风险", "约束"],
+    "keywords": ["风险", "边界", "约束", "不做", "限制"]
+  }
+]

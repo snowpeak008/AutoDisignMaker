@@ -1,0 +1,337 @@
+{
+  "step": "00",
+  "name": "创意收集 (Idea Intake)",
+  "version": "v4.0 Engineering Blueprint",
+  "status": "pending",
+  "priority": "high",
+
+  "problems": {
+    "current_issues": [
+      "plugin.py 仅20行骨架，无业务逻辑",
+      "prompts/main.txt 仅1行提示词",
+      "问答覆盖率 6.67%（1/15题有答案）",
+      "问题列表硬编码在代码中",
+      "不读取 DesignEngine 选项详情",
+      "无 AI 辅助补全机制"
+    ],
+    "root_causes": [
+      "设计数据与代码耦合，无法独立维护",
+      "未接入 DesignEngine.get_option_detail() 接口",
+      "无 AI 集成层"
+    ]
+  },
+
+  "module_structure": {
+    "root": "pipeline/step_00_idea_intake/",
+    "files": {
+      "plugin.py": {
+        "class": "Plugin",
+        "inherits": "StagePlugin",
+        "stage_id": "0",
+        "responsibility": "编排层：参数传递、异常处理、结果组装；禁止在此写业务逻辑",
+        "execute_signature": "(self, ctx: StageContext) -> StageResult",
+        "execute_body_outline": [
+          "1. run_import_step() 导入源包",
+          "2. ConceptProcessor(ctx).process() 解析概念",
+          "3. QuestionEngine(questions_path).evaluate(concept_data)",
+          "4. if coverage < 0.40: AIAdapter(ctx).run_guided_interview(engine)",
+          "5. ContentGenerator.generate(concept_data, engine) → output",
+          "6. validate output schema",
+          "7. return StageResult(status='success', outputs=output)"
+        ]
+      },
+      "core/__init__.py": {"content": ""},
+      "core/processor.py": {
+        "class": "ConceptProcessor",
+        "docstring": "解析 concept.md，从 DesignEngine 获取每个选项的完整详情",
+        "init_signature": "(self, ctx: StageContext)",
+        "methods": [
+          {
+            "name": "process",
+            "signature": "(self, source_dir: Path) -> ConceptData",
+            "raises": "ConceptParseError if concept.md not found or malformed"
+          },
+          {
+            "name": "_parse_raw_concept",
+            "signature": "(self, md_path: Path) -> dict",
+            "note": "private; parse markdown sections into dict"
+          },
+          {
+            "name": "_enrich_with_design_options",
+            "signature": "(self, raw: dict) -> ConceptData",
+            "note": "calls _get_option_detail() for each selected option"
+          },
+          {
+            "name": "_get_option_detail",
+            "signature": "(self, domain: str, decision: str, option_id: str) -> dict",
+            "decorator": "@lru_cache(maxsize=256)",
+            "note": "cache prevents redundant DesignEngine calls"
+          }
+        ],
+        "data_class": {
+          "name": "ConceptData",
+          "fields": {
+            "project_name": "str",
+            "genre": "str",
+            "core_vision": "str",
+            "selected_options": "dict[str, list[str]]",
+            "enriched_options": "dict[str, dict]",
+            "raw_answers": "dict[str, str]",
+            "source_path": "Path"
+          }
+        }
+      },
+      "core/question_engine.py": {
+        "class": "QuestionEngine",
+        "docstring": "从 data/core_questions.json 加载15个核心问题，计算覆盖率，生成引导",
+        "init_signature": "(self, questions_path: Path)",
+        "methods": [
+          {
+            "name": "evaluate",
+            "signature": "(self, concept: ConceptData) -> EvaluationResult"
+          },
+          {
+            "name": "coverage_rate",
+            "signature": "(self) -> float",
+            "returns": "0.0-1.0"
+          },
+          {
+            "name": "unanswered_questions",
+            "signature": "(self) -> list[DesignQuestion]"
+          },
+          {
+            "name": "gap_analysis",
+            "signature": "(self) -> dict[str, Any]",
+            "returns": "{'missing_critical': [...], 'missing_high': [...], 'coverage': float}"
+          }
+        ],
+        "data_classes": {
+          "DesignQuestion": {
+            "fields": {
+              "id": "str",
+              "ref": "str",
+              "domain": "str",
+              "decision": "str",
+              "question": "str",
+              "priority": "Literal['critical','high','medium','low']",
+              "guidance": "str",
+              "examples": "list[str]"
+            }
+          },
+          "EvaluationResult": {
+            "fields": {
+              "answered": "list[str]",
+              "unanswered": "list[DesignQuestion]",
+              "coverage_rate": "float",
+              "needs_ai_supplement": "bool"
+            }
+          }
+        }
+      },
+      "core/generator.py": {
+        "class": "ContentGenerator",
+        "docstring": "基于问答数据和概念信息合成完整的设计抽取输出",
+        "methods": [
+          {
+            "name": "generate",
+            "signature": "(self, concept: ConceptData, engine: QuestionEngine) -> dict",
+            "returns": "符合 output.schema.json 的字典"
+          },
+          {
+            "name": "_build_design_extraction",
+            "signature": "(self, concept: ConceptData, answers: dict) -> dict"
+          },
+          {
+            "name": "_build_skill_guidance",
+            "signature": "(self, concept: ConceptData) -> dict"
+          }
+        ]
+      },
+      "adapters/__init__.py": {"content": ""},
+      "adapters/ai_adapter.py": {
+        "class": "InterviewAdapter",
+        "docstring": "封装 AI 辅助补全：重试、缓存、回退",
+        "init_signature": "(self, ctx: StageContext)",
+        "methods": [
+          {
+            "name": "run_guided_interview",
+            "signature": "(self, engine: QuestionEngine) -> dict[str, str]",
+            "returns": "question_id → answer 的字典",
+            "error_handling": "3次重试（指数退避），失败后返回通用回退答案"
+          },
+          {
+            "name": "_build_prompt",
+            "signature": "(self, questions: list[DesignQuestion], context: dict) -> str"
+          },
+          {
+            "name": "_load_cache",
+            "signature": "(self, cache_key: str) -> dict | None"
+          },
+          {
+            "name": "_save_cache",
+            "signature": "(self, cache_key: str, result: dict) -> None"
+          }
+        ],
+        "retry_policy": {
+          "max_retries": 3,
+          "backoff_base": 2,
+          "timeout_seconds": 30,
+          "fallback": "generic_answers_from_genre_template"
+        }
+      }
+    }
+  },
+
+  "data_files": {
+    "data/core_questions.json": {
+      "purpose": "15个核心问题完整定义（数据与代码分离）",
+      "schema": {
+        "version": "string",
+        "questions": [
+          {
+            "id": "Q01",
+            "ref": "project_vision.core_statement",
+            "domain": "项目愿景",
+            "decision": "核心价值主张",
+            "question": "这款游戏让玩家感受到什么？",
+            "priority": "critical",
+            "guidance": "回答需包含情感词 + 动作动词",
+            "examples": ["在无尽的战斗中找到宁静", "用策略控制混沌局面"]
+          }
+        ]
+      },
+      "question_categories": {
+        "critical_priority": ["Q01-Q05"],
+        "high_priority": ["Q06-Q10"],
+        "medium_priority": ["Q11-Q13"],
+        "low_priority": ["Q14-Q15"]
+      }
+    }
+  },
+
+  "data_contracts": {
+    "input": {
+      "required_files": [
+        "source_artifacts/concept_*/concept.md"
+      ],
+      "concept_md_sections": [
+        "## 项目名称",
+        "## 品类",
+        "## 核心愿景",
+        "## 核心体验选项",
+        "## 问题回答"
+      ]
+    },
+    "output": {
+      "files": {
+        "design_extraction_enhanced.json": {
+          "schema_ref": "schemas/output.schema.json",
+          "key_fields": {
+            "project_name": "string",
+            "genre": "string",
+            "core_vision": "string",
+            "enriched_options": "object",
+            "question_answers": "object",
+            "coverage_rate": "number",
+            "ai_supplemented": "boolean"
+          }
+        },
+        "skill_guidance.json": {
+          "key_fields": {
+            "recommended_skills": "array",
+            "genre_specific_guidance": "object"
+          }
+        }
+      }
+    }
+  },
+
+  "implementation_tasks": [
+    {"id": "T00-01", "task": "创建五层模块目录结构 + __init__.py", "hours": 1, "status": "pending"},
+    {"id": "T00-02", "task": "实现 ConceptData dataclass + ConceptParseError", "hours": 2, "status": "pending"},
+    {"id": "T00-03", "task": "实现 ConceptProcessor._parse_raw_concept()", "hours": 3, "status": "pending"},
+    {"id": "T00-04", "task": "实现 ConceptProcessor._get_option_detail() 含 @lru_cache", "hours": 2, "status": "pending"},
+    {"id": "T00-05", "task": "实现 ConceptProcessor.process() + _enrich_with_design_options()", "hours": 3, "status": "pending"},
+    {"id": "T00-06", "task": "创建 data/core_questions.json（15个完整问题）", "hours": 3, "status": "pending"},
+    {"id": "T00-07", "task": "实现 DesignQuestion + EvaluationResult dataclass", "hours": 1, "status": "pending"},
+    {"id": "T00-08", "task": "实现 QuestionEngine.evaluate() + coverage_rate() + unanswered_questions()", "hours": 4, "status": "pending"},
+    {"id": "T00-09", "task": "实现 InterviewAdapter._build_prompt() + _load_cache() + _save_cache()", "hours": 3, "status": "pending"},
+    {"id": "T00-10", "task": "实现 InterviewAdapter.run_guided_interview() 含重试+回退", "hours": 4, "status": "pending"},
+    {"id": "T00-11", "task": "实现 ContentGenerator.generate() + 两个私有方法", "hours": 3, "status": "pending"},
+    {"id": "T00-12", "task": "重构 plugin.py 为纯编排层", "hours": 2, "status": "pending"},
+    {"id": "T00-13", "task": "编写 schemas/input.schema.json + output.schema.json", "hours": 2, "status": "pending"},
+    {"id": "T00-14", "task": "单元测试（ConceptProcessor 6个用例）", "hours": 3, "status": "pending"},
+    {"id": "T00-15", "task": "单元测试（QuestionEngine 5个用例）", "hours": 2, "status": "pending"},
+    {"id": "T00-16", "task": "单元测试（InterviewAdapter 4个用例含回退）", "hours": 2, "status": "pending"},
+    {"id": "T00-17", "task": "集成测试（空白概念/部分概念/完整概念）", "hours": 3, "status": "pending"}
+  ],
+
+  "test_cases": {
+    "unit": {
+      "test_concept_processor.py": [
+        "test_process_valid_concept_md",
+        "test_process_missing_concept_md_raises_error",
+        "test_enrich_with_design_options_calls_engine",
+        "test_get_option_detail_cached_on_second_call",
+        "test_parse_raw_concept_extracts_all_sections",
+        "test_process_empty_answers_returns_zero_coverage"
+      ],
+      "test_question_engine.py": [
+        "test_loads_questions_from_json",
+        "test_coverage_rate_with_no_answers",
+        "test_coverage_rate_with_partial_answers",
+        "test_unanswered_questions_returns_sorted_by_priority",
+        "test_needs_ai_supplement_true_when_coverage_below_threshold"
+      ],
+      "test_interview_adapter.py": [
+        "test_run_guided_interview_returns_answers",
+        "test_retries_on_api_failure",
+        "test_returns_fallback_after_max_retries",
+        "test_uses_cache_on_second_identical_call"
+      ]
+    },
+    "integration": {
+      "test_step00_integration.py": [
+        "test_empty_concept_triggers_ai_interview",
+        "test_partial_concept_supplements_missing_answers",
+        "test_complete_concept_skips_ai",
+        "test_output_files_created_with_correct_schema",
+        "test_coverage_rate_improves_after_ai_supplement"
+      ]
+    },
+    "fixtures": [
+      "fixtures/input/empty_concept.md",
+      "fixtures/input/partial_concept.md",
+      "fixtures/input/complete_concept.md",
+      "fixtures/expected/empty_concept_output.json",
+      "fixtures/expected/complete_concept_output.json"
+    ]
+  },
+
+  "acceptance_criteria": {
+    "functional": [
+      "ConceptProcessor 解析 concept.md 并填充 enriched_options",
+      "QuestionEngine 正确计算覆盖率（误差 <1%）",
+      "覆盖率 <40% 时自动触发 AI 补全",
+      "AI 失败3次后使用品类回退答案，不中断流水线",
+      "输出 design_extraction_enhanced.json 通过 output.schema.json 验证",
+      "输出 skill_guidance.json 包含品类对应的 skill 建议"
+    ],
+    "quality": [
+      "单元测试覆盖率 >80%",
+      "通过 mypy --strict",
+      "通过 flake8 --max-line-length=100",
+      "所有公共 API 有 one-line docstring"
+    ],
+    "performance": [
+      "process() 单次 <2秒（不含 AI 调用）",
+      "第二次 _get_option_detail() 调用走缓存，<1ms"
+    ]
+  },
+
+  "target_metrics": {
+    "question_coverage_rate": "6.67% → >55%",
+    "ai_supplement_success_rate": "N/A → >90%",
+    "quality_score": "18/100 → 50-60/100"
+  }
+}

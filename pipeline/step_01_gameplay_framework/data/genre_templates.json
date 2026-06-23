@@ -1,0 +1,73 @@
+{
+  "roguelike_action": {
+    "core_loop": ["选择武器", "进入房间", "战斗清场", "选择奖励", "升级构筑", "挑战首领", "死亡后永久成长"],
+    "systems": [
+      {"id": "SYS-COMBAT", "name": "即时战斗系统", "responsibility": "处理攻击、受击、移动、敌人行为与战斗反馈。"},
+      {"id": "SYS-ROOM", "name": "房间推进系统", "responsibility": "组织房间节点、遭遇类型、出口和下一步选择。"},
+      {"id": "SYS-REWARD", "name": "奖励选择系统", "responsibility": "在清场后提供祝福、资源、武器成长或事件奖励。"},
+      {"id": "SYS-BUILD", "name": "构筑成长系统", "responsibility": "累计武器、技能、祝福和被动能力的组合效果。"},
+      {"id": "SYS-META", "name": "局外成长系统", "responsibility": "在失败后沉淀永久资源、解锁和叙事推进。"},
+      {"id": "SYS-BOSS", "name": "首领挑战系统", "responsibility": "提供阶段性高压战斗和进度检查。"}
+    ]
+  },
+  "fps": {
+    "core_loop": ["侦察空间", "交火压制", "移动换位", "拾取补给", "完成目标"],
+    "systems": [
+      {"id": "SYS-GUNPLAY", "name": "枪械手感系统", "responsibility": "处理武器射击、后坐力、命中和反馈。"},
+      {"id": "SYS-MOVEMENT", "name": "移动系统", "responsibility": "处理奔跑、跳跃、掩体和换位。"},
+      {"id": "SYS-ENCOUNTER", "name": "遭遇系统", "responsibility": "组织敌人、空间和目标压力。"},
+      {"id": "SYS-LOADOUT", "name": "装备系统", "responsibility": "管理武器、配件、道具和切换。"},
+      {"id": "SYS-OBJECTIVE", "name": "目标系统", "responsibility": "提供任务目标、进度和胜负判定。"}
+    ]
+  },
+  "puzzle": {
+    "core_loop": ["观察谜面", "形成假设", "执行操作", "获得反馈", "解锁新规则"],
+    "systems": [
+      {"id": "SYS-RULE", "name": "规则表达系统", "responsibility": "展示谜题规则、约束和变化。"},
+      {"id": "SYS-INPUT", "name": "操作系统", "responsibility": "处理拖拽、点击、移动或组合输入。"},
+      {"id": "SYS-FEEDBACK", "name": "反馈系统", "responsibility": "让玩家理解尝试结果和错误原因。"},
+      {"id": "SYS-PROGRESSION", "name": "关卡推进系统", "responsibility": "组织难度、章节和新机制解锁。"},
+      {"id": "SYS-HINT", "name": "提示系统", "responsibility": "在卡关时提供渐进式帮助。"}
+    ]
+  },
+  "strategy": {
+    "core_loop": ["规划部署", "执行操作", "观察结果", "调整策略", "争夺胜利"],
+    "systems": [
+      {"id": "SYS-UNIT", "name": "单位系统", "responsibility": "管理单位属性、行为、生产和升级。"},
+      {"id": "SYS-MAP", "name": "地图系统", "responsibility": "管理地形、资源点、区域控制和视野。"},
+      {"id": "SYS-ECONOMY", "name": "经济系统", "responsibility": "处理资源采集、消耗、科技和建造节奏。"},
+      {"id": "SYS-AI", "name": "AI系统", "responsibility": "驱动敌方决策、战术响应和难度调整。"},
+      {"id": "SYS-COMBAT", "name": "战斗解算系统", "responsibility": "处理单位交战、伤害计算和结果判定。"}
+    ]
+  },
+  "rpg": {
+    "core_loop": ["接取目标", "探索遭遇", "战斗解谜", "获得装备", "角色成长", "推进剧情"],
+    "systems": [
+      {"id": "SYS-QUEST", "name": "任务系统", "responsibility": "组织目标、分支、奖励和任务状态。"},
+      {"id": "SYS-CHARACTER", "name": "角色成长系统", "responsibility": "管理属性、技能、装备和等级成长。"},
+      {"id": "SYS-COMBAT", "name": "战斗系统", "responsibility": "处理战斗规则、技能释放和受击反馈。"},
+      {"id": "SYS-INVENTORY", "name": "背包装备系统", "responsibility": "管理物品、装备、掉落和消耗品。"},
+      {"id": "SYS-NARRATIVE", "name": "叙事系统", "responsibility": "管理对话、剧情状态和角色关系。"}
+    ]
+  },
+  "moba": {
+    "core_loop": ["选择角色", "对线发育", "争夺资源", "团战推进", "摧毁目标"],
+    "systems": [
+      {"id": "SYS-HERO", "name": "英雄系统", "responsibility": "管理英雄技能、成长和定位差异。"},
+      {"id": "SYS-LANE", "name": "兵线与地图系统", "responsibility": "组织兵线、野区、视野和地图目标。"},
+      {"id": "SYS-COMBAT", "name": "团战系统", "responsibility": "处理技能命中、控制效果和团队交互。"},
+      {"id": "SYS-ECONOMY", "name": "经济系统", "responsibility": "处理经验、金币、装备和节奏滚雪球。"},
+      {"id": "SYS-OBJECTIVE", "name": "目标系统", "responsibility": "定义防御塔、基地和中立资源胜负条件。"}
+    ]
+  },
+  "generic": {
+    "core_loop": ["设定目标", "执行核心动作", "获得反馈", "获取奖励", "推进下一挑战"],
+    "systems": [
+      {"id": "SYS-CORE", "name": "核心操作系统", "responsibility": "承载玩家每轮最常执行的动作。"},
+      {"id": "SYS-GOAL", "name": "目标系统", "responsibility": "定义阶段目标、完成条件和失败条件。"},
+      {"id": "SYS-FEEDBACK", "name": "反馈系统", "responsibility": "提供即时反馈、奖励反馈和错误反馈。"},
+      {"id": "SYS-PROGRESSION", "name": "进度系统", "responsibility": "组织关卡、章节、解锁和成长。"},
+      {"id": "SYS-CONTENT", "name": "内容系统", "responsibility": "管理可游玩对象、规则变化和内容扩展。"}
+    ]
+  }
+}
