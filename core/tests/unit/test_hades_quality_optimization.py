@@ -136,3 +136,28 @@ def test_stage8_tasks_carry_asset_classification_and_clean_titles(
     assert task["priority"] == "P1"
     assert task["complexity"] == "m"
     assert (out_dir / "TEMPLATE_NOTE.md").exists()
+
+
+def test_image_generation_manifest_is_skipped_by_default(tmp_path, monkeypatch) -> None:
+    monkeypatch.delenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", raising=False)
+
+    manifest = generation._write_generated_images_manifest(
+        tmp_path,
+        [
+            {
+                "task_id": "ART-001",
+                "asset_id": "ASSET-001",
+                "title": "Styx sword slash VFX",
+                "asset_type": "effect",
+            }
+        ],
+        stage=11,
+    )
+    saved = json.loads(
+        (tmp_path / "generated_images_manifest.json").read_text(encoding="utf-8")
+    )
+
+    assert manifest["enabled"] is False
+    assert manifest["status"] == "skipped"
+    assert saved["task_count"] == 1
+    assert saved["generated_count"] == 0

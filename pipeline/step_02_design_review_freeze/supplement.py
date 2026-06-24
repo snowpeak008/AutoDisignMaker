@@ -265,7 +265,7 @@ class EntitySupplementAdapter:
             task_id="step02_l5_entity_supplement",
             prompt=prompt,
             timeout_seconds=self.timeout_seconds,
-            sandbox="none",
+            sandbox="read-only",
         )
         try:
             adapter = self.model_adapter or self._model_adapter()

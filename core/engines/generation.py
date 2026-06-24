@@ -10,6 +10,7 @@ own save flow.
 from __future__ import annotations
 
 import hashlib
+import os
 import re
 import subprocess
 from dataclasses import dataclass, field
@@ -2214,6 +2215,85 @@ def _art_tasks() -> list[dict[str, Any]]:
     return [item for item in tasks if isinstance(item, dict)]
 
 
+def _image_generation_enabled() -> bool:
+    value = os.getenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", "").strip().lower()
+    return value in {"1", "true", "yes", "on"}
+
+
+def _image_generation_prompt(task: dict[str, Any]) -> str:
+    return "\n".join(
+        [
+            "Generate a production-ready game art asset image.",
+            f"Asset/task id: {task.get('asset_id') or task.get('task_id') or 'unknown'}",
+            f"Title: {task.get('title') or task.get('name') or 'unnamed art asset'}",
+            f"Asset type: {task.get('asset_type') or 'art_asset'}",
+            f"Phase: {task.get('phase') or task.get('required_for_phase') or 'core_playable'}",
+            "Style: clean game-production concept asset, inspectable, not a logo.",
+        ]
+    )
+
+
+def _write_generated_images_manifest(
+    out_dir: Path,
+    tasks: list[dict[str, Any]],
+    *,
+    stage: int,
+) -> dict[str, Any]:
+    enabled = _image_generation_enabled()
+    manifest: dict[str, Any] = {
+        "schema_version": 1,
+        "generated_at": now_iso(),
+        "stage": stage,
+        "enabled": enabled,
+        "status": "skipped" if not enabled else "not_started",
+        "reason": "" if enabled else "Set AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION=1 to call the image generator.",
+        "task_count": len(tasks),
+        "generated_count": 0,
+        "records": [],
+    }
+    if not tasks:
+        manifest.update({"status": "skipped", "reason": "No art tasks available."})
+        write_json(out_dir / "generated_images_manifest.json", manifest)
+        return manifest
+    if not enabled:
+        write_json(out_dir / "generated_images_manifest.json", manifest)
+        return manifest
+
+    try:
+        from tools.asset_production.image_tool import Image2Generator
+    except Exception as exc:  # noqa: BLE001 - optional runtime dependency
+        manifest.update({"status": "blocked", "reason": str(exc)})
+        write_json(out_dir / "generated_images_manifest.json", manifest)
+        return manifest
+
+    generated_dir = out_dir / "generated_images"
+    generator = Image2Generator()
+    records = []
+    for task in tasks:
+        task_id = str(task.get("task_id") or task.get("asset_id") or "art")
+        try:
+            result = generator._run(
+                _image_generation_prompt(task),
+                output_dir=str(generated_dir),
+                output_format="png",
+            )
+            ok = "已保存" in result or "saved" in result.lower()
+            records.append({"task_id": task_id, "status": "success" if ok else "failed", "result": result})
+        except Exception as exc:  # noqa: BLE001 - external image API boundary
+            records.append({"task_id": task_id, "status": "failed", "result": str(exc)})
+
+    generated_count = sum(1 for item in records if item["status"] == "success")
+    manifest.update(
+        {
+            "status": "success" if generated_count == len(tasks) else "partial" if generated_count else "failed",
+            "generated_count": generated_count,
+            "records": records,
+        }
+    )
+    write_json(out_dir / "generated_images_manifest.json", manifest)
+    return manifest
+
+
 def _validate_actual_development_plan(plan: dict[str, Any]) -> list[dict[str, Any]]:
     blockers: list[dict[str, Any]] = []
     tasks = plan.get("tasks")
@@ -3181,6 +3261,7 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         },
     )
     write_skill_guidance(out_dir, "imagegen")
+    _write_generated_images_manifest(out_dir, art_tasks, stage=9)
     return {
         "content_exists": bool(links) or bool(program_tasks),
         "alignment_count": len(links),
@@ -4040,6 +4121,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     )
     write_json(out_dir / "produced_assets_manifest.json", result)
     write_skill_guidance(out_dir, "imagegen")
+    _write_generated_images_manifest(out_dir, tasks, stage=11)
     return {
         "content_exists": bool(produced),
         "produced_asset_count": len(produced),

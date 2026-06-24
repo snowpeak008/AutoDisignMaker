@@ -8,6 +8,38 @@
 ## 上次会话摘要
 
 **日期**：2026-06-24
+**ID**：2026-06-24-006
+**摘要**：修复 Codex sandbox、图片配置与 pytest basetemp 清理
+
+**完成内容**：
+- ✅ Step02 Codex sandbox 从非法 `none` 改为 `read-only`，兼容 Codex CLI 0.141.0
+- ✅ `image2` / `image` / `llm` API 配置支持继承回退，旧图片工具改用 `core.config.loader`
+- ✅ Stage09/Stage11 输出 `generated_images_manifest.json`，真实图片生成改为显式环境变量开启
+- ✅ pytest 旧 basetemp 自动清理，只删除超过 7 天的严格时间戳目录
+- ✅ `.gitignore` 补充本地报告类文档忽略规则，继续避免 bug 文档和临时计划入库
+- ✅ 新增/更新回归测试覆盖 sandbox、图片配置、manifest 和 pytest 清理
+
+**自查修复**：
+- ✅ 修正只有 `[llm]` 配置时图片模型误继承文本模型的边界，默认使用 `gpt-image-2`
+- ✅ 修复旧 `Image2Generator` 导入不存在的 `tools.config_loader`
+- ✅ 确认 `settings/api_config.toml` 仅本地读取，不输出、不提交
+
+**验证**：
+- ✅ `python -m pytest -q`：97 passed
+- ✅ black / flake8 / mypy / `py_compile`：通过
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production`：通过
+- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+
+**后续关注**：
+- [ ] 需要实图验收时设置 `AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION=1`
+- [ ] 提交前确认 bug 文档、`plan/` 临时执行目录和 `settings/api_config.toml` 不进入暂存区
+- [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-24
 **ID**：2026-06-24-005
 **摘要**：修复 pytest 临时目录与 draft 生命周期管理
 
@@ -38,8 +70,6 @@
 - [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-24
 **ID**：2026-06-24-004

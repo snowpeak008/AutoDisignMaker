@@ -1,7 +1,27 @@
 from __future__ import annotations
 
-from datetime import datetime
+import re
+import shutil
+from datetime import datetime, timedelta
 from pathlib import Path
+
+
+PYTEST_BASETEMP_PATTERN = re.compile(r"^pytest_\d{8}_\d{6}_\d{6}$")
+
+
+def _cleanup_old_pytest_dirs(sandbox: Path, max_age_days: int = 7) -> None:
+    """Remove old timestamped pytest basetemp directories from sandbox."""
+    if not sandbox.exists():
+        return
+    cutoff = datetime.now() - timedelta(days=max_age_days)
+    for path in sandbox.iterdir():
+        if not path.is_dir() or not PYTEST_BASETEMP_PATTERN.fullmatch(path.name):
+            continue
+        try:
+            if datetime.fromtimestamp(path.stat().st_mtime) < cutoff:
+                shutil.rmtree(path, ignore_errors=True)
+        except Exception:
+            continue
 
 
 def pytest_configure(config) -> None:
@@ -22,7 +42,11 @@ def pytest_configure(config) -> None:
     here = Path(__file__).resolve().parent
     for candidate in (here, *here.parents):
         if (candidate / ".project_root").exists():
-            config.option.basetemp = str(candidate / "sandbox" / f"pytest_{ts}")
+            sandbox = candidate / "sandbox"
+            _cleanup_old_pytest_dirs(sandbox)
+            config.option.basetemp = str(sandbox / f"pytest_{ts}")
             return
 
-    config.option.basetemp = str(here / "sandbox" / f"pytest_{ts}")
+    sandbox = here / "sandbox"
+    _cleanup_old_pytest_dirs(sandbox)
+    config.option.basetemp = str(sandbox / f"pytest_{ts}")

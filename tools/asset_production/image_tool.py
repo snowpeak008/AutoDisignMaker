@@ -4,7 +4,7 @@ import time
 import base64
 import requests
 from core.utils.base_tool import BaseTool
-from tools.config_loader import get_api_config, openai_endpoint
+from core.config.loader import get_api_config, openai_endpoint
 
 
 class Image2Generator(BaseTool):

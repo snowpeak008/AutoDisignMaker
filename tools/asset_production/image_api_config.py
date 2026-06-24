@@ -2,7 +2,7 @@
 """Image API provider configuration helpers.
 
 The project may use several image providers, but only the active provider is
-called by tests. Secrets are read from api_config.md or environment variables
+called by tests. Secrets are read from api_config.toml or environment variables
 and are never included in reports without masking.
 """
 
@@ -47,19 +47,41 @@ def _providers_root() -> dict[str, Any]:
     return providers if isinstance(providers, dict) else document
 
 
-def _legacy_image2_as_relay(providers: dict[str, Any]) -> dict[str, Any]:
+def _legacy_image_config_as_relay(providers: dict[str, Any]) -> dict[str, Any]:
+    inherit_from = "image2"
     image2 = providers.get("image2")
     if not isinstance(image2, dict):
+        inherit_from = "image"
+        image2 = providers.get("image")
+    if not isinstance(image2, dict):
+        inherit_from = "llm"
+        image2 = providers.get("llm")
+    if not isinstance(image2, dict):
         return {}
+    if inherit_from == "llm":
+        image_model = (
+            image2.get("image_model")
+            or image2.get("default_image_model")
+            or "gpt-image-2"
+        )
+        response_model = image2.get("response_model") or image2.get("model") or "gpt-5.5"
+    else:
+        image_model = (
+            image2.get("image_model")
+            or image2.get("default_model")
+            or image2.get("model")
+            or "gpt-image-2"
+        )
+        response_model = image2.get("response_model") or "gpt-5.5"
     return {
         "active": "relay",
         "relay": {
             "provider": "openai_responses",
             "mode": "responses_image_tool",
-            "inherit_from": "image2",
+            "inherit_from": inherit_from,
             "endpoint": "responses",
-            "image_model": image2.get("default_model", "gpt-image-2"),
-            "response_model": image2.get("response_model", "gpt-5.5"),
+            "image_model": image_model,
+            "response_model": response_model,
             "enabled": True,
         },
     }
@@ -70,7 +92,7 @@ def load_image_api_configs() -> dict[str, Any]:
     configured = providers.get("image_apis")
     if isinstance(configured, dict):
         return configured
-    return _legacy_image2_as_relay(providers)
+    return _legacy_image_config_as_relay(providers)
 
 
 def load_image_api_settings(provider_name: str | None = None) -> ImageApiSettings:
@@ -84,11 +106,15 @@ def load_image_api_settings(provider_name: str | None = None) -> ImageApiSetting
     cfg = dict(provider_cfg)
     inherit_name = cfg.get("inherit_from")
     if inherit_name:
+        merged: dict[str, Any] = {}
+        llm_cfg = providers.get("llm")
+        if inherit_name != "llm" and isinstance(llm_cfg, dict):
+            merged.update(llm_cfg)
         inherited = providers.get(str(inherit_name))
         if isinstance(inherited, dict):
-            merged = dict(inherited)
-            merged.update(cfg)
-            cfg = merged
+            merged.update(inherited)
+        merged.update(cfg)
+        cfg = merged
 
     env_prefix = f"IMAGE_{active.upper()}"
     api_key_env = str(cfg.get("api_key_env") or f"{env_prefix}_API_KEY")

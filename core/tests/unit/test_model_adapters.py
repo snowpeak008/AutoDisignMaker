@@ -55,14 +55,14 @@ def test_codex_exec_uses_task_sandbox(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr("core.adapters.codex.executor.subprocess.run", fake_run)
 
     result = run_codex_exec(
-        ModelTask(task_id="read_stdout", prompt="return json", sandbox="none"),
+        ModelTask(task_id="read_stdout", prompt="return json", sandbox="read-only"),
         tmp_path,
     )
 
     args = captured["args"]
     assert result.status == "success"
     assert isinstance(args, list)
-    assert args[args.index("--sandbox") + 1] == "none"
+    assert args[args.index("--sandbox") + 1] == "read-only"
 
 
 def test_step02_supplement_uses_stdout_only_codex_sandbox(tmp_path) -> None:
@@ -93,7 +93,7 @@ def test_step02_supplement_uses_stdout_only_codex_sandbox(tmp_path) -> None:
 
     task = captured["task"]
     assert isinstance(task, ModelTask)
-    assert task.sandbox == "none"
+    assert task.sandbox == "read-only"
     assert result.fallback_used is False
 
 

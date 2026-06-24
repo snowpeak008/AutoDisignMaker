@@ -1,5 +1,35 @@
 [
   {
+    "id": "2026-06-24-006",
+    "date": "2026-06-24",
+    "summary": "修复 Codex sandbox、图片配置与 pytest basetemp 清理",
+    "changed_files": [
+      ".gitignore",
+      "conftest.py",
+      "core/config/loader.py",
+      "core/engines/generation.py",
+      "core/tests/unit/test_config_loader.py",
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "core/tests/unit/test_model_adapters.py",
+      "core/tests/unit/test_pytest_config.py",
+      "pipeline/step_02_design_review_freeze/supplement.py",
+      "tools/asset_production/image_api_config.py",
+      "tools/asset_production/image_tool.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-24-006.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "core/tests/unit/test_pytest_config.py",
+      "knowledge/ai_memory/session_history/2026-06-24-006.md"
+    ],
+    "next_tasks": [
+      "需要实图验收时设置 AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION=1",
+      "提交前确认 bug 文档、plan 临时执行目录和 settings/api_config.toml 不进入暂存区",
+      "CC-Panes 共享记忆池本次因环境变量缺失未写入"
+    ]
+  },
+  {
     "id": "2026-06-24-005",
     "date": "2026-06-24",
     "summary": "修复 pytest 临时目录与 draft 生命周期管理",

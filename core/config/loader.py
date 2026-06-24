@@ -148,9 +148,17 @@ def get_config(key_path: str, default: Any = None) -> Any:
 _API_CONFIG_PATH = SETTINGS_DIR / "api_config.toml"
 
 
+def _load_config_document() -> dict[str, Any]:
+    return _read_toml(_API_CONFIG_PATH)
+
+
 def normalize_openai_base_url(base_url: str) -> str:
     base = str(base_url).strip().rstrip("/")
     return base if not base or base.endswith("/v1") else f"{base}/v1"
+
+
+def openai_endpoint(base_url: str, endpoint: str) -> str:
+    return f"{normalize_openai_base_url(base_url).rstrip('/')}/{endpoint.lstrip('/')}"
 
 
 @dataclass
@@ -181,9 +189,19 @@ class OpenAICompatibleCaller:
 
 
 def get_api_config(provider_name: str = "llm") -> dict[str, Any]:
+    document = _load_config_document()
     cfg: dict[str, Any] = {}
-    if _API_CONFIG_PATH.exists():
-        cfg = _read_toml(_API_CONFIG_PATH).get(provider_name, {})
+    if isinstance(document.get(provider_name), dict):
+        cfg = dict(document.get(provider_name, {}))
+    if provider_name == "image2" and isinstance(document.get("image"), dict):
+        image_cfg = dict(document.get("image", {}))
+        image_cfg.update(cfg)
+        cfg = image_cfg
+    if provider_name != "llm" and isinstance(document.get("llm"), dict):
+        llm_cfg = document.get("llm", {})
+        for key in ("api_key", "base_url", "provider"):
+            if not cfg.get(key) and llm_cfg.get(key):
+                cfg[key] = llm_cfg[key]
 
     env_prefix = provider_name.upper()
     api_key = cfg.get("api_key") or os.getenv(f"{env_prefix}_API_KEY") or os.getenv("OPENAI_API_KEY", "")
