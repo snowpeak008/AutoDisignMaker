@@ -1,10 +1,17 @@
 from __future__ import annotations
 
+import os
 import re
 import shutil
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+PYTHON_PYCACHE_PREFIX = PROJECT_ROOT / ".cache" / "pycache"
+os.environ.setdefault("PYTHONPYCACHEPREFIX", str(PYTHON_PYCACHE_PREFIX))
+sys.pycache_prefix = os.environ["PYTHONPYCACHEPREFIX"]
 
 PYTEST_BASETEMP_PATTERN = re.compile(r"^pytest_\d{8}_\d{6}_\d{6}$")
 

@@ -21,6 +21,7 @@ from core.artifact.validator import run_artifact_validators
 from core.save.manager import (
     ensure_current_save,
     prune_old_drafts,
+    prune_sibling_draft_outputs,
     reset_current_draft_outputs,
     retry_sync,
 )
@@ -54,6 +55,7 @@ def run_range(
             return 1
     if from_step == 0:
         reset_current_draft_outputs(PROJECT_ROOT, stage_from=0)
+        prune_sibling_draft_outputs(PROJECT_ROOT, stage_from=0)
     run_id = run_id or new_run_id()
     clear_stale_stop_request(PROJECT_ROOT, run_id)
     write_run_state(PROJECT_ROOT, status="running", run_id=run_id,

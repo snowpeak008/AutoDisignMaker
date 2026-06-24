@@ -6,10 +6,15 @@ legacy GUI remains available at the project root as `gui_app.py` if copied later
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
-PROJECT_ROOT_FOR_BOOTSTRAP = Path(__file__).resolve().parents[1]
+PROJECT_ROOT_FOR_BOOTSTRAP = Path(__file__).resolve().parents[2]
+PYTHON_PYCACHE_PREFIX = PROJECT_ROOT_FOR_BOOTSTRAP / ".cache" / "pycache"
+os.environ.setdefault("PYTHONPYCACHEPREFIX", str(PYTHON_PYCACHE_PREFIX))
+sys.pycache_prefix = os.environ["PYTHONPYCACHEPREFIX"]
+
 if str(PROJECT_ROOT_FOR_BOOTSTRAP) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT_FOR_BOOTSTRAP))
 

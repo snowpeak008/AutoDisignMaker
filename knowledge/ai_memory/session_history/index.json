@@ -1,5 +1,47 @@
 [
   {
+    "id": "2026-06-25-001",
+    "date": "2026-06-25",
+    "summary": "集中缓存目录与 Step05 绑定质量优化",
+    "changed_files": [
+      ".gitignore",
+      "conftest.py",
+      "core/__init__.py",
+      "core/engines/generation.py",
+      "core/main.py",
+      "core/save/manager.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/tests/unit/test_pytest_config.py",
+      "core/tests/unit/test_step05_optimization.py",
+      "core/ui/gui_app.py",
+      "core/ui/workbench.py",
+      "gui_app.py",
+      "mypy.ini",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_02_design_review_freeze/supplement.py",
+      "pipeline/step_03_program_requirements/binding.py",
+      "pytest.ini",
+      "sitecustomize.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-25-001.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "mypy.ini",
+      "sitecustomize.py",
+      "pipeline/step_03_program_requirements/binding.py",
+      "core/tests/unit/test_step05_optimization.py",
+      "knowledge/ai_memory/session_history/2026-06-25-001.md"
+    ],
+    "next_tasks": [
+      "直接对 core/engines/generation.py 跑全量 mypy 仍有既有历史弱类型问题，后续可独立治理",
+      "后续 Python 工具运行继续保持 PYTHONPYCACHEPREFIX=.cache/pycache",
+      "提交前确认 bug 文档、plan 临时执行目录和 settings/api_config.toml 不进入暂存区",
+      "CC-Panes 共享记忆池本次因环境变量缺失未写入"
+    ]
+  },
+  {
     "id": "2026-06-24-006",
     "date": "2026-06-24",
     "summary": "修复 Codex sandbox、图片配置与 pytest basetemp 清理",

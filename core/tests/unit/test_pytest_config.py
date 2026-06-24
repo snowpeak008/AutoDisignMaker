@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import subprocess
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -45,3 +46,55 @@ def test_cleanup_old_pytest_dirs_only_removes_timestamped_dirs(tmp_path: Path) -
     assert cache_dir.exists()
     assert tmp_dir.exists()
     assert other_dir.exists()
+
+
+def test_project_cache_configuration_uses_unified_cache_dir() -> None:
+    assert "cache_dir = .cache/pytest" in (PROJECT_ROOT / "pytest.ini").read_text(
+        encoding="utf-8"
+    )
+    assert "cache_dir = .cache/mypy" in (PROJECT_ROOT / "mypy.ini").read_text(
+        encoding="utf-8"
+    )
+
+
+def test_core_import_configures_pycache_for_python_command() -> None:
+    expected = os.environ.get("PYTHONPYCACHEPREFIX") or str(
+        PROJECT_ROOT / ".cache" / "pycache"
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            (
+                "import os, sys, core.paths; "
+                "print(sys.pycache_prefix); "
+                "print(os.environ.get('PYTHONPYCACHEPREFIX', ''))"
+            ),
+        ],
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    lines = result.stdout.strip().splitlines()
+    assert lines == [expected, expected]
+
+
+def test_sitecustomize_configures_project_pycache_prefix(monkeypatch) -> None:
+    previous_prefix = sys.pycache_prefix
+    monkeypatch.delenv("PYTHONPYCACHEPREFIX", raising=False)
+    try:
+        spec = importlib.util.spec_from_file_location(
+            "project_sitecustomize_test", PROJECT_ROOT / "sitecustomize.py"
+        )
+        assert spec is not None
+        assert spec.loader is not None
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        expected = PROJECT_ROOT / ".cache" / "pycache"
+        assert os.environ["PYTHONPYCACHEPREFIX"] == str(expected)
+        assert sys.pycache_prefix == str(expected)
+    finally:
+        sys.pycache_prefix = previous_prefix

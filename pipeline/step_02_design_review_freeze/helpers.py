@@ -5,6 +5,16 @@ from typing import Any
 from core.io import now_iso
 
 
+SUPPLEMENT_PRIORITY = [
+    "system",
+    "operation",
+    "loop",
+    "ability",
+    "numeric_curve",
+    "content",
+]
+
+
 def _text(value: Any) -> str:
     return str(value or "").strip()
 
@@ -156,20 +166,85 @@ def extract_l5_entities(parsed: dict[str, Any]) -> list[dict[str, Any]]:
     return entities or _synthetic_entities(parsed)
 
 
+def _infer_kind_from_node_id(node_id: str) -> str:
+    """Infer a likely entity kind from a design node id."""
+    text = _text(node_id).lower()
+    if any(token in text for token in ("system", "build", "runtime", "系统")):
+        return "system"
+    if any(token in text for token in ("operation", "input", "action", "操作")):
+        return "operation"
+    if any(token in text for token in ("loop", "cycle", "循环")):
+        return "loop"
+    if any(token in text for token in ("ability", "skill", "attack", "技能", "攻击")):
+        return "ability"
+    if any(token in text for token in ("curve", "numeric", "balance", "数值")):
+        return "numeric_curve"
+    if any(token in text for token in ("content", "room", "level", "内容", "房间")):
+        return "content"
+    return "unknown"
+
+
+def _prioritize_unmapped_nodes(
+    unmapped_nodes: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Sort unmapped nodes by downstream impact for supplement prompts/reports."""
+
+    def priority_score(node: dict[str, Any]) -> tuple[int, str]:
+        expected_kind = _infer_kind_from_node_id(_text(node.get("node_id")))
+        try:
+            rank = SUPPLEMENT_PRIORITY.index(expected_kind)
+        except ValueError:
+            rank = len(SUPPLEMENT_PRIORITY)
+        return rank, _text(node.get("node_id"))
+
+    enriched = []
+    for node in unmapped_nodes:
+        item = dict(node)
+        item.setdefault(
+            "expected_kind", _infer_kind_from_node_id(_text(item.get("node_id")))
+        )
+        enriched.append(item)
+    return sorted(enriched, key=priority_score)
+
+
+def supplement_trigger_reason(
+    entities: list[dict[str, Any]],
+    entity_coverage_rate: float,
+    adapter_name: str,
+) -> tuple[bool, str]:
+    """Return whether Step 02 should request AI L5 entity supplement and why."""
+    if not adapter_name or adapter_name == "none":
+        return False, "adapter disabled"
+    if any(_text(entity.get("status")) == "approximate" for entity in entities):
+        return True, "approximate entities present"
+    real_l5 = [
+        entity for entity in entities if not isinstance(entity.get("inference"), dict)
+    ]
+    if entity_coverage_rate < 0.50:
+        return True, f"coverage_rate={entity_coverage_rate:.2f} < 0.50"
+    if entity_coverage_rate < 0.60 and len(real_l5) < 10:
+        return True, (
+            f"coverage_rate={entity_coverage_rate:.2f} < 0.60 "
+            f"and real_l5={len(real_l5)} < 10"
+        )
+    system_count = sum(
+        1 for entity in entities if _text(entity.get("kind")) == "system"
+    )
+    if system_count < 5:
+        return True, f"system_entities={system_count} < 5"
+    return False, "coverage sufficient"
+
+
 def should_supplement(
     entities: list[dict[str, Any]],
     entity_coverage_rate: float,
     adapter_name: str,
 ) -> bool:
     """Return True when Step 02 should request AI L5 entity supplement."""
-    if not adapter_name or adapter_name == "none":
-        return False
-    if any(_text(entity.get("status")) == "approximate" for entity in entities):
-        return True
-    real_l5 = [
-        entity for entity in entities if not isinstance(entity.get("inference"), dict)
-    ]
-    return entity_coverage_rate < 0.60 and len(real_l5) < 10
+    should_run, _reason = supplement_trigger_reason(
+        entities, entity_coverage_rate, adapter_name
+    )
+    return should_run
 
 
 def _expected_node_count(parsed: dict[str, Any], entities: list[dict[str, Any]]) -> int:
@@ -219,13 +294,15 @@ class EntityValidator:
         )
         supplement_meta: dict[str, Any] | None = None
         adapter_name = _text(getattr(supplement_adapter, "adapter_name", ""))
-        if supplement_adapter and should_supplement(
+        should_run, trigger_reason = supplement_trigger_reason(
             entities, pre_coverage_rate, adapter_name
-        ):
+        )
+        if supplement_adapter and should_run:
             result = supplement_adapter.supplement(entities, parsed)
             entities = result.entities
             supplement_meta = {
                 "triggered": True,
+                "trigger_reason": trigger_reason,
                 "mode": result.mode,
                 "entities_added": result.added_count,
                 "entities_completed": result.completed_count,
@@ -239,6 +316,7 @@ class EntityValidator:
         elif supplement_adapter:
             supplement_meta = {
                 "triggered": False,
+                "trigger_reason": trigger_reason,
                 "mode": "skipped",
                 "entities_added": 0,
                 "entities_completed": 0,
@@ -252,13 +330,15 @@ class EntityValidator:
         )
         expected_total = _expected_node_count(parsed, entities)
         missing_count = max(expected_total - len(concrete_nodes), 0)
-        missing_entities = [
-            {
-                "node_id": f"UNMAPPED-NODE-{index:03d}",
-                "reason": "No L5 entity mapped to this expected design node.",
-            }
-            for index in range(1, missing_count + 1)
-        ]
+        missing_entities = _prioritize_unmapped_nodes(
+            [
+                {
+                    "node_id": f"UNMAPPED-NODE-{index:03d}",
+                    "reason": "No L5 entity mapped to this expected design node.",
+                }
+                for index in range(1, missing_count + 1)
+            ]
+        )
         invalid_entities = [
             {
                 "entity_id": item["entity_id"],

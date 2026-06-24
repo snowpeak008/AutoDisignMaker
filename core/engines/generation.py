@@ -53,6 +53,7 @@ from pipeline.step_03_program_requirements.helpers import (
     SystemBinder,
     build_requirement_quality_report,
 )
+from pipeline.step_03_program_requirements.binding import RequirementBindingEngine
 from pipeline.step_04_art_requirements.helpers import (
     EntityToAssetConverter,
     MarketResearchSkill,
@@ -1165,6 +1166,91 @@ def _validate_graphs(
     return blocking
 
 
+def _find_related_entities(
+    system_entity: dict[str, Any],
+    all_entities: list[dict[str, Any]],
+) -> list[str]:
+    """Return entity ids related to a system entity by node/dependency links."""
+    system_entity_id = str(system_entity.get("entity_id") or "")
+    system_node = str(system_entity.get("node_id") or "")
+    system_deps = {str(item) for item in system_entity.get("dependencies", []) if item}
+    related: list[str] = []
+    for entity in all_entities:
+        entity_id = str(entity.get("entity_id") or "")
+        if not entity_id or entity_id == system_entity_id:
+            continue
+        entity_node = str(entity.get("node_id") or "")
+        entity_deps = {str(item) for item in entity.get("dependencies", []) if item}
+        if system_node and (system_node == entity_node or system_node in entity_deps):
+            related.append(entity_id)
+            continue
+        if entity_node and entity_node in system_deps:
+            related.append(entity_id)
+            continue
+        if system_deps and entity_deps and system_deps & entity_deps:
+            related.append(entity_id)
+    return sorted(set(related))
+
+
+def _extract_systems_from_entities(
+    entities: list[dict[str, Any]],
+    system_graph: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    """Build downstream system definitions from L5 entities and graph nodes."""
+    systems: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for entity in entities:
+        if str(entity.get("kind") or "") != "system":
+            continue
+        system_id = str(entity.get("entity_id") or entity.get("node_id") or "")
+        if not system_id or system_id in seen:
+            continue
+        seen.add(system_id)
+        dependencies = [str(item) for item in entity.get("dependencies", []) if item]
+        systems.append(
+            {
+                "system_id": system_id,
+                "system_name": str(entity.get("label") or system_id),
+                "node_id": str(entity.get("node_id") or ""),
+                "source": str(entity.get("source") or ""),
+                "dependencies": dependencies,
+                "related_entities": _find_related_entities(entity, entities),
+                "source_entity_id": str(entity.get("entity_id") or ""),
+                "definition_source": "entity",
+            }
+        )
+
+    graph_nodes = []
+    if isinstance(system_graph, dict):
+        graph_nodes = [
+            node for node in system_graph.get("nodes", []) if isinstance(node, dict)
+        ]
+    for node in graph_nodes:
+        node_id = str(node.get("id") or "")
+        if not node_id or node_id in seen:
+            continue
+        seen.add(node_id)
+        graph_entity = {
+            "entity_id": node_id,
+            "node_id": node_id,
+            "dependencies": [],
+        }
+        systems.append(
+            {
+                "system_id": node_id,
+                "system_name": str(node.get("name") or node_id),
+                "node_id": node_id,
+                "source": str(node.get("source") or ""),
+                "dependencies": [],
+                "related_entities": _find_related_entities(graph_entity, entities),
+                "node_type": str(node.get("type") or ""),
+                "implementation_phase": str(node.get("implementation_phase") or ""),
+                "definition_source": "system_graph",
+            }
+        )
+    return systems
+
+
 def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     phase_map = _phase_map(parsed)
     scope_catalog = _scope_catalog(parsed, phase_map)
@@ -1197,15 +1283,26 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             f"- {item['label']} -> {item['implementation_phase']} ({item['source']})"
         )
     frozen_lines.append("")
+    contract_entities = list(entity_report.get("entities", []))
+    contract_systems = _extract_systems_from_entities(contract_entities, system_graph)
     freeze_contract = {
         "schema_version": 1,
         "generated_at": now_iso(),
+        "frozen_at": now_iso(),
         "source": parsed["source"],
         "frozen": not blocking,
         "source_rule": "current_project_design_doc_or_approved_repair_patch_only",
         "untraced_system_count": 0,
         "blocking_issue_count": len(blocking),
         "allowed_repair_patch_count": 0,
+        "entities": contract_entities,
+        "systems": contract_systems,
+        "entity_stats": {
+            "total_count": len(contract_entities),
+            "coverage_rate": entity_report.get("entity_coverage_rate", 0.0),
+            "unmapped_nodes": len(entity_report.get("missing_entities", [])),
+            "system_count": len(contract_systems),
+        },
     }
     scope_decisions = {
         "schema_version": 1,
@@ -1316,6 +1413,17 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
     phase_map = _phase_map(parsed)
     system_graph, resource_graph, _ = _graph(parsed)
+    freeze_contract = read_json(stage_dir(2) / "design_freeze_contract.json", {})
+    if not isinstance(freeze_contract, dict):
+        freeze_contract = {}
+    if not freeze_contract.get("systems"):
+        freeze_contract = {
+            **freeze_contract,
+            "systems": _extract_systems_from_entities(
+                list(freeze_contract.get("entities", [])),
+                system_graph,
+            ),
+        }
     nodes_by_id = {node["id"]: node for node in system_graph["nodes"]}
     binder = SystemBinder()
     requirements = []
@@ -1340,6 +1448,9 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         )
     requirements.extend(EntityToRequirementConverter().convert(parsed))
     binder.bind(requirements, system_graph)
+    binding_stats = RequirementBindingEngine(freeze_contract).bind_missing(
+        requirements
+    )
 
     systems_md = ["# Systems", ""]
     for node in system_graph["nodes"]:
@@ -1462,6 +1573,7 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "valid": not preflight_blockers,
         "source": parsed["source"],
         "requirements": requirements,
+        "binding_stats": binding_stats,
         "system_count": len(system_graph["nodes"]),
         "resource_count": len(resource_graph["resources"]),
         "program_structure_spec": "program_structure_spec.json",

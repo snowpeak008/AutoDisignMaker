@@ -61,6 +61,33 @@ class EntitySupplementAdapter:
         self.model_adapter = model_adapter
         self.timeout_seconds = timeout_seconds
 
+    def should_supplement(self, coverage_report: dict[str, Any]) -> tuple[bool, str]:
+        """Return whether an entity coverage report should trigger this adapter."""
+        if self.adapter_name == "none":
+            return False, "adapter disabled"
+        try:
+            rate = float(coverage_report.get("entity_coverage_rate", 0.0))
+        except (TypeError, ValueError):
+            rate = 0.0
+        unmapped = len(coverage_report.get("unmapped_nodes", [])) + len(
+            coverage_report.get("missing_entities", [])
+        )
+        entities = [
+            entity
+            for entity in coverage_report.get("entities", [])
+            if isinstance(entity, dict)
+        ]
+        system_count = sum(
+            1 for entity in entities if text(entity.get("kind")) == "system"
+        )
+        if rate < 0.50:
+            return True, f"coverage_rate={rate:.2f} < 0.50"
+        if unmapped > 30:
+            return True, f"unmapped_nodes={unmapped} > 30"
+        if system_count < 5:
+            return True, f"system_entities={system_count} < 5"
+        return False, "coverage sufficient"
+
     def supplement(
         self,
         entities: list[dict[str, Any]],

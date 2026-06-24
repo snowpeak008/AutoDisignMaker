@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-24T23:42:25",
+  "generated_at": "2026-06-25T00:47:49",
   "files": {
     "core/main.py": {
-      "sha256": "5a0ed0ddb5095d934b2b11fe93c2853e15336ce45c251c63430390b480bcc986",
-      "size": 6820
+      "sha256": "11c1f6b524d74ad512b265e32bef30e18d4503f5806b20e706602daa58d61dd4",
+      "size": 6917
     },
     "core/engines/generation.py": {
-      "sha256": "7409be34a59ea58232ce59a4e5f8136edef917bd6804e6534444490299ca5a08",
-      "size": 182978
+      "sha256": "9072031f975ee449ce16ffcdb9d0839614054a4b325c778f72e6aa2c58ff079f",
+      "size": 187597
     },
     "core/registry.py": {
       "sha256": "8d58f8c100f71775c6cb579a30d88e6e680bbcb304064f73b92ed725e521551e",
@@ -98,8 +98,8 @@
       "size": 2364
     },
     "core/save/manager.py": {
-      "sha256": "6084df979e6f811cb517c89cced3f42784d0349f382677119342bd1a2fc263fb",
-      "size": 41263
+      "sha256": "adc06dc13caebb5c2a37c8eb872de7887ea8e5b75a5f20a2c3dcd8469ac5fc88",
+      "size": 42562
     },
     "core/design/engine.py": {
       "sha256": "df236f80e8190bde8416227e0aacd160715381f3db84bf9c7351768b7f0c17f2",
@@ -114,8 +114,8 @@
       "size": 18442
     },
     "core/ui/gui_app.py": {
-      "sha256": "d09ae7b4d4a3a9a482b3e1348e0fcfce83c7b99420543469fd128a9a7310d21a",
-      "size": 943
+      "sha256": "06bed15f261de209da534b8d18a1dd8267e0dc18045faf6afced1e2552f4168c",
+      "size": 1148
     },
     "core/ui/app_window.py": {
       "sha256": "5539d761d75c5330e1b2ee410cce55e7e36d01e9eef2128e4701069199c7f95d",

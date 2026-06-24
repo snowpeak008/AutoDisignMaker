@@ -546,6 +546,40 @@ def reset_current_draft_outputs(project_root: Path, stage_from: int = 0) -> None
             _safe_remove_tree(artifacts_dir, stage_dir)
 
 
+def prune_sibling_draft_outputs(project_root: Path, stage_from: int = 0) -> list[str]:
+    """Clear artifact outputs from non-current drafts linked to the active save."""
+    save_id = current_save_id(project_root)
+    if not save_id:
+        return []
+    drafts_root = _drafts_root(project_root)
+    if not drafts_root.exists():
+        return []
+
+    pruned: list[str] = []
+    for draft in sorted(drafts_root.iterdir(), key=lambda path: path.name):
+        if not draft.is_dir() or _is_current_draft(draft):
+            continue
+        if _draft_linked_save_id(draft) != save_id:
+            continue
+        artifacts_dir = draft / "outputs" / "artifacts"
+        if not artifacts_dir.exists():
+            continue
+        if stage_from <= 0:
+            if _safe_remove_tree(draft, artifacts_dir):
+                pruned.append(draft.name)
+            continue
+        removed = False
+        for stage_dir in sorted(artifacts_dir.iterdir()):
+            if not stage_dir.is_dir():
+                continue
+            match = re.fullmatch(r"stage_(\d+)", stage_dir.name)
+            if match and int(match.group(1)) >= stage_from:
+                removed = _safe_remove_tree(artifacts_dir, stage_dir) or removed
+        if removed:
+            pruned.append(draft.name)
+    return pruned
+
+
 def prune_old_drafts(project_root: Path, keep_count: int = 5) -> list[str]:
     """Delete oldest unlinked draft directories, keeping recent and linked drafts."""
     drafts_root = _drafts_root(project_root)

@@ -1,11 +1,45 @@
 # AI 会话记忆索引
 
-> 最后更新：2026-06-24
+> 最后更新：2026-06-25
 > 缓存状态：✓ 有效
 
 ---
 
 ## 上次会话摘要
+
+**日期**：2026-06-25
+**ID**：2026-06-25-001
+**摘要**：集中缓存目录与 Step05 绑定质量优化
+
+**完成内容**：
+- ✅ `.cache/pycache`、`.cache/pytest`、`.cache/mypy` 成为 Python/pytest/mypy 缓存集中目录
+- ✅ `sitecustomize.py`、`core/__init__.py`、GUI 入口和 `conftest.py` 自动设置 pycache 前缀
+- ✅ Step00 全量重跑时清理同一 active save 关联 sibling draft 的旧 `outputs/artifacts`
+- ✅ Stage02 freeze contract 写入 `entities`、`systems`、`entity_stats`，Stage03 自动补齐需求系统绑定
+- ✅ Step02 supplement 记录触发原因，并按未映射节点优先级补齐 `expected_kind`
+- ✅ 新增/扩展测试覆盖缓存集中化、draft 清理、Step03 绑定和 supplement 触发诊断
+
+**自查修复**：
+- ✅ 清理源树分散 `__pycache__`，保留 `.cache/` 作为唯一缓存落点
+- ✅ 修复 `core/ui/workbench.py` 中外部运行前同步/清理逻辑的局部结构问题
+- ✅ 确认 `plan/cache_centralization/`、`plan/step05_optimization/` 仍为本地执行材料，不进入暂存区
+
+**验证**：
+- ✅ `python -m pytest -q`：105 passed
+- ✅ 目标 Step05/L5 回归：64 passed
+- ✅ black / flake8 / 目标 mypy / `py_compile`：通过
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production`：通过
+- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+
+**后续关注**：
+- [ ] 直接对 `core/engines/generation.py` 跑全量 mypy 仍有既有历史弱类型问题，后续可独立治理
+- [ ] 后续 Python 工具运行继续保持 `PYTHONPYCACHEPREFIX=.cache/pycache`
+- [ ] 提交前确认 bug 文档、`plan/` 临时执行目录和 `settings/api_config.toml` 不进入暂存区
+- [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
+
+---
+
+## 历史会话摘要
 
 **日期**：2026-06-24
 **ID**：2026-06-24-006
@@ -36,8 +70,6 @@
 - [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-24
 **ID**：2026-06-24-005

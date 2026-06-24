@@ -186,3 +186,55 @@ def test_reset_current_draft_outputs_clears_artifacts_only(
     assert not stage.exists()
     assert checkpoint.exists()
     assert source.exists()
+
+
+def test_prune_sibling_draft_outputs_clears_same_save_artifacts_only(
+    isolated_project_root,
+    monkeypatch,
+) -> None:
+    manifest = save_manager.create_save(
+        isolated_project_root, "Demo", event="unit_test"
+    )
+    save_id = manifest["save_id"]
+    current = make_draft(
+        isolated_project_root,
+        "20260101_000000_current",
+        {"linked_save_id": save_id},
+    )
+    current_stage = current / "outputs" / "artifacts" / "stage_00"
+    current_stage.mkdir(parents=True)
+    (current_stage / "keep.json").write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(save_manager, "DRAFT_DIR", current)
+
+    linked = make_draft(
+        isolated_project_root,
+        "20260101_000001_linked",
+        {"linked_save_id": save_id},
+    )
+    linked_stage = linked / "outputs" / "artifacts" / "stage_00"
+    linked_stage.mkdir(parents=True)
+    (linked_stage / "old.json").write_text("{}", encoding="utf-8")
+    linked_source = linked / "source_artifacts" / "idea.txt"
+    linked_source.parent.mkdir(parents=True)
+    linked_source.write_text("demo", encoding="utf-8")
+
+    unrelated = make_draft(
+        isolated_project_root,
+        "20260101_000002_unrelated",
+        {"linked_save_id": "save_other"},
+    )
+    unrelated_stage = unrelated / "outputs" / "artifacts" / "stage_00"
+    unrelated_stage.mkdir(parents=True)
+    (unrelated_stage / "keep.json").write_text("{}", encoding="utf-8")
+
+    pruned = save_manager.prune_sibling_draft_outputs(
+        isolated_project_root, stage_from=0
+    )
+
+    assert pruned == ["20260101_000001_linked"]
+    assert current_stage.exists()
+    assert linked.exists()
+    assert not (linked / "outputs" / "artifacts").exists()
+    assert linked_source.exists()
+    assert (linked / "draft_meta.json").exists()
+    assert unrelated_stage.exists()

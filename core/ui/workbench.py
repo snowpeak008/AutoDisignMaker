@@ -1630,8 +1630,15 @@ def run_orchestrator_range(
     try:
         if from_step == 0:
             save_manager.reset_current_draft_outputs(root, stage_from=0)
+            save_manager.prune_sibling_draft_outputs(root, stage_from=0)
         ensure_current_save(root)
-        sync_current_save(root, event="run_range_start", stage=from_step, message=f"{from_step:02d}-{stop_step:02d}", log=log)
+        sync_current_save(
+            root,
+            event="run_range_start",
+            stage=from_step,
+            message=f"{from_step:02d}-{stop_step:02d}",
+            log=log,
+        )
     except Exception as exc:  # noqa: BLE001
         if log:
             log(f"Save sync failed before run: {exc}\n")
@@ -1648,7 +1655,12 @@ def run_orchestrator_range(
     ]
     code = run_command(cmd, root=root, log=log, stop_flag=stop_flag)
     try:
-        event = "run_range_success" if code == 0 else "run_range_stopped" if code == 130 else "run_range_failed"
+        if code == 0:
+            event = "run_range_success"
+        elif code == 130:
+            event = "run_range_stopped"
+        else:
+            event = "run_range_failed"
         sync_current_save(
             root,
             event=event,
