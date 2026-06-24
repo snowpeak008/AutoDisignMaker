@@ -148,9 +148,15 @@ def _write_draft_meta(project_root: Path, *, linked_save_id: Any = _UNSET) -> No
         "updated_at": now_iso(),
     }
     if linked_save_id is not _UNSET:
-        payload["linked_archive_path"] = str(save_dir(formal, linked_save_id)) if linked_save_id else ""
-    elif "linked_archive_path" not in payload:
-        payload["linked_archive_path"] = ""
+        payload["linked_save_id"] = str(linked_save_id) if linked_save_id else None
+        payload["linked_archive_path"] = (
+            str(save_dir(formal, linked_save_id)) if linked_save_id else ""
+        )
+    else:
+        if "linked_save_id" not in payload:
+            payload["linked_save_id"] = None
+        if "linked_archive_path" not in payload:
+            payload["linked_archive_path"] = ""
     write_json(meta_path, payload)
 
 
@@ -185,6 +191,44 @@ def _safe_resolve_under(root: Path, path: Path) -> Path:
     if path_resolved == root_resolved or root_resolved not in path_resolved.parents:
         raise RuntimeError(f"Refusing path outside expected root: {path}")
     return path_resolved
+
+
+def _safe_remove_tree(root: Path, target: Path) -> bool:
+    """Remove a directory only when the resolved target stays under root."""
+    try:
+        _safe_resolve_under(root, target)
+        shutil.rmtree(target)
+        return True
+    except Exception:
+        return False
+
+
+def _linked_save_id_from_meta(meta: dict[str, Any]) -> str | None:
+    direct = meta.get("linked_save_id")
+    if direct:
+        return str(direct)
+    archive_path = str(meta.get("linked_archive_path") or "").strip()
+    if archive_path:
+        return Path(archive_path).name
+    return None
+
+
+def _draft_linked_save_id(draft: Path) -> str | None:
+    meta = read_json(draft / "draft_meta.json", {})
+    if not isinstance(meta, dict):
+        return None
+    return _linked_save_id_from_meta(meta)
+
+
+def _drafts_root(project_root: Path) -> Path:
+    return _formal_root(project_root) / "drafts"
+
+
+def _is_current_draft(draft: Path) -> bool:
+    try:
+        return draft.resolve() == DRAFT_DIR.resolve()
+    except OSError:
+        return False
 
 
 def read_json(path: Path, default: Any) -> Any:
@@ -480,6 +524,62 @@ def initialize_active_workspace(project_root: Path) -> None:
     clear_active_workspace(project_root)
     set_current_save(project_root, None)
     _write_draft_meta(project_root, linked_save_id=None)
+
+
+def reset_current_draft_outputs(project_root: Path, stage_from: int = 0) -> None:
+    """Clear generated artifact outputs for stages at or after stage_from."""
+    root = _active_root(project_root)
+    artifacts_dir = root / "outputs" / "artifacts"
+    _safe_resolve_under(root, artifacts_dir)
+    if not artifacts_dir.exists():
+        artifacts_dir.mkdir(parents=True, exist_ok=True)
+        return
+    if stage_from <= 0:
+        shutil.rmtree(artifacts_dir)
+        artifacts_dir.mkdir(parents=True, exist_ok=True)
+        return
+    for stage_dir in sorted(artifacts_dir.iterdir()):
+        if not stage_dir.is_dir():
+            continue
+        match = re.fullmatch(r"stage_(\d+)", stage_dir.name)
+        if match and int(match.group(1)) >= stage_from:
+            _safe_remove_tree(artifacts_dir, stage_dir)
+
+
+def prune_old_drafts(project_root: Path, keep_count: int = 5) -> list[str]:
+    """Delete oldest unlinked draft directories, keeping recent and linked drafts."""
+    drafts_root = _drafts_root(project_root)
+    if not drafts_root.exists():
+        return []
+    keep_count = max(0, int(keep_count))
+    drafts = sorted(
+        (path for path in drafts_root.iterdir() if path.is_dir()),
+        key=lambda path: path.name,
+    )
+    candidates = [draft for draft in drafts if not _is_current_draft(draft)]
+    unlinked = [draft for draft in candidates if _draft_linked_save_id(draft) is None]
+    to_delete = unlinked[: max(0, len(unlinked) - keep_count)]
+
+    deleted: list[str] = []
+    for draft in to_delete:
+        if _safe_remove_tree(drafts_root, draft):
+            deleted.append(draft.name)
+    return deleted
+
+
+def _prune_drafts_linked_to(project_root: Path, save_id: str) -> list[str]:
+    drafts_root = _drafts_root(project_root)
+    if not drafts_root.exists():
+        return []
+    deleted: list[str] = []
+    for draft in sorted(drafts_root.iterdir(), key=lambda path: path.name):
+        if not draft.is_dir() or _is_current_draft(draft):
+            continue
+        if _draft_linked_save_id(draft) != save_id:
+            continue
+        if _safe_remove_tree(drafts_root, draft):
+            deleted.append(draft.name)
+    return deleted
 
 
 def _sha256(path: Path) -> str:
@@ -1057,3 +1157,4 @@ def delete_save(project_root: Path, save_id: str) -> None:
     if data.get("current_save_id") == save_id:
         data["current_save_id"] = None
     save_index(root, data)
+    _prune_drafts_linked_to(root, save_id)

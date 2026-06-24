@@ -8,6 +8,40 @@
 ## 上次会话摘要
 
 **日期**：2026-06-24
+**ID**：2026-06-24-005
+**摘要**：修复 pytest 临时目录与 draft 生命周期管理
+
+**完成内容**：
+- ✅ pytest 默认 basetemp 改为 `sandbox/pytest_<timestamp>`，cache 改为 `sandbox/pytest_cache`，避免 Windows Temp / `.pytest_cache` 权限问题
+- ✅ 默认 pytest 收集范围限定为 `core/tests`，避免开发工具脚本误收集
+- ✅ Hades 质量测试删除冗余断言，并提取模板节点数常量；任务标题长度 magic number 提取为常量
+- ✅ 新增 draft 生命周期策略：启动时保留最近未关联 drafts，删除存档时清关联 draft，step0 重跑清当前 artifacts
+- ✅ `draft_meta.json` 写入 `linked_save_id`，同时兼容旧 `linked_archive_path`
+- ✅ `.gitignore` 防止 pytest 遗留缓存与临时 plan 入库
+
+**自查修复**：
+- ✅ 修复 `conftest.py` docstring 中 Windows 路径说明触发的 `W605 invalid escape sequence`
+- ✅ 清理 `core/main.py`、`core/ui/workbench.py` 中 flake8 暴露的未使用 import/变量
+- ✅ 历史 `drafts/` 一次性删除未执行，需用户明确确认
+
+**验证**：
+- ✅ `python -m pytest -q`：90 passed
+- ✅ `python -m pytest core\tests\unit\test_draft_archive_paths.py core\tests\unit\test_core_paths.py -q`：11 passed
+- ✅ `python -m pytest core\tests\unit\test_core_paths.py -q --basetemp=sandbox\pytest_tmp_explicit`：4 passed
+- ✅ flake8 / mypy / `py_compile -W error::SyntaxWarning`：通过
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py`：通过
+- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+
+**后续关注**：
+- [ ] 历史 `drafts/` 清理属于不可逆用户数据删除，执行前必须再次确认
+- [ ] 提交前确认 bug 文档和 `plan/` 临时执行目录不进入暂存区
+- [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-24
 **ID**：2026-06-24-004
 **摘要**：执行 `hades_quality_optimization`：Hades 质量优化与标准化沉淀
 
@@ -34,8 +68,6 @@
 - [ ] 提交前确认 `plan/hades_quality_optimization/` 和根目录临时评分报告不进入暂存区
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-24
 **ID**：2026-06-24-003

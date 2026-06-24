@@ -37,6 +37,8 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+.pytest_cache_tmp/
+.pytest_tmp/
 
 # Virtual environments
 venv/
@@ -80,6 +82,7 @@ bug优化文档*.md
 plan/l5_entity_ai_supplement/
 plan/template_l5_expansion/
 plan/hades_quality_optimization/
+plan/pytest_basetemp_fix/
 
 # Config (user-specific)
 config/project_settings.json

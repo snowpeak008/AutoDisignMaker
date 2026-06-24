@@ -15,12 +15,15 @@ if str(PROJECT_ROOT_FOR_BOOTSTRAP) not in sys.path:
 
 
 def main() -> int:
+    from core.paths import PROJECT_ROOT
     from core.config.loader import load_config
     from core.config.integrity import validate_data_integrity
+    from core.save.manager import prune_old_drafts
     from core.ui.main_window import MainWindow
 
     load_config()
     validate_data_integrity()
+    prune_old_drafts(PROJECT_ROOT, keep_count=5)
     app = MainWindow()
     app.mainloop()
     return 0

@@ -8,7 +8,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
 
 from core.paths import PROJECT_ROOT
 from core.context import StageContext
@@ -19,7 +18,12 @@ from core.artifact.graph import topological_step_order, emit_dependency_graph
 from core.artifact.preflight import preflight_stage_contract
 from core.artifact.reviewer import run_review_pipeline
 from core.artifact.validator import run_artifact_validators
-from core.save.manager import ensure_current_save, retry_sync
+from core.save.manager import (
+    ensure_current_save,
+    prune_old_drafts,
+    reset_current_draft_outputs,
+    retry_sync,
+)
 from core.runtime.control import (
     PipelineStopRequested,
     new_run_id,
@@ -48,6 +52,8 @@ def run_range(
         except Exception as exc:
             print(f"Preflight blocked: {exc}", file=sys.stderr)
             return 1
+    if from_step == 0:
+        reset_current_draft_outputs(PROJECT_ROOT, stage_from=0)
     run_id = run_id or new_run_id()
     clear_stale_stop_request(PROJECT_ROOT, run_id)
     write_run_state(PROJECT_ROOT, status="running", run_id=run_id,
@@ -84,7 +90,6 @@ def run_range(
                        log=lambda t: print(t, end=""))
             print(json.dumps({"step": step_num, "status": result.status}))
             if stop_requested(PROJECT_ROOT):
-                next_step = steps[index + 1] if index + 1 < len(steps) else None
                 mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="after_stage")
                 return 130
         except PipelineStopRequested as exc:
@@ -112,6 +117,7 @@ def run_range(
 def main(argv: list[str] | None = None) -> int:
     load_config()
     validate_data_integrity()
+    prune_old_drafts(PROJECT_ROOT, keep_count=5)
     parser = argparse.ArgumentParser(description="AutoDesignMaker")
     parser.add_argument("--from-step", type=int, default=0)
     parser.add_argument("--stop-step", type=int, default=15)

@@ -11,7 +11,6 @@ import shutil
 import subprocess
 import sys
 import time
-import zipfile
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -1629,6 +1628,8 @@ def run_orchestrator_range(
                     log(f"- {blocker.get('message')} 修复：{blocker.get('fix')}\n")
         return 1
     try:
+        if from_step == 0:
+            save_manager.reset_current_draft_outputs(root, stage_from=0)
         ensure_current_save(root)
         sync_current_save(root, event="run_range_start", stage=from_step, message=f"{from_step:02d}-{stop_step:02d}", log=log)
     except Exception as exc:  # noqa: BLE001

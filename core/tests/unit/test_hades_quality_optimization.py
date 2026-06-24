@@ -10,6 +10,7 @@ from core.io import write_json
 TEMPLATE_PATH = Path(
     "knowledge/design_data/project_templates/builtin_indie_hades_l5_partial.json"
 )
+TOTAL_HADES_TEMPLATE_NODES = 103
 
 
 def test_hades_partial_template_exceeds_phase2_entity_coverage_target() -> None:
@@ -20,8 +21,7 @@ def test_hades_partial_template_exceeds_phase2_entity_coverage_target() -> None:
         if node.get("designEntities")
     }
 
-    assert len(covered) >= 80
-    assert len(covered) == 103
+    assert len(covered) == TOTAL_HADES_TEMPLATE_NODES
     for entities in covered.values():
         for entity in entities:
             assert entity.get("supplement_basis"), entity["id"]

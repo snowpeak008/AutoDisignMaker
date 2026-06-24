@@ -1,5 +1,35 @@
 [
   {
+    "id": "2026-06-24-005",
+    "date": "2026-06-24",
+    "summary": "修复 pytest 临时目录与 draft 生命周期管理",
+    "changed_files": [
+      ".gitignore",
+      "conftest.py",
+      "pytest.ini",
+      "core/engines/generation.py",
+      "core/main.py",
+      "core/save/manager.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "core/ui/gui_app.py",
+      "core/ui/workbench.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-24-005.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "conftest.py",
+      "pytest.ini",
+      "knowledge/ai_memory/session_history/2026-06-24-005.md"
+    ],
+    "next_tasks": [
+      "历史 drafts 清理属于不可逆用户数据删除，执行前必须再次确认",
+      "提交前确认 bug 文档和 plan 临时执行目录不进入暂存区",
+      "CC-Panes 共享记忆池本次因环境变量缺失未写入"
+    ]
+  },
+  {
     "id": "2026-06-24-004",
     "date": "2026-06-24",
     "summary": "执行 hades_quality_optimization：Hades 质量优化与标准化沉淀",

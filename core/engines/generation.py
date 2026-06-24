@@ -1831,6 +1831,7 @@ TEMPLATE_NOISE_PHRASES = (
     "部分 L4 为基于同品类结构的合理推断。",
     "部分 L4 为基于同品类结构的合理推",
 )
+MAX_TASK_TITLE_LENGTH = 120
 
 
 def _clean_task_title(raw_title: Any, *, fallback: str = "未命名任务") -> str:
@@ -1843,8 +1844,8 @@ def _clean_task_title(raw_title: Any, *, fallback: str = "未命名任务") -> s
     title = title.strip("。；;：: ")
     if not title or title in {"资源", "表现", "配置"}:
         title = fallback
-    if len(title) > 120:
-        title = title[:117].rstrip() + "..."
+    if len(title) > MAX_TASK_TITLE_LENGTH:
+        title = title[: MAX_TASK_TITLE_LENGTH - 3].rstrip() + "..."
     return title
 
 
