@@ -8,6 +8,63 @@
 ## 上次会话摘要
 
 **日期**：2026-06-24
+**ID**：2026-06-24-004
+**摘要**：执行 `hades_quality_optimization`：Hades 质量优化与标准化沉淀
+
+**完成内容**：
+- ✅ Hades partial 模板从 39/103 节点扩展到 103/103 节点，超过计划 80+ 覆盖目标
+- ✅ Step07 程序任务标题清理，并新增 `category` / `priority`
+- ✅ Step08 美术任务透传/生成 `asset_type` / `category` / `priority` / `complexity`
+- ✅ 修复 Codex CLI Windows shim：优先 `codex.cmd` / `codex.exe`，避免 PowerShell `.ps1` 执行策略阻断
+- ✅ 建立 `knowledge/governance/quality_standards/` 标准体系，共 17 个标准、模板、手册和指标文档
+
+**自查修复**：
+- ✅ 发现裸 `codex` 在 PowerShell 下会命中被拦截的 `codex.ps1`，已在 executor 中避开
+- ✅ 任务标题清理后只剩泛词时使用 fallback，避免输出“资源”这类弱标题
+
+**验证**：
+- ✅ `python -m pytest core\tests -q`：87 passed（仅 `.pytest_cache` 写入权限 warning）
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py`：通过
+- ✅ 内置模板 JSON 解析通过，Hades partial 覆盖 103 节点
+- ✅ `codex.cmd --version`：`codex-cli 0.141.0`
+- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+
+**后续关注**：
+- [ ] GUI 重新载入/导出 Hades partial 后运行 Step02-09，验证新 draft 质量指标
+- [ ] 提交前确认 `plan/hades_quality_optimization/` 和根目录临时评分报告不进入暂存区
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-24
+**ID**：2026-06-24-003
+**摘要**：执行 `template_l5_expansion`：内置模板 L5 实体覆盖扩展
+
+**完成内容**：
+- ✅ Phase 1 partial 模板补到 39 节点 complete 标准，并对齐 `elden_ring` 既有 complete 实体结构质量
+- ✅ Phase 2 的 8 个 Indie 模板补齐 P0 16 核心节点实体
+- ✅ Phase 3 的 7 个 3A 模板补齐 P0 16 核心节点实体
+- ✅ Phase 4 的服务型、Midcore 和 IAA 超休闲模板补齐 P0 16 核心节点实体
+- ✅ 新增 `test_template_l5_expansion.py` 覆盖 complete/P0 覆盖率与实体 schema 结构质量
+
+**自查修复**：
+- ✅ 修正旧有 `elden_ring` 曲线采样点不足、循环步骤不足和缺失 `supplement_basis` 的结构问题
+- ✅ 临时批处理脚本执行后已删除，未留下开发过程工具
+
+**验证**：
+- ✅ `python -m pytest core\tests -q`：82 passed（仅 `.pytest_cache` 写入权限 warning）
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py`：通过
+- ✅ 新增测试 black/flake8/mypy：通过
+- ✅ 内置模板 JSON 解析通过；排除基础参考 `builtin_indie_hades.json` 后，8 个 complete、30 个 P0，缺失列表为空
+
+**后续关注**：
+- [ ] 提交前继续确认 `plan/template_l5_expansion/` 不进入暂存区
+- [ ] GUI 载入模板后抽样检查 Step02 实体覆盖报告是否显示预期等级
+
+---
+
+**日期**：2026-06-24
 **ID**：2026-06-24-002
 **摘要**：提交范围纠正：本地 bug 文档和临时开发计划不入库
 
@@ -30,8 +87,6 @@
 - [ ] 真实 Codex CLI 环境中仍需跑 Step02，确认 stdout JSON 能被 `_parse_response()` 接收
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-24
 **ID**：2026-06-24-001

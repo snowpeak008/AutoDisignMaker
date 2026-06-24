@@ -2523,7 +2523,30 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "operation",
+            "schema": "operation_card_v1",
+            "id": "old_school_runescape_input_control_operation",
+            "label": "Old School RuneScape input control",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: input_control_decision.",
+            "device": "keyboard_mouse",
+            "mapping": [
+              {
+                "intent": "primary_action",
+                "binding": "click"
+              },
+              {
+                "intent": "movement",
+                "binding": "left_stick / WASD / swipe"
+              },
+              {
+                "intent": "confirm_or_interact",
+                "binding": "A button / E / tap"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_ru_yi_tu": true,
@@ -2700,7 +2723,28 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "skill",
+            "schema": "skill_card_v1",
+            "id": "old_school_runescape_action_rule_skill",
+            "label": "Tick-based combat and skilling action",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: action_rule_decision.",
+            "input": {
+              "button": "click"
+            },
+            "frames": {
+              "startup": 4,
+              "active": 4,
+              "recovery": 12
+            },
+            "effect": {
+              "damage": "contextual",
+              "range": "core_interaction",
+              "special": "Game ticks, prayer flicking, inventory swaps, and resource nodes create mastery."
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xing_dong_tiao_jian": true,
@@ -2877,7 +2921,26 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "old_school_runescape_objective_system_system",
+            "label": "Old School RuneScape objective system",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: objective_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "advance account skills, quests, bosses, and economy goals in an open MMO"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_mu_biao": true,
@@ -3054,7 +3117,26 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "old_school_runescape_settlement_system_system",
+            "label": "Old School RuneScape settlement system",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: settlement_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "xp drops, item drops, quest points, gold, and achievement diary progress resolve continuously"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sheng_fu_tiao_jian": true,
@@ -3231,7 +3313,37 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "old_school_runescape_progression_system_numeric_curve",
+            "label": "Old School RuneScape progression system",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: progression_system_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "first quest"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "base 40 skills"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "fire cape"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "boss farming"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "deng_ji_cheng_zhang": true,
@@ -3408,7 +3520,26 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "old_school_runescape_build_system_system",
+            "label": "Old School RuneScape build system",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: build_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "gear setup, prayer book, inventory, skill route, and money maker define build"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "gou_zhu_zu_jian": true,
@@ -3585,7 +3716,37 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "old_school_runescape_randomness_system_numeric_curve",
+            "label": "Old School RuneScape randomness system",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: randomness_system_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "common option weight"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "uncommon option weight"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "rare option weight"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "special option weight"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sui_ji_ru_kou": true,
@@ -3762,7 +3923,33 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "old_school_runescape_meta_structure_loop",
+            "label": "Old School RuneScape meta structure",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: meta_structure_decision.",
+            "nodes": [
+              {
+                "id": "session_end",
+                "action": "session end"
+              },
+              {
+                "id": "invest_progress",
+                "action": "invest progress"
+              },
+              {
+                "id": "unlock_option",
+                "action": "unlock option"
+              },
+              {
+                "id": "start_next_session",
+                "action": "start next session"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ju_wai_zhun_bei": true,
@@ -3939,7 +4126,31 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "old_school_runescape_content_type_content",
+            "label": "Old School RuneScape content type",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: content_type_decision.",
+            "assetClass": "content_type_overview",
+            "countBand": {
+              "core": [
+                "Tick-based combat and skilling action",
+                "Barrows or boss trip encounter"
+              ],
+              "progression": [
+                "first quest",
+                "base 40 skills",
+                "fire cape",
+                "boss farming"
+              ],
+              "systems": [
+                "gear setup, prayer book, inventory, skill route, and money maker define build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "he_xin_nei_rong": true,
@@ -4116,7 +4327,37 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "old_school_runescape_level_space_loop",
+            "label": "Old School RuneScape level space",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: level_space_decision.",
+            "nodes": [
+              {
+                "id": "entry",
+                "action": "entry"
+              },
+              {
+                "id": "core_play",
+                "action": "core play"
+              },
+              {
+                "id": "risk_choice",
+                "action": "risk choice"
+              },
+              {
+                "id": "reward",
+                "action": "reward"
+              },
+              {
+                "id": "next_space",
+                "action": "next space"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "kong_jian_jie_gou": true,
@@ -4470,7 +4711,30 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "old_school_runescape_character_unit_encounter",
+            "label": "Barrows or boss trip encounter encounter",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: character_unit_decision.",
+            "phases": [
+              {
+                "id": "phase_1",
+                "objective": "read the baseline pressure pattern"
+              },
+              {
+                "id": "phase_2",
+                "objective": "respond to the escalation after threshold"
+              },
+              {
+                "id": "finish",
+                "objective": "convert mastery into progress or reward"
+              }
+            ],
+            "rewards": "progression unlocks, rare resources, or route advancement"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jue_se_ding_wei": true,
@@ -4647,7 +4911,31 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "old_school_runescape_item_resource_content_content",
+            "label": "Old School RuneScape item resource content",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: item_resource_content_decision.",
+            "assetClass": "resource_and_reward_set",
+            "countBand": {
+              "core": [
+                "Tick-based combat and skilling action",
+                "Barrows or boss trip encounter"
+              ],
+              "progression": [
+                "first quest",
+                "base 40 skills",
+                "fire cape",
+                "boss farming"
+              ],
+              "systems": [
+                "gear setup, prayer book, inventory, skill route, and money maker define build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "dao_ju_ding_wei": true,
@@ -6771,7 +7059,26 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "old_school_runescape_ux_information_architecture_system",
+            "label": "Old School RuneScape ux information architecture",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: ux_information_architecture_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Old School RuneScape routes state changes from core play into readable player feedback."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_jie_mian_jie_gou": true,
@@ -7125,7 +7432,26 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "old_school_runescape_hud_feedback_system",
+            "label": "Old School RuneScape hud feedback",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: hud_feedback_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Old School RuneScape routes state changes from core play into readable player feedback."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_zhuang_tai_fan_kui": true,
@@ -8364,7 +8690,26 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "old_school_runescape_audio_experience_system",
+            "label": "Old School RuneScape audio experience",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: audio_experience_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Old School RuneScape routes state changes from core play into readable player feedback."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_yue_qing_xu": true,
@@ -8895,7 +9240,37 @@
         "designNote": "Old School RuneScape 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "old_school_runescape_balance_model_numeric_curve",
+            "label": "Old School RuneScape balance model",
+            "supplement_basis": "Template L5 P0 expansion for Old School RuneScape: balance_model_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_xing_ding_yi": true,

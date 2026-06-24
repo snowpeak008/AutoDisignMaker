@@ -2540,7 +2540,8 @@
                 "intent": "cancel or recover",
                 "binding": "secondary platform default input"
               }
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for input_control_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -2737,7 +2738,8 @@
             },
             "effect": {
               "result": "Produces the template's core play feedback and advances the local goal."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for action_rule_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -2934,7 +2936,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for objective_system_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -3131,7 +3134,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for settlement_system_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -3329,12 +3333,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 3,
+                "y": 4,
+                "label": "expansion checkpoint 4"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for progression_system_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -3531,7 +3541,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for build_system_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -3729,12 +3740,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 3,
+                "y": 4,
+                "label": "expansion checkpoint 4"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for randomness_system_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -3937,7 +3954,8 @@
             "exitConditions": [
               "Session goal is met.",
               "Player chooses to stop safely."
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for meta_structure_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -4131,7 +4149,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for content_type_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -4325,7 +4344,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for level_space_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -4519,7 +4539,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for quest_event_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -4713,7 +4734,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for character_unit_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -4907,7 +4929,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for item_resource_content_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -5101,7 +5124,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for narrative_content_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -5295,11 +5319,16 @@
               {
                 "id": "resolve",
                 "action": "The beat resolves into reward, memory, or progression."
+              },
+              {
+                "id": "expansion_step_3",
+                "action": "continue the loop toward the next session state"
               }
             ],
             "exitConditions": [
               "The beat is completed or deliberately abandoned."
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for content_consumption_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -5493,7 +5522,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for content_supply_structure_decision."
           }
         ],
         "entityValidationErrors": [],
@@ -5672,7 +5702,33 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "crossy_road_economy_loop_loop",
+            "label": "Crossy Road economy loop",
+            "supplement_basis": "Template L5 expansion for Crossy Road: economy_loop_decision.",
+            "nodes": [
+              {
+                "id": "earn_resource",
+                "action": "earn resource"
+              },
+              {
+                "id": "choose_spend",
+                "action": "choose spend"
+              },
+              {
+                "id": "unlock_or_upgrade",
+                "action": "unlock or upgrade"
+              },
+              {
+                "id": "return_stronger",
+                "action": "return stronger"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zi_yuan_chan_chu": true,
@@ -5849,7 +5905,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_currency_system_system",
+            "label": "Crossy Road currency system",
+            "supplement_basis": "Template L5 expansion for Crossy Road: currency_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ji_chu_huo_bi": true,
@@ -6026,7 +6101,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_reward_distribution_system",
+            "label": "Crossy Road reward distribution",
+            "supplement_basis": "Template L5 expansion for Crossy Road: reward_distribution_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ri_chang_jiang_li": true,
@@ -7088,7 +7182,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_ux_information_architecture_system",
+            "label": "Crossy Road ux information architecture",
+            "supplement_basis": "Template L5 expansion for Crossy Road: ux_information_architecture_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "prioritize survival and objective information before long-term progression details"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_jie_mian_jie_gou": true,
@@ -7265,7 +7378,37 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "crossy_road_ux_flow_loop",
+            "label": "Crossy Road ux flow",
+            "supplement_basis": "Template L5 expansion for Crossy Road: ux_flow_decision.",
+            "nodes": [
+              {
+                "id": "prepare",
+                "action": "prepare"
+              },
+              {
+                "id": "enter_core_play",
+                "action": "enter core play"
+              },
+              {
+                "id": "read_feedback",
+                "action": "read feedback"
+              },
+              {
+                "id": "resolve_outcome",
+                "action": "resolve outcome"
+              },
+              {
+                "id": "return_to_choice",
+                "action": "return to choice"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_ci_jin_ru_liu_cheng": true,
@@ -7442,7 +7585,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_hud_feedback_system",
+            "label": "Crossy Road hud feedback",
+            "supplement_basis": "Template L5 expansion for Crossy Road: hud_feedback_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "irreversible state changes produce immediate visual and audio confirmation"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_zhuang_tai_fan_kui": true,
@@ -7619,7 +7781,33 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "crossy_road_onboarding_guidance_loop",
+            "label": "Crossy Road onboarding guidance",
+            "supplement_basis": "Template L5 expansion for Crossy Road: onboarding_guidance_decision.",
+            "nodes": [
+              {
+                "id": "first_action",
+                "action": "first action"
+              },
+              {
+                "id": "show_feedback",
+                "action": "show feedback"
+              },
+              {
+                "id": "guided_repeat",
+                "action": "guided repeat"
+              },
+              {
+                "id": "release_control",
+                "action": "release control"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_dao_mu_biao": true,
@@ -7796,7 +7984,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_readability_system",
+            "label": "Crossy Road readability",
+            "supplement_basis": "Template L5 expansion for Crossy Road: readability_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shi_jue_ceng_ji": true,
@@ -8327,7 +8534,31 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "crossy_road_art_direction_content",
+            "label": "Crossy Road art direction",
+            "supplement_basis": "Template L5 expansion for Crossy Road: art_direction_decision.",
+            "assetClass": "art_style_guide",
+            "countBand": {
+              "core": [
+                "Single tile hop",
+                "Traffic and river hazard lane"
+              ],
+              "progression": [
+                "first ten hops",
+                "first prize",
+                "rare character",
+                "hundred score"
+              ],
+              "systems": [
+                "character skin, theme set, and optional ad revive define the light session build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "feng_ge_ding_wei": true,
@@ -8504,7 +8735,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_animation_feel_system",
+            "label": "Crossy Road animation feel",
+            "supplement_basis": "Template L5 expansion for Crossy Road: animation_feel_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xing_wei_dong_xiao": true,
@@ -8681,7 +8931,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_audio_experience_system",
+            "label": "Crossy Road audio experience",
+            "supplement_basis": "Template L5 expansion for Crossy Road: audio_experience_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "music and SFX intensity follow pressure and reward cadence"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_yue_qing_xu": true,
@@ -8858,7 +9127,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_juice_control_feel_system",
+            "label": "Crossy Road juice control feel",
+            "supplement_basis": "Template L5 expansion for Crossy Road: juice_control_feel_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xiang_ying_gan": true,
@@ -9212,7 +9500,37 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "crossy_road_balance_model_numeric_curve",
+            "label": "Crossy Road balance model",
+            "supplement_basis": "Template L5 expansion for Crossy Road: balance_model_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_xing_ding_yi": true,
@@ -9389,7 +9707,37 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "crossy_road_balance_difficulty_numeric_curve",
+            "label": "Crossy Road balance difficulty",
+            "supplement_basis": "Template L5 expansion for Crossy Road: balance_difficulty_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "chu_qi_nan_du": true,
@@ -9566,7 +9914,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_balance_economy_system",
+            "label": "Crossy Road balance economy",
+            "supplement_basis": "Template L5 expansion for Crossy Road: balance_economy_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "chan_chu_su_lv": true,
@@ -9743,7 +10110,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_balance_content_system",
+            "label": "Crossy Road balance content",
+            "supplement_basis": "Template L5 expansion for Crossy Road: balance_content_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "nei_rong_qiang_du": true,
@@ -9920,7 +10306,37 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "crossy_road_balance_competition_numeric_curve",
+            "label": "Crossy Road balance competition",
+            "supplement_basis": "Template L5 expansion for Crossy Road: balance_competition_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jue_se_ping_heng": true,
@@ -10274,7 +10690,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_social_relationship_system",
+            "label": "Crossy Road social relationship",
+            "supplement_basis": "Template L5 expansion for Crossy Road: social_relationship_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "hao_you_guan_xi": true,
@@ -11336,7 +11771,37 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "crossy_road_retention_daily_loop_loop",
+            "label": "Crossy Road retention daily loop",
+            "supplement_basis": "Template L5 expansion for Crossy Road: retention_daily_loop_decision.",
+            "nodes": [
+              {
+                "id": "login",
+                "action": "login"
+              },
+              {
+                "id": "check_goal",
+                "action": "check goal"
+              },
+              {
+                "id": "play_core_session",
+                "action": "play core session"
+              },
+              {
+                "id": "claim_reward",
+                "action": "claim reward"
+              },
+              {
+                "id": "preview_next_goal",
+                "action": "preview next goal"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "mei_ri_mu_biao": true,
@@ -11513,7 +11978,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_retention_mid_long_goal_system",
+            "label": "Crossy Road retention mid long goal",
+            "supplement_basis": "Template L5 expansion for Crossy Road: retention_mid_long_goal_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jie_duan_cheng_zhang_mu_biao": true,
@@ -12044,7 +12528,31 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "crossy_road_liveops_launch_content_content",
+            "label": "Crossy Road liveops launch content",
+            "supplement_basis": "Template L5 expansion for Crossy Road: liveops_launch_content_decision.",
+            "assetClass": "launch_content_set",
+            "countBand": {
+              "core": [
+                "Single tile hop",
+                "Traffic and river hazard lane"
+              ],
+              "progression": [
+                "first ten hops",
+                "first prize",
+                "rare character",
+                "hundred score"
+              ],
+              "systems": [
+                "character skin, theme set, and optional ad revive define the light session build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_fa_he_xin_nei_rong": true,
@@ -12398,7 +12906,37 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "crossy_road_liveops_version_rhythm_numeric_curve",
+            "label": "Crossy Road liveops version rhythm",
+            "supplement_basis": "Template L5 expansion for Crossy Road: liveops_version_rhythm_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "launch week"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "first update"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "major update"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "long tail cadence"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ban_ben_zhu_ti": true,
@@ -12575,7 +13113,26 @@
         "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "crossy_road_liveops_season_system",
+            "label": "Crossy Road liveops season",
+            "supplement_basis": "Template L5 expansion for Crossy Road: liveops_season_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sai_ji_mu_biao": true,

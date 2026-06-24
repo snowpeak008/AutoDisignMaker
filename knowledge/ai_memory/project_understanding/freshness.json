@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-24T00:13:37",
+  "generated_at": "2026-06-24T11:34:46",
   "files": {
     "core/main.py": {
       "sha256": "e0ee4f83937234a71bc13e4a10dbdf1cf8297e2e8a2b0a64b96e85f11f547598",
       "size": 6742
     },
     "core/engines/generation.py": {
-      "sha256": "a55e74674e568e5df8a6c61c413e7de7fe63bb30f2337396076edcae88d409a9",
-      "size": 175451
+      "sha256": "3af6f7fa97b70d7d8da2ab583629e0f1e28900b2d0fae3ebb3204ff031940ace",
+      "size": 179613
     },
     "core/registry.py": {
       "sha256": "8d58f8c100f71775c6cb579a30d88e6e680bbcb304064f73b92ed725e521551e",

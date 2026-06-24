@@ -10,9 +10,7 @@ own save flow.
 from __future__ import annotations
 
 import hashlib
-import json
 import re
-import shutil
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -40,7 +38,6 @@ from core.engines.execution_objects.integration import (
 )
 from core.utils.process_utils import child_process_env, hidden_subprocess_kwargs
 from core.runtime.control import PipelineStopRequested
-from core.adapters.codex.executor import run_codex_exec
 from core.adapters.codex.task_builder import build_file_generation_task
 from core.skill_loader import write_skill_guidance
 from pipeline.step_00_idea_intake.helpers import ConceptProcessor, QuestionEngine
@@ -1828,6 +1825,92 @@ def _task_output_files(task_id: str, phase: str) -> list[str]:
     ]
 
 
+TEMPLATE_NOISE_PHRASES = (
+    "Hades 范本反推：",
+    "基于公开信息与设计分析反推，非官方配置；",
+    "部分 L4 为基于同品类结构的合理推断。",
+    "部分 L4 为基于同品类结构的合理推",
+)
+
+
+def _clean_task_title(raw_title: Any, *, fallback: str = "未命名任务") -> str:
+    """Remove repeated template caveats from generated task titles."""
+    title = str(raw_title or "")
+    for phrase in TEMPLATE_NOISE_PHRASES:
+        title = title.replace(phrase, "")
+    title = re.sub(r"\s+", " ", title).strip()
+    title = re.sub(r"[：:]\s*$", "", title).strip()
+    title = title.strip("。；;：: ")
+    if not title or title in {"资源", "表现", "配置"}:
+        title = fallback
+    if len(title) > 120:
+        title = title[:117].rstrip() + "..."
+    return title
+
+
+def _task_template_note() -> str:
+    return (
+        "# Hades Template Note\n\n"
+        "This plan is generated from a Hades reference template built from public "
+        "information and design analysis. The repeated reverse-engineering caveat "
+        "is intentionally omitted from task titles; source references retain the "
+        "full trace back to the design document.\n"
+    )
+
+
+def _program_task_category(req: dict[str, Any]) -> str:
+    text = (
+        f"{req.get('requirement', '')} {req.get('acceptance', '')} {req.get('phase', '')}"
+    ).lower()
+    if any(token in text for token in ("combat", "战斗", "attack", "dash", "weapon")):
+        return "combat"
+    if any(token in text for token in ("progression", "成长", "upgrade", "mirror")):
+        return "progression"
+    if any(token in text for token in ("ui", "hud", "界面", "反馈")):
+        return "ui"
+    if any(
+        token in text for token in ("economy", "currency", "reward", "奖励", "货币")
+    ):
+        return "economy"
+    if any(token in text for token in ("data", "metric", "test", "experiment", "指标")):
+        return "analytics"
+    if any(token in text for token in ("launch", "release", "liveops", "运营", "发布")):
+        return "launch_ops"
+    if any(token in text for token in ("compliance", "privacy", "rating", "合规")):
+        return "compliance"
+    if any(token in text for token in ("doc", "documentation", "schema", "文档")):
+        return "documentation"
+    if any(token in text for token in ("social", "community", "社区")):
+        return "social"
+    return str(req.get("phase") or "core_playable")
+
+
+def _program_task_priority(req: dict[str, Any], category: str) -> str:
+    phase = str(req.get("phase") or "")
+    text = f"{req.get('requirement', '')} {req.get('selection_id', '')}".lower()
+    if phase == "core_playable" or category in {"combat", "ui"}:
+        return "P0"
+    if category in {"progression", "economy", "analytics"}:
+        return "P1"
+    if any(token in text for token in ("input", "objective", "settlement")):
+        return "P0"
+    if category in {"compliance", "documentation", "launch_ops"}:
+        return "P2"
+    return "P1"
+
+
+def _art_task_category(asset_type: str) -> str:
+    return {
+        "ui": "ui",
+        "config": "config",
+        "effect": "vfx",
+        "audio": "audio",
+        "animation": "animation",
+        "environment": "environment_art",
+        "art_asset": "art",
+    }.get(asset_type, "art")
+
+
 def _load_program_structure_spec() -> dict[str, Any]:
     data = read_json(stage_dir(3) / "program_structure_spec.json", {})
     return data if isinstance(data, dict) else {}
@@ -1875,12 +1958,19 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         target_path = str(binding.get("target_path") or _phase_target_path(phase))
         test_path = str(binding.get("test_path") or _phase_test_path(phase))
         output_files = _task_output_files(task_id, phase)
+        category = _program_task_category(req)
+        priority = _program_task_priority(req, category)
         tasks.append(
             {
                 "task_id": task_id,
                 "requirement_id": req.get("id"),
-                "title": str(req.get("requirement", ""))[:80],
+                "title": _clean_task_title(
+                    req.get("requirement"),
+                    fallback=f"实现并验证 {req.get('id') or task_id}",
+                ),
                 "phase": phase,
+                "category": category,
+                "priority": priority,
                 "target_path": target_path,
                 "output_files": output_files,
                 "allowed_write_paths": [target_path, test_path],
@@ -2000,6 +2090,7 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
 
     write_text(out_dir / "program_plan_index.md", "\n".join(lines))
+    write_text(out_dir / "TEMPLATE_NOTE.md", _task_template_note())
     write_json(out_dir / "program_task_breakdown.json", plan)
     write_json(
         out_dir / "phase_task_map.json",
@@ -2022,6 +2113,8 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 "task_id",
                 "requirement_id",
                 "phase",
+                "category",
+                "priority",
                 "target_path",
                 "output_files",
                 "allowed_write_paths",
@@ -2055,12 +2148,19 @@ def _stage8_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     assets = _art_assets()
     tasks = []
     for index, asset in enumerate(assets, 1):
+        asset_type = str(asset.get("asset_type") or "art_asset")
         tasks.append(
             {
                 "task_id": f"ART-{index:03d}",
                 "asset_id": asset.get("asset_id"),
-                "title": asset.get("name"),
-                "asset_type": asset.get("asset_type"),
+                "title": _clean_task_title(
+                    asset.get("name"),
+                    fallback=f"{asset_type} asset {asset.get('asset_id') or index}",
+                ),
+                "asset_type": asset_type,
+                "category": _art_task_category(asset_type),
+                "priority": asset.get("priority") or _asset_priority(asset_type),
+                "complexity": asset.get("complexity") or _asset_complexity(asset_type),
                 "phase": asset.get("required_for_phase", "core_playable"),
                 "source_refs": [asset.get("source")] if asset.get("source") else [],
                 "status": "planned",
@@ -2072,6 +2172,7 @@ def _stage8_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     if not tasks:
         lines.append("- none")
     write_text(out_dir / "art_plan_index.md", "\n".join(lines) + "\n")
+    write_text(out_dir / "TEMPLATE_NOTE.md", _task_template_note())
     write_text(
         out_dir / "ART-001.md",
         "# ART-001 Asset Production Batch\n\n"

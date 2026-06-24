@@ -1,5 +1,50 @@
 [
   {
+    "id": "2026-06-24-004",
+    "date": "2026-06-24",
+    "summary": "执行 hades_quality_optimization：Hades 质量优化与标准化沉淀",
+    "changed_files": [
+      "core/adapters/codex/executor.py",
+      "core/engines/generation.py",
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "core/tests/unit/test_model_adapters.py",
+      "knowledge/design_data/project_templates/builtin_indie_hades_l5_partial.json",
+      "knowledge/governance/quality_standards/",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-24-004.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "knowledge/governance/quality_standards/",
+      "knowledge/ai_memory/session_history/2026-06-24-004.md"
+    ],
+    "next_tasks": [
+      "GUI 重新载入/导出 Hades partial 后运行 Step02-09，验证新 draft 质量指标",
+      "提交前确认 plan/hades_quality_optimization/ 和根目录临时评分报告不进入暂存区"
+    ]
+  },
+  {
+    "id": "2026-06-24-003",
+    "date": "2026-06-24",
+    "summary": "执行 template_l5_expansion：内置模板 L5 实体覆盖扩展",
+    "changed_files": [
+      "knowledge/design_data/project_templates/builtin_*.json",
+      "core/tests/unit/test_template_l5_expansion.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-24-003.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-24-003.md",
+      "core/tests/unit/test_template_l5_expansion.py"
+    ],
+    "next_tasks": [
+      "提交前继续确认 plan/template_l5_expansion/ 不进入暂存区",
+      "GUI 载入模板后抽样检查 Step02 实体覆盖报告是否显示预期等级"
+    ]
+  },
+  {
     "id": "2026-06-24-002",
     "date": "2026-06-24",
     "summary": "提交范围纠正：本地 bug 文档和临时开发计划不入库",

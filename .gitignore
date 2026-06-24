@@ -75,8 +75,11 @@ memory/known-issues.md
 # Local review inputs and temporary implementation plans
 bug收集文档*.md
 bug优化文档*.md
+检查报告_*.md
+质量评分报告_*.md
 plan/l5_entity_ai_supplement/
 plan/template_l5_expansion/
+plan/hades_quality_optimization/
 
 # Config (user-specific)
 config/project_settings.json

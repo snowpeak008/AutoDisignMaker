@@ -4,8 +4,21 @@ from types import SimpleNamespace
 
 from core.adapters.base import ModelResult, ModelTask
 from core.adapters.claude_code_model_adapter import ClaudeCodeModelAdapter
+from core.adapters.codex import executor as codex_executor
 from core.adapters.codex.executor import run_codex_exec
 from pipeline.step_02_design_review_freeze.supplement import EntitySupplementAdapter
+
+
+def test_codex_command_prefers_windows_cmd_shim(monkeypatch) -> None:
+    def fake_which(command: str) -> str | None:
+        return {
+            "codex": r"C:\Users\admin\AppData\Roaming\npm\codex.ps1",
+            "codex.cmd": r"C:\Users\admin\AppData\Roaming\npm\codex.cmd",
+        }.get(command)
+
+    monkeypatch.setattr(codex_executor.shutil, "which", fake_which)
+
+    assert codex_executor._codex_command().endswith("codex.cmd")
 
 
 def test_codex_exec_defaults_to_workspace_write_sandbox(tmp_path, monkeypatch) -> None:

@@ -221,7 +221,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_product_vision_decision_content",
+            "label": "Hades Product Vision",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_product_vision_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "target_player_decision": {
@@ -392,7 +410,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_target_player_decision_content",
+            "label": "Hades Target Player",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_target_player_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "market_category_positioning_decision": {
@@ -569,7 +605,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_market_category_positioning_decision_content",
+            "label": "Hades Market Category Positioning",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_market_category_positioning_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "business_goal_decision": {
@@ -746,7 +800,42 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_business_goal_decision_curve",
+            "label": "Hades Business Goal",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1.0
+              },
+              {
+                "x": 25,
+                "y": 1.25
+              },
+              {
+                "x": 50,
+                "y": 1.65
+              },
+              {
+                "x": 75,
+                "y": 2.15
+              },
+              {
+                "x": 100,
+                "y": 2.8
+              }
+            ],
+            "boundaryRule": {
+              "xMeaning": "template progress percentile",
+              "yMeaning": "Hades business_goal pressure or value multiplier",
+              "clamp": "0..100"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "project_scope_decision": {
@@ -923,7 +1012,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_project_scope_decision_system",
+            "label": "Hades Project Scope",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "project_scope_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "project_scope_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "platform_play_context_decision": {
@@ -1100,7 +1211,30 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "operation",
+            "schema": "operation_card_v1",
+            "id": "hades_platform_play_context_decision_operation",
+            "label": "Hades Platform Play Context",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "device": "gamepad_keyboard_mouse",
+            "mapping": [
+              {
+                "intent": "platform_play_context_inspect",
+                "binding": "Menu / Tab"
+              },
+              {
+                "intent": "platform_play_context_confirm",
+                "binding": "Confirm / Enter"
+              },
+              {
+                "intent": "platform_play_context_cancel",
+                "binding": "Back / Esc"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "brand_ip_asset_decision": {
@@ -1277,7 +1411,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_brand_ip_asset_decision_content",
+            "label": "Hades Brand Ip Asset",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_brand_ip_asset_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "core_fun_decision": {
@@ -1454,7 +1606,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_core_fun_decision_loop",
+            "label": "Hades Core Fun",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "core_fun_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "core_fun_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "core_fun_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "core_loop_decision": {
@@ -1631,7 +1810,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_core_loop_decision_loop",
+            "label": "Hades Core Loop",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "core_loop_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "core_loop_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "core_loop_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "player_behavior_decision": {
@@ -1808,7 +2014,30 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "operation",
+            "schema": "operation_card_v1",
+            "id": "hades_player_behavior_decision_operation",
+            "label": "Hades Player Behavior",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "device": "gamepad_keyboard_mouse",
+            "mapping": [
+              {
+                "intent": "player_behavior_inspect",
+                "binding": "Menu / Tab"
+              },
+              {
+                "intent": "player_behavior_confirm",
+                "binding": "Confirm / Enter"
+              },
+              {
+                "intent": "player_behavior_cancel",
+                "binding": "Back / Esc"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "pressure_source_decision": {
@@ -1985,7 +2214,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "hades_pressure_source_decision_encounter",
+            "label": "Hades Pressure Source",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "phases": [
+              {
+                "id": "pressure_source_setup",
+                "objective": "Expose Hades-specific pressure"
+              },
+              {
+                "id": "pressure_source_resolution",
+                "objective": "Resolve risk into reward or story"
+              }
+            ],
+            "winCondition": "player survives and preserves run momentum"
+          }
+        ],
         "entityValidationErrors": []
       },
       "reward_experience_decision": {
@@ -2162,7 +2410,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_reward_experience_decision_content",
+            "label": "Hades Reward Experience",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_reward_experience_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "learning_curve_decision": {
@@ -2339,7 +2605,42 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_learning_curve_decision_curve",
+            "label": "Hades Learning Curve",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1.0
+              },
+              {
+                "x": 25,
+                "y": 1.25
+              },
+              {
+                "x": 50,
+                "y": 1.65
+              },
+              {
+                "x": 75,
+                "y": 2.15
+              },
+              {
+                "x": 100,
+                "y": 2.8
+              }
+            ],
+            "boundaryRule": {
+              "xMeaning": "template progress percentile",
+              "yMeaning": "Hades learning_curve pressure or value multiplier",
+              "clamp": "0..100"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "session_rhythm_decision": {
@@ -2516,7 +2817,42 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_session_rhythm_decision_curve",
+            "label": "Hades Session Rhythm",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1.0
+              },
+              {
+                "x": 25,
+                "y": 1.25
+              },
+              {
+                "x": 50,
+                "y": 1.65
+              },
+              {
+                "x": 75,
+                "y": 2.15
+              },
+              {
+                "x": 100,
+                "y": 2.8
+              }
+            ],
+            "boundaryRule": {
+              "xMeaning": "template progress percentile",
+              "yMeaning": "Hades session_rhythm pressure or value multiplier",
+              "clamp": "0..100"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "input_control_decision": {
@@ -2721,7 +3057,8 @@
                 "intent": "call",
                 "binding": "RT / F"
               }
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for input_control_decision."
           }
         ],
         "entityValidationErrors": []
@@ -2921,7 +3258,8 @@
             "tags": [
               "weapon",
               "melee"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for action_rule_decision."
           },
           {
             "kind": "skill",
@@ -2943,7 +3281,8 @@
             "tags": [
               "weapon",
               "ranged"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for action_rule_decision."
           },
           {
             "kind": "skill",
@@ -2965,7 +3304,8 @@
             "tags": [
               "weapon",
               "charge"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for action_rule_decision."
           },
           {
             "kind": "skill",
@@ -2987,7 +3327,8 @@
             "tags": [
               "weapon",
               "ranged"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for action_rule_decision."
           },
           {
             "kind": "skill",
@@ -3009,7 +3350,8 @@
             "tags": [
               "weapon",
               "mobility"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for action_rule_decision."
           },
           {
             "kind": "skill",
@@ -3031,7 +3373,8 @@
             "tags": [
               "weapon",
               "rapid_fire"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for action_rule_decision."
           }
         ],
         "entityValidationErrors": []
@@ -3232,7 +3575,8 @@
               "combat_design",
               "progression_design"
             ],
-            "updateTick": "chamber_clear_or_run_end"
+            "updateTick": "chamber_clear_or_run_end",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for objective_system_decision."
           }
         ],
         "entityValidationErrors": []
@@ -3433,7 +3777,8 @@
               "reward_design",
               "meta_progression"
             ],
-            "updateTick": "death_or_escape_return"
+            "updateTick": "death_or_escape_return",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for settlement_system_decision."
           }
         ],
         "entityValidationErrors": []
@@ -3643,7 +3988,8 @@
             "boundaryRule": {
               "currency": "Darkness",
               "capPolicy": "late upgrades require repeated escape attempts"
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for progression_system_decision."
           }
         ],
         "entityValidationErrors": []
@@ -3843,7 +4189,8 @@
               "combat_design",
               "reward_design"
             ],
-            "updateTick": "room_reward_resolution"
+            "updateTick": "room_reward_resolution",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for build_system_decision."
           }
         ],
         "entityValidationErrors": []
@@ -4054,7 +4401,8 @@
                 "heroic"
               ],
               "bias": "keeps early choices readable while preserving rare build spikes"
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for randomness_system_decision."
           }
         ],
         "entityValidationErrors": []
@@ -4260,7 +4608,8 @@
             "exitConditions": [
               "Zagreus dies",
               "Zagreus clears the surface run"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for meta_structure_decision."
           }
         ],
         "entityValidationErrors": []
@@ -4464,7 +4813,8 @@
                 "keepsakes",
                 "prophecies"
               ]
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for content_type_decision."
           }
         ],
         "entityValidationErrors": []
@@ -4670,7 +5020,8 @@
             "exitConditions": [
               "boss chamber cleared",
               "run ends on death"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for level_space_decision."
           }
         ],
         "entityValidationErrors": []
@@ -4866,7 +5217,8 @@
                 "keepsake",
                 "story flag"
               ]
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for quest_event_decision."
           }
         ],
         "entityValidationErrors": []
@@ -5065,7 +5417,8 @@
                 "objective": "finish under denser trap and projectile pressure"
               }
             ],
-            "winCondition": "Megaera HP reaches zero"
+            "winCondition": "Megaera HP reaches zero",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for character_unit_decision."
           },
           {
             "kind": "encounter",
@@ -5082,7 +5435,8 @@
                 "objective": "clear summoned heads to reopen the main target"
               }
             ],
-            "winCondition": "main Hydra head is defeated after side-head waves"
+            "winCondition": "main Hydra head is defeated after side-head waves",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for character_unit_decision."
           },
           {
             "kind": "encounter",
@@ -5099,7 +5453,8 @@
                 "objective": "survive Theseus olympian call phase"
               }
             ],
-            "winCondition": "both bosses are defeated"
+            "winCondition": "both bosses are defeated",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for character_unit_decision."
           },
           {
             "kind": "encounter",
@@ -5116,7 +5471,8 @@
                 "objective": "avoid laser beams and invisibility pressure"
               }
             ],
-            "winCondition": "Hades second health bar reaches zero"
+            "winCondition": "Hades second health bar reaches zero",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for character_unit_decision."
           }
         ],
         "entityValidationErrors": []
@@ -5322,7 +5678,8 @@
                 "boss clear",
                 "contract heat"
               ]
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for item_resource_content_decision."
           }
         ],
         "entityValidationErrors": []
@@ -5519,7 +5876,8 @@
                 "boss outcome",
                 "prophecy completion"
               ]
-            }
+            },
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for narrative_content_decision."
           }
         ],
         "entityValidationErrors": []
@@ -5725,7 +6083,8 @@
             "exitConditions": [
               "player starts another escape attempt",
               "player pauses at house management"
-            ]
+            ],
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for content_consumption_decision."
           }
         ],
         "entityValidationErrors": []
@@ -5927,7 +6286,8 @@
               "narrative_design",
               "reward_design"
             ],
-            "updateTick": "run_start_and_house_return"
+            "updateTick": "run_start_and_house_return",
+            "supplement_basis": "Template L5 expansion retained existing Hades entity for content_supply_structure_decision."
           }
         ],
         "entityValidationErrors": []
@@ -6106,7 +6466,33 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_economy_loop_loop",
+            "label": "Hades economy loop",
+            "supplement_basis": "Template L5 expansion for Hades: economy_loop_decision.",
+            "nodes": [
+              {
+                "id": "earn_resource",
+                "action": "earn resource"
+              },
+              {
+                "id": "choose_spend",
+                "action": "choose spend"
+              },
+              {
+                "id": "unlock_or_upgrade",
+                "action": "unlock or upgrade"
+              },
+              {
+                "id": "return_stronger",
+                "action": "return stronger"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "currency_system_decision": {
@@ -6283,7 +6669,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_currency_system_system",
+            "label": "Hades currency system",
+            "supplement_basis": "Template L5 expansion for Hades: currency_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "reward_distribution_decision": {
@@ -6460,7 +6865,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_reward_distribution_system",
+            "label": "Hades reward distribution",
+            "supplement_basis": "Template L5 expansion for Hades: reward_distribution_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "payment_point_decision": {
@@ -6637,7 +7061,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_payment_point_decision_content",
+            "label": "Hades Payment Point",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_payment_point_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "product_structure_decision": {
@@ -6814,7 +7256,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_product_structure_decision_system",
+            "label": "Hades Product Structure",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "product_structure_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "product_structure_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "pricing_value_decision": {
@@ -6991,7 +7455,42 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_pricing_value_decision_curve",
+            "label": "Hades Pricing Value",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1.0
+              },
+              {
+                "x": 25,
+                "y": 1.25
+              },
+              {
+                "x": 50,
+                "y": 1.65
+              },
+              {
+                "x": 75,
+                "y": 2.15
+              },
+              {
+                "x": 100,
+                "y": 2.8
+              }
+            ],
+            "boundaryRule": {
+              "xMeaning": "template progress percentile",
+              "yMeaning": "Hades pricing_value pressure or value multiplier",
+              "clamp": "0..100"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "payment_fairness_decision": {
@@ -7168,7 +7667,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_payment_fairness_decision_system",
+            "label": "Hades Payment Fairness",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "payment_fairness_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "payment_fairness_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "economy_security_dispute_decision": {
@@ -7345,7 +7866,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_economy_security_dispute_decision_system",
+            "label": "Hades Economy Security Dispute",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "economy_security_dispute_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "economy_security_dispute_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "ux_information_architecture_decision": {
@@ -7522,7 +8065,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_ux_information_architecture_system",
+            "label": "Hades ux information architecture",
+            "supplement_basis": "Template L5 expansion for Hades: ux_information_architecture_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "prioritize survival and objective information before long-term progression details"
+          }
+        ],
         "entityValidationErrors": []
       },
       "ux_flow_decision": {
@@ -7699,7 +8261,37 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_ux_flow_loop",
+            "label": "Hades ux flow",
+            "supplement_basis": "Template L5 expansion for Hades: ux_flow_decision.",
+            "nodes": [
+              {
+                "id": "prepare",
+                "action": "prepare"
+              },
+              {
+                "id": "enter_core_play",
+                "action": "enter core play"
+              },
+              {
+                "id": "read_feedback",
+                "action": "read feedback"
+              },
+              {
+                "id": "resolve_outcome",
+                "action": "resolve outcome"
+              },
+              {
+                "id": "return_to_choice",
+                "action": "return to choice"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "hud_feedback_decision": {
@@ -7876,7 +8468,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_hud_feedback_system",
+            "label": "Hades hud feedback",
+            "supplement_basis": "Template L5 expansion for Hades: hud_feedback_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "irreversible state changes produce immediate visual and audio confirmation"
+          }
+        ],
         "entityValidationErrors": []
       },
       "onboarding_guidance_decision": {
@@ -8053,7 +8664,33 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_onboarding_guidance_loop",
+            "label": "Hades onboarding guidance",
+            "supplement_basis": "Template L5 expansion for Hades: onboarding_guidance_decision.",
+            "nodes": [
+              {
+                "id": "first_action",
+                "action": "first action"
+              },
+              {
+                "id": "show_feedback",
+                "action": "show feedback"
+              },
+              {
+                "id": "guided_repeat",
+                "action": "guided repeat"
+              },
+              {
+                "id": "release_control",
+                "action": "release control"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "readability_decision": {
@@ -8230,7 +8867,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_readability_system",
+            "label": "Hades readability",
+            "supplement_basis": "Template L5 expansion for Hades: readability_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "accessibility_decision": {
@@ -8407,7 +9063,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_accessibility_decision_system",
+            "label": "Hades Accessibility",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "accessibility_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "accessibility_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "help_support_experience_decision": {
@@ -8584,7 +9262,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_help_support_experience_decision_system",
+            "label": "Hades Help Support Experience",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "help_support_experience_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "help_support_experience_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "art_direction_decision": {
@@ -8761,7 +9461,31 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_art_direction_content",
+            "label": "Hades art direction",
+            "supplement_basis": "Template L5 expansion for Hades: art_direction_decision.",
+            "assetClass": "art_style_guide",
+            "countBand": {
+              "core": [
+                "Stygius basic attack chain",
+                "Megaera and Hades"
+              ],
+              "progression": [
+                "mirror unlocked",
+                "first escape",
+                "heat pact",
+                "epilogue"
+              ],
+              "systems": [
+                "weapon aspect, Olympian boons, keepsakes, mirror talents, and hammers shape the run build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "animation_feel_decision": {
@@ -8938,7 +9662,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_animation_feel_system",
+            "label": "Hades animation feel",
+            "supplement_basis": "Template L5 expansion for Hades: animation_feel_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "audio_experience_decision": {
@@ -9115,7 +9858,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_audio_experience_system",
+            "label": "Hades audio experience",
+            "supplement_basis": "Template L5 expansion for Hades: audio_experience_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "music and SFX intensity follow pressure and reward cadence"
+          }
+        ],
         "entityValidationErrors": []
       },
       "juice_control_feel_decision": {
@@ -9292,7 +10054,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_juice_control_feel_system",
+            "label": "Hades juice control feel",
+            "supplement_basis": "Template L5 expansion for Hades: juice_control_feel_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "cinematic_presentation_decision": {
@@ -9469,7 +10250,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_cinematic_presentation_decision_system",
+            "label": "Hades Cinematic Presentation",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "cinematic_presentation_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "cinematic_presentation_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "balance_model_decision": {
@@ -9646,7 +10449,37 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_balance_model_numeric_curve",
+            "label": "Hades balance model",
+            "supplement_basis": "Template L5 expansion for Hades: balance_model_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "balance_difficulty_decision": {
@@ -9823,7 +10656,37 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_balance_difficulty_numeric_curve",
+            "label": "Hades balance difficulty",
+            "supplement_basis": "Template L5 expansion for Hades: balance_difficulty_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "balance_economy_decision": {
@@ -10000,7 +10863,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_balance_economy_system",
+            "label": "Hades balance economy",
+            "supplement_basis": "Template L5 expansion for Hades: balance_economy_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "balance_content_decision": {
@@ -10177,7 +11059,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_balance_content_system",
+            "label": "Hades balance content",
+            "supplement_basis": "Template L5 expansion for Hades: balance_content_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "balance_competition_decision": {
@@ -10354,7 +11255,37 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_balance_competition_numeric_curve",
+            "label": "Hades balance competition",
+            "supplement_basis": "Template L5 expansion for Hades: balance_competition_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "balance_payment_decision": {
@@ -10531,7 +11462,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_balance_payment_decision_system",
+            "label": "Hades Balance Payment",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "balance_payment_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "balance_payment_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "social_relationship_decision": {
@@ -10708,7 +11661,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_social_relationship_system",
+            "label": "Hades social relationship",
+            "supplement_basis": "Template L5 expansion for Hades: social_relationship_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "social_collaboration_decision": {
@@ -10885,7 +11857,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_social_collaboration_decision_system",
+            "label": "Hades Social Collaboration",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "social_collaboration_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "social_collaboration_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "social_competition_decision": {
@@ -11062,7 +12056,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_social_competition_decision_system",
+            "label": "Hades Social Competition",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "social_competition_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "social_competition_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "social_expression_decision": {
@@ -11239,7 +12255,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_social_expression_decision_content",
+            "label": "Hades Social Expression",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_social_expression_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "community_behavior_decision": {
@@ -11416,7 +12450,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_community_behavior_decision_system",
+            "label": "Hades Community Behavior",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "community_behavior_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "community_behavior_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "retention_onboarding_decision": {
@@ -11593,7 +12649,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_retention_onboarding_decision_loop",
+            "label": "Hades Retention Onboarding",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "retention_onboarding_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "retention_onboarding_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "retention_onboarding_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "retention_daily_loop_decision": {
@@ -11770,7 +12853,37 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_retention_daily_loop_loop",
+            "label": "Hades retention daily loop",
+            "supplement_basis": "Template L5 expansion for Hades: retention_daily_loop_decision.",
+            "nodes": [
+              {
+                "id": "login",
+                "action": "login"
+              },
+              {
+                "id": "check_goal",
+                "action": "check goal"
+              },
+              {
+                "id": "play_core_session",
+                "action": "play core session"
+              },
+              {
+                "id": "claim_reward",
+                "action": "claim reward"
+              },
+              {
+                "id": "preview_next_goal",
+                "action": "preview next goal"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "retention_mid_long_goal_decision": {
@@ -11947,7 +13060,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_retention_mid_long_goal_system",
+            "label": "Hades retention mid long goal",
+            "supplement_basis": "Template L5 expansion for Hades: retention_mid_long_goal_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "retention_returning_player_decision": {
@@ -12124,7 +13256,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_retention_returning_player_decision_loop",
+            "label": "Hades Retention Returning Player",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "retention_returning_player_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "retention_returning_player_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "retention_returning_player_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "retention_loss_control_decision": {
@@ -12301,7 +13460,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_retention_loss_control_decision_system",
+            "label": "Hades Retention Loss Control",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "retention_loss_control_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "retention_loss_control_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "liveops_launch_content_decision": {
@@ -12478,7 +13659,31 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_liveops_launch_content_content",
+            "label": "Hades liveops launch content",
+            "supplement_basis": "Template L5 expansion for Hades: liveops_launch_content_decision.",
+            "assetClass": "launch_content_set",
+            "countBand": {
+              "core": [
+                "Stygius basic attack chain",
+                "Megaera and Hades"
+              ],
+              "progression": [
+                "mirror unlocked",
+                "first escape",
+                "heat pact",
+                "epilogue"
+              ],
+              "systems": [
+                "weapon aspect, Olympian boons, keepsakes, mirror talents, and hammers shape the run build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "liveops_activity_structure_decision": {
@@ -12655,7 +13860,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_liveops_activity_structure_decision_system",
+            "label": "Hades Liveops Activity Structure",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "liveops_activity_structure_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "liveops_activity_structure_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "liveops_version_rhythm_decision": {
@@ -12832,7 +14059,37 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_liveops_version_rhythm_numeric_curve",
+            "label": "Hades liveops version rhythm",
+            "supplement_basis": "Template L5 expansion for Hades: liveops_version_rhythm_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "launch week"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "first update"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "major update"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "long tail cadence"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "liveops_season_decision": {
@@ -13009,7 +14266,26 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_liveops_season_system",
+            "label": "Hades liveops season",
+            "supplement_basis": "Template L5 expansion for Hades: liveops_season_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Connect Stygius basic attack chain to escape the Underworld by clearing four biomes and defeating Hades."
+          }
+        ],
         "entityValidationErrors": []
       },
       "liveops_update_communication_decision": {
@@ -13186,7 +14462,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_liveops_update_communication_decision_system",
+            "label": "Hades Liveops Update Communication",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "liveops_update_communication_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "liveops_update_communication_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "data_goal_metric_decision": {
@@ -13363,7 +14661,42 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "hades_data_goal_metric_decision_curve",
+            "label": "Hades Data Goal Metric",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1.0
+              },
+              {
+                "x": 25,
+                "y": 1.25
+              },
+              {
+                "x": 50,
+                "y": 1.65
+              },
+              {
+                "x": 75,
+                "y": 2.15
+              },
+              {
+                "x": 100,
+                "y": 2.8
+              }
+            ],
+            "boundaryRule": {
+              "xMeaning": "template progress percentile",
+              "yMeaning": "Hades data_goal_metric pressure or value multiplier",
+              "clamp": "0..100"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "data_path_metric_decision": {
@@ -13540,7 +14873,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_data_path_metric_decision_system",
+            "label": "Hades Data Path Metric",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "data_path_metric_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "data_path_metric_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "data_test_design_decision": {
@@ -13717,7 +15072,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_data_test_design_decision_system",
+            "label": "Hades Data Test Design",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "data_test_design_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "data_test_design_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "data_feedback_collection_decision": {
@@ -13894,7 +15271,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_data_feedback_collection_decision_system",
+            "label": "Hades Data Feedback Collection",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "data_feedback_collection_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "data_feedback_collection_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "data_iteration_decision": {
@@ -14071,7 +15470,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_data_iteration_decision_loop",
+            "label": "Hades Data Iteration",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "data_iteration_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "data_iteration_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "data_iteration_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "data_experiment_decision": {
@@ -14248,7 +15674,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_data_experiment_decision_system",
+            "label": "Hades Data Experiment",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "data_experiment_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "data_experiment_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_age_rating_decision": {
@@ -14425,7 +15873,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_compliance_age_rating_decision_content",
+            "label": "Hades Compliance Age Rating",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_compliance_age_rating_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_player_protection_decision": {
@@ -14602,7 +16068,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_compliance_player_protection_decision_system",
+            "label": "Hades Compliance Player Protection",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "compliance_player_protection_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "compliance_player_protection_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_community_safety_decision": {
@@ -14779,7 +16267,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_compliance_community_safety_decision_system",
+            "label": "Hades Compliance Community Safety",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "compliance_community_safety_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "compliance_community_safety_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_fairness_risk_decision": {
@@ -14956,7 +16466,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_compliance_fairness_risk_decision_system",
+            "label": "Hades Compliance Fairness Risk",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "compliance_fairness_risk_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "compliance_fairness_risk_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_opinion_risk_decision": {
@@ -15133,7 +16665,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_compliance_opinion_risk_decision_system",
+            "label": "Hades Compliance Opinion Risk",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "compliance_opinion_risk_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "compliance_opinion_risk_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_localization_culture_decision": {
@@ -15310,7 +16864,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_compliance_localization_culture_decision_content",
+            "label": "Hades Compliance Localization Culture",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_compliance_localization_culture_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_abuse_fairness_decision": {
@@ -15487,7 +17059,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_compliance_abuse_fairness_decision_system",
+            "label": "Hades Compliance Abuse Fairness",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "compliance_abuse_fairness_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "compliance_abuse_fairness_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "compliance_privacy_data_decision": {
@@ -15664,7 +17258,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_compliance_privacy_data_decision_system",
+            "label": "Hades Compliance Privacy Data",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "compliance_privacy_data_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "compliance_privacy_data_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "documentation_core_doc_decision": {
@@ -15841,7 +17457,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_documentation_core_doc_decision_content",
+            "label": "Hades Documentation Core Doc",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_documentation_core_doc_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "documentation_table_schema_decision": {
@@ -16018,7 +17652,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_documentation_table_schema_decision_system",
+            "label": "Hades Documentation Table Schema",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "documentation_table_schema_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "documentation_table_schema_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "documentation_acceptance_decision": {
@@ -16195,7 +17851,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_documentation_acceptance_decision_system",
+            "label": "Hades Documentation Acceptance",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "documentation_acceptance_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "documentation_acceptance_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "documentation_change_management_decision": {
@@ -16372,7 +18050,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_documentation_change_management_decision_loop",
+            "label": "Hades Documentation Change Management",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "documentation_change_management_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "documentation_change_management_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "documentation_change_management_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "documentation_cross_function_decision": {
@@ -16549,7 +18254,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_documentation_cross_function_decision_system",
+            "label": "Hades Documentation Cross Function",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "documentation_cross_function_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "documentation_cross_function_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "release_store_entry_decision": {
@@ -16726,7 +18453,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_release_store_entry_decision_content",
+            "label": "Hades Release Store Entry",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_release_store_entry_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "release_promotion_content_decision": {
@@ -16903,7 +18648,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_release_promotion_content_decision_content",
+            "label": "Hades Release Promotion Content",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_release_promotion_content_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "release_preregistration_decision": {
@@ -17080,7 +18843,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_release_preregistration_decision_content",
+            "label": "Hades Release Preregistration",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_release_preregistration_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "release_community_warmup_decision": {
@@ -17257,7 +19038,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_release_community_warmup_decision_loop",
+            "label": "Hades Release Community Warmup",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "release_community_warmup_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "release_community_warmup_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "release_community_warmup_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "release_regional_experience_decision": {
@@ -17434,7 +19242,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_release_regional_experience_decision_content",
+            "label": "Hades Release Regional Experience",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_release_regional_experience_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "release_platform_material_decision": {
@@ -17611,7 +19437,25 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "hades_release_platform_material_decision_content",
+            "label": "Hades Release Platform Material",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "assetClass": "hades_release_platform_material_reference",
+            "countBand": {
+              "min": 1,
+              "target": 3,
+              "max": 8
+            },
+            "gatingLogic": {
+              "unlock": "available_in_template_analysis",
+              "scope": "reference_only"
+            }
+          }
+        ],
         "entityValidationErrors": []
       },
       "launch_version_decision": {
@@ -17788,7 +19632,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_launch_version_decision_system",
+            "label": "Hades Launch Version",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "launch_version_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "launch_version_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "launch_rhythm_decision": {
@@ -17965,7 +19831,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_launch_rhythm_decision_loop",
+            "label": "Hades Launch Rhythm",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "launch_rhythm_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "launch_rhythm_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "launch_rhythm_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "launch_activity_decision": {
@@ -18142,7 +20035,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_launch_activity_decision_loop",
+            "label": "Hades Launch Activity",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "launch_activity_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "launch_activity_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "launch_activity_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "launch_feedback_decision": {
@@ -18319,7 +20239,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_launch_feedback_decision_system",
+            "label": "Hades Launch Feedback",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "launch_feedback_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "launch_feedback_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "launch_player_support_decision": {
@@ -18496,7 +20438,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_launch_player_support_decision_system",
+            "label": "Hades Launch Player Support",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "launch_player_support_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "launch_player_support_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       },
       "launch_post_launch_followup_decision": {
@@ -18673,7 +20637,34 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "hades_launch_post_launch_followup_decision_loop",
+            "label": "Hades Launch Post Launch Followup",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "nodes": [
+              {
+                "id": "launch_post_launch_followup_observe",
+                "action": "Read current Hades run state"
+              },
+              {
+                "id": "launch_post_launch_followup_choose",
+                "action": "Select a meaningful player response"
+              },
+              {
+                "id": "launch_post_launch_followup_resolve",
+                "action": "Resolve reward, risk, or narrative change"
+              }
+            ],
+            "exitConditions": [
+              "run ends",
+              "room is cleared",
+              "template review accepts the loop evidence"
+            ]
+          }
+        ],
         "entityValidationErrors": []
       },
       "launch_readiness_review_decision": {
@@ -18850,7 +20841,29 @@
             }
           }
         },
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "hades_launch_readiness_review_decision_system",
+            "label": "Hades Launch Readiness Review",
+            "supplement_basis": "hades_quality_optimization: inferred from Hades public design analysis, roguelike action structure, and existing L5 template coverage.",
+            "inputs": [
+              "launch_readiness_review_source_signal",
+              "run_state",
+              "player_progression_state"
+            ],
+            "outputs": [
+              "launch_readiness_review_decision_output",
+              "template_traceability_note"
+            ],
+            "owners": [
+              "design_lead",
+              "production_design"
+            ],
+            "updateTick": "template_review_or_run_boundary"
+          }
+        ],
         "entityValidationErrors": []
       }
     },

@@ -2523,7 +2523,30 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "operation",
+            "schema": "operation_card_v1",
+            "id": "brawl_stars_input_control_operation",
+            "label": "Brawl Stars input control",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: input_control_decision.",
+            "device": "touch",
+            "mapping": [
+              {
+                "intent": "primary_action",
+                "binding": "drag_release"
+              },
+              {
+                "intent": "movement",
+                "binding": "left_stick / WASD / swipe"
+              },
+              {
+                "intent": "confirm_or_interact",
+                "binding": "A button / E / tap"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_ru_yi_tu": true,
@@ -2700,7 +2723,28 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "skill",
+            "schema": "skill_card_v1",
+            "id": "brawl_stars_action_rule_skill",
+            "label": "Brawler attack and super charge",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: action_rule_decision.",
+            "input": {
+              "button": "drag_release"
+            },
+            "frames": {
+              "startup": 0,
+              "active": 0,
+              "recovery": 0
+            },
+            "effect": {
+              "damage": "contextual",
+              "range": "core_interaction",
+              "special": "Aim drag, ammo recharge, super charge, gadget timing, and map cover define combat."
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xing_dong_tiao_jian": true,
@@ -2877,7 +2921,26 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "brawl_stars_objective_system_system",
+            "label": "Brawl Stars objective system",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: objective_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "win short 3v3 or solo matches through objective and elimination play"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_mu_biao": true,
@@ -3054,7 +3117,26 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "brawl_stars_settlement_system_system",
+            "label": "Brawl Stars settlement system",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: settlement_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "trophies, tokens, mastery, quests, and battle pass xp resolve after match"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sheng_fu_tiao_jian": true,
@@ -3231,7 +3313,37 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "brawl_stars_progression_system_numeric_curve",
+            "label": "Brawl Stars progression system",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: progression_system_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "first brawler"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "power level 7"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "rank push"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "club league"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "deng_ji_cheng_zhang": true,
@@ -3408,7 +3520,26 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "brawl_stars_build_system_system",
+            "label": "Brawl Stars build system",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: build_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "brawler choice, star power, gadget, gear, and map matchup define build"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "gou_zhu_zu_jian": true,
@@ -3585,7 +3716,37 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "brawl_stars_randomness_system_numeric_curve",
+            "label": "Brawl Stars randomness system",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: randomness_system_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "common option weight"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "uncommon option weight"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "rare option weight"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "special option weight"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sui_ji_ru_kou": true,
@@ -3762,7 +3923,33 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "brawl_stars_meta_structure_loop",
+            "label": "Brawl Stars meta structure",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: meta_structure_decision.",
+            "nodes": [
+              {
+                "id": "session_end",
+                "action": "session end"
+              },
+              {
+                "id": "invest_progress",
+                "action": "invest progress"
+              },
+              {
+                "id": "unlock_option",
+                "action": "unlock option"
+              },
+              {
+                "id": "start_next_session",
+                "action": "start next session"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ju_wai_zhun_bei": true,
@@ -3939,7 +4126,31 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "brawl_stars_content_type_content",
+            "label": "Brawl Stars content type",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: content_type_decision.",
+            "assetClass": "content_type_overview",
+            "countBand": {
+              "core": [
+                "Brawler attack and super charge",
+                "Gem Grab final countdown"
+              ],
+              "progression": [
+                "first brawler",
+                "power level 7",
+                "rank push",
+                "club league"
+              ],
+              "systems": [
+                "brawler choice, star power, gadget, gear, and map matchup define build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "he_xin_nei_rong": true,
@@ -4116,7 +4327,37 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "brawl_stars_level_space_loop",
+            "label": "Brawl Stars level space",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: level_space_decision.",
+            "nodes": [
+              {
+                "id": "entry",
+                "action": "entry"
+              },
+              {
+                "id": "core_play",
+                "action": "core play"
+              },
+              {
+                "id": "risk_choice",
+                "action": "risk choice"
+              },
+              {
+                "id": "reward",
+                "action": "reward"
+              },
+              {
+                "id": "next_space",
+                "action": "next space"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "kong_jian_jie_gou": true,
@@ -4470,7 +4711,30 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "brawl_stars_character_unit_encounter",
+            "label": "Gem Grab final countdown encounter",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: character_unit_decision.",
+            "phases": [
+              {
+                "id": "phase_1",
+                "objective": "read the baseline pressure pattern"
+              },
+              {
+                "id": "phase_2",
+                "objective": "respond to the escalation after threshold"
+              },
+              {
+                "id": "finish",
+                "objective": "convert mastery into progress or reward"
+              }
+            ],
+            "rewards": "progression unlocks, rare resources, or route advancement"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jue_se_ding_wei": true,
@@ -4647,7 +4911,31 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "brawl_stars_item_resource_content_content",
+            "label": "Brawl Stars item resource content",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: item_resource_content_decision.",
+            "assetClass": "resource_and_reward_set",
+            "countBand": {
+              "core": [
+                "Brawler attack and super charge",
+                "Gem Grab final countdown"
+              ],
+              "progression": [
+                "first brawler",
+                "power level 7",
+                "rank push",
+                "club league"
+              ],
+              "systems": [
+                "brawler choice, star power, gadget, gear, and map matchup define build"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "dao_ju_ding_wei": true,
@@ -6771,7 +7059,26 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "brawl_stars_ux_information_architecture_system",
+            "label": "Brawl Stars ux information architecture",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: ux_information_architecture_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Brawl Stars routes state changes from core play into readable player feedback."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_jie_mian_jie_gou": true,
@@ -7125,7 +7432,26 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "brawl_stars_hud_feedback_system",
+            "label": "Brawl Stars hud feedback",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: hud_feedback_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Brawl Stars routes state changes from core play into readable player feedback."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_zhuang_tai_fan_kui": true,
@@ -8364,7 +8690,26 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "brawl_stars_audio_experience_system",
+            "label": "Brawl Stars audio experience",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: audio_experience_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "Brawl Stars routes state changes from core play into readable player feedback."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_yue_qing_xu": true,
@@ -8895,7 +9240,37 @@
         "designNote": "Brawl Stars 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "brawl_stars_balance_model_numeric_curve",
+            "label": "Brawl Stars balance model",
+            "supplement_basis": "Template L5 P0 expansion for Brawl Stars: balance_model_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_xing_ding_yi": true,

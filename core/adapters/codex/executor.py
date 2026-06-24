@@ -12,7 +12,9 @@ from core.utils.process_utils import child_process_env, hidden_subprocess_kwargs
 
 
 def _codex_command() -> str:
-    command = shutil.which("codex") or shutil.which("codex.cmd")
+    command = (
+        shutil.which("codex.cmd") or shutil.which("codex.exe") or shutil.which("codex")
+    )
     if not command:
         raise FileNotFoundError("codex CLI was not found on PATH.")
     return command

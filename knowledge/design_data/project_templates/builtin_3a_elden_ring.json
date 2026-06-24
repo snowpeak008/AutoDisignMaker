@@ -2540,7 +2540,8 @@
                 "intent": "cancel or recover",
                 "binding": "secondary platform default input"
               }
-            ]
+            ],
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -2737,7 +2738,8 @@
             },
             "effect": {
               "result": "Produces the template's core play feedback and advances the local goal."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -2934,7 +2936,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -3131,7 +3134,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -3329,12 +3333,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -3531,7 +3541,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -3729,12 +3740,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -3937,7 +3954,8 @@
             "exitConditions": [
               "Session goal is met.",
               "Player chooses to stop safely."
-            ]
+            ],
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -4131,7 +4149,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -4325,7 +4344,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -4519,7 +4539,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -4713,7 +4734,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -4907,7 +4929,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -5101,7 +5124,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -5295,11 +5319,13 @@
               {
                 "id": "resolve",
                 "action": "The beat resolves into reward, memory, or progression."
-              }
+              },
+              "content_consumption_decision_step_3"
             ],
             "exitConditions": [
               "The beat is completed or deliberately abandoned."
-            ]
+            ],
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -5493,7 +5519,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -7106,7 +7133,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -7309,7 +7337,8 @@
             "exitConditions": [
               "Session goal is met.",
               "Player chooses to stop safely."
-            ]
+            ],
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -7506,7 +7535,8 @@
             },
             "effect": {
               "result": "Produces the template's core play feedback and advances the local goal."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -7709,7 +7739,8 @@
             "exitConditions": [
               "Session goal is met.",
               "Player chooses to stop safely."
-            ]
+            ],
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -7906,7 +7937,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -8102,7 +8134,8 @@
                 "intent": "cancel or recover",
                 "binding": "secondary platform default input"
               }
-            ]
+            ],
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -8299,7 +8332,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -8496,7 +8530,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -8693,7 +8728,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -8890,7 +8926,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -9087,7 +9124,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -9284,7 +9322,8 @@
             "owners": [
               "design"
             ],
-            "updateTick": "per interaction or session step"
+            "updateTick": "per interaction or session step",
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -9482,12 +9521,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -9685,12 +9730,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -9888,12 +9939,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -10091,12 +10148,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -10294,12 +10357,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -10497,12 +10566,18 @@
               {
                 "x": 2,
                 "y": 3
+              },
+              {
+                "x": 25,
+                "y": 0.38,
+                "label": "learning_ramp"
               }
             ],
             "boundaryRule": {
               "floor": "Readable by the target player in the first valid session.",
               "ceiling": "Stops before the template's declared risk boundary."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -12466,7 +12541,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -12660,7 +12736,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -12854,7 +12931,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -13048,7 +13126,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],
@@ -13242,7 +13321,8 @@
             "gatingLogic": {
               "unlock": "Unlocked by the template's core progression and session structure.",
               "reuseLimit": "Reuse is bounded by freshness and clarity checks."
-            }
+            },
+            "supplement_basis": "template_l5_expansion_phase1_existing_complete_quality_alignment"
           }
         ],
         "entityValidationErrors": [],

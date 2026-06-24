@@ -2523,7 +2523,30 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "operation",
+            "schema": "operation_card_v1",
+            "id": "risk_of_rain_2_input_control_operation",
+            "label": "Risk of Rain 2 input control",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: input_control_decision.",
+            "device": "gamepad_keyboard_mouse",
+            "mapping": [
+              {
+                "intent": "primary_action",
+                "binding": "LMB/R2"
+              },
+              {
+                "intent": "movement",
+                "binding": "left_stick / WASD / swipe"
+              },
+              {
+                "intent": "confirm_or_interact",
+                "binding": "A button / E / tap"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_ru_yi_tu": true,
@@ -2700,7 +2723,29 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "skill",
+            "schema": "skill_card_v1",
+            "id": "risk_of_rain_2_action_rule_skill",
+            "label": "Commando double tap burst",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: action_rule_decision.",
+            "input": {
+              "button": "LMB/R2",
+              "condition": "core session action"
+            },
+            "frames": {
+              "startup": 4,
+              "active": 4,
+              "recovery": 12
+            },
+            "effect": {
+              "damage": "contextual",
+              "range": "core_interaction",
+              "special": "Proc coefficient and item stacks scale every primary attack hit."
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xing_dong_tiao_jian": true,
@@ -2877,7 +2922,26 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "risk_of_rain_2_objective_system_system",
+            "label": "Risk of Rain 2 objective system",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: objective_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "charge teleporters, clear bosses, and choose loop or final moon route"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_mu_biao": true,
@@ -3054,7 +3118,26 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "risk_of_rain_2_settlement_system_system",
+            "label": "Risk of Rain 2 settlement system",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: settlement_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "gold converts to experience, lunar coins persist, unlocks resolve after run"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sheng_fu_tiao_jian": true,
@@ -3231,7 +3314,37 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "risk_of_rain_2_progression_system_numeric_curve",
+            "label": "Risk of Rain 2 progression system",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: progression_system_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "first teleporter"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "first loop"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "mithrix clear"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "eclipse climb"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "deng_ji_cheng_zhang": true,
@@ -3408,7 +3521,26 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "risk_of_rain_2_build_system_system",
+            "label": "Risk of Rain 2 build system",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: build_system_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "stacking items, equipment, survivor kit, and shrine choices define power growth"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "gou_zhu_zu_jian": true,
@@ -3585,7 +3717,37 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "risk_of_rain_2_randomness_system_numeric_curve",
+            "label": "Risk of Rain 2 randomness system",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: randomness_system_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "common option weight"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "uncommon option weight"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "rare option weight"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "special option weight"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sui_ji_ru_kou": true,
@@ -3762,7 +3924,33 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "risk_of_rain_2_meta_structure_loop",
+            "label": "Risk of Rain 2 meta structure",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: meta_structure_decision.",
+            "nodes": [
+              {
+                "id": "session_end",
+                "action": "session end"
+              },
+              {
+                "id": "invest_progress",
+                "action": "invest progress"
+              },
+              {
+                "id": "unlock_option",
+                "action": "unlock option"
+              },
+              {
+                "id": "start_next_session",
+                "action": "start next session"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ju_wai_zhun_bei": true,
@@ -3939,7 +4127,31 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "risk_of_rain_2_content_type_content",
+            "label": "Risk of Rain 2 content type",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: content_type_decision.",
+            "assetClass": "content_type_overview",
+            "countBand": {
+              "core": [
+                "Commando double tap burst",
+                "Teleporter boss event"
+              ],
+              "progression": [
+                "first teleporter",
+                "first loop",
+                "mithrix clear",
+                "eclipse climb"
+              ],
+              "systems": [
+                "stacking items, equipment, survivor kit, and shrine choices define power growth"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "he_xin_nei_rong": true,
@@ -4116,7 +4328,37 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "risk_of_rain_2_level_space_loop",
+            "label": "Risk of Rain 2 level space",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: level_space_decision.",
+            "nodes": [
+              {
+                "id": "entry",
+                "action": "entry"
+              },
+              {
+                "id": "core_play",
+                "action": "core play"
+              },
+              {
+                "id": "risk_choice",
+                "action": "risk choice"
+              },
+              {
+                "id": "reward",
+                "action": "reward"
+              },
+              {
+                "id": "next_space",
+                "action": "next space"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "kong_jian_jie_gou": true,
@@ -4470,7 +4712,30 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "risk_of_rain_2_character_unit_encounter",
+            "label": "Teleporter boss event encounter",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: character_unit_decision.",
+            "phases": [
+              {
+                "id": "phase_1",
+                "objective": "read the baseline pressure pattern"
+              },
+              {
+                "id": "phase_2",
+                "objective": "respond to the escalation after threshold"
+              },
+              {
+                "id": "finish",
+                "objective": "convert mastery into progress or reward"
+              }
+            ],
+            "rewards": "progression unlocks, rare resources, or route advancement"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jue_se_ding_wei": true,
@@ -4647,7 +4912,31 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "risk_of_rain_2_item_resource_content_content",
+            "label": "Risk of Rain 2 item resource content",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: item_resource_content_decision.",
+            "assetClass": "resource_and_reward_set",
+            "countBand": {
+              "core": [
+                "Commando double tap burst",
+                "Teleporter boss event"
+              ],
+              "progression": [
+                "first teleporter",
+                "first loop",
+                "mithrix clear",
+                "eclipse climb"
+              ],
+              "systems": [
+                "stacking items, equipment, survivor kit, and shrine choices define power growth"
+              ]
+            }
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "dao_ju_ding_wei": true,
@@ -6771,7 +7060,26 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "risk_of_rain_2_ux_information_architecture_system",
+            "label": "Risk of Rain 2 ux information architecture",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: ux_information_architecture_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "prioritize survival and objective information before long-term progression details"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_jie_mian_jie_gou": true,
@@ -7125,7 +7433,26 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "risk_of_rain_2_hud_feedback_system",
+            "label": "Risk of Rain 2 hud feedback",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: hud_feedback_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "irreversible state changes produce immediate visual and audio confirmation"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_zhuang_tai_fan_kui": true,
@@ -8364,7 +8691,26 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "risk_of_rain_2_audio_experience_system",
+            "label": "Risk of Rain 2 audio experience",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: audio_experience_decision.",
+            "inputs": [
+              "session_state",
+              "player_progress",
+              "content_pool"
+            ],
+            "outputs": [
+              "decision_signal",
+              "reward_signal",
+              "next_goal_signal"
+            ],
+            "rules": "music and SFX intensity follow pressure and reward cadence"
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_yue_qing_xu": true,
@@ -8895,7 +9241,37 @@
         "designNote": "Risk of Rain 2 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "risk_of_rain_2_balance_model_numeric_curve",
+            "label": "Risk of Rain 2 balance model",
+            "supplement_basis": "Template L5 expansion for Risk of Rain 2: balance_model_decision.",
+            "sampleCurve": [
+              {
+                "x": 1,
+                "y": 10,
+                "label": "early baseline"
+              },
+              {
+                "x": 2,
+                "y": 35,
+                "label": "standard pressure"
+              },
+              {
+                "x": 3,
+                "y": 60,
+                "label": "advanced mastery"
+              },
+              {
+                "x": 4,
+                "y": 85,
+                "label": "peak challenge"
+              }
+            ]
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_xing_ding_yi": true,
