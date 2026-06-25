@@ -19,19 +19,59 @@ class EntityToAssetConverter:
 
     MULTI_ASSET_MAP = {
         "character": [
-            {"suffix": "原画", "asset_type": "art_asset", "priority": "P0", "complexity": "l"},
-            {"suffix": "动画集", "asset_type": "animation", "priority": "P0", "complexity": "xl"},
-            {"suffix": "UI头像", "asset_type": "ui", "priority": "P1", "complexity": "s"},
+            {
+                "suffix": "原画",
+                "asset_type": "art_asset",
+                "priority": "P0",
+                "complexity": "l",
+            },
+            {
+                "suffix": "动画集",
+                "asset_type": "animation",
+                "priority": "P0",
+                "complexity": "xl",
+            },
+            {
+                "suffix": "UI头像",
+                "asset_type": "ui",
+                "priority": "P1",
+                "complexity": "s",
+            },
         ],
         "weapon": [
-            {"suffix": "武器原画", "asset_type": "art_asset", "priority": "P0", "complexity": "m"},
-            {"suffix": "攻击特效", "asset_type": "effect", "priority": "P0", "complexity": "m"},
+            {
+                "suffix": "武器原画",
+                "asset_type": "art_asset",
+                "priority": "P0",
+                "complexity": "m",
+            },
+            {
+                "suffix": "攻击特效",
+                "asset_type": "effect",
+                "priority": "P0",
+                "complexity": "m",
+            },
             {"suffix": "图标", "asset_type": "ui", "priority": "P1", "complexity": "s"},
         ],
         "ability": [
-            {"suffix": "施放特效", "asset_type": "effect", "priority": "P0", "complexity": "l"},
-            {"suffix": "命中特效", "asset_type": "effect", "priority": "P0", "complexity": "m"},
-            {"suffix": "技能图标", "asset_type": "ui", "priority": "P1", "complexity": "s"},
+            {
+                "suffix": "施放特效",
+                "asset_type": "effect",
+                "priority": "P0",
+                "complexity": "l",
+            },
+            {
+                "suffix": "命中特效",
+                "asset_type": "effect",
+                "priority": "P0",
+                "complexity": "m",
+            },
+            {
+                "suffix": "技能图标",
+                "asset_type": "ui",
+                "priority": "P1",
+                "complexity": "s",
+            },
         ],
         "room": [
             {
@@ -40,20 +80,49 @@ class EntityToAssetConverter:
                 "priority": "P0",
                 "complexity": "xl",
             },
-            {"suffix": "地块集", "asset_type": "environment", "priority": "P0", "complexity": "l"},
-            {"suffix": "环境音效", "asset_type": "audio", "priority": "P1", "complexity": "m"},
+            {
+                "suffix": "地块集",
+                "asset_type": "environment",
+                "priority": "P0",
+                "complexity": "l",
+            },
+            {
+                "suffix": "环境音效",
+                "asset_type": "audio",
+                "priority": "P1",
+                "complexity": "m",
+            },
         ],
         "enemy": [
-            {"suffix": "角色原画", "asset_type": "art_asset", "priority": "P0", "complexity": "l"},
-            {"suffix": "攻击特效", "asset_type": "effect", "priority": "P0", "complexity": "m"},
-            {"suffix": "死亡特效", "asset_type": "effect", "priority": "P1", "complexity": "m"},
+            {
+                "suffix": "角色原画",
+                "asset_type": "art_asset",
+                "priority": "P0",
+                "complexity": "l",
+            },
+            {
+                "suffix": "攻击特效",
+                "asset_type": "effect",
+                "priority": "P0",
+                "complexity": "m",
+            },
+            {
+                "suffix": "死亡特效",
+                "asset_type": "effect",
+                "priority": "P1",
+                "complexity": "m",
+            },
         ],
     }
 
     def convert(self, parsed: dict[str, Any]) -> list[dict[str, Any]]:
         """Convert every extracted entity into one or more art assets."""
+        return self.convert_entities(extract_l5_entities(parsed))
+
+    def convert_entities(self, entities: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Convert extracted or frozen design entities into art assets."""
         assets: list[dict[str, Any]] = []
-        for entity in extract_l5_entities(parsed):
+        for entity in entities:
             for spec in self._asset_specs_for(entity):
                 asset_type = _text(spec.get("asset_type"))
                 priority = _text(spec.get("priority")) or self._priority_for(asset_type)
@@ -65,10 +134,13 @@ class EntityToAssetConverter:
                     "source_entity_id": entity.get("entity_id"),
                     "source_node_id": entity.get("node_id"),
                     "purpose": self._purpose_for(entity, asset_type),
-                    "dependencies": [entity.get("node_id")] if entity.get("node_id") else [],
+                    "dependencies": (
+                        [entity.get("node_id")] if entity.get("node_id") else []
+                    ),
                     "unlocks": ["program_requirements", "art_production"],
                     "priority": priority,
-                    "complexity": _text(spec.get("complexity")) or self._complexity_for(asset_type),
+                    "complexity": _text(spec.get("complexity"))
+                    or self._complexity_for(asset_type),
                     "required_for_phase": self._phase_for(entity),
                     "status": "requirement_defined",
                     "trace_kind": "design_entity",
@@ -80,16 +152,26 @@ class EntityToAssetConverter:
 
     def _asset_type_for(self, entity: dict[str, Any]) -> str:
         """Infer the best single asset type for fallback entities."""
-        text = " ".join(_text(entity.get(key)).lower() for key in ("kind", "schema", "label"))
+        text = " ".join(
+            _text(entity.get(key)).lower() for key in ("kind", "schema", "label")
+        )
         if any(token in text for token in ("ui", "hud", "menu", "界面")):
             return "ui"
-        if any(token in text for token in ("ability", "effect", "attack", "技能", "攻击", "特效")):
+        if any(
+            token in text
+            for token in ("ability", "effect", "attack", "技能", "攻击", "特效")
+        ):
             return "effect"
-        if any(token in text for token in ("room", "level", "environment", "房间", "场景")):
+        if any(
+            token in text for token in ("room", "level", "environment", "房间", "场景")
+        ):
             return "environment"
         if any(token in text for token in ("audio", "sound", "音乐", "音效")):
             return "audio"
-        if any(token in text for token in ("config", "resource", "currency", "配置", "资源")):
+        if any(
+            token in text
+            for token in ("config", "resource", "currency", "配置", "资源")
+        ):
             return "config"
         return "art_asset"
 
@@ -155,7 +237,8 @@ class EntityToAssetConverter:
     def _phase_for(self, entity: dict[str, Any]) -> str:
         """Infer the implementation phase that needs this asset."""
         text = " ".join(
-            _text(entity.get(key)).lower() for key in ("kind", "schema", "node_id", "label")
+            _text(entity.get(key)).lower()
+            for key in ("kind", "schema", "node_id", "label")
         )
         if any(
             token in text
@@ -177,12 +260,16 @@ class EntityToAssetConverter:
         if any(token in text for token in ("currency", "resource", "economy", "资源")):
             return "economy"
         if any(
-            token in text for token in ("progress", "upgrade", "unlock", "成长", "升级", "解锁")
+            token in text
+            for token in ("progress", "upgrade", "unlock", "成长", "升级", "解锁")
         ):
             return "progression"
         if any(token in text for token in ("room", "enemy", "content", "房间", "敌人")):
             return "content_ops"
-        if any(token in text for token in ("social", "guild", "friend", "社交", "好友", "公会")):
+        if any(
+            token in text
+            for token in ("social", "guild", "friend", "社交", "好友", "公会")
+        ):
             return "social"
         return "core_playable"
 
@@ -207,7 +294,12 @@ class MarketResearchSkill:
                     return library
                 break
         if matched_genre == "roguelike_action":
-            references = ["高对比角色剪影", "可读性战斗特效", "神话题材环境层次", "清晰奖励图标"]
+            references = [
+                "高对比角色剪影",
+                "可读性战斗特效",
+                "神话题材环境层次",
+                "清晰奖励图标",
+            ]
             style = "stylized_action_readability"
         elif matched_genre == "fps":
             references = ["枪口反馈清晰", "目标轮廓可读", "命中特效不遮挡视野"]

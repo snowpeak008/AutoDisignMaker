@@ -1694,9 +1694,20 @@ def _asset_items(parsed: dict[str, Any]) -> list[dict[str, Any]]:
     return result
 
 
+def _stage2_entities() -> list[dict[str, Any]]:
+    data = read_json(stage_dir(2) / "entity_coverage_report.json", {})
+    entities = data.get("entities", []) if isinstance(data, dict) else []
+    return [entity for entity in entities if isinstance(entity, dict)]
+
+
 def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     assets = _asset_items(parsed)
-    assets.extend(EntityToAssetConverter().convert(parsed))
+    converter = EntityToAssetConverter()
+    frozen_entities = _stage2_entities()
+    if frozen_entities:
+        assets.extend(converter.convert_entities(frozen_entities))
+    else:
+        assets.extend(converter.convert(parsed))
     market_research = MarketResearchSkill().local_fallback(parsed)
     concept_assets = [item for item in assets if item["asset_type"] == "environment"]
     ui_assets = [item for item in assets if item["asset_type"] in {"ui", "config"}]

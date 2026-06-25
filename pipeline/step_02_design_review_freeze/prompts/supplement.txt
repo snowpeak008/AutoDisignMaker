@@ -12,7 +12,7 @@
 4. kind 必须来自：weapon、character、enemy、ability、room、resource、ui、scene、system、config、audio。
 5. schema 必须使用 "{kind}.v1" 格式。
 6. label 必须是具体游戏对象名，避免“主角武器”“普通敌人”这类泛称。
-7. node_id 必须优先使用请求中的 known_node_ids。
+7. node_id 必须优先使用请求中的 missing_node_ids，其次使用 known_node_ids。
 8. 不得生成与 l4_decisions 矛盾的实体。
 9. 对 existing_entities 中 status=approximate 的实体，优先生成同 kind 的完整版本。
 10. 输出实体应覆盖 target_kinds，并尽量满足 min_per_kind。

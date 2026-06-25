@@ -6,9 +6,14 @@
     "changed_files": [
       "core/engines/generation.py",
       "core/tests/unit/test_hades_quality_optimization.py",
+      "core/tests/unit/test_l5_supplement.py",
       "core/tests/unit/test_pipeline_optimization_helpers.py",
       "pipeline/step_00_idea_intake/helpers.py",
       "pipeline/step_02_design_review_freeze/helpers.py",
+      "pipeline/step_02_design_review_freeze/prompts/supplement.txt",
+      "pipeline/step_02_design_review_freeze/supplement.py",
+      "pipeline/step_02_design_review_freeze/supplement_contracts.py",
+      "pipeline/step_04_art_requirements/helpers.py",
       "knowledge/ai_memory/INDEX.md",
       "knowledge/ai_memory/project_understanding/freshness.json",
       "knowledge/ai_memory/session_history/2026-06-25-002.md",
@@ -18,7 +23,7 @@
       "knowledge/ai_memory/session_history/2026-06-25-002.md"
     ],
     "next_tasks": [
-      "若要得到新的 85+ 综合评分，需要在 GUI 或显式确认禁用/允许 pipeline_adapter 后重跑 Step00-08 产物",
+      "若后续要求 Step02 覆盖率接近 1.0，可继续扩展 missing-node fallback 上限或补齐源模板 L5 实体；本轮计划目标已达成",
       "提交前确认 plan/hades_l5_step0008_opt、其他 plan 临时目录和 settings/api_config.toml 不进入暂存区",
       "CC-Panes 共享记忆池本次因环境变量缺失未写入"
     ]

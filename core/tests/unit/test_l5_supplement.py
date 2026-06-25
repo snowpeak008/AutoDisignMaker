@@ -20,6 +20,7 @@ def _selection(
     option: str,
     purpose: str = "",
     dependencies: list[str] | None = None,
+    layer_title: str = "测试层",
 ) -> SimpleNamespace:
     return SimpleNamespace(
         index=index,
@@ -32,7 +33,7 @@ def _selection(
         dependencies=dependencies or [],
         unlocks=[],
         layer_status="Submitted / accepted",
-        layer_title="测试层",
+        layer_title=layer_title,
         source_ref=f"test.md:{index}",
     )
 
@@ -488,6 +489,44 @@ def test_entity_validator_accepts_supplement_adapter(tmp_path) -> None:
     assert report["ai_supplement"]["entities_completed"] == 1
     assert report["entity_count"] == 2
     assert report["entity_coverage_rate"] == 1.0
+
+
+def test_entity_validator_passes_real_missing_nodes_to_fallback(tmp_path) -> None:
+    parsed = {
+        "source": "test.md",
+        "raw_text": "Hades roguelike action",
+        "source_sha256": "missing-node-test",
+        "design_summary": {"node_count": 3},
+        "selections": [
+            _selection(1, "combat_system_decision", "Combat", layer_title="设计决策"),
+            _selection(
+                2, "currency_system_decision", "Currency", layer_title="设计决策"
+            ),
+            _selection(3, "level_space_decision", "Level", layer_title="设计决策"),
+            _selection(
+                4,
+                "L5实体",
+                "Combat Runtime",
+                "kind=system；schema=system.v1",
+                ["combat_system_decision"],
+                layer_title="L5实体",
+            ),
+        ],
+    }
+    adapter = EntitySupplementAdapter(
+        cache_dir=tmp_path,
+        adapter_name="codex",
+        model_adapter=FakeAdapter('{"supplemented_entities": []}'),
+    )
+
+    report = EntityValidator().validate(parsed, supplement_adapter=adapter)
+    node_ids = {entity["node_id"] for entity in report["entities"]}
+
+    assert report["ai_supplement"]["fallback_used"] is True
+    assert report["covered_concrete_nodes"] == 3
+    assert report["entity_coverage_rate"] == 1.0
+    assert {"currency_system_decision", "level_space_decision"} <= node_ids
+    assert report["missing_entities"] == []
 
 
 def test_entity_validator_without_adapter_keeps_legacy_report_shape() -> None:

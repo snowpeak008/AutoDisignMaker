@@ -352,19 +352,36 @@ class EntityValidator:
         """Build the entity coverage report for Step 02."""
         entities = extract_l5_entities(parsed)
         expected_total = _expected_node_count(parsed, entities)
-        pre_covered_nodes = len(
-            {item["node_id"] for item in entities if item.get("node_id")}
+        expected_node_ids = _expected_node_ids(parsed)
+        if expected_node_ids:
+            expected_total = max(expected_total, len(expected_node_ids))
+        pre_concrete_nodes = {
+            item["node_id"] for item in entities if item.get("node_id")
+        }
+        pre_covered_nodes = (
+            len(set(expected_node_ids) & pre_concrete_nodes)
+            if expected_node_ids
+            else len(pre_concrete_nodes)
         )
         pre_coverage_rate = (
             pre_covered_nodes / expected_total if expected_total else 0.0
         )
+        supplement_context = parsed
+        if expected_node_ids:
+            supplement_context = dict(parsed)
+            supplement_context["expected_node_ids"] = expected_node_ids
+            supplement_context["missing_node_ids"] = [
+                node_id
+                for node_id in expected_node_ids
+                if node_id not in pre_concrete_nodes
+            ]
         supplement_meta: dict[str, Any] | None = None
         adapter_name = _text(getattr(supplement_adapter, "adapter_name", ""))
         should_run, trigger_reason = supplement_trigger_reason(
             entities, pre_coverage_rate, adapter_name
         )
         if supplement_adapter and should_run:
-            result = supplement_adapter.supplement(entities, parsed)
+            result = supplement_adapter.supplement(entities, supplement_context)
             entities = result.entities
             supplement_meta = {
                 "triggered": True,
@@ -395,7 +412,6 @@ class EntityValidator:
             {item["node_id"] for item in entities if item.get("node_id")}
         )
         expected_total = _expected_node_count(parsed, entities)
-        expected_node_ids = _expected_node_ids(parsed)
         if expected_node_ids:
             expected_total = max(expected_total, len(expected_node_ids))
             expected_node_set = set(expected_node_ids)

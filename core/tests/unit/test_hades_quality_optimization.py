@@ -216,6 +216,47 @@ def test_stage4_asset_items_detect_english_environment_entities() -> None:
     assert assets[0]["name"] == "内容：underworld_room"
 
 
+def test_stage4_uses_stage2_supplemented_entities_for_assets(
+    tmp_path, monkeypatch
+) -> None:
+    def fake_stage_dir(stage: int) -> Path:
+        path = tmp_path / f"stage_{stage:02d}"
+        path.mkdir(parents=True, exist_ok=True)
+        return path
+
+    monkeypatch.setattr(generation, "stage_dir", fake_stage_dir)
+    write_json(
+        fake_stage_dir(2) / "entity_coverage_report.json",
+        {
+            "entities": [
+                {
+                    "entity_id": "ENT-001",
+                    "label": "Asphodel Chamber",
+                    "kind": "room",
+                    "schema": "room.v1",
+                    "node_id": "level_space_decision",
+                    "source": "ai_supplement_missing_node_fallback",
+                }
+            ]
+        },
+    )
+
+    out_dir = tmp_path / "stage_04"
+    generation._stage4_outputs(
+        {"source": "design.md", "raw_text": "Hades roguelike", "selections": []},
+        out_dir,
+    )
+    registry = json.loads((out_dir / "asset_registry.json").read_text(encoding="utf-8"))
+    environments = [
+        asset for asset in registry["assets"] if asset["asset_type"] == "environment"
+    ]
+
+    assert len(environments) == 2
+    assert {asset["source_node_id"] for asset in environments} == {
+        "level_space_decision"
+    }
+
+
 def test_image_generation_manifest_is_skipped_by_default(tmp_path, monkeypatch) -> None:
     monkeypatch.delenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", raising=False)
 

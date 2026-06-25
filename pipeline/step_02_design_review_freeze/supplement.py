@@ -36,6 +36,9 @@ from pipeline.step_02_design_review_freeze.supplement_entities import (
 )
 
 
+MISSING_NODE_FALLBACK_LIMIT = 48
+
+
 class EntitySupplementAdapter:
     """AI-driven L5 entity supplement adapter."""
 
@@ -151,6 +154,11 @@ class EntitySupplementAdapter:
             .deduce(context, {"nodes": [], "edges": []})
             .get("systems", [])
         )
+        missing_node_ids = [
+            text(node_id)
+            for node_id in context.get("missing_node_ids", [])
+            if text(node_id)
+        ]
         request = SupplementRequest(
             project_name=self._project_name(context),
             genre=genre,
@@ -177,7 +185,8 @@ class EntitySupplementAdapter:
             l4_decisions=self._l4_decisions(selections),
             target_kinds=list(DEFAULT_TARGET_KINDS),
             min_per_kind=dict(DEFAULT_MIN_PER_KIND),
-            known_node_ids=self._known_node_ids(entities, systems),
+            missing_node_ids=missing_node_ids,
+            known_node_ids=self._known_node_ids(entities, systems, context),
         )
         request.request_hash = self._compute_hash(request, context)
         return request
@@ -234,6 +243,7 @@ class EntitySupplementAdapter:
                 f"{item.get('kind')}::{item.get('label')}::{item.get('status')}"
                 for item in request.existing_entities
             ),
+            "missing_node_ids": sorted(request.missing_node_ids),
             "min_per_kind": request.min_per_kind,
         }
         digest = hashlib.sha256(
@@ -261,7 +271,7 @@ class EntitySupplementAdapter:
         if not isinstance(library, dict):
             library = {}
         raw_entities = library.get(request.genre) or library.get("generic") or []
-        supplemented = []
+        supplemented = self._missing_node_fallback_entities(request)
         for index, raw in enumerate(raw_entities, 1):
             if not isinstance(raw, dict):
                 continue
@@ -274,6 +284,66 @@ class EntitySupplementAdapter:
             if self._validate_entity(normalized):
                 supplemented.append(normalized)
         return supplemented
+
+    def _missing_node_fallback_entities(
+        self, request: SupplementRequest
+    ) -> list[dict[str, Any]]:
+        """Create deterministic fallback entities for real missing node ids."""
+        supplemented: list[dict[str, Any]] = []
+        for index, node_id in enumerate(
+            request.missing_node_ids[:MISSING_NODE_FALLBACK_LIMIT], 1
+        ):
+            kind = self._kind_for_missing_node(node_id)
+            entity = {
+                "label": self._label_for_missing_node(node_id, kind),
+                "kind": kind,
+                "schema": f"{kind}.v1",
+                "node_id": node_id,
+                "source": "ai_supplement_missing_node_fallback",
+                "supplement_basis": (
+                    f"{request.genre or 'generic'} missing-node fallback #{index}: "
+                    f"{node_id}"
+                ),
+            }
+            normalized = self._normalize_entity(entity)
+            if self._validate_entity(normalized):
+                supplemented.append(normalized)
+        return supplemented
+
+    def _kind_for_missing_node(self, node_id: str) -> str:
+        text_lower = text(node_id).lower()
+        if any(token in text_lower for token in ("weapon", "attack")):
+            return "weapon"
+        if any(token in text_lower for token in ("enemy", "boss")):
+            return "enemy"
+        if any(
+            token in text_lower for token in ("ability", "skill", "action", "input")
+        ):
+            return "ability"
+        if any(
+            token in text_lower for token in ("room", "level", "encounter", "biome")
+        ):
+            return "room"
+        if any(token in text_lower for token in ("resource", "currency", "economy")):
+            return "resource"
+        if any(token in text_lower for token in ("ui", "hud", "interface")):
+            return "ui"
+        if any(token in text_lower for token in ("audio", "sound", "music")):
+            return "audio"
+        if any(
+            token in text_lower for token in ("scene", "environment", "art", "visual")
+        ):
+            return "scene"
+        if any(token in text_lower for token in ("character", "avatar", "npc")):
+            return "character"
+        if any(token in text_lower for token in ("system", "loop", "runtime")):
+            return "system"
+        return "config"
+
+    def _label_for_missing_node(self, node_id: str, kind: str) -> str:
+        base = text(node_id).removesuffix("_decision").replace("_", " ").strip()
+        label = " ".join(part.capitalize() for part in base.split()) or "Design Node"
+        return f"{label} {kind}"
 
     def _merge_entities(
         self,
@@ -364,9 +434,14 @@ class EntitySupplementAdapter:
         self,
         entities: list[dict[str, Any]],
         systems: list[dict[str, Any]],
+        context: dict[str, Any],
     ) -> dict[str, str]:
         """Build a compact node id reference table for AI output."""
         known = dict(NODE_BY_KIND)
+        for node_id in context.get("expected_node_ids", []):
+            clean_node_id = text(node_id)
+            if clean_node_id:
+                known.setdefault(clean_node_id, clean_node_id)
         for system in systems:
             if not isinstance(system, dict):
                 continue

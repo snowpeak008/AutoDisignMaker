@@ -80,6 +80,7 @@ class SupplementRequest:
     l4_decisions: dict[str, Any]
     target_kinds: list[str]
     min_per_kind: dict[str, int]
+    missing_node_ids: list[str]
     known_node_ids: dict[str, str]
     request_hash: str = ""
     schema_version: int = 1
