@@ -16,6 +16,7 @@ GENRE_DEFAULT_EVIDENCE = {
         "CQ-008": "顶层系统：即时战斗、房间推进、奖励选择、构筑成长和局外成长。",
         "CQ-009": "核心内容对象：武器、敌人、技能/祝福、房间、资源和首领。",
         "CQ-010": "资源关系：清场奖励、货币消耗、升级解锁和构筑收益。",
+        "CQ-011": "运行时流程：房间加载 -> 战斗清场 -> 奖励结算 -> 下一房间，由 room_state_machine 驱动。",
         "CQ-012": "表现需求：攻击反馈、命中特效、奖励图标、房间可读性和战斗 UI。",
     },
     "fps": {
@@ -98,8 +99,13 @@ def _selection_source(item: Any) -> str:
 
 def _genre_key(raw_text: str, selections: list[Any]) -> str:
     """Return a known genre key when context is explicit enough."""
-    haystack = (raw_text + " " + " ".join(_selection_text(item) for item in selections)).lower()
-    if any(token in haystack for token in ("hades", "rogue", "roguelike", "roguelite", "肉鸽")):
+    haystack = (
+        raw_text + " " + " ".join(_selection_text(item) for item in selections)
+    ).lower()
+    if any(
+        token in haystack
+        for token in ("hades", "rogue", "roguelike", "roguelite", "肉鸽")
+    ):
         return "roguelike_action"
     if any(token in haystack for token in ("fps", "shooter", "射击", "枪")):
         return "fps"
@@ -107,7 +113,10 @@ def _genre_key(raw_text: str, selections: list[Any]) -> str:
         return "puzzle"
     if any(token in haystack for token in ("strategy", "rts", "4x", "策略", "战棋")):
         return "strategy"
-    if any(token in haystack for token in ("rpg", "jrpg", "arpg", "role-playing", "角色扮演")):
+    if any(
+        token in haystack
+        for token in ("rpg", "jrpg", "arpg", "role-playing", "角色扮演")
+    ):
         return "rpg"
     if any(token in haystack for token in ("moba", "推塔", "对线")):
         return "moba"
@@ -156,7 +165,9 @@ class ConceptProcessor:
             }
         return profile
 
-    def _first_matching(self, selections: list[Any], tokens: tuple[str, ...]) -> dict[str, Any]:
+    def _first_matching(
+        self, selections: list[Any], tokens: tuple[str, ...]
+    ) -> dict[str, Any]:
         """Return the first selection matching any token."""
         items = self._matching_items(selections, tokens, limit=1)
         return items[0] if items else {}
@@ -190,11 +201,14 @@ class ConceptProcessor:
             token in raw_text for token in ("策略", "战棋")
         ):
             return "规划部署 -> 执行操作 -> 观察结果 -> 调整策略 -> 争夺胜利"
-        if any(token in lower for token in ("rpg", "jrpg", "arpg")) or "角色扮演" in raw_text:
-            return "接取目标 -> 探索战斗 -> 获得装备 -> 角色成长 -> 推进剧情"
-        if any(token in lower for token in ("moba", "tower defense", "tower_defense")) or any(
-            token in raw_text for token in ("塔防", "推塔")
+        if (
+            any(token in lower for token in ("rpg", "jrpg", "arpg"))
+            or "角色扮演" in raw_text
         ):
+            return "接取目标 -> 探索战斗 -> 获得装备 -> 角色成长 -> 推进剧情"
+        if any(
+            token in lower for token in ("moba", "tower defense", "tower_defense")
+        ) or any(token in raw_text for token in ("塔防", "推塔")):
             return "部署/选路 -> 对抗敌方 -> 获取资源 -> 升级构筑 -> 推进目标"
         if "puzzle" in lower or "解谜" in raw_text:
             return "观察局面 -> 尝试操作 -> 获得反馈 -> 解锁下一谜题"
@@ -248,13 +262,19 @@ class QuestionEngine:
         raw_text: str,
     ) -> list[dict[str, str]]:
         """Find selection or raw-text evidence for one coverage question."""
-        item_types = {_text(item).lower() for item in question.get("item_types", []) if item}
-        keywords = [_text(item).lower() for item in question.get("keywords", []) if item]
+        item_types = {
+            _text(item).lower() for item in question.get("item_types", []) if item
+        }
+        keywords = [
+            _text(item).lower() for item in question.get("keywords", []) if item
+        ]
         evidence: list[dict[str, str]] = []
         for item in selections:
             item_type = _text(_field(item, "item_type")).lower()
             haystack = _selection_text(item).lower()
-            if item_type in item_types or any(keyword in haystack for keyword in keywords):
+            if item_type in item_types or any(
+                keyword in haystack for keyword in keywords
+            ):
                 evidence.append(
                     {
                         "label": _selection_label(item),
@@ -270,12 +290,16 @@ class QuestionEngine:
                 {
                     "label": raw_text[:120],
                     "source": "raw_text",
-                    "match": "raw_text_multi_keyword" if len(raw_matches) > 1 else "raw_text",
+                    "match": (
+                        "raw_text_multi_keyword" if len(raw_matches) > 1 else "raw_text"
+                    ),
                 }
             )
         if not evidence:
             genre = _genre_key(raw_text, selections)
-            default_label = GENRE_DEFAULT_EVIDENCE.get(genre, {}).get(_text(question.get("id")))
+            default_label = GENRE_DEFAULT_EVIDENCE.get(genre, {}).get(
+                _text(question.get("id"))
+            )
             if default_label:
                 evidence.append(
                     {

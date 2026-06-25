@@ -1,5 +1,29 @@
 [
   {
+    "id": "2026-06-25-002",
+    "date": "2026-06-25",
+    "summary": "执行 hades_l5_step0008_opt v2：Step00-08 质量优化",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "core/tests/unit/test_pipeline_optimization_helpers.py",
+      "pipeline/step_00_idea_intake/helpers.py",
+      "pipeline/step_02_design_review_freeze/helpers.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-25-002.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-25-002.md"
+    ],
+    "next_tasks": [
+      "若要得到新的 85+ 综合评分，需要在 GUI 或显式确认禁用/允许 pipeline_adapter 后重跑 Step00-08 产物",
+      "提交前确认 plan/hades_l5_step0008_opt、其他 plan 临时目录和 settings/api_config.toml 不进入暂存区",
+      "CC-Panes 共享记忆池本次因环境变量缺失未写入"
+    ]
+  },
+  {
     "id": "2026-06-25-001",
     "date": "2026-06-25",
     "summary": "集中缓存目录与 Step05 绑定质量优化",

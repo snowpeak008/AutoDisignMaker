@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from core.io import now_iso
@@ -207,6 +208,71 @@ def _prioritize_unmapped_nodes(
     return sorted(enriched, key=priority_score)
 
 
+def _coerce_node_id(value: Any) -> str:
+    text = _text(value)
+    if not text:
+        return ""
+    return text.split()[0].strip("：:,，;；")
+
+
+def _append_unique_node_id(node_ids: list[str], seen: set[str], value: Any) -> None:
+    node_id = _coerce_node_id(value)
+    if node_id and node_id not in seen:
+        seen.add(node_id)
+        node_ids.append(node_id)
+
+
+def _expected_node_ids(parsed: dict[str, Any]) -> list[str]:
+    """Return traceable expected design node ids when the source exposes them."""
+    node_ids: list[str] = []
+    seen: set[str] = set()
+
+    def collect_from_node_payload(payload: Any) -> None:
+        if isinstance(payload, str):
+            _append_unique_node_id(node_ids, seen, payload)
+            return
+        if isinstance(payload, dict):
+            for key in ("node_id", "id", "key"):
+                if payload.get(key):
+                    _append_unique_node_id(node_ids, seen, payload.get(key))
+                    return
+
+    for key in ("design_nodes", "template_nodes", "expected_nodes", "node_ids"):
+        payload = parsed.get(key)
+        if isinstance(payload, list):
+            for item in payload:
+                collect_from_node_payload(item)
+
+    summary = parsed.get("design_summary")
+    if isinstance(summary, dict):
+        for key in ("design_nodes", "template_nodes", "expected_nodes", "node_ids"):
+            payload = summary.get(key)
+            if isinstance(payload, list):
+                for item in payload:
+                    collect_from_node_payload(item)
+
+    for item in parsed.get("selections", []):
+        item_type = _text(_field(item, "item_type"))
+        layer_title = _text(_field(item, "layer_title"))
+        if item_type in {"L5节点", "设计节点", "Design Node"}:
+            _append_unique_node_id(node_ids, seen, _field(item, "option"))
+        elif layer_title == "设计决策" and item_type not in {
+            "L5实体",
+            "资源",
+            "表现",
+        }:
+            _append_unique_node_id(node_ids, seen, item_type)
+
+    raw_text = _text(parsed.get("raw_text"))
+    if raw_text:
+        for match in re.finditer(
+            r"^\s*-\s+L5节点[：:]\s*([^\s]+)", raw_text, re.MULTILINE
+        ):
+            _append_unique_node_id(node_ids, seen, match.group(1))
+
+    return node_ids
+
+
 def supplement_trigger_reason(
     entities: list[dict[str, Any]],
     entity_coverage_rate: float,
@@ -329,14 +395,31 @@ class EntityValidator:
             {item["node_id"] for item in entities if item.get("node_id")}
         )
         expected_total = _expected_node_count(parsed, entities)
-        missing_count = max(expected_total - len(concrete_nodes), 0)
+        expected_node_ids = _expected_node_ids(parsed)
+        if expected_node_ids:
+            expected_total = max(expected_total, len(expected_node_ids))
+            expected_node_set = set(expected_node_ids)
+            covered_nodes = len(expected_node_set & set(concrete_nodes))
+            missing_seed = [
+                {
+                    "node_id": node_id,
+                    "reason": "No L5 entity mapped to this expected design node.",
+                }
+                for node_id in expected_node_ids
+                if node_id not in set(concrete_nodes)
+            ]
+        else:
+            covered_nodes = len(concrete_nodes)
+            missing_seed = []
+        missing_count = max(expected_total - covered_nodes, 0)
         missing_entities = _prioritize_unmapped_nodes(
-            [
+            missing_seed
+            + [
                 {
                     "node_id": f"UNMAPPED-NODE-{index:03d}",
                     "reason": "No L5 entity mapped to this expected design node.",
                 }
-                for index in range(1, missing_count + 1)
+                for index in range(1, max(missing_count - len(missing_seed), 0) + 1)
             ]
         )
         invalid_entities = [
@@ -350,7 +433,6 @@ class EntityValidator:
             or not item.get("kind")
             or item.get("schema") == "unknown"
         ]
-        covered_nodes = len(concrete_nodes)
         total_nodes = expected_total
         coverage_rate = covered_nodes / total_nodes if total_nodes else 0.0
         report = {

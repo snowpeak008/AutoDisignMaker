@@ -8,6 +8,38 @@
 ## 上次会话摘要
 
 **日期**：2026-06-25
+**ID**：2026-06-25-002
+**摘要**：执行 `hades_l5_step0008_opt` v2：Step00-08 质量优化
+
+**完成内容**：
+- ✅ PLAN-B：Step04 资产识别补充英文 environment 关键词，支持 `room` / `level` / `chamber` / `dungeon` / `tileset`
+- ✅ PLAN-C：Step07 任务分类移除 `schema=...` 元数据干扰，并跳过 `documentation_*` 治理需求
+- ✅ PLAN-A：Step02 `missing_entities` 优先输出真实 expected node_id，不再只给 `UNMAPPED-NODE-xxx`
+- ✅ PLAN-D：Step00 `roguelike_action` 补充 CQ-011 运行时流程 genre evidence
+- ✅ 新增回归测试覆盖英文 environment 资产、documentation 过滤、真实缺失节点追踪和 CQ-011 evidence
+
+**自查修复**：
+- ✅ black 格式化后重新跑全量测试和静态检查
+- ✅ `python tools\validators\pipeline_quality.py --artifacts-dir drafts\20260625_005841_32832\outputs\artifacts` 可读取基准产物；该产物未重跑，仍显示旧评分
+- ✅ 未直接重跑 Step00-08 CLI，因为本地 `pipeline_adapter=codex`，直接运行会触发外部 Step02 AI 补全路径
+
+**验证**：
+- ✅ 关联回归测试：73 passed
+- ✅ `python -m pytest -q`：109 passed
+- ✅ black / flake8 / `py_compile`：本轮触碰文件通过
+- ✅ `python -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production`：通过
+- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+
+**后续关注**：
+- [ ] 若要得到新的 85+ 综合评分，需要在 GUI 或显式确认禁用/允许 `pipeline_adapter` 后重跑 Step00-08 产物
+- [ ] 提交前确认 `plan/hades_l5_step0008_opt/`、其他 `plan/` 临时目录和 `settings/api_config.toml` 不进入暂存区
+- [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-25
 **ID**：2026-06-25-001
 **摘要**：集中缓存目录与 Step05 绑定质量优化
 
@@ -38,8 +70,6 @@
 - [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-24
 **ID**：2026-06-24-006

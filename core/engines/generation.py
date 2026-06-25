@@ -1448,9 +1448,7 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         )
     requirements.extend(EntityToRequirementConverter().convert(parsed))
     binder.bind(requirements, system_graph)
-    binding_stats = RequirementBindingEngine(freeze_contract).bind_missing(
-        requirements
-    )
+    binding_stats = RequirementBindingEngine(freeze_contract).bind_missing(requirements)
 
     systems_md = ["# Systems", ""]
     for node in system_graph["nodes"]:
@@ -1619,13 +1617,31 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
 def _asset_type(item: Selection) -> str:
     text = item.label + " " + item.purpose
-    if "配置" in text:
+    normalized = text.lower()
+    if "配置" in text or "config" in normalized:
         return "config"
-    if any(token in text for token in ("UI", "HUD", "图标", "界面")):
+    if any(token in normalized for token in ("ui", "hud")) or any(
+        token in text for token in ("图标", "界面")
+    ):
         return "ui"
-    if any(token in text for token in ("特效", "反馈", "奖励")):
+    if any(token in text for token in ("特效", "反馈", "奖励")) or any(
+        token in normalized for token in ("vfx", "effect", "feedback", "reward")
+    ):
         return "effect"
-    if any(token in text for token in ("场景", "环境", "区域", "章节", "空间")):
+    if any(token in text for token in ("场景", "环境", "区域", "章节", "空间")) or any(
+        token in normalized
+        for token in (
+            "room",
+            "level",
+            "environment",
+            "chamber",
+            "dungeon",
+            "floor",
+            "biome",
+            "tileset",
+            "backdrop",
+        )
+    ):
         return "environment"
     return "art_asset"
 
@@ -1648,8 +1664,12 @@ def _asset_items(parsed: dict[str, Any]) -> list[dict[str, Any]]:
         for item in parsed["selections"]
         if item.item_type in {"资源", "表现"}
         or any(
-            token in item.label + item.purpose
+            token in (item.label + item.purpose).lower()
             for token in ("UI", "HUD", "素材", "镜头", "反馈", "环境")
+        )
+        or any(
+            token in (item.label + item.purpose).lower()
+            for token in ("ui", "hud", "room", "level", "chamber", "dungeon")
         )
     ]
     result = []
@@ -1973,9 +1993,8 @@ def _task_template_note() -> str:
 
 
 def _program_task_category(req: dict[str, Any]) -> str:
-    text = (
-        f"{req.get('requirement', '')} {req.get('acceptance', '')} {req.get('phase', '')}"
-    ).lower()
+    raw_text = f"{req.get('requirement', '')} {req.get('acceptance', '')} {req.get('phase', '')}"
+    text = re.sub(r"\bschema=[^\s；;,，]+", "", raw_text, flags=re.IGNORECASE).lower()
     if any(token in text for token in ("combat", "战斗", "attack", "dash", "weapon")):
         return "combat"
     if any(token in text for token in ("progression", "成长", "upgrade", "mirror")):
@@ -1997,6 +2016,26 @@ def _program_task_category(req: dict[str, Any]) -> str:
     if any(token in text for token in ("social", "community", "社区")):
         return "social"
     return str(req.get("phase") or "core_playable")
+
+
+def _is_documentation_requirement(req: dict[str, Any]) -> bool:
+    direct_values = [
+        req.get("system"),
+        req.get("phase"),
+        req.get("selection_id"),
+        req.get("entity_id"),
+        req.get("entity_label"),
+        req.get("entity_kind"),
+        req.get("entity_schema"),
+    ]
+    related_values = list(req.get("dependencies", []) or []) + list(
+        req.get("outputs", []) or []
+    )
+    for value in direct_values + related_values:
+        normalized = str(value or "").strip().lower()
+        if normalized.startswith("documentation_"):
+            return True
+    return False
 
 
 def _program_task_priority(req: dict[str, Any], category: str) -> str:
@@ -2065,8 +2104,10 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         if isinstance(item, dict)
     }
     tasks = []
-    for index, req in enumerate(requirements, 1):
-        task_id = f"DEV-{index:03d}"
+    for req in requirements:
+        if _is_documentation_requirement(req):
+            continue
+        task_id = f"DEV-{len(tasks) + 1:03d}"
         phase = str(req.get("phase", "core_playable"))
         binding = binding_by_req.get(str(req.get("id")), {})
         target_path = str(binding.get("target_path") or _phase_target_path(phase))
@@ -2358,7 +2399,11 @@ def _write_generated_images_manifest(
         "stage": stage,
         "enabled": enabled,
         "status": "skipped" if not enabled else "not_started",
-        "reason": "" if enabled else "Set AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION=1 to call the image generator.",
+        "reason": (
+            ""
+            if enabled
+            else "Set AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION=1 to call the image generator."
+        ),
         "task_count": len(tasks),
         "generated_count": 0,
         "records": [],
@@ -2390,14 +2435,24 @@ def _write_generated_images_manifest(
                 output_format="png",
             )
             ok = "已保存" in result or "saved" in result.lower()
-            records.append({"task_id": task_id, "status": "success" if ok else "failed", "result": result})
+            records.append(
+                {
+                    "task_id": task_id,
+                    "status": "success" if ok else "failed",
+                    "result": result,
+                }
+            )
         except Exception as exc:  # noqa: BLE001 - external image API boundary
             records.append({"task_id": task_id, "status": "failed", "result": str(exc)})
 
     generated_count = sum(1 for item in records if item["status"] == "success")
     manifest.update(
         {
-            "status": "success" if generated_count == len(tasks) else "partial" if generated_count else "failed",
+            "status": (
+                "success"
+                if generated_count == len(tasks)
+                else "partial" if generated_count else "failed"
+            ),
             "generated_count": generated_count,
             "records": records,
         }

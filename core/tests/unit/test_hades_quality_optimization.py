@@ -98,6 +98,50 @@ def test_stage7_tasks_include_clean_titles_category_and_priority(
     assert "priority" in config_schema["required_task_fields"]
 
 
+def test_stage7_skips_documentation_requirements_and_ignores_schema_metadata(
+    tmp_path, monkeypatch
+) -> None:
+    def fake_stage_dir(stage: int) -> Path:
+        return tmp_path / f"stage_{stage:02d}"
+
+    monkeypatch.setattr(generation, "stage_dir", fake_stage_dir)
+    stage3 = fake_stage_dir(3)
+    write_json(
+        stage3 / "program_requirements_contract.json",
+        {
+            "requirements": [
+                {
+                    "id": "REQ-DOC",
+                    "requirement": "实现 documentation_runtime_decision 的文档治理输出。",
+                    "phase": "core_playable",
+                    "source_refs": ["design.md:1"],
+                    "acceptance": "文档节点仅记录治理决策。",
+                    "dependencies": ["documentation_runtime_decision"],
+                },
+                {
+                    "id": "REQ-SKILL",
+                    "requirement": "实现 L5实体 Varatha 的武器攻击行为。",
+                    "phase": "core_playable",
+                    "source_refs": ["design.md:2"],
+                    "acceptance": "kind=skill；schema=skill_card_v1；effect=attack_dash",
+                    "dependencies": ["combat_weapon_decision"],
+                },
+            ]
+        },
+    )
+    write_json(stage3 / "program_structure_spec.json", {"system_path_map": []})
+
+    out_dir = tmp_path / "stage_07"
+    generation._stage7_outputs({}, out_dir)
+    plan = json.loads(
+        (out_dir / "program_task_breakdown.json").read_text(encoding="utf-8")
+    )
+
+    assert len(plan["tasks"]) == 1
+    assert plan["tasks"][0]["requirement_id"] == "REQ-SKILL"
+    assert plan["tasks"][0]["category"] == "combat"
+
+
 def test_stage8_tasks_carry_asset_classification_and_clean_titles(
     tmp_path, monkeypatch
 ) -> None:
@@ -136,6 +180,40 @@ def test_stage8_tasks_carry_asset_classification_and_clean_titles(
     assert task["priority"] == "P1"
     assert task["complexity"] == "m"
     assert (out_dir / "TEMPLATE_NOTE.md").exists()
+
+
+def test_stage4_asset_items_detect_english_environment_entities() -> None:
+    parsed = {
+        "selections": [
+            generation.Selection(
+                index=1,
+                layer_number=1,
+                layer_title="内容对象",
+                layer_status="已提交",
+                item_type="内容",
+                option="underworld_room",
+                purpose="Room layout, dungeon floor, chamber variant and tileset rules.",
+                source_ref="design.md:1",
+                source_line=1,
+            ),
+            generation.Selection(
+                index=2,
+                layer_number=1,
+                layer_title="内容对象",
+                layer_status="已提交",
+                item_type="内容",
+                option="boon_choice_ui",
+                purpose="HUD choice panel for rewards.",
+                source_ref="design.md:2",
+                source_line=2,
+            ),
+        ]
+    }
+
+    assets = generation._asset_items(parsed)
+
+    assert [asset["asset_type"] for asset in assets] == ["environment", "ui"]
+    assert assets[0]["name"] == "内容：underworld_room"
 
 
 def test_image_generation_manifest_is_skipped_by_default(tmp_path, monkeypatch) -> None:

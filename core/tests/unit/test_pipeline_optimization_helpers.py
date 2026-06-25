@@ -23,7 +23,10 @@ from pipeline.step_03_program_requirements.helpers import (
     build_requirement_quality_report,
 )
 from pipeline.step_04_art_requirements import helpers as step04_helpers
-from pipeline.step_04_art_requirements.helpers import EntityToAssetConverter, MarketResearchSkill
+from pipeline.step_04_art_requirements.helpers import (
+    EntityToAssetConverter,
+    MarketResearchSkill,
+)
 from pipeline.step_05_program_review.helpers import IntelligentReviewer
 from tools.validators.pipeline_quality import check_plan_002, collect_quality_metrics
 
@@ -34,6 +37,7 @@ def _selection(
     option: str,
     purpose: str = "",
     dependencies: list[str] | None = None,
+    layer_title: str = "测试层",
 ):
     return SimpleNamespace(
         index=index,
@@ -44,7 +48,7 @@ def _selection(
         purpose=purpose,
         dependencies=dependencies or [],
         unlocks=[],
-        layer_title="测试层",
+        layer_title=layer_title,
         source_ref=f"test.md:{index}",
     )
 
@@ -81,7 +85,10 @@ def test_framework_export_tolerates_missing_core_loops():
     markdown = _framework_markdown_from_project_state(
         {
             "projectName": "No Loop Project",
-            "gameplaySystems": {"selected": ["combat"], "weights": {"combat": {"weight": 80}}},
+            "gameplaySystems": {
+                "selected": ["combat"],
+                "weights": {"combat": {"weight": 80}},
+            },
         }
     )
 
@@ -140,7 +147,28 @@ def test_step00_uses_genre_inference_for_new_step01_genres():
         questions = {item["id"]: item for item in report["questions"]}
 
         assert report["coverage_rate"] >= 0.55
-        assert questions[question_id]["evidence"][0]["source"] == f"genre_template:{expected_genre}"
+        assert (
+            questions[question_id]["evidence"][0]["source"]
+            == f"genre_template:{expected_genre}"
+        )
+
+
+def test_step00_roguelike_action_supplies_runtime_flow_evidence():
+    parsed = {
+        "source": "concept.md",
+        "raw_text": "Hades roguelike action combat draft.",
+        "selections": [],
+    }
+
+    report = QuestionEngine().evaluate(parsed)
+    questions = {item["id"]: item for item in report["questions"]}
+
+    assert questions["CQ-011"]["answered"] is True
+    assert (
+        questions["CQ-011"]["evidence"][0]["source"]
+        == "genre_template:roguelike_action"
+    )
+    assert questions["CQ-011"]["evidence"][0]["match"] == "genre_inference"
 
 
 def test_step00_cq013_cq014_match_common_project_fields():
@@ -162,7 +190,11 @@ def test_step00_cq013_cq014_match_common_project_fields():
 
 
 def test_step01_extracts_fallback_loop_and_at_least_five_systems():
-    parsed = {"source": "test.md", "raw_text": "Hades inspired roguelike combat", "selections": []}
+    parsed = {
+        "source": "test.md",
+        "raw_text": "Hades inspired roguelike combat",
+        "selections": [],
+    }
     loop = LoopExtractor().extract(parsed)
     systems = SystemDeducer().deduce(parsed, {"nodes": [], "edges": []})
 
@@ -188,8 +220,15 @@ def test_step01_caps_deduced_system_count_at_eight():
 
 
 def test_step01_cleans_system_prefix_and_supports_strategy_template():
-    parsed = {"source": "test.md", "raw_text": "strategy tactics game", "selections": []}
-    graph = {"nodes": [{"id": "strategy_node", "name": "system_layer：战术部署系统"}], "edges": []}
+    parsed = {
+        "source": "test.md",
+        "raw_text": "strategy tactics game",
+        "selections": [],
+    }
+    graph = {
+        "nodes": [{"id": "strategy_node", "name": "system_layer：战术部署系统"}],
+        "edges": [],
+    }
 
     loop = LoopExtractor().extract(parsed)
     systems = SystemDeducer().deduce(parsed, graph)
@@ -214,14 +253,18 @@ def test_step01_blank_fps_and_puzzle_templates_have_playable_systems():
         assert systems["system_count"] >= minimum_system_count
 
 
-def test_step01_template_cache_refreshes_when_template_file_appears(tmp_path, monkeypatch):
+def test_step01_template_cache_refreshes_when_template_file_appears(
+    tmp_path, monkeypatch
+):
     template_path = tmp_path / "genre_templates.json"
     monkeypatch.setattr(step01_helpers, "GENRE_TEMPLATES_PATH", template_path)
 
     assert step01_helpers._load_templates() == {}
 
     template_path.write_text(
-        json.dumps({"generic": {"core_loop": ["缓存刷新"], "systems": []}}, ensure_ascii=False),
+        json.dumps(
+            {"generic": {"core_loop": ["缓存刷新"], "systems": []}}, ensure_ascii=False
+        ),
         encoding="utf-8",
     )
 
@@ -234,7 +277,11 @@ def test_step02_entity_validation_graph_and_phase_classification():
         "design_summary": {"node_count": 1},
         "selections": [
             _selection(
-                1, "L5实体", "Stygian Blade", "kind=weapon；schema=weapon.v1", ["combat_node"]
+                1,
+                "L5实体",
+                "Stygian Blade",
+                "kind=weapon；schema=weapon.v1",
+                ["combat_node"],
             ),
         ],
     }
@@ -274,18 +321,29 @@ def test_step02_l5_entity_ids_are_continuous():
         "selections": [
             _selection(1, "项目定位", "Action roguelike"),
             _selection(
-                2, "L5实体", "Stygian Blade", "kind=weapon；schema=weapon.v1", ["combat_node"]
+                2,
+                "L5实体",
+                "Stygian Blade",
+                "kind=weapon；schema=weapon.v1",
+                ["combat_node"],
             ),
             _selection(3, "玩法系统", "战斗系统"),
             _selection(
-                4, "L5实体", "Dash Strike", "kind=ability；schema=ability.v1", ["ability_node"]
+                4,
+                "L5实体",
+                "Dash Strike",
+                "kind=ability；schema=ability.v1",
+                ["ability_node"],
             ),
         ],
     }
 
     report = EntityValidator().validate(parsed)
 
-    assert [entity["entity_id"] for entity in report["entities"]] == ["ENT-001", "ENT-002"]
+    assert [entity["entity_id"] for entity in report["entities"]] == [
+        "ENT-001",
+        "ENT-002",
+    ]
 
 
 def test_step02_entity_coverage_uses_expected_design_node_count():
@@ -294,7 +352,11 @@ def test_step02_entity_coverage_uses_expected_design_node_count():
         "design_summary": {"node_count": 4},
         "selections": [
             _selection(
-                1, "L5实体", "Stygian Blade", "kind=weapon；schema=weapon.v1", ["combat_node"]
+                1,
+                "L5实体",
+                "Stygian Blade",
+                "kind=weapon；schema=weapon.v1",
+                ["combat_node"],
             ),
         ],
     }
@@ -307,12 +369,44 @@ def test_step02_entity_coverage_uses_expected_design_node_count():
     assert len(report["missing_entities"]) == 3
 
 
+def test_step02_missing_entities_use_real_expected_node_ids():
+    parsed = {
+        "source": "test.md",
+        "design_summary": {"node_count": 3},
+        "selections": [
+            _selection(1, "combat_system_decision", "Combat", layer_title="设计决策"),
+            _selection(2, "ability_choice_decision", "Ability", layer_title="设计决策"),
+            _selection(3, "level_space_decision", "Level", layer_title="设计决策"),
+            _selection(
+                4,
+                "L5实体",
+                "Combat Runtime",
+                "kind=system；schema=system.v1",
+                ["combat_system_decision"],
+                layer_title="L5实体",
+            ),
+        ],
+    }
+
+    report = EntityValidator().validate(parsed)
+
+    missing_node_ids = {item["node_id"] for item in report["missing_entities"]}
+    assert report["covered_concrete_nodes"] == 1
+    assert report["entity_coverage_rate"] == round(1 / 3, 4)
+    assert missing_node_ids == {"ability_choice_decision", "level_space_decision"}
+    assert not any(node_id.startswith("UNMAPPED-NODE") for node_id in missing_node_ids)
+
+
 def test_step02_real_l5_without_expected_total_does_not_report_fake_full_coverage():
     parsed = {
         "source": "test.md",
         "selections": [
             _selection(
-                1, "L5实体", "Stygian Blade", "kind=weapon；schema=weapon.v1", ["combat_node"]
+                1,
+                "L5实体",
+                "Stygian Blade",
+                "kind=weapon；schema=weapon.v1",
+                ["combat_node"],
             ),
         ],
     }
@@ -364,12 +458,18 @@ def test_step03_converts_entities_to_bound_requirements():
         "source": "test.md",
         "selections": [
             _selection(
-                1, "L5实体", "Stygian Blade", "kind=weapon；schema=weapon.v1", ["combat_node"]
+                1,
+                "L5实体",
+                "Stygian Blade",
+                "kind=weapon；schema=weapon.v1",
+                ["combat_node"],
             ),
         ],
     }
     requirements = EntityToRequirementConverter().convert(parsed)
-    SystemBinder().bind(requirements, {"nodes": [{"id": "combat_node", "name": "Combat"}]})
+    SystemBinder().bind(
+        requirements, {"nodes": [{"id": "combat_node", "name": "Combat"}]}
+    )
     quality = build_requirement_quality_report(requirements)
 
     assert len(requirements) >= 3
@@ -391,7 +491,9 @@ def test_step03_unrelated_text_does_not_get_fuzzy_bound():
         }
     ]
 
-    SystemBinder().bind(requirements, {"nodes": [{"id": "SYS-COMBAT", "name": "Combat"}]})
+    SystemBinder().bind(
+        requirements, {"nodes": [{"id": "SYS-COMBAT", "name": "Combat"}]}
+    )
 
     assert requirements[0]["system_ids"] == []
     assert requirements[0]["system_binding"]["method"] == "unmatched"
@@ -403,7 +505,11 @@ def test_step04_converts_entities_to_assets_with_market_fallback():
         "raw_text": "Hades roguelike action",
         "selections": [
             _selection(
-                1, "L5实体", "Stygian Blade", "kind=weapon；schema=weapon.v1", ["combat_node"]
+                1,
+                "L5实体",
+                "Stygian Blade",
+                "kind=weapon；schema=weapon.v1",
+                ["combat_node"],
             ),
         ],
     }
@@ -457,7 +563,9 @@ def test_step04_reads_roguelike_action_market_library_alias(tmp_path, monkeypatc
         encoding="utf-8",
     )
 
-    market = MarketResearchSkill().local_fallback({"raw_text": "Hades roguelike action"})
+    market = MarketResearchSkill().local_fallback(
+        {"raw_text": "Hades roguelike action"}
+    )
 
     assert market["mode"] == "reference_library"
     assert market["genre"] == "roguelike_action"
@@ -468,9 +576,19 @@ def test_step04_asset_phase_matches_six_phase_classifier():
         "source": "test.md",
         "selections": [
             _selection(
-                1, "L5实体", "永久解锁", "kind=ability；schema=ability.v1", ["progression_node"]
+                1,
+                "L5实体",
+                "永久解锁",
+                "kind=ability；schema=ability.v1",
+                ["progression_node"],
             ),
-            _selection(2, "L5实体", "公会大厅", "kind=system；schema=system.v1", ["social_node"]),
+            _selection(
+                2,
+                "L5实体",
+                "公会大厅",
+                "kind=system；schema=system.v1",
+                ["social_node"],
+            ),
             _selection(
                 3,
                 "L5实体",
@@ -481,7 +599,10 @@ def test_step04_asset_phase_matches_six_phase_classifier():
         ],
     }
 
-    phases = {asset["required_for_phase"] for asset in EntityToAssetConverter().convert(parsed)}
+    phases = {
+        asset["required_for_phase"]
+        for asset in EntityToAssetConverter().convert(parsed)
+    }
 
     assert {"progression", "social", "launch_ops"}.issubset(phases)
 
@@ -568,9 +689,14 @@ def test_pipeline_quality_collects_from_explicit_artifacts_root(tmp_path):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(payload), encoding="utf-8")
 
-    write_json(tmp_path / "stage_00" / "core_question_coverage_report.json", {"coverage_rate": 0.5})
+    write_json(
+        tmp_path / "stage_00" / "core_question_coverage_report.json",
+        {"coverage_rate": 0.5},
+    )
     write_json(tmp_path / "stage_01" / "core_loop.json", {"loop": ["act"]})
-    write_json(tmp_path / "stage_01" / "system_definitions.json", {"definition_rate": 1.0})
+    write_json(
+        tmp_path / "stage_01" / "system_definitions.json", {"definition_rate": 1.0}
+    )
     write_json(
         tmp_path / "stage_02" / "entity_coverage_report.json",
         {"entity_coverage_rate": 0.9, "entity_count": 3},
@@ -579,7 +705,9 @@ def test_pipeline_quality_collects_from_explicit_artifacts_root(tmp_path):
         tmp_path / "stage_03" / "requirement_quality_report.json",
         {"system_binding_rate": 1.0, "placeholder_rate": 0.0},
     )
-    write_json(tmp_path / "stage_04" / "asset_registry.json", {"assets": [{"asset_id": "A1"}]})
+    write_json(
+        tmp_path / "stage_04" / "asset_registry.json", {"assets": [{"asset_id": "A1"}]}
+    )
     write_json(
         tmp_path / "stage_05" / "intelligent_review_report.json",
         {"warning_count": 2, "blocking_issue_count": 0},
@@ -606,7 +734,9 @@ def test_pipeline_quality_plan_002_check_uses_entity_coverage(tmp_path):
     assert payload["checks"]["plan-002"]["passed"] is True
 
 
-def test_find_sources_falls_back_to_latest_draft_source_artifacts(tmp_path, monkeypatch):
+def test_find_sources_falls_back_to_latest_draft_source_artifacts(
+    tmp_path, monkeypatch
+):
     drafts_dir = tmp_path / "drafts"
     current_root = drafts_dir / "current" / "source_artifacts"
     older_root = drafts_dir / "older" / "source_artifacts"
@@ -639,7 +769,9 @@ def test_find_sources_falls_back_to_latest_draft_source_artifacts(tmp_path, monk
     monkeypatch.setattr(finder, "SOURCE_ARTIFACTS_DIR", current_root)
     monkeypatch.setattr(finder, "PROJECT_ROOT", tmp_path)
 
-    sources = finder.find_sources(("devflow_Concept_*",), mode="latest", source_ids=("Concept",))
+    sources = finder.find_sources(
+        ("devflow_Concept_*",), mode="latest", source_ids=("Concept",)
+    )
 
     assert sources == [newer_package]
     assert older_package not in sources
