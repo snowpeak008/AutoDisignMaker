@@ -67,83 +67,101 @@
       ]
     },
     {
-      "id": "stage_07.program_plan_bundle",
+      "id": "stage_07.art_style_generation_bundle",
       "stage": 7,
-      "kind": "source_placeholder_or_import",
+      "kind": "manual_gate_preparation",
       "tasks": [
-        "stage_07.resolve_program_plan",
-        "stage_07.generate_program_plan"
+        "stage_07.resolve_art_review_context",
+        "stage_07.generate_style_options"
       ]
     },
     {
-      "id": "stage_08.art_plan_bundle",
+      "id": "stage_08.art_style_confirmation_bundle",
       "stage": 8,
-      "kind": "source_placeholder_or_import",
+      "kind": "manual_gate",
       "tasks": [
-        "stage_08.resolve_art_plan",
-        "stage_08.generate_art_plan"
+        "stage_08.check_manual_style_gate",
+        "stage_08.write_style_confirmation"
       ]
     },
     {
-      "id": "stage_09.asset_alignment_bundle",
+      "id": "stage_09.program_plan_bundle",
       "stage": 9,
       "kind": "source_placeholder_or_import",
       "tasks": [
-        "stage_09.resolve_asset_alignment",
-        "stage_09.generate_asset_alignment"
+        "stage_09.resolve_program_plan",
+        "stage_09.generate_program_plan"
       ]
     },
     {
-      "id": "stage_10.dev_execution_bundle",
+      "id": "stage_10.art_plan_bundle",
       "stage": 10,
       "kind": "source_placeholder_or_import",
       "tasks": [
-        "stage_10.resolve_dev_execution",
-        "stage_10.generate_dev_execution"
+        "stage_10.resolve_art_plan",
+        "stage_10.generate_art_plan"
       ]
     },
     {
-      "id": "stage_11.art_production_bundle",
+      "id": "stage_11.asset_alignment_bundle",
       "stage": 11,
       "kind": "source_placeholder_or_import",
       "tasks": [
-        "stage_11.resolve_art_production",
-        "stage_11.generate_art_production"
+        "stage_11.resolve_asset_alignment",
+        "stage_11.generate_asset_alignment"
       ]
     },
     {
-      "id": "stage_12.integration_validation_bundle",
+      "id": "stage_12.dev_execution_bundle",
       "stage": 12,
       "kind": "source_placeholder_or_import",
       "tasks": [
-        "stage_12.resolve_integration_validation",
-        "stage_12.generate_integration_validation"
+        "stage_12.resolve_dev_execution",
+        "stage_12.generate_dev_execution"
       ]
     },
     {
-      "id": "stage_13.build_package_bundle",
+      "id": "stage_13.art_production_bundle",
       "stage": 13,
       "kind": "source_placeholder_or_import",
       "tasks": [
-        "stage_13.resolve_build_package",
-        "stage_13.generate_build_package"
+        "stage_13.resolve_art_production",
+        "stage_13.generate_art_production"
       ]
     },
     {
-      "id": "stage_14.delta_patch_bundle",
+      "id": "stage_14.integration_validation_bundle",
       "stage": 14,
       "kind": "source_placeholder_or_import",
       "tasks": [
-        "stage_14.resolve_delta_patch",
-        "stage_14.generate_delta_patch"
+        "stage_14.resolve_integration_validation",
+        "stage_14.generate_integration_validation"
       ]
     },
     {
-      "id": "stage_15.migration_audit_bundle",
+      "id": "stage_15.build_package_bundle",
       "stage": 15,
+      "kind": "source_placeholder_or_import",
+      "tasks": [
+        "stage_15.resolve_build_package",
+        "stage_15.generate_build_package"
+      ]
+    },
+    {
+      "id": "stage_16.delta_patch_bundle",
+      "stage": 16,
+      "kind": "source_placeholder_or_import",
+      "tasks": [
+        "stage_16.resolve_delta_patch",
+        "stage_16.generate_delta_patch"
+      ]
+    },
+    {
+      "id": "stage_17.migration_audit_bundle",
+      "stage": 17,
       "kind": "audit_bundle",
       "tasks": [
-        "stage_15.audit_migration_runtime"
+        "stage_17.audit_migration_runtime"
       ]
     }
   ],
@@ -174,47 +192,55 @@
     },
     {
       "from": "stage_05.program_review_bundle",
-      "to": "stage_07.program_plan_bundle"
+      "to": "stage_09.program_plan_bundle"
     },
     {
       "from": "stage_06.art_review_bundle",
-      "to": "stage_08.art_plan_bundle"
+      "to": "stage_07.art_style_generation_bundle"
     },
     {
-      "from": "stage_07.program_plan_bundle",
-      "to": "stage_09.asset_alignment_bundle"
+      "from": "stage_07.art_style_generation_bundle",
+      "to": "stage_08.art_style_confirmation_bundle"
     },
     {
-      "from": "stage_08.art_plan_bundle",
-      "to": "stage_09.asset_alignment_bundle"
+      "from": "stage_08.art_style_confirmation_bundle",
+      "to": "stage_10.art_plan_bundle"
     },
     {
-      "from": "stage_09.asset_alignment_bundle",
-      "to": "stage_10.dev_execution_bundle"
+      "from": "stage_09.program_plan_bundle",
+      "to": "stage_11.asset_alignment_bundle"
     },
     {
-      "from": "stage_09.asset_alignment_bundle",
-      "to": "stage_11.art_production_bundle"
+      "from": "stage_10.art_plan_bundle",
+      "to": "stage_11.asset_alignment_bundle"
     },
     {
-      "from": "stage_10.dev_execution_bundle",
-      "to": "stage_12.integration_validation_bundle"
+      "from": "stage_11.asset_alignment_bundle",
+      "to": "stage_12.dev_execution_bundle"
     },
     {
-      "from": "stage_11.art_production_bundle",
-      "to": "stage_12.integration_validation_bundle"
+      "from": "stage_11.asset_alignment_bundle",
+      "to": "stage_13.art_production_bundle"
     },
     {
-      "from": "stage_12.integration_validation_bundle",
-      "to": "stage_13.build_package_bundle"
+      "from": "stage_12.dev_execution_bundle",
+      "to": "stage_14.integration_validation_bundle"
     },
     {
-      "from": "stage_13.build_package_bundle",
-      "to": "stage_14.delta_patch_bundle"
+      "from": "stage_13.art_production_bundle",
+      "to": "stage_14.integration_validation_bundle"
     },
     {
-      "from": "stage_14.delta_patch_bundle",
-      "to": "stage_15.migration_audit_bundle"
+      "from": "stage_14.integration_validation_bundle",
+      "to": "stage_15.build_package_bundle"
+    },
+    {
+      "from": "stage_15.build_package_bundle",
+      "to": "stage_16.delta_patch_bundle"
+    },
+    {
+      "from": "stage_16.delta_patch_bundle",
+      "to": "stage_17.migration_audit_bundle"
     }
   ],
   "topological_order": [
@@ -225,15 +251,17 @@
     "stage_04.art_requirements_bundle",
     "stage_05.program_review_bundle",
     "stage_06.art_review_bundle",
-    "stage_07.program_plan_bundle",
-    "stage_08.art_plan_bundle",
-    "stage_09.asset_alignment_bundle",
-    "stage_10.dev_execution_bundle",
-    "stage_11.art_production_bundle",
-    "stage_12.integration_validation_bundle",
-    "stage_13.build_package_bundle",
-    "stage_14.delta_patch_bundle",
-    "stage_15.migration_audit_bundle"
+    "stage_07.art_style_generation_bundle",
+    "stage_08.art_style_confirmation_bundle",
+    "stage_09.program_plan_bundle",
+    "stage_10.art_plan_bundle",
+    "stage_11.asset_alignment_bundle",
+    "stage_12.dev_execution_bundle",
+    "stage_13.art_production_bundle",
+    "stage_14.integration_validation_bundle",
+    "stage_15.build_package_bundle",
+    "stage_16.delta_patch_bundle",
+    "stage_17.migration_audit_bundle"
   ],
   "errors": []
 }

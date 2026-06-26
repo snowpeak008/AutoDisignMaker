@@ -33,6 +33,17 @@ DEFAULT_APP_CONFIG: dict[str, Any] = {
         "timeout": 300,
     },
     "plugins": {"manifest_path": "pipeline/_registry.json", "auto_discover": True},
+    "manual_gates": {
+        "enable_manual_gates": True,
+        "gate_art_style": True,
+        "gate_program_architecture": False,
+    },
+    "art_style_generation": {
+        "num_options": 5,
+        "image_width": 1024,
+        "image_height": 1024,
+        "enable_image_generation": True,
+    },
 }
 
 DEFAULT_PROJECT_SETTINGS: dict[str, Any] = {

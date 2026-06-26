@@ -11,7 +11,14 @@ from core.registry import get_step_name
 from core.utils.structured_md import read_structured_or_text, write_data
 
 STATE_FILENAME = "pipeline_state.md"
-VALID_STATUSES = {"pending", "in_progress", "success", "failed", "skipped"}
+VALID_STATUSES = {
+    "pending",
+    "in_progress",
+    "success",
+    "failed",
+    "skipped",
+    "waiting_confirmation",
+}
 
 
 def _state_path(project_root: Path) -> Path:

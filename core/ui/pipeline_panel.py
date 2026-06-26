@@ -1,17 +1,17 @@
 from __future__ import annotations
 
 import io
+import json
 import os
 import queue
 import sys
 import threading
 import tkinter as tk
-from pathlib import Path
 from tkinter import messagebox, ttk
 
 from core.paths import PROJECT_ROOT, ARTIFACTS_DIR
-from core.registry import STEP_SPECS, iter_steps
-from core.runtime.control import request_stop
+from core.registry import max_step_number
+from core.runtime.control import request_stop, run_state_path
 from core.runtime.pipeline_state import load_pipeline_state
 from core.runtime.preflight import run_actual_development_preflight
 from core.ui.pipeline_step_card import StepCard
@@ -20,8 +20,10 @@ from core.ui.theme import COLORS, FONT_BODY, FONT_SECTION, FONT_SMALL
 
 _GROUPS = [
     ("设计阶段", range(0, 7)),
-    ("开发阶段", range(7, 12)),
-    ("验证阶段", range(12, 16)),
+    ("风格确认", range(7, 9)),
+    ("计划阶段", range(9, 12)),
+    ("执行阶段", range(12, 14)),
+    ("验证阶段", range(14, 18)),
 ]
 
 _CN_TITLES: dict[int, str] = {
@@ -32,15 +34,17 @@ _CN_TITLES: dict[int, str] = {
     4: "美术需求确认",
     5: "程序需求评审",
     6: "美术需求评审",
-    7: "程序开发计划",
-    8: "美术制作计划",
-    9: "资产契约对齐",
-    10: "程序开发执行",
-    11: "美术制作执行",
-    12: "集成验证",
-    13: "构建打包",
-    14: "差量补丁",
-    15: "最终审计",
+    7: "美术风格生成",
+    8: "美术风格确认",
+    9: "程序开发计划",
+    10: "美术制作计划",
+    11: "资产契约对齐",
+    12: "程序开发执行",
+    13: "美术制作执行",
+    14: "集成验证",
+    15: "构建打包",
+    16: "差量补丁",
+    17: "最终审计",
 }
 
 _PIPELINE_STATUS_MAP = {
@@ -49,6 +53,7 @@ _PIPELINE_STATUS_MAP = {
     "in_progress": "in_progress",
     "pending": "not_started",
     "skipped": "not_started",
+    "waiting_confirmation": "waiting_confirmation",
 }
 
 
@@ -132,7 +137,9 @@ class PipelinePanel(tk.Frame):
             config_bar, text="导出到流水线", command=self._export_to_pipeline
         ).pack(side=tk.LEFT, padx=(8, 0))
         self._from_var = tk.IntVar(value=0)
-        self._to_var = tk.IntVar(value=15)
+        max_step = max_step_number()
+        self._to_var = tk.IntVar(value=max_step)
+        self._skip_manual_gates_var = tk.BooleanVar(value=False)
         tk.Label(
             config_bar,
             text="  从步骤",
@@ -143,7 +150,7 @@ class PipelinePanel(tk.Frame):
         tk.Spinbox(
             config_bar,
             from_=0,
-            to=15,
+            to=max_step,
             textvariable=self._from_var,
             width=3,
             font=FONT_SMALL,
@@ -158,11 +165,16 @@ class PipelinePanel(tk.Frame):
         tk.Spinbox(
             config_bar,
             from_=0,
-            to=15,
+            to=max_step,
             textvariable=self._to_var,
             width=3,
             font=FONT_SMALL,
         ).pack(side=tk.LEFT, padx=2)
+        ttk.Checkbutton(
+            config_bar,
+            text="跳过人工确认",
+            variable=self._skip_manual_gates_var,
+        ).pack(side=tk.LEFT, padx=(6, 0))
         ttk.Button(config_bar, text="▶ 运行", command=self._run_range).pack(
             side=tk.LEFT, padx=(6, 0)
         )
@@ -338,6 +350,7 @@ class PipelinePanel(tk.Frame):
                     stop_step,
                     auto_approve=True,
                     skip_preflight=(from_step >= 3),
+                    skip_all_gates=self._skip_manual_gates_var.get(),
                 )
             finally:
                 sys.stdout, sys.stderr = old_stdout, old_stderr
@@ -348,6 +361,43 @@ class PipelinePanel(tk.Frame):
     def _on_run_done(self):
         self._running = False
         self.refresh()
+        self._check_and_show_confirmation_dialog()
+
+    def _check_and_show_confirmation_dialog(self):
+        state = self._read_run_state()
+        if state.get("status") != "waiting_confirmation":
+            return
+        step_number = int(state.get("current_step") or 0)
+        if state.get("confirmation_ui") != "style_confirmation_dialog":
+            return
+        try:
+            from core.ui.style_confirmation_dialog import StyleConfirmationDialog
+
+            style_options = self._load_style_options()
+            output_dir = ARTIFACTS_DIR / f"stage_{step_number:02d}"
+            dialog = StyleConfirmationDialog(
+                self.winfo_toplevel(), style_options, output_dir
+            )
+            result = dialog.wait_result()
+            if result == "confirmed":
+                self._exec_range(step_number, step_number)
+            elif result == "regenerate":
+                self._exec_range(step_number - 1, step_number)
+        except Exception as exc:
+            messagebox.showerror("风格确认失败", str(exc), parent=self)
+
+    def _read_run_state(self) -> dict:
+        try:
+            return json.loads(run_state_path(PROJECT_ROOT).read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+
+    def _load_style_options(self) -> dict:
+        path = ARTIFACTS_DIR / "stage_07" / "style_options.json"
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
 
     def _export_to_pipeline(self):
         """执行 D4 导出，将设计内容打包到流水线 source_artifacts，并写入存档记录。"""

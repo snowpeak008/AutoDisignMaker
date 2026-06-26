@@ -9,9 +9,8 @@ inside AutoDesignMaker.
 
 `src.core.plugin_manager.PluginManager` loads stage plugins from
 `src/plugins/plugin_manifest.json`. D1-D4 run the migrated design engine in
-`design_tool/`. Stages 00-15 delegate to the migrated deterministic DevFlow
+`design_tool/`. Stages 00-17 delegate to the migrated deterministic DevFlow
 orchestrator.
 
 The design tool keeps its original `design_tool` package name for import
 compatibility, but its data root is redirected to `data/design/`.
-

@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from core.paths import PROJECT_ROOT
-from core.io import now_iso, read_json, rel
+from core.io import now_iso, rel
 from core.engines.execution_objects.paths import expected_save_id, execution_object_store_path
 from core.engines.execution_objects.workflow import (
     ExecutionObjectError,
@@ -243,14 +243,14 @@ def complete_relationship_graph_execution_object(store, *, stage, business_id, t
     return store.verify(executing["execution_object_id"], evidence=evidence)
 
 
-def complete_rollback_plan_execution_object(store, *, changed_files, rollback_source, stage=14):
+def complete_rollback_plan_execution_object(store, *, changed_files, rollback_source, stage=16):
     facts = {"changed_files": list(changed_files), "rollback_source": rollback_source,
              "rollback_source_hash": stable_hash({"changed_files": changed_files, "source": rollback_source})}
     executing = begin_execution_object(store, object_type="rollback_plan",
         title="Rollback plan for actual Unity project delta", final_content=facts, related_facts=facts,
-        write_scope=infer_patch_write_scope(changed_files), stage=stage, business_id="stage14_rollback_plan",
+        write_scope=infer_patch_write_scope(changed_files), stage=stage, business_id="stage16_rollback_plan",
         metadata={"entrypoint": "rollback_plan", "changed_files": list(changed_files)})
-    evidence = shared_verification_evidence(written_files=["outputs/artifacts/stage_14/rollback_plan.md"],
+    evidence = shared_verification_evidence(written_files=["outputs/artifacts/stage_16/rollback_plan.md"],
         final_hashes={"rollback_plan": stable_hash(facts)},
         type_specific_checks={"target_matches_rollback_source": bool(changed_files), "reverse_links_preserved": bool(rollback_source)},
         verification_results=[{"id": "rollback_plan_contract", "status": "passed"}])

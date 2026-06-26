@@ -9,6 +9,7 @@ from core.io import file_manifest, now_iso, write_json
 from core.stage import stage_dir
 from core.artifact.registry_loader import artifacts_by_id, artifacts_for_step
 from core.artifact.preflight import _dependency_status_failures
+from core.registry import max_step_number
 
 
 def _result(status: str, name: str, message: str, *, severity: str = "info") -> dict[str, str]:
@@ -63,7 +64,10 @@ def run_review_pipeline(step_number: int) -> dict[str, Any]:
             results.append(_result("pass", "structure_reviewer", "Stage artifact directory exists."))
         else:
             results.append(_result("fail", "structure_reviewer", "Stage artifact directory is missing.", severity="error"))
-        required = stage_path / ("migration_audit.json" if step_number == 15 else "artifact_index.json")
+        final_step = max_step_number()
+        required = stage_path / (
+            "migration_audit.json" if step_number == final_step else "artifact_index.json"
+        )
         if required.exists():
             results.append(_result("pass", "structure_reviewer", f"Required file exists: {required.name}."))
         else:
@@ -85,7 +89,7 @@ def run_review_pipeline(step_number: int) -> dict[str, Any]:
                 results.append(_result("pass", "source_trace_reviewer", f"{imported} source group(s) imported."))
             elif upstream:
                 results.append(_result("pass", "source_trace_reviewer", f"{upstream} upstream artifact(s) imported."))
-            elif missing or optional_missing or step_number == 15:
+            elif missing or optional_missing or step_number == final_step:
                 results.append(_result("pass", "source_trace_reviewer", "Missing sources explicitly recorded.", severity="warning"))
             else:
                 results.append(_result("fail", "source_trace_reviewer", "No imported sources and no missing source groups recorded.", severity="error"))

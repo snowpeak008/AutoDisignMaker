@@ -10,24 +10,24 @@
 ## 核心运行时（core/）
 
 ### core/main.py
-- **行数**：157
+- **行数**：229
 - **职责**：唯一程序入口，包含 run_range() 流水线编排器
-- **关键函数**：run_range(from_step, stop_step, auto_approve, skip_preflight)
+- **关键函数**：run_range(from_step, stop_step, auto_approve, skip_preflight, skip_all_gates, skip_gates)
 - **调用链**：emit_dependency_graph → topological_step_order → 循环执行 plugin.run() → artifact review/validation → retry_sync
-- **缓存状态**：✓ 有效（2026-06-19）
+- **缓存状态**：✓ 有效（2026-06-26）
 
 ### core/engines/generation.py
-- **行数**：3795
-- **职责**：16个阶段的全部业务输出逻辑，单一巨文件
-- **关键函数**：apply_development_plan_outputs(), _stage0_outputs() ~ _stage15_outputs(), _parse_design_text()
+- **行数**：5370
+- **职责**：Step00-17 阶段的全部业务输出逻辑，单一巨文件
+- **关键函数**：apply_development_plan_outputs(), _stage0_outputs() ~ _stage14_outputs(), _stage7_art_style_generation_outputs(), _stage8_art_style_confirmation_outputs(), _parse_design_text()
 - **注意事项**：每个 _stageN_outputs() 是独立逻辑块，互不调用，全部返回 dict
-- **缓存状态**：✓ 有效（2026-06-19）
+- **缓存状态**：✓ 有效（2026-06-26）
 
 ### core/registry.py
-- **行数**：104
-- **职责**：STEP_SPECS 注册表，16个步骤的元数据（名称、依赖、slug）
-- **关键常量**：STEP_SPECS dict, NON_RUNNABLE_STATUSES
-- **缓存状态**：✓ 有效（2026-06-19）
+- **行数**：105
+- **职责**：STEP_SPECS 注册表，Step00-17 步骤元数据（名称、依赖、slug）
+- **关键常量**：STEP_SPECS dict, DESIGN_STEP_SPECS, max_step_number()
+- **缓存状态**：✓ 有效（2026-06-26）
 
 ### core/paths.py
 - **行数**：135
@@ -50,10 +50,10 @@
 - **缓存状态**：✓ 有效（2026-06-19）
 
 ### core/context.py
-- **行数**：49
+- **行数**：48
 - **职责**：StageContext、StageResult 数据结构定义
-- **关键类型**：StageStatus = Literal["success", "failed", "skipped", "blocked"]
-- **缓存状态**：✓ 有效（2026-06-19）
+- **关键类型**：StageStatus = Literal["success", "failed", "skipped", "blocked", "waiting_confirmation"]
+- **缓存状态**：✓ 有效（2026-06-26）
 
 ---
 
@@ -263,17 +263,17 @@
 - **模式**：stage_id="00", _source_groups=[SourceGroup("concept", ...)], execute() 调用 run_import_step + apply_development_plan_outputs
 - **缓存状态**：✓ 有效（2026-06-19）
 
-**其他步骤插件（01-15）**：结构与 step_00 相同，仅 stage_id 和 _source_groups 不同。
+**其他步骤插件（01-17）**：结构与 step_00 相同，仅 stage_id 和 _source_groups 不同；Step07/08 为风格生成与人工确认门禁，原 07-15 后移到 09-17。
 
 ---
 
-## 制品注册表（artifact_layer/）
+## 制品注册表（pipeline/artifact_layer/）
 
-### artifact_layer/registry.json
+### pipeline/artifact_layer/registry.json
 - **行数**：已读取
-- **职责**：16个阶段的制品依赖声明
+- **职责**：Step00-17 阶段的制品依赖声明
 - **格式**：{"artifacts": [{"id": "stage_00.concept_bundle", "stage": 0, "depends_on": [], "tasks": [...]}]}
-- **缓存状态**：✓ 有效（2026-06-19）
+- **缓存状态**：✓ 有效（2026-06-26）
 
 ---
 
@@ -318,13 +318,13 @@
 
 **最重要的5个文件**（理解它们就能修改流水线）：
 1. `core/main.py` — 入口和编排器
-2. `core/engines/generation.py` — 全部16阶段业务逻辑
+2. `core/engines/generation.py` — Step00-17 阶段业务逻辑
 3. `core/registry.py` — 步骤元数据
 4. `core/paths.py` — 路径常量
-5. `artifact_layer/registry.json` — 制品依赖图
+5. `pipeline/artifact_layer/registry.json` — 制品依赖图
 
 **新增步骤的关键文件**（按顺序修改）：
 1. `pipeline/step_NN_name/plugin.py` — 创建插件
 2. `pipeline/_registry.json` — 注册插件
-3. `artifact_layer/registry.json` — 声明制品
+3. `pipeline/artifact_layer/registry.json` — 声明制品
 4. `core/registry.py::STEP_SPECS` — 添加元数据

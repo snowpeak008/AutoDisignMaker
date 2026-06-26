@@ -1,4 +1,4 @@
-"""Source artifact import helpers for the 0-15 pipeline."""
+"""Source artifact import helpers for the 0-17 pipeline."""
 
 from __future__ import annotations
 
@@ -7,8 +7,8 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from core.io import file_manifest, now_iso, read_json, rel, write_json, write_text
-from core.paths import ARTIFACTS_DIR, PROJECT_ROOT, SOURCE_ARTIFACTS_DIR
-from core.registry import STEP_SPECS
+from core.paths import PROJECT_ROOT
+from core.registry import STEP_SPECS, max_step_number
 from core.source.finder import (
     _parse_version,
     _primary_source_id,
@@ -22,7 +22,7 @@ from core.stage import classify_stage_file, stage_dir, reset_stage
 
 
 def _registry_artifacts() -> list[dict[str, Any]]:
-    registry_path = PROJECT_ROOT / "artifact_layer" / "registry.json"
+    registry_path = PROJECT_ROOT / "pipeline" / "artifact_layer" / "registry.json"
     data = read_json(registry_path, {})
     artifacts = data.get("artifacts", []) if isinstance(data, dict) else []
     if not isinstance(artifacts, list):
@@ -413,14 +413,14 @@ def run_audit_step(context: dict[str, Any] | None = None) -> dict[str, Any]:
     import os
     import re
     _ = context or {}
-    step_number = 15
+    step_number = max_step_number()
     out_dir = reset_stage(step_number)
     imported_upstream_artifacts, missing_upstream_artifacts = import_upstream_artifacts(step_number, out_dir)
 
     stage_reports, missing_stage_reports = [], []
     artifact_layer_reports, missing_artifact_layer_reports, failed_artifact_layer_reports = [], [], []
 
-    for num in range(0, 15):
+    for num in range(0, step_number):
         report_path = stage_dir(num) / "validation_report.json"
         if not report_path.exists():
             missing_stage_reports.append(num)
@@ -474,7 +474,7 @@ def run_audit_step(context: dict[str, Any] | None = None) -> dict[str, Any]:
     spec = STEP_SPECS[step_number]
     audit = {
         "step": step_number, "name": spec.slug, "timestamp": now_iso(), "passed": passed,
-        "checked_stages": list(range(0, 15)),
+        "checked_stages": list(range(0, step_number)),
         "missing_stage_reports": missing_stage_reports,
         "missing_artifact_layer_reports": missing_artifact_layer_reports,
         "failed_artifact_layer_reports": failed_artifact_layer_reports,
@@ -507,24 +507,27 @@ def run_audit_step(context: dict[str, Any] | None = None) -> dict[str, Any]:
 
 def finalize_migration_audit_with_self_layer() -> dict[str, Any]:
     import json as _json
-    audit_path = stage_dir(15) / "migration_audit.json"
-    report_path = stage_dir(15) / "validation_report.json"
-    layer_path = stage_dir(15) / "artifact_validation_layer.json"
+    step_number = max_step_number()
+    audit_path = stage_dir(step_number) / "migration_audit.json"
+    report_path = stage_dir(step_number) / "validation_report.json"
+    layer_path = stage_dir(step_number) / "artifact_validation_layer.json"
     if not audit_path.exists():
         raise FileNotFoundError(f"Missing migration audit: {audit_path}")
     audit = _json.loads(audit_path.read_text(encoding="utf-8"))
     layer_report = (_json.loads(layer_path.read_text(encoding="utf-8"))
-                    if layer_path.exists() else {"step": 15, "status": "missing"})
+                    if layer_path.exists() else {"step": step_number, "status": "missing"})
     layer_status = layer_report.get("status")
-    audit["stage_15_artifact_layer_report"] = layer_report
-    audit["stage_15_artifact_layer_status"] = layer_status
+    audit[f"stage_{step_number:02d}_artifact_layer_report"] = layer_report
+    audit[f"stage_{step_number:02d}_artifact_layer_status"] = layer_status
     audit["passed"] = bool(audit.get("passed")) and layer_status == "success"
     write_json(audit_path, audit)
     if report_path.exists():
         report = _json.loads(report_path.read_text(encoding="utf-8"))
         report["valid"] = audit["passed"]
         report["status"] = "success" if audit["passed"] else "failed"
-        report["notes"] = list(report.get("notes", [])) + ["Stage 15 self artifact layer finalized."]
+        report["notes"] = list(report.get("notes", [])) + [
+            f"Stage {step_number:02d} self artifact layer finalized."
+        ]
         write_json(report_path, report)
     if not audit["passed"]:
         raise RuntimeError("Migration audit self-layer finalization failed.")

@@ -42,3 +42,14 @@ auto_discover = true
 default_format = "markdown"
 include_metadata = true
 
+[manual_gates]
+enable_manual_gates = true
+gate_art_style = true
+gate_program_architecture = false
+
+[art_style_generation]
+num_options = 5
+image_width = 1024
+image_height = 1024
+enable_image_generation = true
+

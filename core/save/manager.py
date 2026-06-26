@@ -907,14 +907,19 @@ def _next_seq(manifest: dict[str, Any]) -> int:
 
 
 def _progress(project_root: Path) -> dict[str, Any]:
+    from core.registry import max_step_number
+
     root = _active_root(project_root)
     passed = 0
-    for step in range(16):
+    final_step = max_step_number()
+    for step in range(final_step + 1):
         stage = root / "outputs" / "artifacts" / f"stage_{step:02d}"
         validation = read_json(stage / "validation_report.json", {})
         reviews = read_json(stage / "artifact_reviews.json", {})
         layer = read_json(stage / "artifact_validation_layer.json", {})
-        primary = stage / ("migration_audit.json" if step == 15 else "artifact_index.json")
+        primary = stage / (
+            "migration_audit.json" if step == final_step else "artifact_index.json"
+        )
         reference = stage / "reference_manifest.json"
         if (
             validation.get("status") == "success"

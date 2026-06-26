@@ -12,12 +12,15 @@ from __future__ import annotations
 import hashlib
 import os
 import re
+import struct
 import subprocess
+import zlib
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 from core.paths import PROJECT_ROOT as BASE_DIR
+from core.config.loader import get_config
 from core.io import file_manifest, now_iso, read_json, rel, write_json, write_text
 from core.source.importer import refresh_reference_manifest_file_inventory
 from core.stage import stage_dir
@@ -62,6 +65,17 @@ from pipeline.step_05_program_review.helpers import IntelligentReviewer
 
 
 ALLOWED_DESIGN_SOURCE_SUFFIXES = {".md", ".txt"}
+
+ART_STYLE_GENERATION_STAGE = 7
+ART_STYLE_CONFIRMATION_STAGE = 8
+PROGRAM_PLAN_STAGE = 9
+ART_PLAN_STAGE = 10
+ASSET_ALIGNMENT_STAGE = 11
+DEV_EXECUTION_STAGE = 12
+ART_PRODUCTION_STAGE = 13
+INTEGRATION_STAGE = 14
+BUILD_PACKAGE_STAGE = 15
+DELTA_PATCH_STAGE = 16
 
 TAXONOMY: tuple[dict[str, str], ...] = (
     {
@@ -1511,10 +1525,10 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "preflight_blocking_issues": preflight_blockers,
         "system_path_map": path_bindings,
         "output_file_rules": [
-            "Stage 07 must bind every task to target_path and output_files.",
-            "Stage 10 may only write files declared by Stage 07 output_files.",
+            "Stage 09 must bind every task to target_path and output_files.",
+            "Stage 12 may only write files declared by Stage 09 output_files.",
             "Unity project creation is out of scope; the user must create the initial project.",
-            "Packages/manifest.json may only change when Stage 07 declares package_changes.",
+            "Packages/manifest.json may only change when Stage 09 declares package_changes.",
         ],
         "path_binding_contract": {
             "required_task_fields": [
@@ -1537,8 +1551,8 @@ def _stage3_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         f"- Editor path: {preflight_settings.get('editor_path', '')}",
         f"- Preflight status: {preflight.get('status')}",
         "- Rule: Stage 03 owns the Unity program skeleton contract.",
-        "- Rule: Stage 07 binds tasks to concrete paths and files.",
-        "- Rule: Stage 10 executes only declared output files and cannot invent structure.",
+        "- Rule: Stage 09 binds tasks to concrete paths and files.",
+        "- Rule: Stage 12 executes only declared output files and cannot invent structure.",
         "",
         "## Allowed Roots",
         "",
@@ -1745,8 +1759,8 @@ def _stage4_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "asset_path_map": art_path_bindings,
         "output_file_rules": [
             "Art outputs must stay under declared Unity art roots.",
-            "Stage 09 must align art requirements with program tasks by source trace.",
-            "Stage 10 cannot write art files unless Stage 07 explicitly declares them as program outputs.",
+            "Stage 11 must align art requirements with program tasks by source trace.",
+            "Stage 12 cannot write art files unless Stage 09 explicitly declares them as program outputs.",
         ],
     }
     contract = {
@@ -1821,6 +1835,394 @@ def _art_assets() -> list[dict[str, Any]]:
     data = read_json(stage_dir(4) / "asset_registry.json", {})
     assets = data.get("assets", []) if isinstance(data, dict) else []
     return [item for item in assets if isinstance(item, dict)]
+
+
+STYLE_CONFIRMATION_FILENAME = "style_confirmation.json"
+
+STYLE_OPTION_PRESETS: tuple[dict[str, Any], ...] = (
+    {
+        "key": "readable_production",
+        "title": "Readable Production",
+        "description": "Clear silhouettes, production-friendly material separation, and readable gameplay contrast.",
+        "palette": ("#2E3440", "#88C0D0", "#EBCB8B"),
+    },
+    {
+        "key": "painterly_concept",
+        "title": "Painterly Concept",
+        "description": "Painted surfaces, expressive light, and concept-art framing for mood exploration.",
+        "palette": ("#3B4252", "#A3BE8C", "#D08770"),
+    },
+    {
+        "key": "high_contrast_arcade",
+        "title": "High Contrast Arcade",
+        "description": "Bold color blocking, crisp feedback accents, and fast scanning under motion.",
+        "palette": ("#1B1F3B", "#F2CC8F", "#E07A5F"),
+    },
+    {
+        "key": "cinematic_realism",
+        "title": "Cinematic Realism",
+        "description": "Grounded materials, strong key lighting, and high-fidelity environment staging.",
+        "palette": ("#202124", "#6D6875", "#B5838D"),
+    },
+    {
+        "key": "stylized_diagrammatic",
+        "title": "Stylized Diagrammatic",
+        "description": "Simplified forms, strong shape language, and UI-friendly visual hierarchy.",
+        "palette": ("#264653", "#2A9D8F", "#E9C46A"),
+    },
+)
+
+
+def _config_bool(path: str, default: bool = False) -> bool:
+    value = get_config(path, default)
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _manual_gate_enabled(gate_name: str, step_number: int) -> bool:
+    if os.getenv("AUTODESIGNMAKER_SKIP_ALL_GATES", "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }:
+        return False
+    skip_tokens = {
+        token.strip()
+        for token in os.getenv("AUTODESIGNMAKER_SKIP_GATES", "").split(",")
+        if token.strip()
+    }
+    if str(step_number) in skip_tokens or f"{step_number:02d}" in skip_tokens:
+        return False
+    if not _config_bool("manual_gates.enable_manual_gates", True):
+        return False
+    return _config_bool(f"manual_gates.{gate_name}", True)
+
+
+def _style_option_count() -> int:
+    value = get_config("art_style_generation.num_options", 5)
+    try:
+        count = int(value)
+    except (TypeError, ValueError):
+        count = 5
+    return max(3, min(5, count))
+
+
+def _style_image_generation_enabled() -> bool:
+    return _config_bool("art_style_generation.enable_image_generation", False) and _image_generation_enabled()
+
+
+def _stage_title(parsed: dict[str, Any]) -> str:
+    for key in ("project_name", "title", "name"):
+        value = parsed.get(key)
+        if value:
+            return str(value)
+    summary = parsed.get("design_summary")
+    if isinstance(summary, dict):
+        for key in ("project_name", "title", "display_name"):
+            value = summary.get(key)
+            if value:
+                return str(value)
+    return "Untitled Game"
+
+
+def _style_prompt(
+    parsed: dict[str, Any], option: dict[str, Any], assets: list[dict[str, Any]]
+) -> str:
+    asset_names = [
+        str(asset.get("name") or asset.get("asset_id") or "")
+        for asset in assets[:8]
+        if asset.get("name") or asset.get("asset_id")
+    ]
+    return "\n".join(
+        [
+            "Create a game art style reference image.",
+            f"Project: {_stage_title(parsed)}",
+            f"Style direction: {option['title']}",
+            f"Style intent: {option['description']}",
+            f"Representative assets: {', '.join(asset_names) if asset_names else 'core gameplay assets'}",
+            "Composition: inspectable style board, clear silhouettes, no text overlays.",
+        ]
+    )
+
+
+def _rgb(hex_color: str) -> tuple[int, int, int]:
+    value = str(hex_color).lstrip("#")
+    if len(value) != 6:
+        return (64, 64, 64)
+    return (int(value[0:2], 16), int(value[2:4], 16), int(value[4:6], 16))
+
+
+def _png_chunk(kind: bytes, data: bytes) -> bytes:
+    import binascii
+
+    return (
+        struct.pack(">I", len(data))
+        + kind
+        + data
+        + struct.pack(">I", binascii.crc32(kind + data) & 0xFFFFFFFF)
+    )
+
+
+def _write_style_placeholder_png(path: Path, palette: tuple[str, str, str]) -> None:
+    width = 640
+    height = 384
+    colors = [_rgb(color) for color in palette]
+    rows = []
+    for y in range(height):
+        row = bytearray([0])
+        for x in range(width):
+            band = min(2, x * 3 // width)
+            base = colors[band]
+            accent = colors[(band + 1) % len(colors)]
+            blend = 0.22 if (x + y) % 37 < 12 else 0.0
+            pixel = tuple(
+                max(0, min(255, int(base[i] * (1 - blend) + accent[i] * blend)))
+                for i in range(3)
+            )
+            row.extend(pixel)
+        rows.append(bytes(row))
+    raw = b"".join(rows)
+    png = (
+        b"\x89PNG\r\n\x1a\n"
+        + _png_chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+        + _png_chunk(b"IDAT", zlib.compress(raw, 9))
+        + _png_chunk(b"IEND", b"")
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(png)
+
+
+def _generate_style_option_images(
+    out_dir: Path, parsed: dict[str, Any], options: list[dict[str, Any]]
+) -> dict[str, Any]:
+    generated_dir = out_dir / "generated_images"
+    generated_dir.mkdir(parents=True, exist_ok=True)
+    use_api = _style_image_generation_enabled()
+    records = []
+    generator = None
+    if use_api:
+        try:
+            from tools.asset_production.image_tool import Image2Generator
+
+            generator = Image2Generator()
+        except Exception as exc:  # noqa: BLE001 - optional image dependency
+            records.append(
+                {
+                    "style_id": "",
+                    "status": "api_unavailable",
+                    "result": str(exc),
+                }
+            )
+            use_api = False
+    for option in options:
+        image_path = generated_dir / f"{option['style_id']}.png"
+        prompt = str(option["prompt"])
+        api_record: dict[str, Any] | None = None
+        if generator is not None:
+            before = {path.name for path in generated_dir.glob("*.png")}
+            try:
+                result = generator._run(
+                    prompt,
+                    output_dir=str(generated_dir),
+                    output_format="png",
+                )
+                after = [
+                    path
+                    for path in generated_dir.glob("*.png")
+                    if path.name not in before
+                ]
+                if after:
+                    newest = max(after, key=lambda path: path.stat().st_mtime)
+                    newest.replace(image_path)
+                api_record = {"status": "success", "result": result}
+            except Exception as exc:  # noqa: BLE001 - external API boundary
+                api_record = {"status": "failed", "result": str(exc)}
+        if not image_path.exists():
+            _write_style_placeholder_png(image_path, tuple(option["palette"]))
+        option["image_path"] = rel(image_path)
+        records.append(
+            {
+                "style_id": option["style_id"],
+                "image_path": option["image_path"],
+                "prompt": prompt,
+                "status": api_record["status"] if api_record else "placeholder",
+                "result": api_record["result"] if api_record else "deterministic placeholder",
+            }
+        )
+    return {
+        "schema_version": 1,
+        "generated_at": now_iso(),
+        "stage": ART_STYLE_GENERATION_STAGE,
+        "enabled": use_api,
+        "records": records,
+        "generated_count": len(options),
+        "status": "success",
+    }
+
+
+def _stage7_art_style_generation_outputs(
+    parsed: dict[str, Any], out_dir: Path
+) -> dict[str, Any]:
+    assets = _art_assets()
+    count = _style_option_count()
+    selected_presets = STYLE_OPTION_PRESETS[:count]
+    options: list[dict[str, Any]] = []
+    for index, preset in enumerate(selected_presets, 1):
+        style_id = f"STYLE-{index:02d}-{preset['key']}"
+        option = {
+            "style_id": style_id,
+            "title": preset["title"],
+            "description": preset["description"],
+            "palette": list(preset["palette"]),
+            "source_refs": ["stage_04.asset_registry", "stage_06.art_review"],
+        }
+        option["prompt"] = _style_prompt(parsed, option, assets)
+        options.append(option)
+    manifest = _generate_style_option_images(out_dir, parsed, options)
+    style_options = {
+        "schema_version": 1,
+        "generated_at": now_iso(),
+        "project": _stage_title(parsed),
+        "source_stage": 6,
+        "option_count": len(options),
+        "options": options,
+        "selection_required": True,
+    }
+    write_json(out_dir / "style_options.json", style_options)
+    write_json(out_dir / "generation_log.json", manifest)
+    write_json(out_dir / "generated_images_manifest.json", manifest)
+    write_text(
+        out_dir / "style_options.md",
+        "# Art Style Options\n\n"
+        + "\n".join(
+            f"- {option['style_id']}: {option['title']} — {option['description']}"
+            for option in options
+        )
+        + "\n",
+    )
+    return {
+        "content_exists": bool(options),
+        "style_option_count": len(options),
+        "generated_image_count": len(options),
+        "blocking_issues": 0 if options else 1,
+        "ai_review_status": "passed" if options else "blocked",
+        "traceability_valid": bool(options),
+    }
+
+
+def _load_style_options() -> dict[str, Any]:
+    data = read_json(stage_dir(ART_STYLE_GENERATION_STAGE) / "style_options.json", {})
+    return data if isinstance(data, dict) else {}
+
+
+def _confirmation_options(style_options: dict[str, Any]) -> list[dict[str, Any]]:
+    options = style_options.get("options", []) if isinstance(style_options, dict) else []
+    return [item for item in options if isinstance(item, dict)]
+
+
+def _write_auto_style_confirmation(
+    out_dir: Path, style_options: dict[str, Any], *, reason: str
+) -> dict[str, Any]:
+    options = _confirmation_options(style_options)
+    selected = options[0] if options else {}
+    confirmation = {
+        "schema_version": 1,
+        "generated_at": now_iso(),
+        "status": "approved",
+        "mode": "auto",
+        "reason": reason,
+        "selected_style_id": selected.get("style_id", ""),
+        "selected_title": selected.get("title", ""),
+        "selected_image_path": selected.get("image_path", ""),
+        "notes": "Automatically approved because the manual style gate was skipped.",
+    }
+    write_json(out_dir / STYLE_CONFIRMATION_FILENAME, confirmation)
+    return confirmation
+
+
+def _stage8_art_style_confirmation_outputs(
+    parsed: dict[str, Any], out_dir: Path
+) -> dict[str, Any]:
+    _ = parsed
+    style_options = _load_style_options()
+    options = _confirmation_options(style_options)
+    if not options:
+        result = {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "status": "blocked",
+            "message": "Stage 07 style_options.json is missing or empty.",
+            "selected_style_id": "",
+        }
+        write_json(out_dir / STYLE_CONFIRMATION_FILENAME, result)
+        return {
+            "content_exists": True,
+            "blocking_issues": 1,
+            "ai_review_status": "blocked",
+            "traceability_valid": False,
+        }
+
+    confirmation_path = out_dir / STYLE_CONFIRMATION_FILENAME
+    confirmation = read_json(confirmation_path, {})
+    if isinstance(confirmation, dict) and confirmation.get("status") == "approved":
+        write_text(
+            out_dir / "style_confirmation.md",
+            "# Art Style Confirmation\n\n"
+            f"- Status: approved\n- Selected: {confirmation.get('selected_style_id', '')}\n",
+        )
+        return {
+            "content_exists": True,
+            "confirmation_status": "approved",
+            "selected_style_id": confirmation.get("selected_style_id", ""),
+            "blocking_issues": 0,
+            "ai_review_status": "passed",
+            "traceability_valid": bool(confirmation.get("selected_style_id")),
+        }
+
+    if not _manual_gate_enabled("gate_art_style", ART_STYLE_CONFIRMATION_STAGE):
+        confirmation = _write_auto_style_confirmation(
+            out_dir, style_options, reason="manual_gate_disabled_or_skipped"
+        )
+        write_text(
+            out_dir / "style_confirmation.md",
+            "# Art Style Confirmation\n\n"
+            f"- Status: approved\n- Selected: {confirmation.get('selected_style_id', '')}\n"
+            "- Mode: auto\n",
+        )
+        return {
+            "content_exists": True,
+            "confirmation_status": "approved",
+            "selected_style_id": confirmation.get("selected_style_id", ""),
+            "blocking_issues": 0,
+            "ai_review_status": "passed",
+            "traceability_valid": bool(confirmation.get("selected_style_id")),
+        }
+
+    pending = {
+        "schema_version": 1,
+        "generated_at": now_iso(),
+        "status": "waiting_confirmation",
+        "confirmation_ui": "style_confirmation_dialog",
+        "style_options_path": rel(stage_dir(ART_STYLE_GENERATION_STAGE) / "style_options.json"),
+        "confirmation_path": rel(confirmation_path),
+        "option_count": len(options),
+    }
+    write_json(out_dir / "style_confirmation_pending.json", pending)
+    write_text(
+        out_dir / "style_confirmation.md",
+        "# Art Style Confirmation\n\n- Status: waiting_confirmation\n",
+    )
+    return {
+        "status": "waiting_confirmation",
+        "content_exists": True,
+        "confirmation_status": "waiting_confirmation",
+        "confirmation_ui": "style_confirmation_dialog",
+        "blocking_issues": 0,
+        "ai_review_status": "waiting_confirmation",
+        "traceability_valid": True,
+    }
 
 
 def _review_outputs(
@@ -2102,7 +2504,7 @@ def _is_under_allowed_roots(path_text: str, roots: list[str]) -> bool:
 
 
 def _program_plan() -> dict[str, Any]:
-    data = read_json(stage_dir(7) / "program_task_breakdown.json", {})
+    data = read_json(stage_dir(PROGRAM_PLAN_STAGE) / "program_task_breakdown.json", {})
     return data if isinstance(data, dict) else {}
 
 
@@ -2250,8 +2652,8 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         },
         "path_binding_errors": path_binding_errors,
         "rules": [
-            "Stage 10 must execute this topology and must not infer a new one.",
-            "Stage 10 must edit only task output_files.",
+            "Stage 12 must execute this topology and must not infer a new one.",
+            "Stage 12 must edit only task output_files.",
             "Missing output_files, dependencies, or parallel_groups blocks actual development.",
             "Package changes are allowed only when listed in task.package_changes.",
         ],
@@ -2297,8 +2699,8 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         out_dir / "program_structure_spec.md",
         "# Program Structure Binding\n\n"
         "- Source: stage_03/program_structure_spec.json\n"
-        "- Stage 07 binds each task to concrete Unity project paths.\n"
-        "- Stage 10 cannot change this structure during execution.\n",
+        "- Stage 09 binds each task to concrete Unity project paths.\n"
+        "- Stage 12 cannot change this structure during execution.\n",
     )
     return {
         "content_exists": bool(tasks),
@@ -2370,13 +2772,13 @@ def _stage8_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
 
 def _program_tasks() -> list[dict[str, Any]]:
-    data = read_json(stage_dir(7) / "program_task_breakdown.json", {})
+    data = read_json(stage_dir(PROGRAM_PLAN_STAGE) / "program_task_breakdown.json", {})
     tasks = data.get("tasks", []) if isinstance(data, dict) else []
     return [item for item in tasks if isinstance(item, dict)]
 
 
 def _art_tasks() -> list[dict[str, Any]]:
-    data = read_json(stage_dir(8) / "art_task_breakdown.json", {})
+    data = read_json(stage_dir(ART_PLAN_STAGE) / "art_task_breakdown.json", {})
     tasks = data.get("tasks", []) if isinstance(data, dict) else []
     return [item for item in tasks if isinstance(item, dict)]
 
@@ -2481,7 +2883,7 @@ def _validate_actual_development_plan(plan: dict[str, Any]) -> list[dict[str, An
         blockers.append(
             {
                 "code": "TASKS_MISSING",
-                "message": "Stage 07 produced no executable tasks.",
+                "message": "Stage 09 produced no executable tasks.",
             }
         )
         tasks = []
@@ -2489,14 +2891,14 @@ def _validate_actual_development_plan(plan: dict[str, Any]) -> list[dict[str, An
         blockers.append(
             {
                 "code": "DEPENDENCIES_MISSING",
-                "message": "Stage 07 must declare top-level dependencies.",
+                "message": "Stage 09 must declare top-level dependencies.",
             }
         )
     if not isinstance(plan.get("parallel_groups"), list):
         blockers.append(
             {
                 "code": "PARALLEL_GROUPS_MISSING",
-                "message": "Stage 07 must declare top-level parallel_groups.",
+                "message": "Stage 09 must declare top-level parallel_groups.",
             }
         )
 
@@ -2946,7 +3348,7 @@ def _run_task_verification(
 
 def _previous_stage10_report() -> dict[str, Any]:
     candidates = [
-        stage_dir(10) / "devexecution.json",
+        stage_dir(DEV_EXECUTION_STAGE) / "devexecution.json",
     ]
     save_index = read_json(BASE_DIR / "save" / "save_index.json", {})
     if isinstance(save_index, dict):
@@ -2959,7 +3361,7 @@ def _previous_stage10_report() -> dict[str, Any]:
                 / "workspace"
                 / "outputs"
                 / "artifacts"
-                / "stage_10"
+                / f"stage_{DEV_EXECUTION_STAGE:02d}"
                 / "devexecution.json"
             )
     for path in candidates:
@@ -2970,7 +3372,7 @@ def _previous_stage10_report() -> dict[str, Any]:
 
 
 def _stage10_resume_dir() -> Path:
-    return BASE_DIR / "outputs" / "checkpoints" / "stage_10_resume_records"
+    return BASE_DIR / "outputs" / "checkpoints" / "stage_12_resume_records"
 
 
 def _write_stage10_task_record(
@@ -2989,7 +3391,7 @@ def _previous_records_by_task() -> dict[str, dict[str, Any]]:
         for record in records
         if isinstance(record, dict) and record.get("task_id")
     }
-    stage10 = stage_dir(10)
+    stage10 = stage_dir(DEV_EXECUTION_STAGE)
     for path in stage10.glob("DEV-*_execution.json"):
         record = read_json(path, {})
         if isinstance(record, dict) and record.get("task_id"):
@@ -3009,7 +3411,7 @@ def _previous_records_by_task() -> dict[str, dict[str, Any]]:
                 / "workspace"
                 / "outputs"
                 / "artifacts"
-                / "stage_10"
+                / f"stage_{DEV_EXECUTION_STAGE:02d}"
             )
             for path in saved_stage10.glob("DEV-*_execution.json"):
                 record = read_json(path, {})
@@ -3068,9 +3470,9 @@ def _write_stage10_progress(
         "package_change_reports": package_reports,
         "blocking_issues": [],
         "note": (
-            "Stage 10 stopped at a resumable task boundary."
+            "Stage 12 stopped at a resumable task boundary."
             if status == "stopped"
-            else "Stage 10 is still executing. Final success is written only after all tasks and group Unity validation complete."
+            else "Stage 12 is still executing. Final success is written only after all tasks and group Unity validation complete."
         ),
     }
     write_json(out_dir / "devexecution_progress.json", progress)
@@ -3132,13 +3534,13 @@ def _write_stage10_progress(
     runtime_control.write_run_state(
         BASE_DIR,
         status=status,
-        current_step=10,
+        current_step=DEV_EXECUTION_STAGE,
         current_group_id=current_group_id,
         current_task_id=current_task_id,
         current_execution_object_id=current_execution_object_id,
         next_task_id=next_task_id,
         completed_units=completed_units,
-        unit_type="stage10_task",
+        unit_type="stage12_task",
         stop_reason=stop_reason,
     )
 
@@ -3149,7 +3551,7 @@ def _sync_stage10_checkpoint(out_dir: Path, *, event: str, message: str = "") ->
         save_manager.retry_sync(
             BASE_DIR,
             event=event,
-            stage=10,
+            stage=DEV_EXECUTION_STAGE,
             message=message,
             attempts=3,
             delay_seconds=1,
@@ -3286,7 +3688,7 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         "code": "TASK_FIELD_MISSING",
                         "task_id": task_id,
                         "field": field_name,
-                        "message": "Stage 07 task is missing a required actual-development field.",
+                        "message": "Stage 09 task is missing a required actual-development field.",
                     }
                 )
         task_outputs = task.get("output_files", [])
@@ -3306,14 +3708,14 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         path_blockers.append(
             {
                 "code": "TOPOLOGY_DEPENDENCIES_MISSING",
-                "message": "Stage 07 program_task_breakdown.json must include top-level dependencies.",
+                "message": "Stage 09 program_task_breakdown.json must include top-level dependencies.",
             }
         )
     if not isinstance(program_plan.get("parallel_groups"), list):
         path_blockers.append(
             {
                 "code": "TOPOLOGY_PARALLEL_GROUPS_MISSING",
-                "message": "Stage 07 program_task_breakdown.json must include top-level parallel_groups.",
+                "message": "Stage 09 program_task_breakdown.json must include top-level parallel_groups.",
             }
         )
 
@@ -3364,7 +3766,7 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         out_dir / "AlignmentProtocol.md",
         "# Alignment Protocol\n\n"
         "- Program and art plans align by source trace and asset id.\n"
-        "- Stage 09 also validates actual Unity path binding before Stage 10.\n"
+        "- Stage 11 also validates actual Unity path binding before Stage 12.\n"
         "- Output files outside Stage 03 allowed roots block actual development.\n",
     )
     write_text(
@@ -3441,7 +3843,7 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         },
     )
     write_skill_guidance(out_dir, "imagegen")
-    _write_generated_images_manifest(out_dir, art_tasks, stage=9)
+    _write_generated_images_manifest(out_dir, art_tasks, stage=ASSET_ALIGNMENT_STAGE)
     return {
         "content_exists": bool(links) or bool(program_tasks),
         "alignment_count": len(links),
@@ -3461,8 +3863,12 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     if not isinstance(tasks, list):
         tasks = []
     plan_blockers = _validate_actual_development_plan(plan)
-    path_validation = read_json(stage_dir(9) / "path_binding_validation.json", {})
-    parallel_validation = read_json(stage_dir(9) / "parallel_conflict_report.json", {})
+    path_validation = read_json(
+        stage_dir(ASSET_ALIGNMENT_STAGE) / "path_binding_validation.json", {}
+    )
+    parallel_validation = read_json(
+        stage_dir(ASSET_ALIGNMENT_STAGE) / "parallel_conflict_report.json", {}
+    )
     if isinstance(path_validation, dict) and path_validation.get("valid") is False:
         plan_blockers.extend(path_validation.get("blockers", []))
     if (
@@ -3484,7 +3890,7 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             "preflight_status": preflight.get("status"),
             "records": [],
             "blocking_issues": blocking_before_execution,
-            "rule": "Stage 10 must not fabricate development success when preflight or Stage 07 topology is invalid.",
+            "rule": "Stage 12 must not fabricate development success when preflight or Stage 09 topology is invalid.",
         }
         write_json(out_dir / "devexecution.json", result)
         write_json(out_dir / "actual_development_blocked.json", result)
@@ -3494,7 +3900,7 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             out_dir / "devexecution.md",
             "# Development Execution\n\n"
             "- Status: blocked\n"
-            "- No Unity project files were modified by Stage 10.\n",
+            "- No Unity project files were modified by Stage 12.\n",
         )
         return {
             "content_exists": True,
@@ -3607,7 +4013,7 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         execution_store,
                         task=task,
                         project_path=project_path,
-                        stage=10,
+                        stage=DEV_EXECUTION_STAGE,
                     )
                     execution_object_id = str(
                         execution_object.get("execution_object_id") or ""
@@ -3831,9 +4237,9 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     else ""
                 ),
                 "execution_note": (
-                    "Reused existing Codex-generated outputs from the previous Stage 10 attempt."
+                    "Reused existing Codex-generated outputs from the previous Stage 12 attempt."
                     if reused_existing_output
-                    else "Executed serially inside the Stage 07 declared parallel group for post-run audit isolation."
+                    else "Executed serially inside the Stage 09 declared parallel group for post-run audit isolation."
                 ),
             }
             if execution_object_id and status != "success":
@@ -4235,7 +4641,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 execution_store,
                 task=task,
                 produced_record=produced_record,
-                stage=11,
+                stage=ART_PRODUCTION_STAGE,
             )
             produced_record["execution_object_id"] = verified_object.get(
                 "execution_object_id"
@@ -4245,7 +4651,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             matching_objects = [
                 obj
                 for obj in execution_store.list_objects()
-                if obj.get("metadata", {}).get("stage") == 11
+                if obj.get("metadata", {}).get("stage") == ART_PRODUCTION_STAGE
                 and obj.get("metadata", {}).get("business_id") == task.get("task_id")
             ]
             execution_object_id = (
@@ -4301,7 +4707,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     )
     write_json(out_dir / "produced_assets_manifest.json", result)
     write_skill_guidance(out_dir, "imagegen")
-    _write_generated_images_manifest(out_dir, tasks, stage=11)
+    _write_generated_images_manifest(out_dir, tasks, stage=ART_PRODUCTION_STAGE)
     return {
         "content_exists": bool(produced),
         "produced_asset_count": len(produced),
@@ -4314,9 +4720,11 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
 def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
-    dev = read_json(stage_dir(10) / "devexecution.json", {})
-    art = read_json(stage_dir(11) / "artproduction.json", {})
-    changed_manifest = read_json(stage_dir(10) / "changed_files_manifest.json", {})
+    dev = read_json(stage_dir(DEV_EXECUTION_STAGE) / "devexecution.json", {})
+    art = read_json(stage_dir(ART_PRODUCTION_STAGE) / "artproduction.json", {})
+    changed_manifest = read_json(
+        stage_dir(DEV_EXECUTION_STAGE) / "changed_files_manifest.json", {}
+    )
     blockers = []
     if dev.get("status") != "success":
         blockers.append(
@@ -4363,7 +4771,7 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         blockers.append(
             {
                 "id": "ACTUAL-DEV-NO-RECORDS",
-                "message": "Stage 10 produced no real development records.",
+                "message": "Stage 12 produced no real development records.",
             }
         )
     if not actual_changed_files:
@@ -4381,7 +4789,7 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         blockers.append(
             {
                 "id": "UNITY-VALIDATION-MISSING",
-                "message": "Stage 10 did not record Unity batchmode validation.",
+                "message": "Stage 12 did not record Unity batchmode validation.",
             }
         )
     if failed_unity_results:
@@ -4408,7 +4816,7 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         blockers.append(
             {
                 "id": "EXECUTION-OBJECTS-NOT-VERIFIED",
-                "message": "Stage 10/11 execution objects must be verified before integration.",
+                "message": "Stage 12/13 execution objects must be verified before integration.",
                 "details": execution_object_validation,
             }
         )
@@ -4416,8 +4824,8 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     if not blockers:
         verified_object = complete_relationship_graph_execution_object(
             execution_store,
-            stage=12,
-            business_id="stage12_integration_relationships",
+            stage=INTEGRATION_STAGE,
+            business_id="stage14_integration_relationships",
             title="Integration relationship graph correction",
             graph_facts={
                 "development_records": len(records),
@@ -4529,9 +4937,13 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
 def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
-    integration = read_json(stage_dir(12) / "integration.json", {})
-    project_audit = read_json(stage_dir(12) / "actual_project_file_audit.json", {})
-    unity_summary = read_json(stage_dir(12) / "unity_validation_summary.json", {})
+    integration = read_json(stage_dir(INTEGRATION_STAGE) / "integration.json", {})
+    project_audit = read_json(
+        stage_dir(INTEGRATION_STAGE) / "actual_project_file_audit.json", {}
+    )
+    unity_summary = read_json(
+        stage_dir(INTEGRATION_STAGE) / "unity_validation_summary.json", {}
+    )
     blockers = []
     if integration.get("status") != "success":
         blockers.append(
@@ -4572,7 +4984,7 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "package_type": "actual_unity_project_validation",
         "source": project_audit.get("development_path"),
         "blocking_issues": blockers,
-        "included_stages": list(range(0, 13)),
+        "included_stages": list(range(0, BUILD_PACKAGE_STAGE)),
         "artifact_manifest": "build_artifact_manifest.json",
     }
     write_json(out_dir / "build_report.json", report)
@@ -4597,8 +5009,10 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
 def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
-    build = read_json(stage_dir(13) / "build_report.json", {})
-    build_artifacts = read_json(stage_dir(13) / "build_artifact_manifest.json", {})
+    build = read_json(stage_dir(BUILD_PACKAGE_STAGE) / "build_report.json", {})
+    build_artifacts = read_json(
+        stage_dir(BUILD_PACKAGE_STAGE) / "build_artifact_manifest.json", {}
+    )
     execution_store = load_execution_object_store(BASE_DIR)
     blockers = []
     if build.get("status") != "success":
@@ -4626,7 +5040,7 @@ def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 rollback_source=str(
                     build.get("artifact_manifest") or "build_artifact_manifest.json"
                 ),
-                stage=14,
+                stage=DELTA_PATCH_STAGE,
             )
             rollback_execution_object_id = str(
                 verified_object.get("execution_object_id") or ""
@@ -4921,20 +5335,24 @@ def apply_development_plan_outputs(
     elif step_number == 6:
         result = _stage6_outputs(parsed, out_dir)
     elif step_number == 7:
-        result = _stage7_outputs(parsed, out_dir)
+        result = _stage7_art_style_generation_outputs(parsed, out_dir)
     elif step_number == 8:
-        result = _stage8_outputs(parsed, out_dir)
+        result = _stage8_art_style_confirmation_outputs(parsed, out_dir)
     elif step_number == 9:
-        result = _stage9_outputs(parsed, out_dir)
+        result = _stage7_outputs(parsed, out_dir)
     elif step_number == 10:
-        result = _stage10_outputs(parsed, out_dir)
+        result = _stage8_outputs(parsed, out_dir)
     elif step_number == 11:
-        result = _stage11_outputs(parsed, out_dir)
+        result = _stage9_outputs(parsed, out_dir)
     elif step_number == 12:
-        result = _stage12_outputs(parsed, out_dir)
+        result = _stage10_outputs(parsed, out_dir)
     elif step_number == 13:
-        result = _stage13_outputs(parsed, out_dir)
+        result = _stage11_outputs(parsed, out_dir)
     elif step_number == 14:
+        result = _stage12_outputs(parsed, out_dir)
+    elif step_number == 15:
+        result = _stage13_outputs(parsed, out_dir)
+    elif step_number == 16:
         result = _stage14_outputs(parsed, out_dir)
     else:
         return report or {}

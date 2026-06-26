@@ -243,13 +243,49 @@ STAGES: tuple[StageInteraction, ...] = (
     ),
     StageInteraction(
         7,
+        "art_style_generation",
+        "美术风格生成",
+        "生成可审看的美术风格方向和参考图。",
+        (
+            "查看风格候选和图片预览。",
+            "确认是否需要进入人工风格确认。",
+            "提交后生成风格候选资料包，再运行第 07 阶段。",
+        ),
+        (
+            "风格候选是否覆盖主要资产类型？",
+            "图片是否足够可审看？",
+            "是否允许进入风格确认？",
+        ),
+        (),
+        (),
+    ),
+    StageInteraction(
+        8,
+        "art_style_confirmation",
+        "美术风格确认",
+        "人工选择风格方向并记录批注。",
+        (
+            "在专用图片审查界面中选择风格。",
+            "写入批注和确认文件。",
+            "确认后重新运行第 08 阶段继续流水线。",
+        ),
+        (
+            "是否已经选择一个风格方案？",
+            "批注是否说明需要保留或调整的方向？",
+            "是否允许进入开发计划和美术计划？",
+        ),
+        (),
+        (),
+    ),
+    StageInteraction(
+        9,
         "program_plan",
         "程序开发计划",
         "把程序需求拆成可执行开发任务和依赖顺序。",
         (
             "确认开发任务、依赖关系、目标文件、验收方式。",
             "标记高风险任务和必须先完成的基础模块。",
-            "提交后生成程序开发计划资料包，再运行第 07 阶段。",
+            "提交后生成程序开发计划资料包，再运行第 09 阶段。",
         ),
         (
             "任务顺序是否符合依赖关系？",
@@ -260,14 +296,14 @@ STAGES: tuple[StageInteraction, ...] = (
         ("Plans",),
     ),
     StageInteraction(
-        8,
+        10,
         "art_plan",
         "美术制作计划",
         "把美术需求拆成可执行制作任务和交付顺序。",
         (
             "确认每个资产的制作任务、规格、优先级、复用策略。",
             "标记风格风险和必须人工审看的资产。",
-            "提交后生成美术制作计划资料包，再运行第 08 阶段。",
+            "提交后生成美术制作计划资料包，再运行第 10 阶段。",
         ),
         (
             "资产优先级是否符合玩法验证需要？",
@@ -278,14 +314,14 @@ STAGES: tuple[StageInteraction, ...] = (
         ("ArtPlans",),
     ),
     StageInteraction(
-        9,
+        11,
         "asset_alignment",
         "资产契约对齐",
         "对齐程序引用和美术资产交付，解决路径、命名、覆盖和冲突。",
         (
             "确认程序资产引用、艺术资产输出和缺口分析。",
             "人工裁决命名冲突、缺失资产、替代策略。",
-            "提交后生成资产对齐资料包，再运行第 09 阶段。",
+            "提交后生成资产对齐资料包，再运行第 11 阶段。",
         ),
         (
             "程序和美术资产是否一一对应？",
@@ -296,13 +332,13 @@ STAGES: tuple[StageInteraction, ...] = (
         ("Alignment",),
     ),
     StageInteraction(
-        10,
+        12,
         "dev_execution",
         "程序开发执行",
         "记录程序开发结果、编译检查、代码审查和风险。",
         (
             "确认完成的模块、失败项、编译结果、待修复缺陷。",
-            "提交后生成程序执行记录资料包，再运行第 10 阶段。",
+            "提交后生成程序执行记录资料包，再运行第 12 阶段。",
         ),
         (
             "开发输出是否满足计划验收？",
@@ -313,13 +349,13 @@ STAGES: tuple[StageInteraction, ...] = (
         ("DevExecution",),
     ),
     StageInteraction(
-        11,
+        13,
         "art_production",
         "美术制作执行",
         "记录美术制作结果、质检、缺失资产和人工审看结论。",
         (
             "确认完成资产、质量问题、风格偏差、待补素材。",
-            "提交后生成美术制作记录资料包，再运行第 11 阶段。",
+            "提交后生成美术制作记录资料包，再运行第 13 阶段。",
         ),
         (
             "美术输出是否满足计划验收？",
@@ -330,13 +366,13 @@ STAGES: tuple[StageInteraction, ...] = (
         ("ArtProduction",),
     ),
     StageInteraction(
-        12,
+        14,
         "integration_validation",
         "集成验证",
         "验证程序和美术产物能否按契约集成。",
         (
             "确认集成通过项、失败项、缺失项、回退策略。",
-            "提交后生成集成验证资料包，再运行第 12 阶段。",
+            "提交后生成集成验证资料包，再运行第 14 阶段。",
         ),
         (
             "所有关键契约是否被覆盖？",
@@ -347,13 +383,13 @@ STAGES: tuple[StageInteraction, ...] = (
         ("Integration",),
     ),
     StageInteraction(
-        13,
+        15,
         "build_package",
         "构建打包",
         "记录构建配置、构建产物、版本号和打包验证。",
         (
             "确认构建版本、目标平台、构建产物和运行检查。",
-            "提交后生成构建打包资料包，再运行第 13 阶段。",
+            "提交后生成构建打包资料包，再运行第 15 阶段。",
         ),
         (
             "构建产物是否存在并可运行？",
@@ -364,13 +400,13 @@ STAGES: tuple[StageInteraction, ...] = (
         ("Build",),
     ),
     StageInteraction(
-        14,
+        16,
         "delta_patch",
         "差量补丁",
         "记录差量补丁内容、发布历史、文件哈希和验证结论。",
         (
             "确认补丁包含哪些变更、如何回滚、是否影响已有版本。",
-            "提交后生成差量补丁资料包，再运行第 14 阶段。",
+            "提交后生成差量补丁资料包，再运行第 16 阶段。",
         ),
         (
             "补丁文件是否存在？",
@@ -381,14 +417,14 @@ STAGES: tuple[StageInteraction, ...] = (
         ("DeltaPatch",),
     ),
     StageInteraction(
-        15,
+        17,
         "migration_audit",
         "最终审计",
         "审查所有阶段产物、治理层验证和项目独立性状态。",
         (
             "查看最终审计报告。",
             "确认无缺失阶段报告、无失败产物层、无旧项目输入输出引用。",
-            "运行第 15 阶段后读取最终审计报告。",
+            "运行第 17 阶段后读取最终审计报告。",
         ),
         (
             "是否所有阶段都成功？",
@@ -1246,7 +1282,7 @@ def successful_workbench_run_evidence(root: Path | None = None) -> dict[int, str
             continue
         from_step = int(from_match.group(1))
         stop_step = int(stop_match.group(1))
-        if from_step < 0 or stop_step > 15 or from_step > stop_step:
+        if from_step < 0 or stop_step > max(STAGE_BY_NUMBER) or from_step > stop_step:
             continue
         try:
             marker = str(log_path.resolve().relative_to(root.resolve())).replace("\\", "/")
@@ -1258,7 +1294,7 @@ def successful_workbench_run_evidence(root: Path | None = None) -> dict[int, str
 
 
 def stage10_runtime_validation(root: Path, stage_dir: Path, validation: dict[str, Any]) -> dict[str, Any]:
-    """Stage 10 is only complete when actual development writes its final report."""
+    """Development execution is complete only when it writes its final report."""
     result = dict(validation) if isinstance(validation, dict) else {}
     final_report = read_json(stage_dir / "devexecution.json", {})
     if isinstance(final_report, dict) and final_report.get("status"):
@@ -1312,7 +1348,7 @@ def stage10_runtime_validation(root: Path, stage_dir: Path, validation: dict[str
                 "status": "interrupted",
                 "executed_task_count": len(task_records),
                 "executing_execution_object_count": len(executing_objects),
-                "message": "Stage 10 has task-level records but no final devexecution.json.",
+                "message": "Stage 12 has task-level records but no final devexecution.json.",
             },
         })
         return result
@@ -1323,7 +1359,7 @@ def stage10_runtime_validation(root: Path, stage_dir: Path, validation: dict[str
             "valid": False,
             "business_quality": {
                 "status": "incomplete",
-                "message": "Stage 10 import artifacts exist, but actual development has not produced devexecution.json.",
+                "message": "Stage 12 import artifacts exist, but actual development has not produced devexecution.json.",
             },
         })
     return result
@@ -1338,17 +1374,21 @@ def summarize_stage(
     run_evidence = run_evidence if run_evidence is not None else successful_workbench_run_evidence(root)
     stage_dir = stage_output_dir(step, root)
     validation = read_json(stage_dir / "validation_report.json", {})
-    if step == 10:
+    if step == 12:
         validation = stage10_runtime_validation(root, stage_dir, validation)
     reviews = read_json(stage_dir / "artifact_reviews.json", {})
     layer = read_json(stage_dir / "artifact_validation_layer.json", {})
     manifest = read_json(stage_dir / "artifact_layer_manifest.json", {})
     reference_path = stage_dir / "reference_manifest.json"
     reference = read_json(reference_path, {})
-    if step == 10:
+    if step == 12:
         primary = stage_dir / "devexecution.json"
     else:
-        primary = stage_dir / ("migration_audit.json" if step == 15 else "artifact_index.json")
+        primary = stage_dir / (
+            "migration_audit.json"
+            if step == max(STAGE_BY_NUMBER)
+            else "artifact_index.json"
+        )
     stage = STAGE_BY_NUMBER[step]
     sources = source_matches(stage, root)
     evidence = run_evidence.get(step, "")

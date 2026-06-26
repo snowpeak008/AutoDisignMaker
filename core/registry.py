@@ -1,4 +1,4 @@
-"""Step registry for the AutoDesignMaker 0-15 pipeline.
+"""Step registry for the AutoDesignMaker 0-17 pipeline.
 
 Merged from:
 - steps/common.py::STEP_SPECS / StepSpec
@@ -30,18 +30,20 @@ STEP_SPECS: dict[int, StepSpec] = {
     4:  StepSpec(4,  "art_requirements",       "Art Requirements",        (3,)),
     5:  StepSpec(5,  "program_review",         "Program Review",          (3,)),
     6:  StepSpec(6,  "art_review",             "Art Review",              (4,)),
-    7:  StepSpec(7,  "design_to_plan",         "Program Plan",            (5,)),
-    8:  StepSpec(8,  "art_plan",               "Art Plan",                (6,)),
-    9:  StepSpec(9,  "asset_alignment",        "Asset Alignment",         (7, 8)),
-    10: StepSpec(10, "dev_execution",          "Dev Execution",           (9,)),
-    11: StepSpec(11, "art_production",         "Art Production",          (9,)),
-    12: StepSpec(12, "integration_validation", "Integration Validation",  (10, 11)),
-    13: StepSpec(13, "build_package",          "Build Package",           (12,)),
-    14: StepSpec(14, "delta_patch",            "Delta Patch",             (13,)),
-    15: StepSpec(15, "migration_audit",        "Migration Audit",         (14,)),
+    7:  StepSpec(7,  "art_style_generation",   "Art Style Generation",    (6,)),
+    8:  StepSpec(8,  "art_style_confirmation", "Art Style Confirmation",  (7,)),
+    9:  StepSpec(9,  "design_to_plan",         "Program Plan",            (5,)),
+    10: StepSpec(10, "art_plan",               "Art Plan",                (8,)),
+    11: StepSpec(11, "asset_alignment",        "Asset Alignment",         (9, 10)),
+    12: StepSpec(12, "dev_execution",          "Dev Execution",           (11,)),
+    13: StepSpec(13, "art_production",         "Art Production",          (11,)),
+    14: StepSpec(14, "integration_validation", "Integration Validation",  (12, 13)),
+    15: StepSpec(15, "build_package",          "Build Package",           (14,)),
+    16: StepSpec(16, "delta_patch",            "Delta Patch",             (15,)),
+    17: StepSpec(17, "migration_audit",        "Migration Audit",         (16,)),
 }
 
-# Design stages (D1-D4) that run before the 0-15 pipeline
+# Design stages (D1-D4) that run before the 0-17 pipeline
 DESIGN_STEP_SPECS: dict[str, StepSpec] = {
     "D1": StepSpec(1, "project_portrait",   "Project Portrait"),
     "D2": StepSpec(2, "design_decisions",   "Design Decisions"),

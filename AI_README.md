@@ -22,7 +22,7 @@
 
 AutoDesignMaker 是一个**游戏设计文档自动生成流水线**。  
 输入：游戏创意包（source_artifacts/）  
-输出：经过16个阶段逐步加工的完整游戏设计文档集  
+输出：经过18个阶段（Step00-17）逐步加工的完整游戏设计文档集
 启动：双击 `AutoDesignMaker.exe` 或运行 `python gui_app.py`
 
 ---
@@ -170,15 +170,17 @@ pipeline/
 ├── step_04_art_requirements/   步骤04：美术需求
 ├── step_05_program_review/     步骤05：程序评审
 ├── step_06_art_review/         步骤06：美术评审
-├── step_07_design_to_plan/     步骤07：开发计划
-├── step_08_art_plan/           步骤08：美术计划
-├── step_09_asset_alignment/    步骤09：资源对齐
-├── step_10_dev_execution/      步骤10：程序执行记录
-├── step_11_art_production/     步骤11：美术生产记录
-├── step_12_integration_validation/ 步骤12：集成验证
-├── step_13_build_package/      步骤13：构建打包
-├── step_14_delta_patch/        步骤14：增量补丁
-└── step_15_migration_audit/    步骤15：迁移审计
+├── step_07_art_style_generation/   步骤07：美术风格生成
+├── step_08_art_style_confirmation/ 步骤08：美术风格确认
+├── step_09_design_to_plan/     步骤09：开发计划
+├── step_10_art_plan/           步骤10：美术计划
+├── step_11_asset_alignment/    步骤11：资源对齐
+├── step_12_dev_execution/      步骤12：程序执行记录
+├── step_13_art_production/     步骤13：美术生产记录
+├── step_14_integration_validation/ 步骤14：集成验证
+├── step_15_build_package/      步骤15：构建打包
+├── step_16_delta_patch/        步骤16：增量补丁
+└── step_17_migration_audit/    步骤17：迁移审计
 
 每个步骤目录包含：
   plugin.py     实现 StagePlugin.execute()
@@ -268,7 +270,7 @@ tools/
 
 ### 总：项目定位
 
-AutoDesignMaker 是一个**16阶段确定性游戏设计文档流水线**。AI辅助内容生成，人类在关键节点决策。所有步骤都是可复现的确定性操作，不依赖随机性。
+AutoDesignMaker 是一个**Step00-17 确定性游戏设计文档流水线**。AI辅助内容生成，人类在关键节点决策。所有步骤都是可复现的确定性操作，不依赖随机性。
 
 ### 分：八层职责分工
 
@@ -365,7 +367,7 @@ mkdir pipeline/step_16_new_stage/
 # 3. 创建 prompts/main.txt（AI提示词）
 # 4. 创建 README.md（步骤说明）
 # 5. 在 pipeline/_registry.json 注册
-# 6. 在 artifact_layer/registry.json 声明制品和依赖
+# 6. 在 pipeline/artifact_layer/registry.json 声明制品和依赖
 # 7. 在 core/registry.py 的 STEP_SPECS 添加步骤定义
 ```
 

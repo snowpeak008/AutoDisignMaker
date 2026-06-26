@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Callable
 import tkinter as tk
 
-from core.ui.theme import COLORS, FONT_BODY, FONT_SMALL, FONT_BADGE
+from core.ui.theme import COLORS, FONT_BODY, FONT_BADGE
 
 
 _STATUS_COLOR: dict[str, str] = {
@@ -12,6 +12,7 @@ _STATUS_COLOR: dict[str, str] = {
     "success":      COLORS["success_soft"],
     "failed":       COLORS["danger_soft"],
     "blocked":      COLORS["warning_soft"],
+    "waiting_confirmation": COLORS["warning_soft"],
 }
 
 _STATUS_LABEL: dict[str, str] = {
@@ -20,6 +21,7 @@ _STATUS_LABEL: dict[str, str] = {
     "success":      "已完成",
     "failed":       "失败",
     "blocked":      "等待依赖",
+    "waiting_confirmation": "等待确认",
 }
 
 
@@ -81,6 +83,7 @@ class StepCard(tk.Frame):
             "failed":       COLORS["danger"],
             "in_progress":  COLORS["primary"],
             "blocked":      COLORS["warning"],
+            "waiting_confirmation": COLORS["warning"],
         }.get(self._status, COLORS["muted"])
         for w in self._all_widgets:
             try:

@@ -8,27 +8,57 @@
 ## 上次会话摘要
 
 **日期**：2026-06-26
+**ID**：2026-06-26-002
+**摘要**：执行 `manual_style_confirmation`：Step07/08 美术风格生成与人工确认门禁
+
+**完成内容**：
+- ✅ 新增 `pipeline/step_07_art_style_generation/`，输出风格候选、确定性 PNG 预览和生成日志
+- ✅ 新增 `pipeline/step_08_art_style_confirmation/`，支持 `waiting_confirmation` 人工门禁、自动跳过门禁和已有确认复用
+- ✅ 原 Step07-15 后移为 Step09-17，同步 core registry、pipeline registry、artifact layer registry、dependency graph 和 README
+- ✅ CLI 新增 `--skip-all-gates` / `--skip-gate-08`，`run_range()` 使用动态 `max_step_number()`
+- ✅ GUI 增加风格确认对话框、跳过人工确认选项和等待确认后的续跑/重新生成流程
+- ✅ 修复 Step08 重跑时 `run_import_step()` 重置阶段目录导致 `style_confirmation.json` 被删除的问题
+- ✅ 更新 AI 入口文档和 `knowledge/ai_memory/project_understanding` 中旧的 16 阶段/旧阶段号记忆
+
+**自查修复**：
+- ✅ 补充 Step08 插件保留手动确认文件的回归测试
+- ✅ 初次 Step07-08 真实段验证被预检拦截后，改用 Step00-08 生成完整上游验证层
+- ✅ 清理 `compileall` 初次生成的源树 `__pycache__`，改用 `PYTHONPYCACHEPREFIX=.cache\pycache` 复跑编译
+- ✅ 注册表 JSON、依赖图和真实流水线 Step00-08 验证通过
+
+**验证**：
+- ✅ 新增/关联回归测试：9 passed；新增人工确认测试：6 passed
+- ✅ `python -B -m pytest -q`：120 passed
+- ✅ `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall core pipeline`：通过
+- ✅ `python -B -m flake8 ... --select=F`：通过
+- ✅ 真实流水线 Step00-08：全部 success（使用 `--skip-all-gates` 验证自动通过路径）
+- ⚠️ `black` 在当前环境连 `--version` 都超时，未作为阻断项；用 compileall / flake8 F 类 / pytest / 真实流水线段验证兜底
+- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+
+**后续关注**：
+- [ ] GUI 需要人工点选 Step08 对话框做一次视觉/交互验收
+- [ ] 提交前确认 `plan/manual_style_confirmation/`、其他 `plan/` 临时目录、bug 文档和 `settings/api_config.toml` 不进入暂存区
+- [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-26
 **ID**：2026-06-26-001
 **摘要**：执行 `universal_genre_coverage`：通用品类覆盖与 Step02 liveops 元数据过滤
 
 **完成内容**：
 - ✅ Step00 `_genre_key()` 改为有序规则推断，避免宽泛 shooter/puzzle/arena 抢先命中具体品类
-- ✅ Step00 为计划列出的 17 个市场品类补齐 `GENRE_DEFAULT_EVIDENCE`，覆盖 farming sim、card、bullet heaven、match3、souls-like、各类 shooter、MMORPG、factory sim、metroidvania 等
+- ✅ Step00 为计划列出的 17 个市场品类补齐 `GENRE_DEFAULT_EVIDENCE`
 - ✅ Step02 governance node 过滤改为项目元数据感知：文档/帮助节点始终排除，liveops-only 节点只在明确买断/离线/单次发布项目中排除
 - ✅ Step02 项目分类只读取 profile、project metadata、商业模式/运营模式 selections，避免 raw text 中节点 ID 污染分类
 - ✅ 同步保留上一轮未提交修复：documentation 需求过滤、存档管理对话框文案/import 清理及相关回归测试
 
-**自查修复**：
-- ✅ black 格式化后重新跑全量测试和静态检查
-- ✅ Hades 当前存档重跑 Step00-08：`drafts\20260626_080541_34956`，步骤 00-08 全部 success
-- ✅ Stardew Valley 临时验证存档重跑 Step00-08：`drafts\20260626_080645_29304`，步骤 00-08 全部 success
-- ✅ 两套真实流水线质量指标均为 question coverage 1.0、Step02 entity coverage 1.0、Stage05 blocking 0
-
 **验证**：
 - ✅ 关联回归测试：3 passed
 - ✅ `python -B -m pytest -q`：114 passed
-- ✅ black / flake8 / `py_compile`：本轮触碰文件通过
-- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+- ✅ Hades 与 Stardew Valley 临时验证存档 Step00-08 全部 success
 
 **后续关注**：
 - [ ] Stage05 warning_count 当前为 1，属于非阻断 warning；如需归零可单独治理 L4-derived requirement 启发式
@@ -36,8 +66,6 @@
 - [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-25
 **ID**：2026-06-25-002

@@ -15,7 +15,7 @@ def test_plugin_manifest_loads_all_stages():
     manager = PluginManager()
     stages = manager.list_stages()
     assert stages[:4] == ["D1", "D2", "D3", "D4"]
-    assert stages[-1] == "15"
+    assert stages[-1] == "17"
     assert not manager.validate()
 
 

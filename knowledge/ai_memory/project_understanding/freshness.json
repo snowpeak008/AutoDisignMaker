@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-06-26T08:10:35",
+  "generated_at": "2026-06-26T13:46:20",
   "files": {
     "core/main.py": {
-      "sha256": "11c1f6b524d74ad512b265e32bef30e18d4503f5806b20e706602daa58d61dd4",
-      "size": 6917
+      "sha256": "75993071d1b22f6968b4ca69f162a9ca8284d5b4289901039b169638b499910b",
+      "size": 9668
     },
     "core/engines/generation.py": {
-      "sha256": "2f82dacdcb896968e739eedc26005ba3729c65572af075ab3f78573e03a4ec3b",
-      "size": 189689
+      "sha256": "000c8c7fa1116d65d584e2c46d14a3d8e2507cfadf79e0dc375da04c2083c1e6",
+      "size": 204777
     },
     "core/registry.py": {
-      "sha256": "8d58f8c100f71775c6cb579a30d88e6e680bbcb304064f73b92ed725e521551e",
-      "size": 3738
+      "sha256": "2b2dbb22bc5684fc6bbed0c6179a59fc38f39103e738beb72bb728aefb793435",
+      "size": 3890
     },
     "core/paths.py": {
       "sha256": "22bddded8503db835e6b9662ca4fda5f9ab842a621dac0223c011f934a69eada",
@@ -22,12 +22,12 @@
       "size": 4541
     },
     "core/stage_plugin.py": {
-      "sha256": "b68dbaa9b1006fbeaa979741d39d46856afbf492af2c618fbdb03152212dc048",
-      "size": 1585
+      "sha256": "29a741a47e16ba3d86cb4940021cc6d9012d6a83046d47b3dcd678909242fe22",
+      "size": 1580
     },
     "core/context.py": {
-      "sha256": "8323125996c80b6c3cf52b744b737194698309bcfa761080e00015c61a1663db",
-      "size": 1545
+      "sha256": "8b16ac569776c06c68a8ddb05982346462ded712616c1190a7123fbe32709a21",
+      "size": 1568
     },
     "core/io.py": {
       "sha256": "523c494fb7b244392b0cdf9d4895d6f3b3f94c6e611f2f3e9658c8db28d102fb",
@@ -62,24 +62,24 @@
       "size": 5142
     },
     "core/artifact/reviewer.py": {
-      "sha256": "357b360fc4faf67f32bf8da67248f8af7bc650507f33c9e28d201425fd26ae9e",
-      "size": 6228
+      "sha256": "30b94adc385397700298981186b3eecd1a606ce3fff94ecbd94239dbd25f9fd5",
+      "size": 6343
     },
     "core/artifact/validator.py": {
-      "sha256": "186bcedcc7f0fda26e514e6656d8df9512669a4c075862a72c097b5905409937",
-      "size": 7457
+      "sha256": "8426bb09311e18b6aa01b7a0dd9ba76cd8ce62c75c766fcf7d638d738de5c1dc",
+      "size": 7577
     },
     "core/source/importer.py": {
-      "sha256": "d9d7b70e388af907af7f6d9bc8a5edd3cb7c58bd5c6108cf9c4dc1a7be4725e6",
-      "size": 24821
+      "sha256": "dbae763982faeea3e0c58fa87d5061e3c0e19476476e6876859ea11531e98586",
+      "size": 24974
     },
     "core/source/groups.py": {
       "sha256": "d969e2f2d1202715bfe1c4e97928e3a9bd3a5f5fe862cbd08bc0fa74cd177fec",
       "size": 1470
     },
     "core/config/loader.py": {
-      "sha256": "0087b5f14a0fa156ff809e5e4942a68eff4eced7f17544acace3278c1eb58ad8",
-      "size": 7738
+      "sha256": "2ec3b61328309587faa810269daa794b16204436b98ff77183e2c108a851636a",
+      "size": 8041
     },
     "core/config/integrity.py": {
       "sha256": "56166b08566b50a65dd4d05100ce10e3cf2b8d1a38d332865982008ebb0a7be8",
@@ -94,12 +94,12 @@
       "size": 6502
     },
     "core/runtime/pipeline_state.py": {
-      "sha256": "2ae5d66c32b3b7ddb12b2b0b62859b4be363e5530e2d243b359fdb706386e04e",
-      "size": 2364
+      "sha256": "f0dc5677006de0f6206359b1270526293629d525cd4d5d90ca71ef79885f59fc",
+      "size": 2414
     },
     "core/save/manager.py": {
-      "sha256": "adc06dc13caebb5c2a37c8eb872de7887ea8e5b75a5f20a2c3dcd8469ac5fc88",
-      "size": 42562
+      "sha256": "36030476a1c6730a8820945d2fd9bddcb5e0d1c6b8a162706d3096b9b7149640",
+      "size": 42677
     },
     "core/design/engine.py": {
       "sha256": "df236f80e8190bde8416227e0aacd160715381f3db84bf9c7351768b7f0c17f2",
@@ -130,12 +130,12 @@
       "size": 67805
     },
     "pipeline/_registry.json": {
-      "sha256": "98b9e59e82825a27cb296f327876426739c003cb72836672fd9dd90bc4fe2078",
-      "size": 3674
+      "sha256": "92b1ab8cd333c3bb0e04f004437d05bf799b618bc1a363382d4b8305125feaed",
+      "size": 3993
     },
     "pipeline/artifact_layer/registry.json": {
-      "sha256": "46b9d1ae4b1056f2cbc2eb76a30f048a956aa522a293d6081c7a69d30369d183",
-      "size": 18175
+      "sha256": "ad62a22b53363d9cb3f2e88fbfa09a64c7a259f7e29b8bf8fbb53e364443e2fe",
+      "size": 19901
     }
   }
 }

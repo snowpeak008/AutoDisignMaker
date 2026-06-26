@@ -6,7 +6,9 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import json
+import os
 import sys
 
 from core.paths import PROJECT_ROOT
@@ -34,19 +36,50 @@ from core.runtime.control import (
     clear_stale_stop_request,
 )
 from core.runtime.preflight import assert_actual_development_preflight
-from core.registry import STEP_SPECS
+from core.registry import STEP_SPECS, max_step_number
+
+
+@contextmanager
+def _manual_gate_overrides(
+    *, skip_all_gates: bool = False, skip_gates: set[int] | None = None
+):
+    previous_all = os.environ.get("AUTODESIGNMAKER_SKIP_ALL_GATES")
+    previous_steps = os.environ.get("AUTODESIGNMAKER_SKIP_GATES")
+    try:
+        if skip_all_gates:
+            os.environ["AUTODESIGNMAKER_SKIP_ALL_GATES"] = "1"
+        if skip_gates:
+            os.environ["AUTODESIGNMAKER_SKIP_GATES"] = ",".join(
+                f"{step:02d}" for step in sorted(skip_gates)
+            )
+        yield
+    finally:
+        if previous_all is None:
+            os.environ.pop("AUTODESIGNMAKER_SKIP_ALL_GATES", None)
+        else:
+            os.environ["AUTODESIGNMAKER_SKIP_ALL_GATES"] = previous_all
+        if previous_steps is None:
+            os.environ.pop("AUTODESIGNMAKER_SKIP_GATES", None)
+        else:
+            os.environ["AUTODESIGNMAKER_SKIP_GATES"] = previous_steps
 
 
 def run_range(
     from_step: int = 0,
-    stop_step: int = 15,
+    stop_step: int | None = None,
     *,
     auto_approve: bool = False,
     skip_preflight: bool = False,
     run_id: str | None = None,
+    skip_all_gates: bool = False,
+    skip_gates: set[int] | None = None,
 ) -> int:
-    if from_step < 0 or stop_step > 15 or from_step > stop_step:
-        raise ValueError("Step range must be within 0-15 and from_step <= stop_step.")
+    max_step = max_step_number()
+    stop_step = max_step if stop_step is None else stop_step
+    if from_step < 0 or stop_step > max_step or from_step > stop_step:
+        raise ValueError(
+            f"Step range must be within 0-{max_step} and from_step <= stop_step."
+        )
     if not skip_preflight:
         try:
             assert_actual_development_preflight(PROJECT_ROOT, write_report=True)
@@ -65,51 +98,78 @@ def run_range(
     manager = PluginManager()
     steps = topological_step_order(from_step, stop_step)
 
-    for index, step_num in enumerate(steps):
-        spec = STEP_SPECS[step_num]
-        try:
-            write_run_state(PROJECT_ROOT, status="running", run_id=run_id,
-                            from_step=from_step, stop_step=stop_step, current_step=step_num)
-            if stop_requested(PROJECT_ROOT):
-                mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="before_stage")
-                retry_sync(PROJECT_ROOT, event="run_stage_stopped", stage=step_num,
-                           message="Operator stop before stage.", log=lambda t: print(t, end=""))
-                return 130
-            if not auto_approve:
-                ans = input(f"Run step {step_num:02d} ({spec.slug})? [y/N] ").strip().lower()
-                if ans not in {"y", "yes"}:
-                    raise RuntimeError(f"Step {step_num:02d} not approved.")
-            retry_sync(PROJECT_ROOT, event="run_stage_start", stage=step_num,
-                       log=lambda t: print(t, end=""))
-            preflight_stage_contract(step_num)
-            plugin = manager.load_stage(f"{step_num:02d}")
-            ctx = StageContext(stage_id=f"{step_num:02d}")
-            result = plugin.run(ctx)
-            run_review_pipeline(step_num)
-            run_artifact_validators(step_num)
-            retry_sync(PROJECT_ROOT, event="run_stage_success", stage=step_num,
-                       message=json.dumps({"status": result.status}),
-                       log=lambda t: print(t, end=""))
-            print(json.dumps({"step": step_num, "status": result.status}))
-            if stop_requested(PROJECT_ROOT):
-                mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="after_stage")
-                return 130
-        except PipelineStopRequested as exc:
-            mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="inside_stage")
+    with _manual_gate_overrides(
+        skip_all_gates=skip_all_gates, skip_gates=skip_gates or set()
+    ):
+        for step_num in steps:
+            spec = STEP_SPECS[step_num]
             try:
-                retry_sync(PROJECT_ROOT, event="run_stage_stopped", stage=step_num,
-                           message=str(exc), log=lambda t: print(t, end=""))
-            except Exception:
-                pass
-            return 130
-        except Exception as exc:
-            try:
-                retry_sync(PROJECT_ROOT, event="run_stage_failed", stage=step_num,
-                           message=str(exc), log=lambda t: print(t, end=""))
-            except Exception:
-                pass
-            print(f"Step {step_num:02d} failed: {exc}", file=sys.stderr)
-            return 1
+                write_run_state(PROJECT_ROOT, status="running", run_id=run_id,
+                                from_step=from_step, stop_step=stop_step, current_step=step_num)
+                if stop_requested(PROJECT_ROOT):
+                    mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="before_stage")
+                    retry_sync(PROJECT_ROOT, event="run_stage_stopped", stage=step_num,
+                               message="Operator stop before stage.", log=lambda t: print(t, end=""))
+                    return 130
+                if not auto_approve:
+                    ans = input(f"Run step {step_num:02d} ({spec.slug})? [y/N] ").strip().lower()
+                    if ans not in {"y", "yes"}:
+                        raise RuntimeError(f"Step {step_num:02d} not approved.")
+                retry_sync(PROJECT_ROOT, event="run_stage_start", stage=step_num,
+                           log=lambda t: print(t, end=""))
+                preflight_stage_contract(step_num)
+                plugin = manager.load_stage(f"{step_num:02d}")
+                ctx = StageContext(stage_id=f"{step_num:02d}")
+                result = plugin.run(ctx)
+                if result.status == "waiting_confirmation":
+                    payload = {
+                        "status": result.status,
+                        "confirmation_ui": result.outputs.get("confirmation_ui", ""),
+                        "stage": step_num,
+                    }
+                    write_run_state(
+                        PROJECT_ROOT,
+                        status="waiting_confirmation",
+                        run_id=run_id,
+                        from_step=from_step,
+                        stop_step=stop_step,
+                        current_step=step_num,
+                        confirmation_ui=payload["confirmation_ui"],
+                    )
+                    retry_sync(
+                        PROJECT_ROOT,
+                        event="run_stage_waiting_confirmation",
+                        stage=step_num,
+                        message=json.dumps(payload),
+                        log=lambda t: print(t, end=""),
+                    )
+                    print(json.dumps({"step": step_num, "status": result.status}))
+                    return 0
+                run_review_pipeline(step_num)
+                run_artifact_validators(step_num)
+                retry_sync(PROJECT_ROOT, event="run_stage_success", stage=step_num,
+                           message=json.dumps({"status": result.status}),
+                           log=lambda t: print(t, end=""))
+                print(json.dumps({"step": step_num, "status": result.status}))
+                if stop_requested(PROJECT_ROOT):
+                    mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="after_stage")
+                    return 130
+            except PipelineStopRequested as exc:
+                mark_stopped(PROJECT_ROOT, current_step=step_num, boundary="inside_stage")
+                try:
+                    retry_sync(PROJECT_ROOT, event="run_stage_stopped", stage=step_num,
+                               message=str(exc), log=lambda t: print(t, end=""))
+                except Exception:
+                    pass
+                return 130
+            except Exception as exc:
+                try:
+                    retry_sync(PROJECT_ROOT, event="run_stage_failed", stage=step_num,
+                               message=str(exc), log=lambda t: print(t, end=""))
+                except Exception:
+                    pass
+                print(f"Step {step_num:02d} failed: {exc}", file=sys.stderr)
+                return 1
 
     write_run_state(PROJECT_ROOT, status="success", run_id=run_id,
                     from_step=from_step, stop_step=stop_step, current_step=stop_step)
@@ -122,7 +182,7 @@ def main(argv: list[str] | None = None) -> int:
     prune_old_drafts(PROJECT_ROOT, keep_count=5)
     parser = argparse.ArgumentParser(description="AutoDesignMaker")
     parser.add_argument("--from-step", type=int, default=0)
-    parser.add_argument("--stop-step", type=int, default=15)
+    parser.add_argument("--stop-step", type=int, default=max_step_number())
     parser.add_argument("--step", type=int, help="Run single step")
     parser.add_argument("--stage", help="Run design stage by ID (D1/D2/00/01...)")
     parser.add_argument("--run-id", default="")
@@ -130,6 +190,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--list", action="store_true")
     parser.add_argument("--preflight-only", action="store_true")
     parser.add_argument("--skip-preflight", action="store_true")
+    parser.add_argument("--skip-all-gates", action="store_true")
+    parser.add_argument("--skip-gate-08", action="store_true")
     args = parser.parse_args(argv)
 
     if args.list:
@@ -158,6 +220,8 @@ def main(argv: list[str] | None = None) -> int:
         auto_approve=args.auto_approve,
         skip_preflight=args.skip_preflight,
         run_id=args.run_id or None,
+        skip_all_gates=args.skip_all_gates,
+        skip_gates={8} if args.skip_gate_08 else set(),
     )
 
 

@@ -1,7 +1,7 @@
 """Base interface for all design and development stage plugins.
 
 Migrated from src/core/stage_plugin.py — no logic changes.
-All 20 step plugins (D1-D4 + step_00~15) must subclass StagePlugin.
+All step plugins (D1-D4 + step_00+) must subclass StagePlugin.
 """
 
 from __future__ import annotations

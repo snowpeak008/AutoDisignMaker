@@ -10,6 +10,7 @@ from core.io import now_iso, write_json
 from core.stage import stage_dir
 from core.artifact.registry_loader import artifacts_for_step, artifacts_by_id, PROJECT_ROOT
 from core.artifact.preflight import _knowledge_refs_exist, _schema_refs, _dependency_status_failures
+from core.registry import max_step_number
 from core.source.importer import refresh_reference_manifest_file_inventory
 
 
@@ -87,7 +88,10 @@ def run_artifact_validators(step_number: int) -> dict[str, Any]:
 
         # stage_files_validator
         if stage_report and stage_report.get("status") == "success" and stage_report.get("valid") is True:
-            required = stage_path / ("migration_audit.json" if step_number == 15 else "artifact_index.json")
+            final_step = max_step_number()
+            required = stage_path / (
+                "migration_audit.json" if step_number == final_step else "artifact_index.json"
+            )
             reference = stage_path / "reference_manifest.json"
             if required.exists() and reference.exists():
                 results.append(_result("pass", "stage_files_validator", "Stage files satisfy the migrated contract."))
