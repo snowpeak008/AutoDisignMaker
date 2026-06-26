@@ -7,6 +7,38 @@
 
 ## 上次会话摘要
 
+**Date**: 2026-06-26
+**ID**: 2026-06-26-004
+**Summary**: Executed `template_2d_redesign`: rebuilt all 37 public templates as 2D L5 templates.
+
+**Completed**:
+- [x] All 37 public templates now set `profile.dimension = "2D"`; `template_index.json` mirrors `dimension = "2D"`.
+- [x] Public template `qualityClaim` values are now `L5_complete_consistent`, with no public `L4_only_filled` entries.
+- [x] Planned 3D/non-target replacements were rewritten as 2D reference games while keeping stable file names.
+- [x] Every public template covers all 39 concrete nodes: 26 system_concrete nodes with 3 entities each and 13 content_concrete nodes with 2 entities each.
+- [x] `builtin_indie_hades.json`, currently part of the public index, was also upgraded to 2D L5.
+- [x] `core/tests/unit/test_template_l5_expansion.py` now validates public template count, index sync, 2D dimension, L5 claim, old 3D names, concrete coverage, and entity shape.
+
+**Verification**:
+- [x] All project template JSON parsed successfully.
+- [x] Static public-template audit: 37 public entries, no `L4_only_filled`, no old 3D public names.
+- [x] `python -B -m pytest core\tests\unit\test_template_l5_expansion.py -q`: 3 passed.
+- [x] D4 export from the rebuilt Celeste template followed by Step00-08: all success.
+- [x] Pipeline quality for the validation draft: 104 entities, requirement binding 1.0, placeholder rate 0, Step05 blocking 0.
+- [x] `python -B -m pytest -q`: 122 passed.
+- [x] `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall ...`: passed.
+- [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
+
+**Follow-up**:
+- [ ] Optional GUI spot-check of the template list to confirm renamed public entries display as expected.
+- [ ] Validation draft `drafts\codex_template_2d_redesign_validation` is runtime output and should not be committed.
+- [ ] Continue excluding `plan/` and bug documents from commits.
+- [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
 **日期**：2026-06-26
 **ID**：2026-06-26-003
 **摘要**：执行 `directory_cleanup_analysis`：目录清理、存档进度总数修复与 plan 忽略规则统一
@@ -41,8 +73,6 @@
 - [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-26
 **ID**：2026-06-26-002

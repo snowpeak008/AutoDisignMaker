@@ -1,5 +1,27 @@
 [
   {
+    "id": "2026-06-26-004",
+    "date": "2026-06-26",
+    "summary": "Executed template_2d_redesign: rebuilt all 37 public templates as 2D L5 templates",
+    "changed_files": [
+      "knowledge/design_data/project_templates/builtin_*.json",
+      "knowledge/design_data/project_templates/template_index.json",
+      "core/tests/unit/test_template_l5_expansion.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-26-004.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-26-004.md"
+    ],
+    "next_tasks": [
+      "Optional GUI spot-check of the template list to confirm renamed public entries display as expected",
+      "Do not commit runtime validation draft drafts/codex_template_2d_redesign_validation",
+      "Continue excluding plan/ and bug documents from commits",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-26-003",
     "date": "2026-06-26",
     "summary": "执行 directory_cleanup_analysis：目录清理、存档进度总数修复与 plan 忽略规则统一",

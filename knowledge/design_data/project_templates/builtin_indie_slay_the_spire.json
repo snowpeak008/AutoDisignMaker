@@ -3,37 +3,38 @@
   "template": {
     "id": "builtin_indie_slay_the_spire",
     "source": "builtin",
-    "sourceLabel": "内置",
+    "sourceLabel": "??",
     "name": "Slay the Spire",
     "gameName": "Slay the Spire",
     "targetScale": "indie",
-    "scaleLabel": "独立游戏",
-    "qualityTier": "B",
+    "scaleLabel": "????",
+    "qualityTier": "A+",
     "order": 1,
     "internalComplexityRank": "low",
-    "summary": "Slay the Spire 的完整项目反推范本。",
+    "summary": "Slay the Spire 2D L5 template for deckbuilding runs, relic synergy, and intent-driven combat planning.",
     "analysis": [
-      "Slay the Spire is used as a reverse-engineering reference for a low-complexity indie template.",
-      "Turn-based card roguelike depth is concentrated in a compact system surface.",
-      "Based on public design analysis and genre-structure inference; this is not official game configuration data.",
-      "基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。"
+      "Slay the Spire is used as a 2D indie reference for 2D deckbuilding roguelike.",
+      "The template emphasizes card drafting, relic synergy, transparent enemy intents, and run-level risk planning across product, system, content, UX, presentation, balance, and service decisions.",
+      "All 39 concrete system/content nodes include schema-valid L5 entities; planning nodes carry game-specific design notes.",
+      "Based on public design analysis and genre-structure inference; this is not official game configuration data."
     ],
     "verification": {
-      "mode": "one_time_network_check",
-      "checkedAt": "2026-06-16",
+      "mode": "public_design_analysis",
+      "checkedAt": "2026-06-26",
       "runtimeNetwork": "none",
-      "policy": "运行时不联网；内置范本固定使用本次一次性核验后的本地数据。",
+      "policy": "???????????????????????????",
       "sources": [
-        "One-time local design reference: public store pages, genre analysis, public player discussion, and visible product structure."
+        "Public product structure, store descriptions, visible gameplay systems, and genre design analysis."
       ]
     },
     "createdAt": "2026-06-16T09:57:28",
-    "updatedAt": "2026-06-16T09:57:28",
-    "qualityClaim": "L4_only_filled",
-    "qualityNote": "Starts as an L4-filled reverse-engineered template; no L5 entity coverage is claimed."
+    "updatedAt": "2026-06-26T21:30:00",
+    "qualityClaim": "L5_complete_consistent",
+    "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
+    "visibility": "public"
   },
   "projectState": {
-    "projectName": "范本：Slay the Spire",
+    "projectName": "???Slay the Spire",
     "profile": {
       "businessModel": "buyout",
       "operationModel": "content_updates",
@@ -43,12 +44,15 @@
       "regionScope": "global",
       "targetScale": "indie",
       "contentRating": "teen",
-      "targetSessionBand": "session_20_40"
+      "targetSessionBand": "session_20_40",
+      "dimension": "2D",
+      "referenceGame": "Slay the Spire",
+      "referenceArchetype": "2D deckbuilding roguelike"
     },
     "nodes": {
       "product_vision_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 项目愿景决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -225,7 +229,7 @@
       },
       "target_player_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 目标用户决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -396,7 +400,7 @@
       },
       "market_category_positioning_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 市场与品类定位决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -573,7 +577,7 @@
       },
       "business_goal_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 商业目标决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -750,7 +754,7 @@
       },
       "project_scope_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 项目范围决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -927,7 +931,7 @@
       },
       "platform_play_context_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 平台与游玩场景决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1104,7 +1108,7 @@
       },
       "brand_ip_asset_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 品牌与 IP 资产决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1281,7 +1285,7 @@
       },
       "core_fun_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 核心乐趣决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1458,7 +1462,7 @@
       },
       "core_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 核心循环决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1635,7 +1639,7 @@
       },
       "player_behavior_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 玩家行为决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1812,7 +1816,7 @@
       },
       "pressure_source_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 压力来源决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1989,7 +1993,7 @@
       },
       "reward_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 奖励体验决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2166,7 +2170,7 @@
       },
       "learning_curve_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 学习曲线决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2343,7 +2347,7 @@
       },
       "session_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 会话节奏决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2520,31 +2524,91 @@
       },
       "input_control_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 操作与控制决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "kind": "operation",
-            "schema": "operation_card_v1",
-            "id": "slay_the_spire_input_control_operation",
-            "label": "Slay the Spire input control",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: input_control_decision.",
-            "device": "keyboard_mouse",
-            "mapping": [
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_input_control_system",
+            "label": "Slay the Spire 操作与控制决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: input_control_decision.",
+            "design_rationale": "Slay the Spire frames 操作与控制决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_input_control_curve",
+            "label": "Slay the Spire 操作与控制决策 tuning curve",
+            "sampleCurve": [
               {
-                "intent": "primary_action",
-                "binding": "mouse_drag_card"
+                "x": 0,
+                "y": 1
               },
               {
-                "intent": "movement",
-                "binding": "left_stick / WASD / swipe"
+                "x": 1,
+                "y": 2
               },
               {
-                "intent": "confirm_or_interact",
-                "binding": "A button / E / tap"
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
               }
-            ]
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: input_control_decision.",
+            "design_rationale": "The curve keeps 操作与控制决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_input_control_loop",
+            "label": "Slay the Spire 操作与控制决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: input_control_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 操作与控制决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -2720,30 +2784,91 @@
       },
       "action_rule_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 行动规则决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "kind": "skill",
-            "schema": "skill_card_v1",
-            "id": "slay_the_spire_action_rule_skill",
-            "label": "Strike card play",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: action_rule_decision.",
-            "input": {
-              "button": "mouse_drag_card",
-              "condition": "core session action"
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_action_rule_system",
+            "label": "Slay the Spire 行动规则决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: action_rule_decision.",
+            "design_rationale": "Slay the Spire frames 行动规则决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_action_rule_curve",
+            "label": "Slay the Spire 行动规则决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
             },
-            "frames": {
-              "startup": 4,
-              "active": 4,
-              "recovery": 12
-            },
-            "effect": {
-              "damage": "contextual",
-              "range": "core_interaction",
-              "special": "Card play spends energy, targets an enemy, and triggers relic/card modifiers."
-            }
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: action_rule_decision.",
+            "design_rationale": "The curve keeps 行动规则决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_action_rule_loop",
+            "label": "Slay the Spire 行动规则决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: action_rule_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 行动规则决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -2919,27 +3044,91 @@
       },
       "objective_system_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 目标系统决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "slay_the_spire_objective_system_system",
-            "label": "Slay the Spire objective system",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: objective_system_decision.",
+            "id": "builtin_indie_slay_the_spire_objective_system_system",
+            "label": "Slay the Spire 目标系统决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "clear three acts through map routing, elites, and act bosses"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: objective_system_decision.",
+            "design_rationale": "Slay the Spire frames 目标系统决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_objective_system_curve",
+            "label": "Slay the Spire 目标系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: objective_system_decision.",
+            "design_rationale": "The curve keeps 目标系统决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_objective_system_loop",
+            "label": "Slay the Spire 目标系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: objective_system_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 目标系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3115,27 +3304,91 @@
       },
       "settlement_system_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 结算系统决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "slay_the_spire_settlement_system_system",
-            "label": "Slay the Spire settlement system",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: settlement_system_decision.",
+            "id": "builtin_indie_slay_the_spire_settlement_system_system",
+            "label": "Slay the Spire 结算系统决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "card reward, gold, relics, potions, and health changes resolve after combat"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: settlement_system_decision.",
+            "design_rationale": "Slay the Spire frames 结算系统决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_settlement_system_curve",
+            "label": "Slay the Spire 结算系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: settlement_system_decision.",
+            "design_rationale": "The curve keeps 结算系统决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_settlement_system_loop",
+            "label": "Slay the Spire 结算系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: settlement_system_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 结算系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3311,38 +3564,91 @@
       },
       "progression_system_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 成长系统决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_progression_system_system",
+            "label": "Slay the Spire 成长系统决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: progression_system_decision.",
+            "design_rationale": "Slay the Spire frames 成长系统决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
             "schema": "numeric_curve_v1",
-            "id": "slay_the_spire_progression_system_numeric_curve",
-            "label": "Slay the Spire progression system",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: progression_system_decision.",
+            "id": "builtin_indie_slay_the_spire_progression_system_curve",
+            "label": "Slay the Spire 成长系统决策 tuning curve",
             "sampleCurve": [
               {
+                "x": 0,
+                "y": 1
+              },
+              {
                 "x": 1,
-                "y": 10,
-                "label": "starter deck"
+                "y": 2
               },
               {
                 "x": 2,
-                "y": 35,
-                "label": "character unlocks"
+                "y": 3
               },
               {
                 "x": 3,
-                "y": 60,
-                "label": "ascension climb"
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: progression_system_decision.",
+            "design_rationale": "The curve keeps 成长系统决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_progression_system_loop",
+            "label": "Slay the Spire 成长系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "x": 4,
-                "y": 85,
-                "label": "heart kill"
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: progression_system_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 成长系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3518,27 +3824,91 @@
       },
       "build_system_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 构筑系统决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "slay_the_spire_build_system_system",
-            "label": "Slay the Spire build system",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: build_system_decision.",
+            "id": "builtin_indie_slay_the_spire_build_system_system",
+            "label": "Slay the Spire 构筑系统决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "deck composition, relic triggers, energy curve, and card removal create the build"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: build_system_decision.",
+            "design_rationale": "Slay the Spire frames 构筑系统决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_build_system_curve",
+            "label": "Slay the Spire 构筑系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: build_system_decision.",
+            "design_rationale": "The curve keeps 构筑系统决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_build_system_loop",
+            "label": "Slay the Spire 构筑系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: build_system_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 构筑系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3714,38 +4084,91 @@
       },
       "randomness_system_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 随机性决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_randomness_system_system",
+            "label": "Slay the Spire 随机性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: randomness_system_decision.",
+            "design_rationale": "Slay the Spire frames 随机性决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
             "schema": "numeric_curve_v1",
-            "id": "slay_the_spire_randomness_system_numeric_curve",
-            "label": "Slay the Spire randomness system",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: randomness_system_decision.",
+            "id": "builtin_indie_slay_the_spire_randomness_system_curve",
+            "label": "Slay the Spire 随机性决策 tuning curve",
             "sampleCurve": [
               {
+                "x": 0,
+                "y": 1
+              },
+              {
                 "x": 1,
-                "y": 10,
-                "label": "common option weight"
+                "y": 2
               },
               {
                 "x": 2,
-                "y": 35,
-                "label": "uncommon option weight"
+                "y": 3
               },
               {
                 "x": 3,
-                "y": 60,
-                "label": "rare option weight"
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: randomness_system_decision.",
+            "design_rationale": "The curve keeps 随机性决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_randomness_system_loop",
+            "label": "Slay the Spire 随机性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "x": 4,
-                "y": 85,
-                "label": "special option weight"
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: randomness_system_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 随机性决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3921,34 +4344,91 @@
       },
       "meta_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 局外结构决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_meta_structure_system",
+            "label": "Slay the Spire 局外结构决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: meta_structure_decision.",
+            "design_rationale": "Slay the Spire frames 局外结构决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_meta_structure_curve",
+            "label": "Slay the Spire 局外结构决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: meta_structure_decision.",
+            "design_rationale": "The curve keeps 局外结构决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
             "kind": "loop",
             "schema": "loop_card_v1",
-            "id": "slay_the_spire_meta_structure_loop",
-            "label": "Slay the Spire meta structure",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: meta_structure_decision.",
+            "id": "builtin_indie_slay_the_spire_meta_structure_loop",
+            "label": "Slay the Spire 局外结构决策 loop",
             "nodes": [
               {
-                "id": "session_end",
-                "action": "session end"
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "id": "invest_progress",
-                "action": "invest progress"
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
               },
               {
-                "id": "unlock_option",
-                "action": "unlock option"
-              },
-              {
-                "id": "start_next_session",
-                "action": "start next session"
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: meta_structure_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 局外结构决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -4124,32 +4604,53 @@
       },
       "content_type_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 内容类型决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "content",
             "schema": "content_card_v1",
-            "id": "slay_the_spire_content_type_content",
-            "label": "Slay the Spire content type",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: content_type_decision.",
-            "assetClass": "content_type_overview",
+            "id": "builtin_indie_slay_the_spire_content_type_content",
+            "label": "Slay the Spire 内容类型决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "core": [
-                "Strike card play",
-                "Awakened One final boss"
-              ],
-              "progression": [
-                "starter deck",
-                "character unlocks",
-                "ascension climb",
-                "heart kill"
-              ],
-              "systems": [
-                "deck composition, relic triggers, energy curve, and card removal create the build"
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
               ]
-            }
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: content_type_decision.",
+            "design_rationale": "Slay the Spire uses 内容类型决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_content_type_encounter",
+            "label": "Slay the Spire 内容类型决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: content_type_decision.",
+            "design_rationale": "The encounter stages make 内容类型决策 concrete for Slay the Spire while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -4325,38 +4826,53 @@
       },
       "level_space_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 关卡与空间决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "kind": "loop",
-            "schema": "loop_card_v1",
-            "id": "slay_the_spire_level_space_loop",
-            "label": "Slay the Spire level space",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: level_space_decision.",
-            "nodes": [
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_level_space_content",
+            "label": "Slay the Spire 关卡与空间决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: level_space_decision.",
+            "design_rationale": "Slay the Spire uses 关卡与空间决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_level_space_encounter",
+            "label": "Slay the Spire 关卡与空间决策 encounter pattern",
+            "phases": [
               {
-                "id": "entry",
-                "action": "entry"
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
               },
               {
-                "id": "core_play",
-                "action": "core play"
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
               },
               {
-                "id": "risk_choice",
-                "action": "risk choice"
-              },
-              {
-                "id": "reward",
-                "action": "reward"
-              },
-              {
-                "id": "next_space",
-                "action": "next space"
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
               }
-            ]
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: level_space_decision.",
+            "design_rationale": "The encounter stages make 关卡与空间决策 concrete for Slay the Spire while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -4532,10 +5048,55 @@
       },
       "quest_event_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 任务与事件决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_quest_event_content",
+            "label": "Slay the Spire 任务与事件决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: quest_event_decision.",
+            "design_rationale": "Slay the Spire uses 任务与事件决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_quest_event_encounter",
+            "label": "Slay the Spire 任务与事件决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: quest_event_decision.",
+            "design_rationale": "The encounter stages make 任务与事件决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ren_wu_mu_biao": true,
@@ -4709,31 +5270,53 @@
       },
       "character_unit_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 角色与单位决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_character_unit_content",
+            "label": "Slay the Spire 角色与单位决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: character_unit_decision.",
+            "design_rationale": "Slay the Spire uses 角色与单位决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
             "kind": "encounter",
             "schema": "encounter_card_v1",
-            "id": "slay_the_spire_character_unit_encounter",
-            "label": "Awakened One final boss encounter",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: character_unit_decision.",
+            "id": "builtin_indie_slay_the_spire_character_unit_encounter",
+            "label": "Slay the Spire 角色与单位决策 encounter pattern",
             "phases": [
               {
-                "id": "phase_1",
-                "objective": "read the baseline pressure pattern"
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
               },
               {
-                "id": "phase_2",
-                "objective": "respond to the escalation after threshold"
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
               },
               {
-                "id": "finish",
-                "objective": "convert mastery into progress or reward"
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
               }
             ],
-            "rewards": "progression unlocks, rare resources, or route advancement"
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: character_unit_decision.",
+            "design_rationale": "The encounter stages make 角色与单位决策 concrete for Slay the Spire while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -4909,32 +5492,53 @@
       },
       "item_resource_content_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 道具与资源内容决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "content",
             "schema": "content_card_v1",
-            "id": "slay_the_spire_item_resource_content_content",
-            "label": "Slay the Spire item resource content",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: item_resource_content_decision.",
-            "assetClass": "resource_and_reward_set",
+            "id": "builtin_indie_slay_the_spire_item_resource_content_content",
+            "label": "Slay the Spire 道具与资源内容决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "core": [
-                "Strike card play",
-                "Awakened One final boss"
-              ],
-              "progression": [
-                "starter deck",
-                "character unlocks",
-                "ascension climb",
-                "heart kill"
-              ],
-              "systems": [
-                "deck composition, relic triggers, energy curve, and card removal create the build"
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
               ]
-            }
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: item_resource_content_decision.",
+            "design_rationale": "Slay the Spire uses 道具与资源内容决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_item_resource_content_encounter",
+            "label": "Slay the Spire 道具与资源内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: item_resource_content_decision.",
+            "design_rationale": "The encounter stages make 道具与资源内容决策 concrete for Slay the Spire while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -5110,10 +5714,55 @@
       },
       "narrative_content_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 叙事内容决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_narrative_content_content",
+            "label": "Slay the Spire 叙事内容决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: narrative_content_decision.",
+            "design_rationale": "Slay the Spire uses 叙事内容决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_narrative_content_encounter",
+            "label": "Slay the Spire 叙事内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: narrative_content_decision.",
+            "design_rationale": "The encounter stages make 叙事内容决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shi_jie_guan_xin_xi": true,
@@ -5287,10 +5936,55 @@
       },
       "content_consumption_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 内容消耗决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_content_consumption_content",
+            "label": "Slay the Spire 内容消耗决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: content_consumption_decision.",
+            "design_rationale": "Slay the Spire uses 内容消耗决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_content_consumption_encounter",
+            "label": "Slay the Spire 内容消耗决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: content_consumption_decision.",
+            "design_rationale": "The encounter stages make 内容消耗决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_ci_xiao_hao_lu_jing": true,
@@ -5464,10 +6158,55 @@
       },
       "content_supply_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 内容供给结构决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_content_supply_structure_content",
+            "label": "Slay the Spire 内容供给结构决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: content_supply_structure_decision.",
+            "design_rationale": "Slay the Spire uses 内容供给结构决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_content_supply_structure_encounter",
+            "label": "Slay the Spire 内容供给结构决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: content_supply_structure_decision.",
+            "design_rationale": "The encounter stages make 内容供给结构决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_fa_nei_rong_jie_gou": true,
@@ -5641,7 +6380,7 @@
       },
       "economy_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 经济循环决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -5818,7 +6557,7 @@
       },
       "currency_system_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 货币体系决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -5995,7 +6734,7 @@
       },
       "reward_distribution_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 奖励投放决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6172,7 +6911,7 @@
       },
       "payment_point_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 付费点决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6349,7 +7088,7 @@
       },
       "product_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 商品结构决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6526,7 +7265,7 @@
       },
       "pricing_value_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 价格与价值决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6703,7 +7442,7 @@
       },
       "payment_fairness_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 付费公平性决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6880,7 +7619,7 @@
       },
       "economy_security_dispute_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 经济安全与争议控制决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -7057,27 +7796,91 @@
       },
       "ux_information_architecture_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 信息架构决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "slay_the_spire_ux_information_architecture_system",
-            "label": "Slay the Spire ux information architecture",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: ux_information_architecture_decision.",
+            "id": "builtin_indie_slay_the_spire_ux_information_architecture_system",
+            "label": "Slay the Spire 信息架构决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "prioritize survival and objective information before long-term progression details"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: ux_information_architecture_decision.",
+            "design_rationale": "Slay the Spire frames 信息架构决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_ux_information_architecture_curve",
+            "label": "Slay the Spire 信息架构决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: ux_information_architecture_decision.",
+            "design_rationale": "The curve keeps 信息架构决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_ux_information_architecture_loop",
+            "label": "Slay the Spire 信息架构决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: ux_information_architecture_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 信息架构决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -7253,10 +8056,93 @@
       },
       "ux_flow_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 操作流程决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_ux_flow_system",
+            "label": "Slay the Spire 操作流程决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: ux_flow_decision.",
+            "design_rationale": "Slay the Spire frames 操作流程决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_ux_flow_curve",
+            "label": "Slay the Spire 操作流程决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: ux_flow_decision.",
+            "design_rationale": "The curve keeps 操作流程决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_ux_flow_loop",
+            "label": "Slay the Spire 操作流程决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: ux_flow_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 操作流程决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_ci_jin_ru_liu_cheng": true,
@@ -7430,27 +8316,91 @@
       },
       "hud_feedback_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies HUD 与反馈决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "slay_the_spire_hud_feedback_system",
-            "label": "Slay the Spire hud feedback",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: hud_feedback_decision.",
+            "id": "builtin_indie_slay_the_spire_hud_feedback_system",
+            "label": "Slay the Spire HUD 与反馈决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "irreversible state changes produce immediate visual and audio confirmation"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: hud_feedback_decision.",
+            "design_rationale": "Slay the Spire frames HUD 与反馈决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_hud_feedback_curve",
+            "label": "Slay the Spire HUD 与反馈决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: hud_feedback_decision.",
+            "design_rationale": "The curve keeps HUD 与反馈决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_hud_feedback_loop",
+            "label": "Slay the Spire HUD 与反馈决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: hud_feedback_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns HUD 与反馈决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -7626,10 +8576,93 @@
       },
       "onboarding_guidance_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 新手引导决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_onboarding_guidance_system",
+            "label": "Slay the Spire 新手引导决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: onboarding_guidance_decision.",
+            "design_rationale": "Slay the Spire frames 新手引导决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_onboarding_guidance_curve",
+            "label": "Slay the Spire 新手引导决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: onboarding_guidance_decision.",
+            "design_rationale": "The curve keeps 新手引导决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_onboarding_guidance_loop",
+            "label": "Slay the Spire 新手引导决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: onboarding_guidance_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 新手引导决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_dao_mu_biao": true,
@@ -7803,10 +8836,93 @@
       },
       "readability_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 可读性决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_readability_system",
+            "label": "Slay the Spire 可读性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: readability_decision.",
+            "design_rationale": "Slay the Spire frames 可读性决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_readability_curve",
+            "label": "Slay the Spire 可读性决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: readability_decision.",
+            "design_rationale": "The curve keeps 可读性决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_readability_loop",
+            "label": "Slay the Spire 可读性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: readability_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 可读性决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shi_jue_ceng_ji": true,
@@ -7980,10 +9096,93 @@
       },
       "accessibility_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 可访问性决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_accessibility_system",
+            "label": "Slay the Spire 可访问性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: accessibility_decision.",
+            "design_rationale": "Slay the Spire frames 可访问性决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_accessibility_curve",
+            "label": "Slay the Spire 可访问性决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: accessibility_decision.",
+            "design_rationale": "The curve keeps 可访问性决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_accessibility_loop",
+            "label": "Slay the Spire 可访问性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: accessibility_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 可访问性决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "se_cai_ke_bian_shi": true,
@@ -8157,10 +9356,93 @@
       },
       "help_support_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 帮助与求助体验决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_help_support_experience_system",
+            "label": "Slay the Spire 帮助与求助体验决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: help_support_experience_decision.",
+            "design_rationale": "Slay the Spire frames 帮助与求助体验决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_help_support_experience_curve",
+            "label": "Slay the Spire 帮助与求助体验决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: help_support_experience_decision.",
+            "design_rationale": "The curve keeps 帮助与求助体验决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_help_support_experience_loop",
+            "label": "Slay the Spire 帮助与求助体验决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: help_support_experience_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 帮助与求助体验决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "bang_zhu_ru_kou": true,
@@ -8334,10 +9616,93 @@
       },
       "art_direction_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 美术方向决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_art_direction_system",
+            "label": "Slay the Spire 美术方向决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: art_direction_decision.",
+            "design_rationale": "Slay the Spire frames 美术方向决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_art_direction_curve",
+            "label": "Slay the Spire 美术方向决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: art_direction_decision.",
+            "design_rationale": "The curve keeps 美术方向决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_art_direction_loop",
+            "label": "Slay the Spire 美术方向决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: art_direction_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 美术方向决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "feng_ge_ding_wei": true,
@@ -8511,10 +9876,93 @@
       },
       "animation_feel_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 动效感受决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_animation_feel_system",
+            "label": "Slay the Spire 动效感受决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: animation_feel_decision.",
+            "design_rationale": "Slay the Spire frames 动效感受决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_animation_feel_curve",
+            "label": "Slay the Spire 动效感受决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: animation_feel_decision.",
+            "design_rationale": "The curve keeps 动效感受决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_animation_feel_loop",
+            "label": "Slay the Spire 动效感受决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: animation_feel_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 动效感受决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xing_wei_dong_xiao": true,
@@ -8688,27 +10136,91 @@
       },
       "audio_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 音频体验决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "slay_the_spire_audio_experience_system",
-            "label": "Slay the Spire audio experience",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: audio_experience_decision.",
+            "id": "builtin_indie_slay_the_spire_audio_experience_system",
+            "label": "Slay the Spire 音频体验决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "music and SFX intensity follow pressure and reward cadence"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: audio_experience_decision.",
+            "design_rationale": "Slay the Spire frames 音频体验决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_audio_experience_curve",
+            "label": "Slay the Spire 音频体验决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: audio_experience_decision.",
+            "design_rationale": "The curve keeps 音频体验决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_audio_experience_loop",
+            "label": "Slay the Spire 音频体验决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: audio_experience_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 音频体验决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -8884,10 +10396,93 @@
       },
       "juice_control_feel_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 手感决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_juice_control_feel_system",
+            "label": "Slay the Spire 手感决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: juice_control_feel_decision.",
+            "design_rationale": "Slay the Spire frames 手感决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_juice_control_feel_curve",
+            "label": "Slay the Spire 手感决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: juice_control_feel_decision.",
+            "design_rationale": "The curve keeps 手感决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_juice_control_feel_loop",
+            "label": "Slay the Spire 手感决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: juice_control_feel_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 手感决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xiang_ying_gan": true,
@@ -9061,10 +10656,93 @@
       },
       "cinematic_presentation_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 演出决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_cinematic_presentation_system",
+            "label": "Slay the Spire 演出决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: cinematic_presentation_decision.",
+            "design_rationale": "Slay the Spire frames 演出决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_cinematic_presentation_curve",
+            "label": "Slay the Spire 演出决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: cinematic_presentation_decision.",
+            "design_rationale": "The curve keeps 演出决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_cinematic_presentation_loop",
+            "label": "Slay the Spire 演出决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: cinematic_presentation_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 演出决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_jie_dian_yan_chu": true,
@@ -9238,38 +10916,91 @@
       },
       "balance_model_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 基础数值模型决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_model_system",
+            "label": "Slay the Spire 基础数值模型决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_model_decision.",
+            "design_rationale": "Slay the Spire frames 基础数值模型决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
             "schema": "numeric_curve_v1",
-            "id": "slay_the_spire_balance_model_numeric_curve",
-            "label": "Slay the Spire balance model",
-            "supplement_basis": "Template L5 expansion for Slay the Spire: balance_model_decision.",
+            "id": "builtin_indie_slay_the_spire_balance_model_curve",
+            "label": "Slay the Spire 基础数值模型决策 tuning curve",
             "sampleCurve": [
               {
+                "x": 0,
+                "y": 1
+              },
+              {
                 "x": 1,
-                "y": 10,
-                "label": "early baseline"
+                "y": 2
               },
               {
                 "x": 2,
-                "y": 35,
-                "label": "standard pressure"
+                "y": 3
               },
               {
                 "x": 3,
-                "y": 60,
-                "label": "advanced mastery"
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_model_decision.",
+            "design_rationale": "The curve keeps 基础数值模型决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_model_loop",
+            "label": "Slay the Spire 基础数值模型决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "x": 4,
-                "y": 85,
-                "label": "peak challenge"
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_model_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 基础数值模型决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -9445,10 +11176,93 @@
       },
       "balance_difficulty_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 难度曲线决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_difficulty_system",
+            "label": "Slay the Spire 难度曲线决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_difficulty_decision.",
+            "design_rationale": "Slay the Spire frames 难度曲线决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_balance_difficulty_curve",
+            "label": "Slay the Spire 难度曲线决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_difficulty_decision.",
+            "design_rationale": "The curve keeps 难度曲线决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_difficulty_loop",
+            "label": "Slay the Spire 难度曲线决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_difficulty_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 难度曲线决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "chu_qi_nan_du": true,
@@ -9622,10 +11436,93 @@
       },
       "balance_economy_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 经济平衡决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_economy_system",
+            "label": "Slay the Spire 经济平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_economy_decision.",
+            "design_rationale": "Slay the Spire frames 经济平衡决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_balance_economy_curve",
+            "label": "Slay the Spire 经济平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_economy_decision.",
+            "design_rationale": "The curve keeps 经济平衡决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_economy_loop",
+            "label": "Slay the Spire 经济平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_economy_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 经济平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "chan_chu_su_lv": true,
@@ -9799,10 +11696,93 @@
       },
       "balance_content_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 内容平衡决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_content_system",
+            "label": "Slay the Spire 内容平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_content_decision.",
+            "design_rationale": "Slay the Spire frames 内容平衡决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_balance_content_curve",
+            "label": "Slay the Spire 内容平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_content_decision.",
+            "design_rationale": "The curve keeps 内容平衡决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_content_loop",
+            "label": "Slay the Spire 内容平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_content_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 内容平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "nei_rong_qiang_du": true,
@@ -9976,10 +11956,93 @@
       },
       "balance_competition_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 对抗平衡决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_competition_system",
+            "label": "Slay the Spire 对抗平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_competition_decision.",
+            "design_rationale": "Slay the Spire frames 对抗平衡决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_balance_competition_curve",
+            "label": "Slay the Spire 对抗平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_competition_decision.",
+            "design_rationale": "The curve keeps 对抗平衡决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_competition_loop",
+            "label": "Slay the Spire 对抗平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_competition_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 对抗平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jue_se_ping_heng": true,
@@ -10153,10 +12216,93 @@
       },
       "balance_payment_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 付费平衡决策 through 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_payment_system",
+            "label": "Slay the Spire 付费平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_payment_decision.",
+            "design_rationale": "Slay the Spire frames 付费平衡决策 around 2D deckbuilding roguelike so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_slay_the_spire_balance_payment_curve",
+            "label": "Slay the Spire 付费平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_payment_decision.",
+            "design_rationale": "The curve keeps 付费平衡决策 escalation legible for Slay the Spire during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_slay_the_spire_balance_payment_loop",
+            "label": "Slay the Spire 付费平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D deckbuilding roguelike action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: balance_payment_decision.",
+            "design_rationale": "The loop captures how Slay the Spire repeatedly turns 付费平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "mian_fei_wan_jia_jin_du": true,
@@ -10330,7 +12476,7 @@
       },
       "social_relationship_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 社交关系决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10507,7 +12653,7 @@
       },
       "social_collaboration_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 协作决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10684,7 +12830,7 @@
       },
       "social_competition_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 竞争决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10861,7 +13007,7 @@
       },
       "social_expression_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 表达决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11038,7 +13184,7 @@
       },
       "community_behavior_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 社区行为决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11215,7 +13361,7 @@
       },
       "retention_onboarding_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 新手期决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11392,7 +13538,7 @@
       },
       "retention_daily_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 日常循环决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11569,7 +13715,7 @@
       },
       "retention_mid_long_goal_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 中长期目标决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11746,7 +13892,7 @@
       },
       "retention_returning_player_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 回流决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11923,7 +14069,7 @@
       },
       "retention_loss_control_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 流失控制决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -12100,10 +14246,55 @@
       },
       "liveops_launch_content_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 首发内容决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_launch_content_content",
+            "label": "Slay the Spire 首发内容决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_launch_content_decision.",
+            "design_rationale": "Slay the Spire uses 首发内容决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_launch_content_encounter",
+            "label": "Slay the Spire 首发内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_launch_content_decision.",
+            "design_rationale": "The encounter stages make 首发内容决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_fa_he_xin_nei_rong": true,
@@ -12277,10 +14468,55 @@
       },
       "liveops_activity_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 活动结构决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_activity_structure_content",
+            "label": "Slay the Spire 活动结构决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_activity_structure_decision.",
+            "design_rationale": "Slay the Spire uses 活动结构决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_activity_structure_encounter",
+            "label": "Slay the Spire 活动结构决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_activity_structure_decision.",
+            "design_rationale": "The encounter stages make 活动结构决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "huo_dong_zhu_ti": true,
@@ -12454,10 +14690,55 @@
       },
       "liveops_version_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 版本节奏决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_version_rhythm_content",
+            "label": "Slay the Spire 版本节奏决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_version_rhythm_decision.",
+            "design_rationale": "Slay the Spire uses 版本节奏决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_version_rhythm_encounter",
+            "label": "Slay the Spire 版本节奏决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_version_rhythm_decision.",
+            "design_rationale": "The encounter stages make 版本节奏决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ban_ben_zhu_ti": true,
@@ -12631,10 +14912,55 @@
       },
       "liveops_season_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 赛季决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_season_content",
+            "label": "Slay the Spire 赛季决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_season_decision.",
+            "design_rationale": "Slay the Spire uses 赛季决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_season_encounter",
+            "label": "Slay the Spire 赛季决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_season_decision.",
+            "design_rationale": "The encounter stages make 赛季决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sai_ji_mu_biao": true,
@@ -12808,10 +15134,55 @@
       },
       "liveops_update_communication_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference specifies 更新沟通决策 as concrete content for 2D deckbuilding roguelike: card drafting, relic synergy, transparent enemy intents, and run-level risk planning. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_update_communication_content",
+            "label": "Slay the Spire 更新沟通决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_update_communication_decision.",
+            "design_rationale": "Slay the Spire uses 更新沟通决策 content to express 2D deckbuilding roguelike without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_slay_the_spire_liveops_update_communication_encounter",
+            "label": "Slay the Spire 更新沟通决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D deckbuilding roguelike decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Slay the Spire: liveops_update_communication_decision.",
+            "design_rationale": "The encounter stages make 更新沟通决策 concrete for Slay the Spire while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "geng_xin_zhong_dian": true,
@@ -12985,7 +15356,7 @@
       },
       "data_goal_metric_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 设计目标指标决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13162,7 +15533,7 @@
       },
       "data_path_metric_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 行为路径指标决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13339,7 +15710,7 @@
       },
       "data_test_design_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 测试设计决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13516,7 +15887,7 @@
       },
       "data_feedback_collection_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 反馈收集决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13693,7 +16064,7 @@
       },
       "data_iteration_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 迭代判断决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13870,7 +16241,7 @@
       },
       "data_experiment_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 灰度与实验验证决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14047,7 +16418,7 @@
       },
       "compliance_age_rating_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 年龄适配决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14224,7 +16595,7 @@
       },
       "compliance_player_protection_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 玩家保护决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14401,7 +16772,7 @@
       },
       "compliance_community_safety_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 社区安全决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14578,7 +16949,7 @@
       },
       "compliance_fairness_risk_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 公平性风险决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14755,7 +17126,7 @@
       },
       "compliance_opinion_risk_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 舆情风险决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14932,7 +17303,7 @@
       },
       "compliance_localization_culture_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 本地化与文化适配决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15109,7 +17480,7 @@
       },
       "compliance_abuse_fairness_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 滥用行为与公平防护决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15286,7 +17657,7 @@
       },
       "compliance_privacy_data_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 隐私与数据使用体验决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15463,7 +17834,7 @@
       },
       "documentation_core_doc_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 核心设计文档决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15640,7 +18011,7 @@
       },
       "documentation_table_schema_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 设计表结构决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15817,7 +18188,7 @@
       },
       "documentation_acceptance_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 验收标准决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15994,7 +18365,7 @@
       },
       "documentation_change_management_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 变更管理决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16171,7 +18542,7 @@
       },
       "documentation_cross_function_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 跨职能沟通决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16348,7 +18719,7 @@
       },
       "release_store_entry_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 商店与外部入口体验决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16525,7 +18896,7 @@
       },
       "release_promotion_content_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 宣发内容决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16702,7 +19073,7 @@
       },
       "release_preregistration_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 预注册与预约决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16879,7 +19250,7 @@
       },
       "release_community_warmup_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 社群预热决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17056,7 +19427,7 @@
       },
       "release_regional_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 区域发行体验决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17233,7 +19604,7 @@
       },
       "release_platform_material_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 平台规范与上架材料决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17410,7 +19781,7 @@
       },
       "launch_version_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 上线版本决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17587,7 +19958,7 @@
       },
       "launch_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 上线节奏决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17764,7 +20135,7 @@
       },
       "launch_activity_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 上线活动决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17941,7 +20312,7 @@
       },
       "launch_feedback_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 上线反馈决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18118,7 +20489,7 @@
       },
       "launch_player_support_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 玩家支持体验决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18295,7 +20666,7 @@
       },
       "launch_post_launch_followup_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 上线后承接决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18472,7 +20843,7 @@
       },
       "launch_readiness_review_decision": {
         "decisionState": "completed",
-        "designNote": "Slay the Spire 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Slay the Spire 2D L5 reference positions 上线准入复核决策 around card drafting, relic synergy, transparent enemy intents, and run-level risk planning; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],

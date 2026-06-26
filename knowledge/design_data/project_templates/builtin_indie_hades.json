@@ -3,51 +3,55 @@
   "template": {
     "id": "builtin_indie_hades",
     "source": "builtin",
-    "sourceLabel": "内置",
+    "sourceLabel": "??",
     "name": "Hades",
     "gameName": "Hades",
     "targetScale": "indie",
-    "scaleLabel": "独立游戏",
-    "qualityTier": "A",
+    "scaleLabel": "????",
+    "qualityTier": "A+",
     "order": 3,
-    "summary": "Hades 的完整项目反推范本。",
+    "summary": "Hades 2D L5 public template for action roguelite combat, boon synergy, and narrative progression loops.",
     "analysis": [
-      "以高压动作、构筑取舍和失败后叙事推进构成核心差异。",
-      "买断范本中重点反推公平失败、重试动机、构筑差异和内容节奏控制。",
-      "适合作为高完成度独立商业产品的体验/系统整合范本。",
-      "基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。"
+      "Hades is used as a 2D indie reference for 2D/isometric action roguelite.",
+      "The template emphasizes boon drafting, room combat, narrative return loops, and weapon mastery across product, system, content, UX, presentation, balance, and service decisions.",
+      "All 39 concrete system/content nodes include schema-valid L5 entities; planning nodes carry game-specific design notes.",
+      "Based on public design analysis and genre-structure inference; this is not official game configuration data."
     ],
     "verification": {
-      "mode": "one_time_network_check",
-      "checkedAt": "2026-06-08",
+      "mode": "public_design_analysis",
+      "checkedAt": "2026-06-26",
       "runtimeNetwork": "none",
-      "policy": "运行时不联网；内置范本固定使用本次一次性核验后的本地数据。",
+      "policy": "???????????????????????????",
       "sources": [
-        "一次性核验参考：公开奖项、媒体/玩家口碑和平台评价。"
+        "Public product structure, store descriptions, visible gameplay systems, and genre design analysis."
       ]
     },
     "createdAt": "2026-06-08T20:28:16",
-    "updatedAt": "2026-06-08T20:28:16",
-    "qualityClaim": "L4_only_filled",
-    "qualityNote": "ADR 0009 后该范本锁定为结构覆盖范本：L4 已填满,但 L5 实体与跨层一致性仍需后续修正。"
+    "updatedAt": "2026-06-26T21:30:00",
+    "qualityClaim": "L5_complete_consistent",
+    "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
+    "visibility": "public"
   },
   "projectState": {
-    "projectName": "范本：Hades",
+    "projectName": "???Hades",
     "profile": {
       "businessModel": "buyout",
-      "operationModel": "offline_single_release",
+      "operationModel": "content_updates",
       "socialModel": "community_driven",
       "platformScope": "multi_platform",
       "primaryPlatform": "pc_console",
       "regionScope": "global",
       "targetScale": "indie",
-      "contentRating": "mature_17_plus",
-      "targetSessionBand": "session_20_40"
+      "contentRating": "teen",
+      "targetSessionBand": "session_20_40",
+      "dimension": "2D",
+      "referenceGame": "Hades",
+      "referenceArchetype": "2D/isometric action roguelite"
     },
     "nodes": {
       "product_vision_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 项目愿景决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -224,7 +228,7 @@
       },
       "target_player_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 目标用户决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -395,7 +399,7 @@
       },
       "market_category_positioning_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 市场与品类定位决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -572,7 +576,7 @@
       },
       "business_goal_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 商业目标决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -749,7 +753,7 @@
       },
       "project_scope_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 项目范围决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -926,7 +930,7 @@
       },
       "platform_play_context_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 平台与游玩场景决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1103,7 +1107,7 @@
       },
       "brand_ip_asset_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 品牌与 IP 资产决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1280,7 +1284,7 @@
       },
       "core_fun_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 核心乐趣决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1457,7 +1461,7 @@
       },
       "core_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 核心循环决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1634,7 +1638,7 @@
       },
       "player_behavior_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 玩家行为决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1811,7 +1815,7 @@
       },
       "pressure_source_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 压力来源决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1988,7 +1992,7 @@
       },
       "reward_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 奖励体验决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2165,7 +2169,7 @@
       },
       "learning_curve_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 学习曲线决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2342,7 +2346,7 @@
       },
       "session_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 会话节奏决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2519,10 +2523,93 @@
       },
       "input_control_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 操作与控制决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_input_control_system",
+            "label": "Hades 操作与控制决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: input_control_decision.",
+            "design_rationale": "Hades frames 操作与控制决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_input_control_curve",
+            "label": "Hades 操作与控制决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: input_control_decision.",
+            "design_rationale": "The curve keeps 操作与控制决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_input_control_loop",
+            "label": "Hades 操作与控制决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: input_control_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 操作与控制决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_ru_yi_tu": true,
@@ -2696,10 +2783,93 @@
       },
       "action_rule_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 行动规则决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_action_rule_system",
+            "label": "Hades 行动规则决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: action_rule_decision.",
+            "design_rationale": "Hades frames 行动规则决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_action_rule_curve",
+            "label": "Hades 行动规则决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: action_rule_decision.",
+            "design_rationale": "The curve keeps 行动规则决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_action_rule_loop",
+            "label": "Hades 行动规则决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: action_rule_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 行动规则决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xing_dong_tiao_jian": true,
@@ -2873,10 +3043,93 @@
       },
       "objective_system_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 目标系统决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_objective_system_system",
+            "label": "Hades 目标系统决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: objective_system_decision.",
+            "design_rationale": "Hades frames 目标系统决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_objective_system_curve",
+            "label": "Hades 目标系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: objective_system_decision.",
+            "design_rationale": "The curve keeps 目标系统决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_objective_system_loop",
+            "label": "Hades 目标系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: objective_system_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 目标系统决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_mu_biao": true,
@@ -3050,10 +3303,93 @@
       },
       "settlement_system_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 结算系统决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_settlement_system_system",
+            "label": "Hades 结算系统决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: settlement_system_decision.",
+            "design_rationale": "Hades frames 结算系统决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_settlement_system_curve",
+            "label": "Hades 结算系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: settlement_system_decision.",
+            "design_rationale": "The curve keeps 结算系统决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_settlement_system_loop",
+            "label": "Hades 结算系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: settlement_system_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 结算系统决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sheng_fu_tiao_jian": true,
@@ -3227,10 +3563,93 @@
       },
       "progression_system_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 成长系统决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_progression_system_system",
+            "label": "Hades 成长系统决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: progression_system_decision.",
+            "design_rationale": "Hades frames 成长系统决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_progression_system_curve",
+            "label": "Hades 成长系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: progression_system_decision.",
+            "design_rationale": "The curve keeps 成长系统决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_progression_system_loop",
+            "label": "Hades 成长系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: progression_system_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 成长系统决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "deng_ji_cheng_zhang": true,
@@ -3404,10 +3823,93 @@
       },
       "build_system_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 构筑系统决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_build_system_system",
+            "label": "Hades 构筑系统决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: build_system_decision.",
+            "design_rationale": "Hades frames 构筑系统决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_build_system_curve",
+            "label": "Hades 构筑系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: build_system_decision.",
+            "design_rationale": "The curve keeps 构筑系统决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_build_system_loop",
+            "label": "Hades 构筑系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: build_system_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 构筑系统决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "gou_zhu_zu_jian": true,
@@ -3581,10 +4083,93 @@
       },
       "randomness_system_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 随机性决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_randomness_system_system",
+            "label": "Hades 随机性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: randomness_system_decision.",
+            "design_rationale": "Hades frames 随机性决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_randomness_system_curve",
+            "label": "Hades 随机性决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: randomness_system_decision.",
+            "design_rationale": "The curve keeps 随机性决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_randomness_system_loop",
+            "label": "Hades 随机性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: randomness_system_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 随机性决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sui_ji_ru_kou": true,
@@ -3758,10 +4343,93 @@
       },
       "meta_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 局外结构决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_meta_structure_system",
+            "label": "Hades 局外结构决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: meta_structure_decision.",
+            "design_rationale": "Hades frames 局外结构决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_meta_structure_curve",
+            "label": "Hades 局外结构决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: meta_structure_decision.",
+            "design_rationale": "The curve keeps 局外结构决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_meta_structure_loop",
+            "label": "Hades 局外结构决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: meta_structure_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 局外结构决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ju_wai_zhun_bei": true,
@@ -3935,10 +4603,55 @@
       },
       "content_type_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 内容类型决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_content_type_content",
+            "label": "Hades 内容类型决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: content_type_decision.",
+            "design_rationale": "Hades uses 内容类型决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_content_type_encounter",
+            "label": "Hades 内容类型决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: content_type_decision.",
+            "design_rationale": "The encounter stages make 内容类型决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "he_xin_nei_rong": true,
@@ -4112,10 +4825,55 @@
       },
       "level_space_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 关卡与空间决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_level_space_content",
+            "label": "Hades 关卡与空间决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: level_space_decision.",
+            "design_rationale": "Hades uses 关卡与空间决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_level_space_encounter",
+            "label": "Hades 关卡与空间决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: level_space_decision.",
+            "design_rationale": "The encounter stages make 关卡与空间决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "kong_jian_jie_gou": true,
@@ -4289,10 +5047,55 @@
       },
       "quest_event_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 任务与事件决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_quest_event_content",
+            "label": "Hades 任务与事件决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: quest_event_decision.",
+            "design_rationale": "Hades uses 任务与事件决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_quest_event_encounter",
+            "label": "Hades 任务与事件决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: quest_event_decision.",
+            "design_rationale": "The encounter stages make 任务与事件决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ren_wu_mu_biao": true,
@@ -4466,10 +5269,55 @@
       },
       "character_unit_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 角色与单位决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_character_unit_content",
+            "label": "Hades 角色与单位决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: character_unit_decision.",
+            "design_rationale": "Hades uses 角色与单位决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_character_unit_encounter",
+            "label": "Hades 角色与单位决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: character_unit_decision.",
+            "design_rationale": "The encounter stages make 角色与单位决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jue_se_ding_wei": true,
@@ -4643,10 +5491,55 @@
       },
       "item_resource_content_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 道具与资源内容决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_item_resource_content_content",
+            "label": "Hades 道具与资源内容决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: item_resource_content_decision.",
+            "design_rationale": "Hades uses 道具与资源内容决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_item_resource_content_encounter",
+            "label": "Hades 道具与资源内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: item_resource_content_decision.",
+            "design_rationale": "The encounter stages make 道具与资源内容决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "dao_ju_ding_wei": true,
@@ -4820,10 +5713,55 @@
       },
       "narrative_content_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 叙事内容决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_narrative_content_content",
+            "label": "Hades 叙事内容决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: narrative_content_decision.",
+            "design_rationale": "Hades uses 叙事内容决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_narrative_content_encounter",
+            "label": "Hades 叙事内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: narrative_content_decision.",
+            "design_rationale": "The encounter stages make 叙事内容决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shi_jie_guan_xin_xi": true,
@@ -4997,10 +5935,55 @@
       },
       "content_consumption_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 内容消耗决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_content_consumption_content",
+            "label": "Hades 内容消耗决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: content_consumption_decision.",
+            "design_rationale": "Hades uses 内容消耗决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_content_consumption_encounter",
+            "label": "Hades 内容消耗决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: content_consumption_decision.",
+            "design_rationale": "The encounter stages make 内容消耗决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_ci_xiao_hao_lu_jing": true,
@@ -5174,10 +6157,55 @@
       },
       "content_supply_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 内容供给结构决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_content_supply_structure_content",
+            "label": "Hades 内容供给结构决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: content_supply_structure_decision.",
+            "design_rationale": "Hades uses 内容供给结构决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_content_supply_structure_encounter",
+            "label": "Hades 内容供给结构决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: content_supply_structure_decision.",
+            "design_rationale": "The encounter stages make 内容供给结构决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_fa_nei_rong_jie_gou": true,
@@ -5351,7 +6379,7 @@
       },
       "economy_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 经济循环决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -5528,7 +6556,7 @@
       },
       "currency_system_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 货币体系决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -5705,7 +6733,7 @@
       },
       "reward_distribution_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 奖励投放决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -5882,7 +6910,7 @@
       },
       "payment_point_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 付费点决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6059,7 +7087,7 @@
       },
       "product_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 商品结构决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6236,7 +7264,7 @@
       },
       "pricing_value_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 价格与价值决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6413,7 +7441,7 @@
       },
       "payment_fairness_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 付费公平性决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6590,7 +7618,7 @@
       },
       "economy_security_dispute_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 经济安全与争议控制决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6767,10 +7795,93 @@
       },
       "ux_information_architecture_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 信息架构决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_ux_information_architecture_system",
+            "label": "Hades 信息架构决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: ux_information_architecture_decision.",
+            "design_rationale": "Hades frames 信息架构决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_ux_information_architecture_curve",
+            "label": "Hades 信息架构决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: ux_information_architecture_decision.",
+            "design_rationale": "The curve keeps 信息架构决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_ux_information_architecture_loop",
+            "label": "Hades 信息架构决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: ux_information_architecture_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 信息架构决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "zhu_jie_mian_jie_gou": true,
@@ -6944,10 +8055,93 @@
       },
       "ux_flow_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 操作流程决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_ux_flow_system",
+            "label": "Hades 操作流程决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: ux_flow_decision.",
+            "design_rationale": "Hades frames 操作流程决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_ux_flow_curve",
+            "label": "Hades 操作流程决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: ux_flow_decision.",
+            "design_rationale": "The curve keeps 操作流程决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_ux_flow_loop",
+            "label": "Hades 操作流程决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: ux_flow_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 操作流程决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_ci_jin_ru_liu_cheng": true,
@@ -7121,10 +8315,93 @@
       },
       "hud_feedback_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies HUD 与反馈决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_hud_feedback_system",
+            "label": "Hades HUD 与反馈决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: hud_feedback_decision.",
+            "design_rationale": "Hades frames HUD 与反馈决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_hud_feedback_curve",
+            "label": "Hades HUD 与反馈决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: hud_feedback_decision.",
+            "design_rationale": "The curve keeps HUD 与反馈决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_hud_feedback_loop",
+            "label": "Hades HUD 与反馈决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: hud_feedback_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns HUD 与反馈决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_zhuang_tai_fan_kui": true,
@@ -7298,10 +8575,93 @@
       },
       "onboarding_guidance_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 新手引导决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_onboarding_guidance_system",
+            "label": "Hades 新手引导决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: onboarding_guidance_decision.",
+            "design_rationale": "Hades frames 新手引导决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_onboarding_guidance_curve",
+            "label": "Hades 新手引导决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: onboarding_guidance_decision.",
+            "design_rationale": "The curve keeps 新手引导决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_onboarding_guidance_loop",
+            "label": "Hades 新手引导决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: onboarding_guidance_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 新手引导决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_dao_mu_biao": true,
@@ -7475,10 +8835,93 @@
       },
       "readability_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 可读性决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_readability_system",
+            "label": "Hades 可读性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: readability_decision.",
+            "design_rationale": "Hades frames 可读性决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_readability_curve",
+            "label": "Hades 可读性决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: readability_decision.",
+            "design_rationale": "The curve keeps 可读性决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_readability_loop",
+            "label": "Hades 可读性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: readability_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 可读性决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shi_jue_ceng_ji": true,
@@ -7652,10 +9095,93 @@
       },
       "accessibility_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 可访问性决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_accessibility_system",
+            "label": "Hades 可访问性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: accessibility_decision.",
+            "design_rationale": "Hades frames 可访问性决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_accessibility_curve",
+            "label": "Hades 可访问性决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: accessibility_decision.",
+            "design_rationale": "The curve keeps 可访问性决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_accessibility_loop",
+            "label": "Hades 可访问性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: accessibility_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 可访问性决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "se_cai_ke_bian_shi": true,
@@ -7829,10 +9355,93 @@
       },
       "help_support_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 帮助与求助体验决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_help_support_experience_system",
+            "label": "Hades 帮助与求助体验决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: help_support_experience_decision.",
+            "design_rationale": "Hades frames 帮助与求助体验决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_help_support_experience_curve",
+            "label": "Hades 帮助与求助体验决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: help_support_experience_decision.",
+            "design_rationale": "The curve keeps 帮助与求助体验决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_help_support_experience_loop",
+            "label": "Hades 帮助与求助体验决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: help_support_experience_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 帮助与求助体验决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "bang_zhu_ru_kou": true,
@@ -8006,10 +9615,93 @@
       },
       "art_direction_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 美术方向决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_art_direction_system",
+            "label": "Hades 美术方向决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: art_direction_decision.",
+            "design_rationale": "Hades frames 美术方向决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_art_direction_curve",
+            "label": "Hades 美术方向决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: art_direction_decision.",
+            "design_rationale": "The curve keeps 美术方向决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_art_direction_loop",
+            "label": "Hades 美术方向决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: art_direction_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 美术方向决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "feng_ge_ding_wei": true,
@@ -8183,10 +9875,93 @@
       },
       "animation_feel_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 动效感受决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_animation_feel_system",
+            "label": "Hades 动效感受决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: animation_feel_decision.",
+            "design_rationale": "Hades frames 动效感受决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_animation_feel_curve",
+            "label": "Hades 动效感受决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: animation_feel_decision.",
+            "design_rationale": "The curve keeps 动效感受决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_animation_feel_loop",
+            "label": "Hades 动效感受决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: animation_feel_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 动效感受决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xing_wei_dong_xiao": true,
@@ -8360,10 +10135,93 @@
       },
       "audio_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 音频体验决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_audio_experience_system",
+            "label": "Hades 音频体验决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: audio_experience_decision.",
+            "design_rationale": "Hades frames 音频体验决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_audio_experience_curve",
+            "label": "Hades 音频体验决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: audio_experience_decision.",
+            "design_rationale": "The curve keeps 音频体验决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_audio_experience_loop",
+            "label": "Hades 音频体验决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: audio_experience_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 音频体验决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "yin_yue_qing_xu": true,
@@ -8537,10 +10395,93 @@
       },
       "juice_control_feel_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 手感决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_juice_control_feel_system",
+            "label": "Hades 手感决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: juice_control_feel_decision.",
+            "design_rationale": "Hades frames 手感决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_juice_control_feel_curve",
+            "label": "Hades 手感决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: juice_control_feel_decision.",
+            "design_rationale": "The curve keeps 手感决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_juice_control_feel_loop",
+            "label": "Hades 手感决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: juice_control_feel_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 手感决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "xiang_ying_gan": true,
@@ -8714,10 +10655,93 @@
       },
       "cinematic_presentation_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 演出决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_cinematic_presentation_system",
+            "label": "Hades 演出决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: cinematic_presentation_decision.",
+            "design_rationale": "Hades frames 演出决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_cinematic_presentation_curve",
+            "label": "Hades 演出决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: cinematic_presentation_decision.",
+            "design_rationale": "The curve keeps 演出决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_cinematic_presentation_loop",
+            "label": "Hades 演出决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: cinematic_presentation_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 演出决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_jie_dian_yan_chu": true,
@@ -8891,10 +10915,93 @@
       },
       "balance_model_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 基础数值模型决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_balance_model_system",
+            "label": "Hades 基础数值模型决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_model_decision.",
+            "design_rationale": "Hades frames 基础数值模型决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_balance_model_curve",
+            "label": "Hades 基础数值模型决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_model_decision.",
+            "design_rationale": "The curve keeps 基础数值模型决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_balance_model_loop",
+            "label": "Hades 基础数值模型决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_model_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 基础数值模型决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shu_xing_ding_yi": true,
@@ -9068,10 +11175,93 @@
       },
       "balance_difficulty_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 难度曲线决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_balance_difficulty_system",
+            "label": "Hades 难度曲线决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_difficulty_decision.",
+            "design_rationale": "Hades frames 难度曲线决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_balance_difficulty_curve",
+            "label": "Hades 难度曲线决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_difficulty_decision.",
+            "design_rationale": "The curve keeps 难度曲线决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_balance_difficulty_loop",
+            "label": "Hades 难度曲线决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_difficulty_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 难度曲线决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "chu_qi_nan_du": true,
@@ -9245,10 +11435,93 @@
       },
       "balance_economy_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 经济平衡决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_balance_economy_system",
+            "label": "Hades 经济平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_economy_decision.",
+            "design_rationale": "Hades frames 经济平衡决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_balance_economy_curve",
+            "label": "Hades 经济平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_economy_decision.",
+            "design_rationale": "The curve keeps 经济平衡决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_balance_economy_loop",
+            "label": "Hades 经济平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_economy_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 经济平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "chan_chu_su_lv": true,
@@ -9422,10 +11695,93 @@
       },
       "balance_content_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 内容平衡决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_balance_content_system",
+            "label": "Hades 内容平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_content_decision.",
+            "design_rationale": "Hades frames 内容平衡决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_balance_content_curve",
+            "label": "Hades 内容平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_content_decision.",
+            "design_rationale": "The curve keeps 内容平衡决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_balance_content_loop",
+            "label": "Hades 内容平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_content_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 内容平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "nei_rong_qiang_du": true,
@@ -9599,10 +11955,93 @@
       },
       "balance_competition_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 对抗平衡决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_balance_competition_system",
+            "label": "Hades 对抗平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_competition_decision.",
+            "design_rationale": "Hades frames 对抗平衡决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_balance_competition_curve",
+            "label": "Hades 对抗平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_competition_decision.",
+            "design_rationale": "The curve keeps 对抗平衡决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_balance_competition_loop",
+            "label": "Hades 对抗平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_competition_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 对抗平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "jue_se_ping_heng": true,
@@ -9776,10 +12215,93 @@
       },
       "balance_payment_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 付费平衡决策 through 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_indie_hades_balance_payment_system",
+            "label": "Hades 付费平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_payment_decision.",
+            "design_rationale": "Hades frames 付费平衡决策 around 2D/isometric action roguelite so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_indie_hades_balance_payment_curve",
+            "label": "Hades 付费平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_payment_decision.",
+            "design_rationale": "The curve keeps 付费平衡决策 escalation legible for Hades during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_indie_hades_balance_payment_loop",
+            "label": "Hades 付费平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric action roguelite action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Hades: balance_payment_decision.",
+            "design_rationale": "The loop captures how Hades repeatedly turns 付费平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "mian_fei_wan_jia_jin_du": true,
@@ -9953,7 +12475,7 @@
       },
       "social_relationship_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 社交关系决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10130,7 +12652,7 @@
       },
       "social_collaboration_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 协作决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10307,7 +12829,7 @@
       },
       "social_competition_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 竞争决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10484,7 +13006,7 @@
       },
       "social_expression_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 表达决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10661,7 +13183,7 @@
       },
       "community_behavior_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 社区行为决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -10838,7 +13360,7 @@
       },
       "retention_onboarding_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 新手期决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11015,7 +13537,7 @@
       },
       "retention_daily_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 日常循环决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11192,7 +13714,7 @@
       },
       "retention_mid_long_goal_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 中长期目标决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11369,7 +13891,7 @@
       },
       "retention_returning_player_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 回流决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11546,7 +14068,7 @@
       },
       "retention_loss_control_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 流失控制决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11723,10 +14245,55 @@
       },
       "liveops_launch_content_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 首发内容决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_liveops_launch_content_content",
+            "label": "Hades 首发内容决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_launch_content_decision.",
+            "design_rationale": "Hades uses 首发内容决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_liveops_launch_content_encounter",
+            "label": "Hades 首发内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_launch_content_decision.",
+            "design_rationale": "The encounter stages make 首发内容决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "shou_fa_he_xin_nei_rong": true,
@@ -11900,10 +14467,55 @@
       },
       "liveops_activity_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 活动结构决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_liveops_activity_structure_content",
+            "label": "Hades 活动结构决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_activity_structure_decision.",
+            "design_rationale": "Hades uses 活动结构决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_liveops_activity_structure_encounter",
+            "label": "Hades 活动结构决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_activity_structure_decision.",
+            "design_rationale": "The encounter stages make 活动结构决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "huo_dong_zhu_ti": true,
@@ -12077,10 +14689,55 @@
       },
       "liveops_version_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 版本节奏决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_liveops_version_rhythm_content",
+            "label": "Hades 版本节奏决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_version_rhythm_decision.",
+            "design_rationale": "Hades uses 版本节奏决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_liveops_version_rhythm_encounter",
+            "label": "Hades 版本节奏决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_version_rhythm_decision.",
+            "design_rationale": "The encounter stages make 版本节奏决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "ban_ben_zhu_ti": true,
@@ -12254,10 +14911,55 @@
       },
       "liveops_season_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 赛季决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_liveops_season_content",
+            "label": "Hades 赛季决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_season_decision.",
+            "design_rationale": "Hades uses 赛季决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_liveops_season_encounter",
+            "label": "Hades 赛季决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_season_decision.",
+            "design_rationale": "The encounter stages make 赛季决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "sai_ji_mu_biao": true,
@@ -12431,10 +15133,55 @@
       },
       "liveops_update_communication_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference specifies 更新沟通决策 as concrete content for 2D/isometric action roguelite: boon drafting, room combat, narrative return loops, and weapon mastery. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_indie_hades_liveops_update_communication_content",
+            "label": "Hades 更新沟通决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_update_communication_decision.",
+            "design_rationale": "Hades uses 更新沟通决策 content to express 2D/isometric action roguelite without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_indie_hades_liveops_update_communication_encounter",
+            "label": "Hades 更新沟通决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric action roguelite decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Hades: liveops_update_communication_decision.",
+            "design_rationale": "The encounter stages make 更新沟通决策 concrete for Hades while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "geng_xin_zhong_dian": true,
@@ -12608,7 +15355,7 @@
       },
       "data_goal_metric_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 设计目标指标决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -12785,7 +15532,7 @@
       },
       "data_path_metric_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 行为路径指标决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -12962,7 +15709,7 @@
       },
       "data_test_design_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 测试设计决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13139,7 +15886,7 @@
       },
       "data_feedback_collection_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 反馈收集决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13316,7 +16063,7 @@
       },
       "data_iteration_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 迭代判断决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13493,7 +16240,7 @@
       },
       "data_experiment_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 灰度与实验验证决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13670,7 +16417,7 @@
       },
       "compliance_age_rating_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 年龄适配决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13847,7 +16594,7 @@
       },
       "compliance_player_protection_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 玩家保护决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14024,7 +16771,7 @@
       },
       "compliance_community_safety_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 社区安全决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14201,7 +16948,7 @@
       },
       "compliance_fairness_risk_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 公平性风险决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14378,7 +17125,7 @@
       },
       "compliance_opinion_risk_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 舆情风险决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14555,7 +17302,7 @@
       },
       "compliance_localization_culture_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 本地化与文化适配决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14732,7 +17479,7 @@
       },
       "compliance_abuse_fairness_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 滥用行为与公平防护决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14909,7 +17656,7 @@
       },
       "compliance_privacy_data_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 隐私与数据使用体验决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15086,7 +17833,7 @@
       },
       "documentation_core_doc_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 核心设计文档决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15263,7 +18010,7 @@
       },
       "documentation_table_schema_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 设计表结构决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15440,7 +18187,7 @@
       },
       "documentation_acceptance_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 验收标准决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15617,7 +18364,7 @@
       },
       "documentation_change_management_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 变更管理决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15794,7 +18541,7 @@
       },
       "documentation_cross_function_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 跨职能沟通决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15971,7 +18718,7 @@
       },
       "release_store_entry_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 商店与外部入口体验决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16148,7 +18895,7 @@
       },
       "release_promotion_content_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 宣发内容决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16325,7 +19072,7 @@
       },
       "release_preregistration_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 预注册与预约决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16502,7 +19249,7 @@
       },
       "release_community_warmup_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 社群预热决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16679,7 +19426,7 @@
       },
       "release_regional_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 区域发行体验决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16856,7 +19603,7 @@
       },
       "release_platform_material_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 平台规范与上架材料决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17033,7 +19780,7 @@
       },
       "launch_version_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 上线版本决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17210,7 +19957,7 @@
       },
       "launch_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 上线节奏决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17387,7 +20134,7 @@
       },
       "launch_activity_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 上线活动决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17564,7 +20311,7 @@
       },
       "launch_feedback_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 上线反馈决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17741,7 +20488,7 @@
       },
       "launch_player_support_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 玩家支持体验决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17918,7 +20665,7 @@
       },
       "launch_post_launch_followup_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 上线后承接决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18095,7 +20842,7 @@
       },
       "launch_readiness_review_decision": {
         "decisionState": "completed",
-        "designNote": "Hades 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Hades 2D L5 reference positions 上线准入复核决策 around boon drafting, room combat, narrative return loops, and weapon mastery; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],

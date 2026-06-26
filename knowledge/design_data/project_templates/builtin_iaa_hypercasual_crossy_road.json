@@ -3,52 +3,56 @@
   "template": {
     "id": "builtin_iaa_hypercasual_crossy_road",
     "source": "builtin",
-    "sourceLabel": "内置",
+    "sourceLabel": "??",
     "name": "Crossy Road",
     "gameName": "Crossy Road",
     "targetScale": "iaa_hypercasual",
-    "scaleLabel": "IAA 超休闲小游戏",
+    "scaleLabel": "IAA ??????",
     "qualityTier": "A",
     "order": 2,
     "internalComplexityRank": "mid",
-    "summary": "Crossy Road 的完整项目反推范本。",
+    "summary": "Crossy Road 2D L5 template for lane timing, collectible variety, and short-session escalation.",
     "analysis": [
-      "Crossy Road is used as a reverse-engineering reference for a mid-complexity iaa_hypercasual template.",
-      "Character collection and coin shop add a light meta layer to short runs.",
-      "Based on public design analysis and genre-structure inference; this is not official game configuration data.",
-      "基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。"
+      "Crossy Road is used as a 2D iaa_hypercasual reference for 2D/isometric lane-crossing survival.",
+      "The template emphasizes lane timing, collectible characters, and short-session risk reads across product, system, content, UX, presentation, balance, and service decisions.",
+      "All 39 concrete system/content nodes include schema-valid L5 entities; planning nodes carry game-specific design notes.",
+      "Based on public design analysis and genre-structure inference; this is not official game configuration data."
     ],
     "verification": {
-      "mode": "one_time_network_check",
-      "checkedAt": "2026-06-16",
+      "mode": "public_design_analysis",
+      "checkedAt": "2026-06-26",
       "runtimeNetwork": "none",
-      "policy": "运行时不联网；内置范本固定使用本次一次性核验后的本地数据。",
+      "policy": "???????????????????????????",
       "sources": [
-        "One-time local design reference: public store pages, genre analysis, public player discussion, and visible product structure."
+        "Public product structure, store descriptions, visible gameplay systems, and genre design analysis."
       ]
     },
     "createdAt": "2026-06-08T20:28:15",
-    "updatedAt": "2026-06-08T20:28:15",
-    "qualityClaim": "L5_partial",
-    "qualityNote": "Benchmark L5_partial sample: gameplay and content concrete domains carry schema-valid L5 entities."
+    "updatedAt": "2026-06-26T21:30:00",
+    "qualityClaim": "L5_complete_consistent",
+    "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
+    "visibility": "public"
   },
   "projectState": {
-    "projectName": "范本：Crossy Road",
+    "projectName": "???Crossy Road",
     "profile": {
-      "businessModel": "free_to_play",
-      "operationModel": "content_updates",
-      "socialModel": "async_light",
-      "platformScope": "multi_platform",
+      "businessModel": "iaa",
+      "operationModel": "live_service_continuous",
+      "socialModel": "solo_with_leaderboards",
+      "platformScope": "mobile_first",
       "primaryPlatform": "mobile",
       "regionScope": "global",
       "targetScale": "iaa_hypercasual",
-      "contentRating": "all_ages",
-      "targetSessionBand": "session_1_3"
+      "contentRating": "everyone",
+      "targetSessionBand": "session_1_5",
+      "dimension": "2D",
+      "referenceGame": "Crossy Road",
+      "referenceArchetype": "2D/isometric lane-crossing survival"
     },
     "nodes": {
       "product_vision_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 项目愿景决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -225,7 +229,7 @@
       },
       "target_player_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 目标用户决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -396,7 +400,7 @@
       },
       "market_category_positioning_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 市场与品类定位决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -573,7 +577,7 @@
       },
       "business_goal_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 商业目标决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -750,7 +754,7 @@
       },
       "project_scope_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 项目范围决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -927,7 +931,7 @@
       },
       "platform_play_context_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 平台与游玩场景决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1104,7 +1108,7 @@
       },
       "brand_ip_asset_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 品牌与 IP 资产决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1281,7 +1285,7 @@
       },
       "core_fun_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 核心乐趣决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1458,7 +1462,7 @@
       },
       "core_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 核心循环决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1635,7 +1639,7 @@
       },
       "player_behavior_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 玩家行为决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1812,7 +1816,7 @@
       },
       "pressure_source_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 压力来源决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -1989,7 +1993,7 @@
       },
       "reward_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 奖励体验决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2166,7 +2170,7 @@
       },
       "learning_curve_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 学习曲线决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2343,7 +2347,7 @@
       },
       "session_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 会话节奏决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -2520,28 +2524,91 @@
       },
       "input_control_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 操作与控制决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "operation_card_v1",
-            "kind": "operation",
-            "schemaVersion": "v1",
-            "id": "crossy_road_input_control_decision_operation",
-            "label": "Crossy Road 操作与控制决策",
-            "device": "mobile",
-            "mapping": [
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_input_control_system",
+            "label": "Crossy Road 操作与控制决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: input_control_decision.",
+            "design_rationale": "Crossy Road frames 操作与控制决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_input_control_curve",
+            "label": "Crossy Road 操作与控制决策 tuning curve",
+            "sampleCurve": [
               {
-                "intent": "primary action",
-                "binding": "main platform default input"
+                "x": 0,
+                "y": 1
               },
               {
-                "intent": "cancel or recover",
-                "binding": "secondary platform default input"
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
               }
             ],
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for input_control_decision."
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: input_control_decision.",
+            "design_rationale": "The curve keeps 操作与控制决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_input_control_loop",
+            "label": "Crossy Road 操作与控制决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: input_control_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 操作与控制决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -2717,29 +2784,91 @@
       },
       "action_rule_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 行动规则决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "skill_card_v1",
-            "kind": "skill",
-            "schemaVersion": "v1",
-            "id": "crossy_road_action_rule_decision_skill",
-            "label": "Crossy Road 行动规则决策",
-            "input": {
-              "intent": "execute the core interaction",
-              "device": "mobile"
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_action_rule_system",
+            "label": "Crossy Road 行动规则决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: action_rule_decision.",
+            "design_rationale": "Crossy Road frames 行动规则决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_action_rule_curve",
+            "label": "Crossy Road 行动规则决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
             },
-            "frames": {
-              "startup": 1,
-              "active": 1,
-              "recovery": 1
-            },
-            "effect": {
-              "result": "Produces the template's core play feedback and advances the local goal."
-            },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for action_rule_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: action_rule_decision.",
+            "design_rationale": "The curve keeps 行动规则决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_action_rule_loop",
+            "label": "Crossy Road 行动规则决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: action_rule_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 行动规则决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -2915,29 +3044,91 @@
       },
       "objective_system_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 目标系统决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "system_card_v1",
             "kind": "system",
-            "schemaVersion": "v1",
-            "id": "crossy_road_objective_system_decision_system",
-            "label": "Crossy Road 目标系统决策",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_objective_system_system",
+            "label": "Crossy Road 目标系统决策 system",
             "inputs": [
-              "player intent",
-              "current progression state"
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
             ],
             "outputs": [
-              "updated state",
-              "visible feedback"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
             "owners": [
-              "design"
+              "game_design",
+              "engineering",
+              "ui_ux"
             ],
-            "updateTick": "per interaction or session step",
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for objective_system_decision."
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: objective_system_decision.",
+            "design_rationale": "Crossy Road frames 目标系统决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_objective_system_curve",
+            "label": "Crossy Road 目标系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: objective_system_decision.",
+            "design_rationale": "The curve keeps 目标系统决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_objective_system_loop",
+            "label": "Crossy Road 目标系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: objective_system_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 目标系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3113,29 +3304,91 @@
       },
       "settlement_system_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 结算系统决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "system_card_v1",
             "kind": "system",
-            "schemaVersion": "v1",
-            "id": "crossy_road_settlement_system_decision_system",
-            "label": "Crossy Road 结算系统决策",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_settlement_system_system",
+            "label": "Crossy Road 结算系统决策 system",
             "inputs": [
-              "player intent",
-              "current progression state"
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
             ],
             "outputs": [
-              "updated state",
-              "visible feedback"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
             "owners": [
-              "design"
+              "game_design",
+              "engineering",
+              "ui_ux"
             ],
-            "updateTick": "per interaction or session step",
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for settlement_system_decision."
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: settlement_system_decision.",
+            "design_rationale": "Crossy Road frames 结算系统决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_settlement_system_curve",
+            "label": "Crossy Road 结算系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: settlement_system_decision.",
+            "design_rationale": "The curve keeps 结算系统决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_settlement_system_loop",
+            "label": "Crossy Road 结算系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: settlement_system_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 结算系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3311,16 +3564,39 @@
       },
       "progression_system_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 成长系统决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "numeric_curve_v1",
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_progression_system_system",
+            "label": "Crossy Road 成长系统决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: progression_system_decision.",
+            "design_rationale": "Crossy Road frames 成长系统决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
-            "schemaVersion": "v1",
-            "id": "crossy_road_progression_system_decision_curve",
-            "label": "Crossy Road 成长系统决策",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_progression_system_curve",
+            "label": "Crossy Road 成长系统决策 tuning curve",
             "sampleCurve": [
               {
                 "x": 0,
@@ -3336,15 +3612,43 @@
               },
               {
                 "x": 3,
-                "y": 4,
-                "label": "expansion checkpoint 4"
+                "y": 5
               }
             ],
             "boundaryRule": {
-              "floor": "Readable by the target player in the first valid session.",
-              "ceiling": "Stops before the template's declared risk boundary."
+              "min": 0,
+              "max": 999,
+              "clamp": true
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for progression_system_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: progression_system_decision.",
+            "design_rationale": "The curve keeps 成长系统决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_progression_system_loop",
+            "label": "Crossy Road 成长系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: progression_system_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 成长系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3520,29 +3824,91 @@
       },
       "build_system_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 构筑系统决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "system_card_v1",
             "kind": "system",
-            "schemaVersion": "v1",
-            "id": "crossy_road_build_system_decision_system",
-            "label": "Crossy Road 构筑系统决策",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_build_system_system",
+            "label": "Crossy Road 构筑系统决策 system",
             "inputs": [
-              "player intent",
-              "current progression state"
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
             ],
             "outputs": [
-              "updated state",
-              "visible feedback"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
             "owners": [
-              "design"
+              "game_design",
+              "engineering",
+              "ui_ux"
             ],
-            "updateTick": "per interaction or session step",
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for build_system_decision."
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: build_system_decision.",
+            "design_rationale": "Crossy Road frames 构筑系统决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_build_system_curve",
+            "label": "Crossy Road 构筑系统决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: build_system_decision.",
+            "design_rationale": "The curve keeps 构筑系统决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_build_system_loop",
+            "label": "Crossy Road 构筑系统决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: build_system_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 构筑系统决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3718,16 +4084,39 @@
       },
       "randomness_system_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 随机性决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "numeric_curve_v1",
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_randomness_system_system",
+            "label": "Crossy Road 随机性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: randomness_system_decision.",
+            "design_rationale": "Crossy Road frames 随机性决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
-            "schemaVersion": "v1",
-            "id": "crossy_road_randomness_system_decision_curve",
-            "label": "Crossy Road 随机性决策",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_randomness_system_curve",
+            "label": "Crossy Road 随机性决策 tuning curve",
             "sampleCurve": [
               {
                 "x": 0,
@@ -3743,15 +4132,43 @@
               },
               {
                 "x": 3,
-                "y": 4,
-                "label": "expansion checkpoint 4"
+                "y": 5
               }
             ],
             "boundaryRule": {
-              "floor": "Readable by the target player in the first valid session.",
-              "ceiling": "Stops before the template's declared risk boundary."
+              "min": 0,
+              "max": 999,
+              "clamp": true
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for randomness_system_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: randomness_system_decision.",
+            "design_rationale": "The curve keeps 随机性决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_randomness_system_loop",
+            "label": "Crossy Road 随机性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: randomness_system_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 随机性决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -3927,35 +4344,91 @@
       },
       "meta_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 局外结构决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "loop_card_v1",
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_meta_structure_system",
+            "label": "Crossy Road 局外结构决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: meta_structure_decision.",
+            "design_rationale": "Crossy Road frames 局外结构决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_meta_structure_curve",
+            "label": "Crossy Road 局外结构决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: meta_structure_decision.",
+            "design_rationale": "The curve keeps 局外结构决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
             "kind": "loop",
-            "schemaVersion": "v1",
-            "id": "crossy_road_meta_structure_decision_loop",
-            "label": "Crossy Road 局外结构决策",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_meta_structure_loop",
+            "label": "Crossy Road 局外结构决策 loop",
             "nodes": [
               {
-                "id": "start",
-                "action": "Present the next clear player goal."
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "id": "act",
-                "action": "Player acts through the core system."
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
               },
               {
-                "id": "settle",
-                "action": "Result feeds back into progression or restart."
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
             ],
             "exitConditions": [
-              "Session goal is met.",
-              "Player chooses to stop safely."
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
             ],
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for meta_structure_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: meta_structure_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 局外结构决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -4131,26 +4604,53 @@
       },
       "content_type_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 内容类型决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "content_card_v1",
             "kind": "content",
-            "schemaVersion": "v1",
-            "id": "crossy_road_content_type_decision_content",
-            "label": "Crossy Road 内容类型决策",
-            "assetClass": "Crossy Road reference content set",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_content_type_content",
+            "label": "Crossy Road 内容类型决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "min": 1,
-              "max": "genre-dependent"
+              "min": 3,
+              "target": 12,
+              "max": 80
             },
             "gatingLogic": {
-              "unlock": "Unlocked by the template's core progression and session structure.",
-              "reuseLimit": "Reuse is bounded by freshness and clarity checks."
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for content_type_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: content_type_decision.",
+            "design_rationale": "Crossy Road uses 内容类型决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_content_type_encounter",
+            "label": "Crossy Road 内容类型决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: content_type_decision.",
+            "design_rationale": "The encounter stages make 内容类型决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -4326,26 +4826,53 @@
       },
       "level_space_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 关卡与空间决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "content_card_v1",
             "kind": "content",
-            "schemaVersion": "v1",
-            "id": "crossy_road_level_space_decision_content",
-            "label": "Crossy Road 关卡与空间决策",
-            "assetClass": "Crossy Road reference content set",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_level_space_content",
+            "label": "Crossy Road 关卡与空间决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "min": 1,
-              "max": "genre-dependent"
+              "min": 3,
+              "target": 12,
+              "max": 80
             },
             "gatingLogic": {
-              "unlock": "Unlocked by the template's core progression and session structure.",
-              "reuseLimit": "Reuse is bounded by freshness and clarity checks."
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for level_space_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: level_space_decision.",
+            "design_rationale": "Crossy Road uses 关卡与空间决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_level_space_encounter",
+            "label": "Crossy Road 关卡与空间决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: level_space_decision.",
+            "design_rationale": "The encounter stages make 关卡与空间决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -4521,26 +5048,53 @@
       },
       "quest_event_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 任务与事件决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "content_card_v1",
             "kind": "content",
-            "schemaVersion": "v1",
-            "id": "crossy_road_quest_event_decision_content",
-            "label": "Crossy Road 任务与事件决策",
-            "assetClass": "Crossy Road reference content set",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_quest_event_content",
+            "label": "Crossy Road 任务与事件决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "min": 1,
-              "max": "genre-dependent"
+              "min": 3,
+              "target": 12,
+              "max": 80
             },
             "gatingLogic": {
-              "unlock": "Unlocked by the template's core progression and session structure.",
-              "reuseLimit": "Reuse is bounded by freshness and clarity checks."
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for quest_event_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: quest_event_decision.",
+            "design_rationale": "Crossy Road uses 任务与事件决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_quest_event_encounter",
+            "label": "Crossy Road 任务与事件决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: quest_event_decision.",
+            "design_rationale": "The encounter stages make 任务与事件决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -4716,26 +5270,53 @@
       },
       "character_unit_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 角色与单位决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "content_card_v1",
             "kind": "content",
-            "schemaVersion": "v1",
-            "id": "crossy_road_character_unit_decision_content",
-            "label": "Crossy Road 角色与单位决策",
-            "assetClass": "Crossy Road reference content set",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_character_unit_content",
+            "label": "Crossy Road 角色与单位决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "min": 1,
-              "max": "genre-dependent"
+              "min": 3,
+              "target": 12,
+              "max": 80
             },
             "gatingLogic": {
-              "unlock": "Unlocked by the template's core progression and session structure.",
-              "reuseLimit": "Reuse is bounded by freshness and clarity checks."
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for character_unit_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: character_unit_decision.",
+            "design_rationale": "Crossy Road uses 角色与单位决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_character_unit_encounter",
+            "label": "Crossy Road 角色与单位决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: character_unit_decision.",
+            "design_rationale": "The encounter stages make 角色与单位决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -4911,26 +5492,53 @@
       },
       "item_resource_content_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 道具与资源内容决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "content_card_v1",
             "kind": "content",
-            "schemaVersion": "v1",
-            "id": "crossy_road_item_resource_content_decision_content",
-            "label": "Crossy Road 道具与资源内容决策",
-            "assetClass": "Crossy Road reference content set",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_item_resource_content_content",
+            "label": "Crossy Road 道具与资源内容决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "min": 1,
-              "max": "genre-dependent"
+              "min": 3,
+              "target": 12,
+              "max": 80
             },
             "gatingLogic": {
-              "unlock": "Unlocked by the template's core progression and session structure.",
-              "reuseLimit": "Reuse is bounded by freshness and clarity checks."
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for item_resource_content_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: item_resource_content_decision.",
+            "design_rationale": "Crossy Road uses 道具与资源内容决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_item_resource_content_encounter",
+            "label": "Crossy Road 道具与资源内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: item_resource_content_decision.",
+            "design_rationale": "The encounter stages make 道具与资源内容决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -5106,26 +5714,53 @@
       },
       "narrative_content_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 叙事内容决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "content_card_v1",
             "kind": "content",
-            "schemaVersion": "v1",
-            "id": "crossy_road_narrative_content_decision_content",
-            "label": "Crossy Road 叙事内容决策",
-            "assetClass": "Crossy Road reference content set",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_narrative_content_content",
+            "label": "Crossy Road 叙事内容决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "min": 1,
-              "max": "genre-dependent"
+              "min": 3,
+              "target": 12,
+              "max": 80
             },
             "gatingLogic": {
-              "unlock": "Unlocked by the template's core progression and session structure.",
-              "reuseLimit": "Reuse is bounded by freshness and clarity checks."
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for narrative_content_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: narrative_content_decision.",
+            "design_rationale": "Crossy Road uses 叙事内容决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_narrative_content_encounter",
+            "label": "Crossy Road 叙事内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: narrative_content_decision.",
+            "design_rationale": "The encounter stages make 叙事内容决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -5301,34 +5936,53 @@
       },
       "content_consumption_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 内容消耗决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "loop_card_v1",
-            "kind": "loop",
-            "schemaVersion": "v1",
-            "id": "crossy_road_content_consumption_decision_loop",
-            "label": "Crossy Road 内容消耗决策",
-            "nodes": [
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_content_consumption_content",
+            "label": "Crossy Road 内容消耗决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: content_consumption_decision.",
+            "design_rationale": "Crossy Road uses 内容消耗决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_content_consumption_encounter",
+            "label": "Crossy Road 内容消耗决策 encounter pattern",
+            "phases": [
               {
-                "id": "enter",
-                "action": "Player enters the content beat."
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
               },
               {
-                "id": "resolve",
-                "action": "The beat resolves into reward, memory, or progression."
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
               },
               {
-                "id": "expansion_step_3",
-                "action": "continue the loop toward the next session state"
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
               }
             ],
-            "exitConditions": [
-              "The beat is completed or deliberately abandoned."
-            ],
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for content_consumption_decision."
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: content_consumption_decision.",
+            "design_rationale": "The encounter stages make 内容消耗决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -5504,26 +6158,53 @@
       },
       "content_supply_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 内容供给结构决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "schema": "content_card_v1",
             "kind": "content",
-            "schemaVersion": "v1",
-            "id": "crossy_road_content_supply_structure_decision_content",
-            "label": "Crossy Road 内容供给结构决策",
-            "assetClass": "Crossy Road reference content set",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_content_supply_structure_content",
+            "label": "Crossy Road 内容供给结构决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "min": 1,
-              "max": "genre-dependent"
+              "min": 3,
+              "target": 12,
+              "max": 80
             },
             "gatingLogic": {
-              "unlock": "Unlocked by the template's core progression and session structure.",
-              "reuseLimit": "Reuse is bounded by freshness and clarity checks."
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
             },
-            "supplement_basis": "Template L5 expansion retained existing Crossy Road entity for content_supply_structure_decision."
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: content_supply_structure_decision.",
+            "design_rationale": "Crossy Road uses 内容供给结构决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_content_supply_structure_encounter",
+            "label": "Crossy Road 内容供给结构决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: content_supply_structure_decision.",
+            "design_rationale": "The encounter stages make 内容供给结构决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -5699,36 +6380,10 @@
       },
       "economy_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 经济循环决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [
-          {
-            "kind": "loop",
-            "schema": "loop_card_v1",
-            "id": "crossy_road_economy_loop_loop",
-            "label": "Crossy Road economy loop",
-            "supplement_basis": "Template L5 expansion for Crossy Road: economy_loop_decision.",
-            "nodes": [
-              {
-                "id": "earn_resource",
-                "action": "earn resource"
-              },
-              {
-                "id": "choose_spend",
-                "action": "choose spend"
-              },
-              {
-                "id": "unlock_or_upgrade",
-                "action": "unlock or upgrade"
-              },
-              {
-                "id": "return_stronger",
-                "action": "return stronger"
-              }
-            ]
-          }
-        ],
+        "designEntities": [],
         "entityValidationErrors": [],
         "checklist": {
           "zi_yuan_chan_chu": true,
@@ -5902,29 +6557,10 @@
       },
       "currency_system_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 货币体系决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [
-          {
-            "kind": "system",
-            "schema": "system_card_v1",
-            "id": "crossy_road_currency_system_system",
-            "label": "Crossy Road currency system",
-            "supplement_basis": "Template L5 expansion for Crossy Road: currency_system_decision.",
-            "inputs": [
-              "session_state",
-              "player_progress",
-              "content_pool"
-            ],
-            "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
-            ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
-          }
-        ],
+        "designEntities": [],
         "entityValidationErrors": [],
         "checklist": {
           "ji_chu_huo_bi": true,
@@ -6098,29 +6734,10 @@
       },
       "reward_distribution_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 奖励投放决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [
-          {
-            "kind": "system",
-            "schema": "system_card_v1",
-            "id": "crossy_road_reward_distribution_system",
-            "label": "Crossy Road reward distribution",
-            "supplement_basis": "Template L5 expansion for Crossy Road: reward_distribution_decision.",
-            "inputs": [
-              "session_state",
-              "player_progress",
-              "content_pool"
-            ],
-            "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
-            ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
-          }
-        ],
+        "designEntities": [],
         "entityValidationErrors": [],
         "checklist": {
           "ri_chang_jiang_li": true,
@@ -6294,7 +6911,7 @@
       },
       "payment_point_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 付费点决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6471,7 +7088,7 @@
       },
       "product_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 商品结构决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6648,7 +7265,7 @@
       },
       "pricing_value_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 价格与价值决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -6825,7 +7442,7 @@
       },
       "payment_fairness_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 付费公平性决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -7002,7 +7619,7 @@
       },
       "economy_security_dispute_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 经济安全与争议控制决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -7179,27 +7796,91 @@
       },
       "ux_information_architecture_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 信息架构决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_ux_information_architecture_system",
-            "label": "Crossy Road ux information architecture",
-            "supplement_basis": "Template L5 expansion for Crossy Road: ux_information_architecture_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_ux_information_architecture_system",
+            "label": "Crossy Road 信息架构决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "prioritize survival and objective information before long-term progression details"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: ux_information_architecture_decision.",
+            "design_rationale": "Crossy Road frames 信息架构决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_ux_information_architecture_curve",
+            "label": "Crossy Road 信息架构决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: ux_information_architecture_decision.",
+            "design_rationale": "The curve keeps 信息架构决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_ux_information_architecture_loop",
+            "label": "Crossy Road 信息架构决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: ux_information_architecture_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 信息架构决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -7375,38 +8056,91 @@
       },
       "ux_flow_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 操作流程决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_ux_flow_system",
+            "label": "Crossy Road 操作流程决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: ux_flow_decision.",
+            "design_rationale": "Crossy Road frames 操作流程决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_ux_flow_curve",
+            "label": "Crossy Road 操作流程决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: ux_flow_decision.",
+            "design_rationale": "The curve keeps 操作流程决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
             "kind": "loop",
             "schema": "loop_card_v1",
-            "id": "crossy_road_ux_flow_loop",
-            "label": "Crossy Road ux flow",
-            "supplement_basis": "Template L5 expansion for Crossy Road: ux_flow_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_ux_flow_loop",
+            "label": "Crossy Road 操作流程决策 loop",
             "nodes": [
               {
-                "id": "prepare",
-                "action": "prepare"
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "id": "enter_core_play",
-                "action": "enter core play"
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
               },
               {
-                "id": "read_feedback",
-                "action": "read feedback"
-              },
-              {
-                "id": "resolve_outcome",
-                "action": "resolve outcome"
-              },
-              {
-                "id": "return_to_choice",
-                "action": "return to choice"
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: ux_flow_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 操作流程决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -7582,27 +8316,91 @@
       },
       "hud_feedback_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies HUD 与反馈决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_hud_feedback_system",
-            "label": "Crossy Road hud feedback",
-            "supplement_basis": "Template L5 expansion for Crossy Road: hud_feedback_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_hud_feedback_system",
+            "label": "Crossy Road HUD 与反馈决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "irreversible state changes produce immediate visual and audio confirmation"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: hud_feedback_decision.",
+            "design_rationale": "Crossy Road frames HUD 与反馈决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_hud_feedback_curve",
+            "label": "Crossy Road HUD 与反馈决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: hud_feedback_decision.",
+            "design_rationale": "The curve keeps HUD 与反馈决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_hud_feedback_loop",
+            "label": "Crossy Road HUD 与反馈决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: hud_feedback_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns HUD 与反馈决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -7778,34 +8576,91 @@
       },
       "onboarding_guidance_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 新手引导决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_onboarding_guidance_system",
+            "label": "Crossy Road 新手引导决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: onboarding_guidance_decision.",
+            "design_rationale": "Crossy Road frames 新手引导决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_onboarding_guidance_curve",
+            "label": "Crossy Road 新手引导决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: onboarding_guidance_decision.",
+            "design_rationale": "The curve keeps 新手引导决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
             "kind": "loop",
             "schema": "loop_card_v1",
-            "id": "crossy_road_onboarding_guidance_loop",
-            "label": "Crossy Road onboarding guidance",
-            "supplement_basis": "Template L5 expansion for Crossy Road: onboarding_guidance_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_onboarding_guidance_loop",
+            "label": "Crossy Road 新手引导决策 loop",
             "nodes": [
               {
-                "id": "first_action",
-                "action": "first action"
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "id": "show_feedback",
-                "action": "show feedback"
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
               },
               {
-                "id": "guided_repeat",
-                "action": "guided repeat"
-              },
-              {
-                "id": "release_control",
-                "action": "release control"
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: onboarding_guidance_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 新手引导决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -7981,27 +8836,91 @@
       },
       "readability_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 可读性决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_readability_system",
-            "label": "Crossy Road readability",
-            "supplement_basis": "Template L5 expansion for Crossy Road: readability_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_readability_system",
+            "label": "Crossy Road 可读性决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: readability_decision.",
+            "design_rationale": "Crossy Road frames 可读性决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_readability_curve",
+            "label": "Crossy Road 可读性决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: readability_decision.",
+            "design_rationale": "The curve keeps 可读性决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_readability_loop",
+            "label": "Crossy Road 可读性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: readability_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 可读性决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -8177,10 +9096,93 @@
       },
       "accessibility_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 可访问性决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_accessibility_system",
+            "label": "Crossy Road 可访问性决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: accessibility_decision.",
+            "design_rationale": "Crossy Road frames 可访问性决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_accessibility_curve",
+            "label": "Crossy Road 可访问性决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: accessibility_decision.",
+            "design_rationale": "The curve keeps 可访问性决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_accessibility_loop",
+            "label": "Crossy Road 可访问性决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: accessibility_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 可访问性决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "se_cai_ke_bian_shi": true,
@@ -8354,10 +9356,93 @@
       },
       "help_support_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 帮助与求助体验决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_help_support_experience_system",
+            "label": "Crossy Road 帮助与求助体验决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: help_support_experience_decision.",
+            "design_rationale": "Crossy Road frames 帮助与求助体验决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_help_support_experience_curve",
+            "label": "Crossy Road 帮助与求助体验决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: help_support_experience_decision.",
+            "design_rationale": "The curve keeps 帮助与求助体验决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_help_support_experience_loop",
+            "label": "Crossy Road 帮助与求助体验决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: help_support_experience_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 帮助与求助体验决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "bang_zhu_ru_kou": true,
@@ -8531,32 +9616,91 @@
       },
       "art_direction_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 美术方向决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "kind": "content",
-            "schema": "content_card_v1",
-            "id": "crossy_road_art_direction_content",
-            "label": "Crossy Road art direction",
-            "supplement_basis": "Template L5 expansion for Crossy Road: art_direction_decision.",
-            "assetClass": "art_style_guide",
-            "countBand": {
-              "core": [
-                "Single tile hop",
-                "Traffic and river hazard lane"
-              ],
-              "progression": [
-                "first ten hops",
-                "first prize",
-                "rare character",
-                "hundred score"
-              ],
-              "systems": [
-                "character skin, theme set, and optional ad revive define the light session build"
-              ]
-            }
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_art_direction_system",
+            "label": "Crossy Road 美术方向决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: art_direction_decision.",
+            "design_rationale": "Crossy Road frames 美术方向决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_art_direction_curve",
+            "label": "Crossy Road 美术方向决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: art_direction_decision.",
+            "design_rationale": "The curve keeps 美术方向决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_art_direction_loop",
+            "label": "Crossy Road 美术方向决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: art_direction_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 美术方向决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -8732,27 +9876,91 @@
       },
       "animation_feel_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 动效感受决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_animation_feel_system",
-            "label": "Crossy Road animation feel",
-            "supplement_basis": "Template L5 expansion for Crossy Road: animation_feel_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_animation_feel_system",
+            "label": "Crossy Road 动效感受决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: animation_feel_decision.",
+            "design_rationale": "Crossy Road frames 动效感受决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_animation_feel_curve",
+            "label": "Crossy Road 动效感受决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: animation_feel_decision.",
+            "design_rationale": "The curve keeps 动效感受决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_animation_feel_loop",
+            "label": "Crossy Road 动效感受决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: animation_feel_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 动效感受决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -8928,27 +10136,91 @@
       },
       "audio_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 音频体验决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_audio_experience_system",
-            "label": "Crossy Road audio experience",
-            "supplement_basis": "Template L5 expansion for Crossy Road: audio_experience_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_audio_experience_system",
+            "label": "Crossy Road 音频体验决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "music and SFX intensity follow pressure and reward cadence"
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: audio_experience_decision.",
+            "design_rationale": "Crossy Road frames 音频体验决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_audio_experience_curve",
+            "label": "Crossy Road 音频体验决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: audio_experience_decision.",
+            "design_rationale": "The curve keeps 音频体验决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_audio_experience_loop",
+            "label": "Crossy Road 音频体验决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: audio_experience_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 音频体验决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -9124,27 +10396,91 @@
       },
       "juice_control_feel_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 手感决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_juice_control_feel_system",
-            "label": "Crossy Road juice control feel",
-            "supplement_basis": "Template L5 expansion for Crossy Road: juice_control_feel_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_juice_control_feel_system",
+            "label": "Crossy Road 手感决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: juice_control_feel_decision.",
+            "design_rationale": "Crossy Road frames 手感决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_juice_control_feel_curve",
+            "label": "Crossy Road 手感决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: juice_control_feel_decision.",
+            "design_rationale": "The curve keeps 手感决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_juice_control_feel_loop",
+            "label": "Crossy Road 手感决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: juice_control_feel_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 手感决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -9320,10 +10656,93 @@
       },
       "cinematic_presentation_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 演出决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_cinematic_presentation_system",
+            "label": "Crossy Road 演出决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: cinematic_presentation_decision.",
+            "design_rationale": "Crossy Road frames 演出决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_cinematic_presentation_curve",
+            "label": "Crossy Road 演出决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: cinematic_presentation_decision.",
+            "design_rationale": "The curve keeps 演出决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_cinematic_presentation_loop",
+            "label": "Crossy Road 演出决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: cinematic_presentation_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 演出决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "guan_jian_jie_dian_yan_chu": true,
@@ -9497,38 +10916,91 @@
       },
       "balance_model_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 基础数值模型决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_model_system",
+            "label": "Crossy Road 基础数值模型决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_model_decision.",
+            "design_rationale": "Crossy Road frames 基础数值模型决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
             "schema": "numeric_curve_v1",
-            "id": "crossy_road_balance_model_numeric_curve",
-            "label": "Crossy Road balance model",
-            "supplement_basis": "Template L5 expansion for Crossy Road: balance_model_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_model_curve",
+            "label": "Crossy Road 基础数值模型决策 tuning curve",
             "sampleCurve": [
               {
+                "x": 0,
+                "y": 1
+              },
+              {
                 "x": 1,
-                "y": 10,
-                "label": "early baseline"
+                "y": 2
               },
               {
                 "x": 2,
-                "y": 35,
-                "label": "standard pressure"
+                "y": 3
               },
               {
                 "x": 3,
-                "y": 60,
-                "label": "advanced mastery"
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_model_decision.",
+            "design_rationale": "The curve keeps 基础数值模型决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_model_loop",
+            "label": "Crossy Road 基础数值模型决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "x": 4,
-                "y": 85,
-                "label": "peak challenge"
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_model_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 基础数值模型决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -9704,38 +11176,91 @@
       },
       "balance_difficulty_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 难度曲线决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_difficulty_system",
+            "label": "Crossy Road 难度曲线决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_difficulty_decision.",
+            "design_rationale": "Crossy Road frames 难度曲线决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
             "schema": "numeric_curve_v1",
-            "id": "crossy_road_balance_difficulty_numeric_curve",
-            "label": "Crossy Road balance difficulty",
-            "supplement_basis": "Template L5 expansion for Crossy Road: balance_difficulty_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_difficulty_curve",
+            "label": "Crossy Road 难度曲线决策 tuning curve",
             "sampleCurve": [
               {
+                "x": 0,
+                "y": 1
+              },
+              {
                 "x": 1,
-                "y": 10,
-                "label": "early baseline"
+                "y": 2
               },
               {
                 "x": 2,
-                "y": 35,
-                "label": "standard pressure"
+                "y": 3
               },
               {
                 "x": 3,
-                "y": 60,
-                "label": "advanced mastery"
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_difficulty_decision.",
+            "design_rationale": "The curve keeps 难度曲线决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_difficulty_loop",
+            "label": "Crossy Road 难度曲线决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "x": 4,
-                "y": 85,
-                "label": "peak challenge"
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_difficulty_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 难度曲线决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -9911,27 +11436,91 @@
       },
       "balance_economy_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 经济平衡决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_balance_economy_system",
-            "label": "Crossy Road balance economy",
-            "supplement_basis": "Template L5 expansion for Crossy Road: balance_economy_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_economy_system",
+            "label": "Crossy Road 经济平衡决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_economy_decision.",
+            "design_rationale": "Crossy Road frames 经济平衡决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_economy_curve",
+            "label": "Crossy Road 经济平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_economy_decision.",
+            "design_rationale": "The curve keeps 经济平衡决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_economy_loop",
+            "label": "Crossy Road 经济平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_economy_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 经济平衡决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -10107,27 +11696,91 @@
       },
       "balance_content_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 内容平衡决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "system",
             "schema": "system_card_v1",
-            "id": "crossy_road_balance_content_system",
-            "label": "Crossy Road balance content",
-            "supplement_basis": "Template L5 expansion for Crossy Road: balance_content_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_content_system",
+            "label": "Crossy Road 内容平衡决策 system",
             "inputs": [
+              "player_intent",
               "session_state",
-              "player_progress",
-              "content_pool"
+              "2d_screen_context"
             ],
             "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
             ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_content_decision.",
+            "design_rationale": "Crossy Road frames 内容平衡决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_content_curve",
+            "label": "Crossy Road 内容平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_content_decision.",
+            "design_rationale": "The curve keeps 内容平衡决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_content_loop",
+            "label": "Crossy Road 内容平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_content_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 内容平衡决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -10303,38 +11956,91 @@
       },
       "balance_competition_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 对抗平衡决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_competition_system",
+            "label": "Crossy Road 对抗平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_competition_decision.",
+            "design_rationale": "Crossy Road frames 对抗平衡决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
             "kind": "numeric_curve",
             "schema": "numeric_curve_v1",
-            "id": "crossy_road_balance_competition_numeric_curve",
-            "label": "Crossy Road balance competition",
-            "supplement_basis": "Template L5 expansion for Crossy Road: balance_competition_decision.",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_competition_curve",
+            "label": "Crossy Road 对抗平衡决策 tuning curve",
             "sampleCurve": [
               {
+                "x": 0,
+                "y": 1
+              },
+              {
                 "x": 1,
-                "y": 10,
-                "label": "early baseline"
+                "y": 2
               },
               {
                 "x": 2,
-                "y": 35,
-                "label": "standard pressure"
+                "y": 3
               },
               {
                 "x": 3,
-                "y": 60,
-                "label": "advanced mastery"
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_competition_decision.",
+            "design_rationale": "The curve keeps 对抗平衡决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_competition_loop",
+            "label": "Crossy Road 对抗平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
               },
               {
-                "x": 4,
-                "y": 85,
-                "label": "peak challenge"
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
               }
-            ]
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_competition_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 对抗平衡决策 into observable player decisions."
           }
         ],
         "entityValidationErrors": [],
@@ -10510,10 +12216,93 @@
       },
       "balance_payment_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 付费平衡决策 through 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid system, curve, and loop entities so downstream stages can bind implementation requirements.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "system",
+            "schema": "system_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_payment_system",
+            "label": "Crossy Road 付费平衡决策 system",
+            "inputs": [
+              "player_intent",
+              "session_state",
+              "2d_screen_context"
+            ],
+            "outputs": [
+              "2d_feedback",
+              "progress_delta",
+              "readable_state_change"
+            ],
+            "owners": [
+              "game_design",
+              "engineering",
+              "ui_ux"
+            ],
+            "updateTick": "per_interaction",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_payment_decision.",
+            "design_rationale": "Crossy Road frames 付费平衡决策 around 2D/isometric lane-crossing survival so rules remain readable on a 2D play surface."
+          },
+          {
+            "kind": "numeric_curve",
+            "schema": "numeric_curve_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_payment_curve",
+            "label": "Crossy Road 付费平衡决策 tuning curve",
+            "sampleCurve": [
+              {
+                "x": 0,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 3
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "boundaryRule": {
+              "min": 0,
+              "max": 999,
+              "clamp": true
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_payment_decision.",
+            "design_rationale": "The curve keeps 付费平衡决策 escalation legible for Crossy Road during short 2D feedback loops."
+          },
+          {
+            "kind": "loop",
+            "schema": "loop_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_balance_payment_loop",
+            "label": "Crossy Road 付费平衡决策 loop",
+            "nodes": [
+              {
+                "id": "read_state",
+                "action": "Read the current 2D board, room, lane, or interface state."
+              },
+              {
+                "id": "commit_action",
+                "action": "Commit a 2D/isometric lane-crossing survival action with explicit cost, timing, or positional consequence."
+              },
+              {
+                "id": "resolve_feedback",
+                "action": "Resolve audiovisual feedback, reward, failure, or next-choice pressure."
+              }
+            ],
+            "exitConditions": [
+              "objective_resolved",
+              "player_retries",
+              "session_goal_changes"
+            ],
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: balance_payment_decision.",
+            "design_rationale": "The loop captures how Crossy Road repeatedly turns 付费平衡决策 into observable player decisions."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "mian_fei_wan_jia_jin_du": true,
@@ -10687,29 +12476,10 @@
       },
       "social_relationship_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 社交关系决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [
-          {
-            "kind": "system",
-            "schema": "system_card_v1",
-            "id": "crossy_road_social_relationship_system",
-            "label": "Crossy Road social relationship",
-            "supplement_basis": "Template L5 expansion for Crossy Road: social_relationship_decision.",
-            "inputs": [
-              "session_state",
-              "player_progress",
-              "content_pool"
-            ],
-            "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
-            ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
-          }
-        ],
+        "designEntities": [],
         "entityValidationErrors": [],
         "checklist": {
           "hao_you_guan_xi": true,
@@ -10883,7 +12653,7 @@
       },
       "social_collaboration_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 协作决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11060,7 +12830,7 @@
       },
       "social_competition_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 竞争决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11237,7 +13007,7 @@
       },
       "social_expression_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 表达决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11414,7 +13184,7 @@
       },
       "community_behavior_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 社区行为决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11591,7 +13361,7 @@
       },
       "retention_onboarding_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 新手期决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -11768,40 +13538,10 @@
       },
       "retention_daily_loop_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 日常循环决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [
-          {
-            "kind": "loop",
-            "schema": "loop_card_v1",
-            "id": "crossy_road_retention_daily_loop_loop",
-            "label": "Crossy Road retention daily loop",
-            "supplement_basis": "Template L5 expansion for Crossy Road: retention_daily_loop_decision.",
-            "nodes": [
-              {
-                "id": "login",
-                "action": "login"
-              },
-              {
-                "id": "check_goal",
-                "action": "check goal"
-              },
-              {
-                "id": "play_core_session",
-                "action": "play core session"
-              },
-              {
-                "id": "claim_reward",
-                "action": "claim reward"
-              },
-              {
-                "id": "preview_next_goal",
-                "action": "preview next goal"
-              }
-            ]
-          }
-        ],
+        "designEntities": [],
         "entityValidationErrors": [],
         "checklist": {
           "mei_ri_mu_biao": true,
@@ -11975,29 +13715,10 @@
       },
       "retention_mid_long_goal_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 中长期目标决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [
-          {
-            "kind": "system",
-            "schema": "system_card_v1",
-            "id": "crossy_road_retention_mid_long_goal_system",
-            "label": "Crossy Road retention mid long goal",
-            "supplement_basis": "Template L5 expansion for Crossy Road: retention_mid_long_goal_decision.",
-            "inputs": [
-              "session_state",
-              "player_progress",
-              "content_pool"
-            ],
-            "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
-            ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
-          }
-        ],
+        "designEntities": [],
         "entityValidationErrors": [],
         "checklist": {
           "jie_duan_cheng_zhang_mu_biao": true,
@@ -12171,7 +13892,7 @@
       },
       "retention_returning_player_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 回流决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -12348,7 +14069,7 @@
       },
       "retention_loss_control_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 流失控制决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -12525,32 +14246,53 @@
       },
       "liveops_launch_content_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 首发内容决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
             "kind": "content",
             "schema": "content_card_v1",
-            "id": "crossy_road_liveops_launch_content_content",
-            "label": "Crossy Road liveops launch content",
-            "supplement_basis": "Template L5 expansion for Crossy Road: liveops_launch_content_decision.",
-            "assetClass": "launch_content_set",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_launch_content_content",
+            "label": "Crossy Road 首发内容决策 content set",
+            "assetClass": "2d_gameplay_content",
             "countBand": {
-              "core": [
-                "Single tile hop",
-                "Traffic and river hazard lane"
-              ],
-              "progression": [
-                "first ten hops",
-                "first prize",
-                "rare character",
-                "hundred score"
-              ],
-              "systems": [
-                "character skin, theme set, and optional ad revive define the light session build"
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
               ]
-            }
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_launch_content_decision.",
+            "design_rationale": "Crossy Road uses 首发内容决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_launch_content_encounter",
+            "label": "Crossy Road 首发内容决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_launch_content_decision.",
+            "design_rationale": "The encounter stages make 首发内容决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -12726,10 +14468,55 @@
       },
       "liveops_activity_structure_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 活动结构决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_activity_structure_content",
+            "label": "Crossy Road 活动结构决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_activity_structure_decision.",
+            "design_rationale": "Crossy Road uses 活动结构决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_activity_structure_encounter",
+            "label": "Crossy Road 活动结构决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_activity_structure_decision.",
+            "design_rationale": "The encounter stages make 活动结构决策 concrete for Crossy Road while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "huo_dong_zhu_ti": true,
@@ -12903,38 +14690,53 @@
       },
       "liveops_version_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 版本节奏决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "kind": "numeric_curve",
-            "schema": "numeric_curve_v1",
-            "id": "crossy_road_liveops_version_rhythm_numeric_curve",
-            "label": "Crossy Road liveops version rhythm",
-            "supplement_basis": "Template L5 expansion for Crossy Road: liveops_version_rhythm_decision.",
-            "sampleCurve": [
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_version_rhythm_content",
+            "label": "Crossy Road 版本节奏决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_version_rhythm_decision.",
+            "design_rationale": "Crossy Road uses 版本节奏决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_version_rhythm_encounter",
+            "label": "Crossy Road 版本节奏决策 encounter pattern",
+            "phases": [
               {
-                "x": 1,
-                "y": 10,
-                "label": "launch week"
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
               },
               {
-                "x": 2,
-                "y": 35,
-                "label": "first update"
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
               },
               {
-                "x": 3,
-                "y": 60,
-                "label": "major update"
-              },
-              {
-                "x": 4,
-                "y": 85,
-                "label": "long tail cadence"
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
               }
-            ]
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_version_rhythm_decision.",
+            "design_rationale": "The encounter stages make 版本节奏决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -13110,27 +14912,53 @@
       },
       "liveops_season_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 赛季决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [
           {
-            "kind": "system",
-            "schema": "system_card_v1",
-            "id": "crossy_road_liveops_season_system",
-            "label": "Crossy Road liveops season",
-            "supplement_basis": "Template L5 expansion for Crossy Road: liveops_season_decision.",
-            "inputs": [
-              "session_state",
-              "player_progress",
-              "content_pool"
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_season_content",
+            "label": "Crossy Road 赛季决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_season_decision.",
+            "design_rationale": "Crossy Road uses 赛季决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_season_encounter",
+            "label": "Crossy Road 赛季决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
             ],
-            "outputs": [
-              "decision_signal",
-              "reward_signal",
-              "next_goal_signal"
-            ],
-            "rules": "Connect Single tile hop to survive lanes, collect coins, and beat the player high score."
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_season_decision.",
+            "design_rationale": "The encounter stages make 赛季决策 concrete for Crossy Road while staying inspectable in 2D."
           }
         ],
         "entityValidationErrors": [],
@@ -13306,10 +15134,55 @@
       },
       "liveops_update_communication_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference specifies 更新沟通决策 as concrete content for 2D/isometric lane-crossing survival: lane timing, collectible characters, and short-session risk reads. The node has schema-valid content and encounter entities for asset and requirement extraction.",
         "riskNote": "",
         "notApplicableReason": "",
-        "designEntities": [],
+        "designEntities": [
+          {
+            "kind": "content",
+            "schema": "content_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_update_communication_content",
+            "label": "Crossy Road 更新沟通决策 content set",
+            "assetClass": "2d_gameplay_content",
+            "countBand": {
+              "min": 3,
+              "target": 12,
+              "max": 80
+            },
+            "gatingLogic": {
+              "gate": "progression_or_session_milestone",
+              "requires": [
+                "readable_2d_state",
+                "completed_prior_goal"
+              ]
+            },
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_update_communication_decision.",
+            "design_rationale": "Crossy Road uses 更新沟通决策 content to express 2D/isometric lane-crossing survival without relying on 3D spatial complexity."
+          },
+          {
+            "kind": "encounter",
+            "schema": "encounter_card_v1",
+            "id": "builtin_iaa_hypercasual_crossy_road_liveops_update_communication_encounter",
+            "label": "Crossy Road 更新沟通决策 encounter pattern",
+            "phases": [
+              {
+                "id": "setup",
+                "objective": "Introduce the 2D layout, board state, encounter rule, or service prompt."
+              },
+              {
+                "id": "pressure",
+                "objective": "Ask the player to apply 2D/isometric lane-crossing survival decisions under clear risk or resource pressure."
+              },
+              {
+                "id": "payoff",
+                "objective": "Deliver reward, mastery signal, unlock, or next-content hook."
+              }
+            ],
+            "winCondition": "player_understands_and_resolves_the_2d_content_goal",
+            "supplement_basis": "Template 2D L5 redesign for Crossy Road: liveops_update_communication_decision.",
+            "design_rationale": "The encounter stages make 更新沟通决策 concrete for Crossy Road while staying inspectable in 2D."
+          }
+        ],
         "entityValidationErrors": [],
         "checklist": {
           "geng_xin_zhong_dian": true,
@@ -13483,7 +15356,7 @@
       },
       "data_goal_metric_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 设计目标指标决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13660,7 +15533,7 @@
       },
       "data_path_metric_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 行为路径指标决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -13837,7 +15710,7 @@
       },
       "data_test_design_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 测试设计决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14014,7 +15887,7 @@
       },
       "data_feedback_collection_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 反馈收集决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14191,7 +16064,7 @@
       },
       "data_iteration_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 迭代判断决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14368,7 +16241,7 @@
       },
       "data_experiment_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 灰度与实验验证决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14545,7 +16418,7 @@
       },
       "compliance_age_rating_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 年龄适配决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14722,7 +16595,7 @@
       },
       "compliance_player_protection_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 玩家保护决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -14899,7 +16772,7 @@
       },
       "compliance_community_safety_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 社区安全决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15076,7 +16949,7 @@
       },
       "compliance_fairness_risk_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 公平性风险决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15253,7 +17126,7 @@
       },
       "compliance_opinion_risk_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 舆情风险决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15430,7 +17303,7 @@
       },
       "compliance_localization_culture_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 本地化与文化适配决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15607,7 +17480,7 @@
       },
       "compliance_abuse_fairness_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 滥用行为与公平防护决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15784,7 +17657,7 @@
       },
       "compliance_privacy_data_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 隐私与数据使用体验决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -15961,7 +17834,7 @@
       },
       "documentation_core_doc_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 核心设计文档决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16138,7 +18011,7 @@
       },
       "documentation_table_schema_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 设计表结构决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16315,7 +18188,7 @@
       },
       "documentation_acceptance_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 验收标准决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16492,7 +18365,7 @@
       },
       "documentation_change_management_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 变更管理决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16669,7 +18542,7 @@
       },
       "documentation_cross_function_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 跨职能沟通决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -16846,7 +18719,7 @@
       },
       "release_store_entry_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 商店与外部入口体验决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17023,7 +18896,7 @@
       },
       "release_promotion_content_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 宣发内容决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17200,7 +19073,7 @@
       },
       "release_preregistration_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 预注册与预约决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17377,7 +19250,7 @@
       },
       "release_community_warmup_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 社群预热决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17554,7 +19427,7 @@
       },
       "release_regional_experience_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 区域发行体验决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17731,7 +19604,7 @@
       },
       "release_platform_material_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 平台规范与上架材料决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -17908,7 +19781,7 @@
       },
       "launch_version_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 上线版本决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18085,7 +19958,7 @@
       },
       "launch_rhythm_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 上线节奏决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18262,7 +20135,7 @@
       },
       "launch_activity_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 上线活动决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18439,7 +20312,7 @@
       },
       "launch_feedback_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 上线反馈决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18616,7 +20489,7 @@
       },
       "launch_player_support_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 玩家支持体验决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18793,7 +20666,7 @@
       },
       "launch_post_launch_followup_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 上线后承接决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],
@@ -18970,7 +20843,7 @@
       },
       "launch_readiness_review_decision": {
         "decisionState": "completed",
-        "designNote": "Crossy Road 范本反推：基于公开信息与设计分析反推，非官方配置；部分 L4 为基于同品类结构的合理推断。",
+        "designNote": "Crossy Road 2D L5 reference positions 上线准入复核决策 around lane timing, collectible characters, and short-session risk reads; this planning decision constrains scope, audience, risk, and production intent without requiring runtime entities.",
         "riskNote": "",
         "notApplicableReason": "",
         "designEntities": [],

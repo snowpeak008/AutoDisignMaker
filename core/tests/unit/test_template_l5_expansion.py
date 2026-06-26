@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 PROJECT_TEMPLATES = Path("knowledge/design_data/project_templates")
+DOMAINS = Path("knowledge/design_data/domains")
 
 PHASE1_COMPLETE_TARGETS = [
     "builtin_indie_dead_cells.json",
@@ -88,9 +89,46 @@ KIND_BY_SCHEMA = {
     "loop_card_v1": "loop",
 }
 
+OLD_3D_PUBLIC_NAMES = {
+    "A Short Hike",
+    "Apex Legends",
+    "Borderlands 3",
+    "Death Stranding",
+    "Doom Eternal",
+    "Elden Ring",
+    "Final Fantasy XIV",
+    "God of War",
+    "Halo Infinite",
+    "Helix Jump",
+    "Last of Us",
+    "Resident Evil",
+    "Risk of Rain 2",
+    "Sekiro",
+    "Splatoon 3",
+    "Stack",
+    "Subway Surfers",
+    "Valorant",
+    "World of Warcraft",
+}
+
 
 def _load_template(name: str) -> dict:
     return json.loads((PROJECT_TEMPLATES / name).read_text(encoding="utf-8"))
+
+
+def _load_public_template_entries() -> list[dict]:
+    index = _load_template("template_index.json")
+    return [entry for entry in index["templates"] if entry.get("visibility") == "public"]
+
+
+def _concrete_node_ids() -> set[str]:
+    concrete_nodes: set[str] = set()
+    for path in DOMAINS.glob("*.json"):
+        domain = json.loads(path.read_text(encoding="utf-8"))
+        for node in domain.get("nodes", []):
+            if node.get("roleClass") in {"system_concrete", "content_concrete"}:
+                concrete_nodes.add(node["id"])
+    return concrete_nodes
 
 
 def _covered_nodes(template: dict) -> dict[str, list[dict]]:
@@ -146,5 +184,48 @@ def test_phase2_to_phase4_templates_reach_p0_l5_coverage() -> None:
         for node_id in P0_NODES:
             for entity in covered[node_id]:
                 _validate_entity_shape(entity)
+                assert entity["id"] not in entity_ids
+                entity_ids.add(entity["id"])
+
+
+def test_public_templates_are_2d_l5_and_index_synced() -> None:
+    concrete_nodes = _concrete_node_ids()
+    entries = _load_public_template_entries()
+    assert len(entries) == 37
+
+    for entry in entries:
+        assert entry.get("dimension") == "2D", entry["fileName"]
+        assert entry.get("qualityClaim") in {
+            "L5_complete_consistent",
+            "L5_partial",
+        }, entry["fileName"]
+        assert entry.get("qualityTier") in {"A", "A+"}, entry["fileName"]
+        assert not any(name in entry["name"] for name in OLD_3D_PUBLIC_NAMES)
+
+        template = _load_template(entry["fileName"])
+        meta = template["template"]
+        assert meta["id"] == entry["id"], entry["fileName"]
+        assert meta["name"] == entry["name"], entry["fileName"]
+        assert meta["qualityClaim"] != "L4_only_filled", entry["fileName"]
+        assert meta["qualityClaim"] == entry["qualityClaim"], entry["fileName"]
+        assert template["projectState"]["profile"].get("dimension") == "2D"
+        assert not any(name in meta["name"] for name in OLD_3D_PUBLIC_NAMES)
+
+        nodes = template["projectState"]["nodes"]
+        covered = _covered_nodes(template)
+        assert concrete_nodes <= set(covered), entry["fileName"]
+        assert len(covered) == len(concrete_nodes), entry["fileName"]
+
+        entity_ids: set[str] = set()
+        for node_id, node in nodes.items():
+            if not isinstance(node, dict):
+                continue
+            assert "范本反推" not in node.get("designNote", ""), (
+                entry["fileName"],
+                node_id,
+            )
+            for entity in node.get("designEntities", []):
+                _validate_entity_shape(entity)
+                assert entity.get("supplement_basis"), entity["id"]
                 assert entity["id"] not in entity_ids
                 entity_ids.add(entity["id"])
