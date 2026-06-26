@@ -912,6 +912,7 @@ def _progress(project_root: Path) -> dict[str, Any]:
     root = _active_root(project_root)
     passed = 0
     final_step = max_step_number()
+    total = final_step + 1
     for step in range(final_step + 1):
         stage = root / "outputs" / "artifacts" / f"stage_{step:02d}"
         validation = read_json(stage / "validation_report.json", {})
@@ -930,7 +931,7 @@ def _progress(project_root: Path) -> dict[str, Any]:
             and reference.exists()
         ):
             passed += 1
-    return {"passed": passed, "total": 16, "label": f"已通过 {passed}/16"}
+    return {"passed": passed, "total": total, "label": f"已通过 {passed}/{total}"}
 
 
 def _load_manifest(path: Path) -> dict[str, Any]:
@@ -939,6 +940,9 @@ def _load_manifest(path: Path) -> dict[str, Any]:
 
 
 def _save_entry(manifest: dict[str, Any]) -> dict[str, Any]:
+    from core.registry import max_step_number
+
+    total = max_step_number() + 1
     return {
         "save_id": manifest["save_id"],
         "display_name": manifest["display_name"],
@@ -948,7 +952,9 @@ def _save_entry(manifest: dict[str, Any]) -> dict[str, Any]:
         "path": f"saves/{manifest['save_id']}",
         "created_at": manifest.get("created_at", ""),
         "last_worked_at": manifest.get("last_worked_at", ""),
-        "progress": manifest.get("progress", {"passed": 0, "total": 16, "label": "已通过 0/16"}),
+        "progress": manifest.get(
+            "progress", {"passed": 0, "total": total, "label": f"已通过 0/{total}"}
+        ),
     }
 
 
@@ -989,6 +995,8 @@ def create_save(
     reason: str = "",
     event: str = "create_save",
 ) -> dict[str, Any]:
+    from core.registry import max_step_number
+
     root = _formal_root(project_root)
     ensure_save_system(root)
     save_id = new_save_id()
@@ -996,6 +1004,7 @@ def create_save(
         save_id = new_save_id()
     name = unique_display_name(root, display_name)
     created_at = now_iso()
+    total = max_step_number() + 1
     manifest = {
         "schema_version": 1,
         "save_id": save_id,
@@ -1006,7 +1015,7 @@ def create_save(
         "created_at": created_at,
         "last_worked_at": created_at,
         "last_transaction_seq": 0,
-        "progress": {"passed": 0, "total": 16, "label": "已通过 0/16"},
+        "progress": {"passed": 0, "total": total, "label": f"已通过 0/{total}"},
     }
     target = save_dir(root, save_id)
     (target / "workspace").mkdir(parents=True, exist_ok=True)

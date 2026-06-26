@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -47,6 +48,7 @@ def main(argv: list[str] | None = None) -> int:
 
 def initialize(root: Path, domain: str = "devflow") -> None:
     now = _now()
+    pipeline_total = _pipeline_total(root)
     dirs = [
         "ucos/identity",
         "ucos/knowledge/working",
@@ -147,7 +149,11 @@ def initialize(root: Path, domain: str = "devflow") -> None:
             "domain": domain,
             "active_save_id": "",
             "active_save_name": "",
-            "pipeline_progress": {"passed": 0, "total": 16, "last_passed": -1},
+            "pipeline_progress": {
+                "passed": 0,
+                "total": pipeline_total,
+                "last_passed": -1,
+            },
             "updated_at": now,
             "ttl_hours": 4,
         },
@@ -267,6 +273,18 @@ def _write_json(path: Path, data: dict[str, Any]) -> None:
 
 def _now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+
+def _pipeline_total(root: Path) -> int:
+    try:
+        root_text = str(root)
+        if root_text not in sys.path:
+            sys.path.insert(0, root_text)
+        from core.registry import max_step_number
+
+        return max_step_number() + 1
+    except Exception:
+        return 18
 
 
 if __name__ == "__main__":

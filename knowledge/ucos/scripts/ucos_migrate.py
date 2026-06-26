@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import uuid
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -23,12 +23,13 @@ def main(argv: list[str] | None = None) -> int:
 def migrate(root: Path, source: Path, dry_run: bool = False) -> dict[str, Any]:
     source_dir = source if source.is_absolute() else root / source
     now = _now()
+    pipeline_total = _pipeline_total(root)
     mappings = []
     active_text = _read_text(source_dir / "active-task.md")
     known_text = _read_text(source_dir / "known-issues.md")
     decisions_text = _read_text(source_dir / "decisions.md")
 
-    context = _context_from_active(active_text, now)
+    context = _context_from_active(active_text, now, pipeline_total=pipeline_total)
     blockers = _blockers_from_known(known_text, now)
     next_actions = _next_actions_from_active(active_text, now)
     facts = _facts_from_decisions(decisions_text, now)
@@ -57,10 +58,10 @@ def migrate(root: Path, source: Path, dry_run: bool = False) -> dict[str, Any]:
     return {"dry_run": dry_run, "source": str(source_dir), "mappings": mappings, "data_loss": False}
 
 
-def _context_from_active(text: str, now: str) -> dict[str, Any]:
+def _context_from_active(text: str, now: str, *, pipeline_total: int) -> dict[str, Any]:
     save_id = _first_match(text, r"save_[0-9A-Za-z_]+") or ""
     active_name = "错误测试" if "错误测试" in text else ""
-    progress_match = re.search(r"(\d+)\s*/\s*16", text)
+    progress_match = re.search(r"(\d+)\s*/\s*\d+", text)
     passed = int(progress_match.group(1)) if progress_match else 0
     return {
         "schema_version": "1.0",
@@ -68,7 +69,11 @@ def _context_from_active(text: str, now: str) -> dict[str, Any]:
         "domain": "devflow",
         "active_save_id": save_id,
         "active_save_name": active_name,
-        "pipeline_progress": {"passed": passed, "total": 16, "last_passed": max(passed - 1, -1)},
+        "pipeline_progress": {
+            "passed": passed,
+            "total": pipeline_total,
+            "last_passed": max(passed - 1, -1),
+        },
         "updated_at": now,
         "ttl_hours": 4,
     }
@@ -211,6 +216,18 @@ def _clean(value: str) -> str:
 
 def _now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+
+def _pipeline_total(root: Path) -> int:
+    try:
+        root_text = str(root)
+        if root_text not in sys.path:
+            sys.path.insert(0, root_text)
+        from core.registry import max_step_number
+
+        return max_step_number() + 1
+    except Exception:
+        return 18
 
 
 if __name__ == "__main__":

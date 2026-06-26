@@ -1,5 +1,32 @@
 [
   {
+    "id": "2026-06-26-003",
+    "date": "2026-06-26",
+    "summary": "执行 directory_cleanup_analysis：目录清理、存档进度总数修复与 plan 忽略规则统一",
+    "changed_files": [
+      ".gitignore",
+      "core/save/manager.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/ui/save_manager_dialog.py",
+      "knowledge/ucos/scripts/ucos_init.py",
+      "knowledge/ucos/scripts/ucos_migrate.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-26-003.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "plan/pipeline_optimization/",
+      "plan/v5_engineering_plan/"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-26-003.md"
+    ],
+    "next_tasks": [
+      "pytest sandbox/pytest_* 目录仍有 63 个，未超过 7 天，后续等 Windows 锁释放或自动清理",
+      "drafts 仍有 42 个，当前都在 7 天内；后续可单独做自动清理策略",
+      "提交前确认 plan/directory_cleanup_analysis.md 和剩余 plan 目录不进入暂存区"
+    ]
+  },
+  {
     "id": "2026-06-26-002",
     "date": "2026-06-26",
     "summary": "执行 manual_style_confirmation：Step07/08 美术风格生成与人工确认门禁",

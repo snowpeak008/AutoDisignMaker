@@ -8,6 +8,43 @@
 ## 上次会话摘要
 
 **日期**：2026-06-26
+**ID**：2026-06-26-003
+**摘要**：执行 `directory_cleanup_analysis`：目录清理、存档进度总数修复与 plan 忽略规则统一
+
+**完成内容**：
+- ✅ 删除临时验证存档 `save_20260626_080638_065042` 及其关联 draft
+- ✅ 剩余正式存档进度显示更新为 `9/18`
+- ✅ 删除旧 plan 目录，保留最近 3 个计划目录和本轮分析文件
+- ✅ 删除根目录旧 `.pytest_cache/` 和 legacy `sandbox/outputs/`
+- ✅ `.gitignore` 改为统一忽略 `plan/`
+- ✅ `core/save/manager.py`、`core/ui/save_manager_dialog.py` 的存档进度总数改为动态 `max_step_number()+1`
+- ✅ `knowledge/ucos/scripts` 中旧 `pipeline_progress.total=16` 改为动态总步数
+
+**自查修复**：
+- ✅ 发现 `.gitignore` 实际未统一忽略 `plan/`，已修复
+- ✅ 搜索发现 ucos 初始化/迁移脚本仍会写入旧 16 步进度，已修复
+- ✅ 自检生成的 `core/__pycache__` 已路径校验后删除
+- ✅ pytest 临时目录未强删：当前 63 个都未超过 7 天，继续依赖现有 7 天自动清理策略
+
+**验证**：
+- ✅ 关联回归测试：9 passed
+- ✅ `python -B -m pytest -q`：121 passed
+- ✅ `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall ...`：通过
+- ✅ `python -B -m flake8 ... --select=F`：通过
+- ✅ 旧 16 步进度字面量搜索无命中
+- ✅ `.pytest_cache`、`sandbox/outputs`、源树 `__pycache__` 均不存在
+
+**后续关注**：
+- [ ] pytest `sandbox/pytest_*` 目录仍有 63 个，未超过 7 天，后续等 Windows 锁释放或自动清理
+- [ ] drafts 仍有 42 个，当前都在 7 天内；后续可单独做自动清理策略
+- [ ] 提交前确认 `plan/directory_cleanup_analysis.md` 和剩余 plan 目录不进入暂存区
+- [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
+
+---
+
+## 历史会话摘要
+
+**日期**：2026-06-26
 **ID**：2026-06-26-002
 **摘要**：执行 `manual_style_confirmation`：Step07/08 美术风格生成与人工确认门禁
 
@@ -20,20 +57,10 @@
 - ✅ 修复 Step08 重跑时 `run_import_step()` 重置阶段目录导致 `style_confirmation.json` 被删除的问题
 - ✅ 更新 AI 入口文档和 `knowledge/ai_memory/project_understanding` 中旧的 16 阶段/旧阶段号记忆
 
-**自查修复**：
-- ✅ 补充 Step08 插件保留手动确认文件的回归测试
-- ✅ 初次 Step07-08 真实段验证被预检拦截后，改用 Step00-08 生成完整上游验证层
-- ✅ 清理 `compileall` 初次生成的源树 `__pycache__`，改用 `PYTHONPYCACHEPREFIX=.cache\pycache` 复跑编译
-- ✅ 注册表 JSON、依赖图和真实流水线 Step00-08 验证通过
-
 **验证**：
 - ✅ 新增/关联回归测试：9 passed；新增人工确认测试：6 passed
 - ✅ `python -B -m pytest -q`：120 passed
-- ✅ `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall core pipeline`：通过
-- ✅ `python -B -m flake8 ... --select=F`：通过
 - ✅ 真实流水线 Step00-08：全部 success（使用 `--skip-all-gates` 验证自动通过路径）
-- ⚠️ `black` 在当前环境连 `--version` 都超时，未作为阻断项；用 compileall / flake8 F 类 / pytest / 真实流水线段验证兜底
-- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
 
 **后续关注**：
 - [ ] GUI 需要人工点选 Step08 对话框做一次视觉/交互验收
@@ -41,8 +68,6 @@
 - [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-26
 **ID**：2026-06-26-001

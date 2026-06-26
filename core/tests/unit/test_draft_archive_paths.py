@@ -12,6 +12,7 @@ from core.paths import (
     SANDBOX_DIR,
     SOURCE_ARTIFACTS_DIR,
 )
+from core.registry import max_step_number
 from core.save import manager as save_manager
 
 
@@ -51,8 +52,14 @@ def test_formal_archive_excludes_snapshot_history(isolated_project_root) -> None
         isolated_project_root, "Demo", event="unit_test"
     )
     save_path = save_manager.save_dir(isolated_project_root, manifest["save_id"])
+    expected_total = max_step_number() + 1
 
     assert (save_path / "manifest.json").is_file()
+    assert manifest["progress"] == {
+        "passed": 0,
+        "total": expected_total,
+        "label": f"已通过 0/{expected_total}",
+    }
     assert (save_path / "workspace" / "source_artifacts" / "idea.txt").read_text(
         encoding="utf-8"
     ) == "demo"
@@ -66,6 +73,18 @@ def test_formal_archive_excludes_snapshot_history(isolated_project_root) -> None
     assert draft_meta["linked_save_id"] == manifest["save_id"]
     assert (isolated_project_root / "snapshots").is_dir()
     assert (isolated_project_root / "timeline.jsonl").is_file()
+
+
+def test_save_progress_uses_dynamic_pipeline_total(isolated_project_root) -> None:
+    expected_total = max_step_number() + 1
+
+    progress = save_manager._progress(isolated_project_root)
+
+    assert progress == {
+        "passed": 0,
+        "total": expected_total,
+        "label": f"已通过 0/{expected_total}",
+    }
 
 
 def test_legacy_save_manifest_is_still_readable(isolated_project_root) -> None:

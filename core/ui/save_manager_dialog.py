@@ -13,6 +13,7 @@ from tkinter import messagebox, ttk
 from typing import TYPE_CHECKING
 
 from core.save import manager as save_manager
+from core.registry import max_step_number
 from core.ui.theme import COLORS, FONT_SMALL, center_window
 
 if TYPE_CHECKING:
@@ -172,6 +173,7 @@ class SaveManagerDialog(tk.Toplevel):
             if save_id == current_id:
                 display_name = f"▶ {display_name}"
             progress = item.get("progress") or {}
+            total = max_step_number() + 1
             self.tree.insert(
                 "",
                 tk.END,
@@ -179,7 +181,7 @@ class SaveManagerDialog(tk.Toplevel):
                 values=(
                     display_name,
                     (item.get("last_worked_at") or "")[:19],
-                    progress.get("label", "已通过 0/16"),
+                    progress.get("label", f"已通过 0/{total}"),
                     save_id,
                 ),
             )
