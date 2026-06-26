@@ -1,11 +1,43 @@
 # AI 会话记忆索引
 
-> 最后更新：2026-06-25
+> 最后更新：2026-06-26
 > 缓存状态：✓ 有效
 
 ---
 
 ## 上次会话摘要
+
+**日期**：2026-06-26
+**ID**：2026-06-26-001
+**摘要**：执行 `universal_genre_coverage`：通用品类覆盖与 Step02 liveops 元数据过滤
+
+**完成内容**：
+- ✅ Step00 `_genre_key()` 改为有序规则推断，避免宽泛 shooter/puzzle/arena 抢先命中具体品类
+- ✅ Step00 为计划列出的 17 个市场品类补齐 `GENRE_DEFAULT_EVIDENCE`，覆盖 farming sim、card、bullet heaven、match3、souls-like、各类 shooter、MMORPG、factory sim、metroidvania 等
+- ✅ Step02 governance node 过滤改为项目元数据感知：文档/帮助节点始终排除，liveops-only 节点只在明确买断/离线/单次发布项目中排除
+- ✅ Step02 项目分类只读取 profile、project metadata、商业模式/运营模式 selections，避免 raw text 中节点 ID 污染分类
+- ✅ 同步保留上一轮未提交修复：documentation 需求过滤、存档管理对话框文案/import 清理及相关回归测试
+
+**自查修复**：
+- ✅ black 格式化后重新跑全量测试和静态检查
+- ✅ Hades 当前存档重跑 Step00-08：`drafts\20260626_080541_34956`，步骤 00-08 全部 success
+- ✅ Stardew Valley 临时验证存档重跑 Step00-08：`drafts\20260626_080645_29304`，步骤 00-08 全部 success
+- ✅ 两套真实流水线质量指标均为 question coverage 1.0、Step02 entity coverage 1.0、Stage05 blocking 0
+
+**验证**：
+- ✅ 关联回归测试：3 passed
+- ✅ `python -B -m pytest -q`：114 passed
+- ✅ black / flake8 / `py_compile`：本轮触碰文件通过
+- ✅ `git diff --check`：通过（仅 CRLF 工作区提示）
+
+**后续关注**：
+- [ ] Stage05 warning_count 当前为 1，属于非阻断 warning；如需归零可单独治理 L4-derived requirement 启发式
+- [ ] 提交前确认 `plan/universal_genre_coverage/`、其他 `plan/` 临时目录、bug 文档和 `settings/api_config.toml` 不进入暂存区
+- [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
+
+---
+
+## 历史会话摘要
 
 **日期**：2026-06-25
 **ID**：2026-06-25-002
@@ -38,8 +70,6 @@
 - [ ] CC-Panes 共享记忆池本次因环境变量缺失未写入
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-25
 **ID**：2026-06-25-001

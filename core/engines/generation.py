@@ -2038,13 +2038,15 @@ def _is_documentation_requirement(req: dict[str, Any]) -> bool:
         req.get("entity_label"),
         req.get("entity_kind"),
         req.get("entity_schema"),
+        req.get("requirement"),
+        req.get("title"),
     ]
     related_values = list(req.get("dependencies", []) or []) + list(
         req.get("outputs", []) or []
     )
     for value in direct_values + related_values:
         normalized = str(value or "").strip().lower()
-        if normalized.startswith("documentation_"):
+        if "documentation_" in normalized:
             return True
     return False
 

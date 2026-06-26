@@ -116,7 +116,7 @@ def test_stage7_skips_documentation_requirements_and_ignores_schema_metadata(
                     "phase": "core_playable",
                     "source_refs": ["design.md:1"],
                     "acceptance": "文档节点仅记录治理决策。",
-                    "dependencies": ["documentation_runtime_decision"],
+                    "dependencies": [],
                 },
                 {
                     "id": "REQ-SKILL",

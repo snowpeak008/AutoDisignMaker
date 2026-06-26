@@ -13,7 +13,7 @@ from tkinter import messagebox, ttk
 from typing import TYPE_CHECKING
 
 from core.save import manager as save_manager
-from core.ui.theme import COLORS, FONT_SECTION, FONT_SMALL, center_window
+from core.ui.theme import COLORS, FONT_SMALL, center_window
 
 if TYPE_CHECKING:
     from core.ui.app_window import CommercialDesignApp
@@ -133,6 +133,7 @@ class SaveManagerDialog(tk.Toplevel):
     def _save_has_design_project(self, save_id: str) -> bool:
         """判断存档是否包含设计项目数据。"""
         import json
+
         store_path = (
             save_manager.workspace_dir(self.runtime_root, save_id)
             / "outputs"
@@ -159,7 +160,11 @@ class SaveManagerDialog(tk.Toplevel):
 
         all_saves = save_manager.list_saves(self.runtime_root)
         current_id = save_manager.current_save_id(self.runtime_root)
-        design_saves = [s for s in all_saves if self._save_has_design_project(str(s.get("save_id", "")))]
+        design_saves = [
+            s
+            for s in all_saves
+            if self._save_has_design_project(str(s.get("save_id", "")))
+        ]
 
         for item in design_saves:
             save_id = str(item.get("save_id", ""))
@@ -179,7 +184,9 @@ class SaveManagerDialog(tk.Toplevel):
                 ),
             )
 
-        self.status_var.set(f"设计存档数量：{len(design_saves)}（共 {len(all_saves)} 个存档）")
+        stale = len(all_saves) - len(design_saves)
+        stale_hint = f"，另有 {stale} 个旧流水线存档（无设计数据）" if stale > 0 else ""
+        self.status_var.set(f"设计存档：{len(design_saves)} 个{stale_hint}")
 
     def selected_save_id(self) -> str | None:
         """返回当前选中的存档ID，无选中时返回 None。"""
@@ -215,7 +222,9 @@ class SaveManagerDialog(tk.Toplevel):
         result: dict[str, str | None] = {"value": None}
 
         def confirm() -> None:
-            result["value"] = name_var.get().strip() or save_manager.default_display_name()
+            result["value"] = (
+                name_var.get().strip() or save_manager.default_display_name()
+            )
             dialog.destroy()
 
         def cancel() -> None:
@@ -242,21 +251,31 @@ class SaveManagerDialog(tk.Toplevel):
         """将当前 project_settings.json 写入指定存档槽的 workspace。"""
         import json
         from core.paths import PROJECT_SETTINGS_FILE
+
         if not PROJECT_SETTINGS_FILE.exists():
             return
         try:
             config = json.loads(PROJECT_SETTINGS_FILE.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             return
-        dest = save_manager.workspace_dir(self.runtime_root, save_id) / "project_config.json"
+        dest = (
+            save_manager.workspace_dir(self.runtime_root, save_id)
+            / "project_config.json"
+        )
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
+        dest.write_text(
+            json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
     def _restore_project_config_from(self, save_id: str) -> None:
         """从指定存档槽的 workspace 恢复 project_settings.json，并刷新 UI 配置。"""
         import json
         from core.paths import PROJECT_SETTINGS_FILE
-        src = save_manager.workspace_dir(self.runtime_root, save_id) / "project_config.json"
+
+        src = (
+            save_manager.workspace_dir(self.runtime_root, save_id)
+            / "project_config.json"
+        )
         if not src.exists():
             return
         try:
@@ -264,7 +283,9 @@ class SaveManagerDialog(tk.Toplevel):
         except (OSError, json.JSONDecodeError):
             return
         PROJECT_SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
-        PROJECT_SETTINGS_FILE.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
+        PROJECT_SETTINGS_FILE.write_text(
+            json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
     # ──────────────────────────────────────────────────────────
 
@@ -275,11 +296,17 @@ class SaveManagerDialog(tk.Toplevel):
         if not name:
             return
         try:
-            from core.engines.execution_objects.design_project import save_design_project
-            from core.engines.execution_objects.integration import load_execution_object_store
+            from core.engines.execution_objects.design_project import (
+                save_design_project,
+            )
+            from core.engines.execution_objects.integration import (
+                load_execution_object_store,
+            )
 
             save_manager.create_save(self.runtime_root, name, event="user_new_save")
-            self._save_project_config_to(save_manager.current_save_id(self.runtime_root))
+            self._save_project_config_to(
+                save_manager.current_save_id(self.runtime_root)
+            )
             store = load_execution_object_store(self.runtime_root)
             execution_obj = save_design_project(
                 store,
@@ -308,8 +335,12 @@ class SaveManagerDialog(tk.Toplevel):
         ):
             return
         try:
-            from core.engines.execution_objects.design_project import save_design_project
-            from core.engines.execution_objects.integration import load_execution_object_store
+            from core.engines.execution_objects.design_project import (
+                save_design_project,
+            )
+            from core.engines.execution_objects.integration import (
+                load_execution_object_store,
+            )
 
             save_manager.set_current_save(self.runtime_root, save_id)
             self._save_project_config_to(save_id)
@@ -341,9 +372,12 @@ class SaveManagerDialog(tk.Toplevel):
         ):
             return
         try:
-            from core.engines.execution_objects.design_project import load_latest_design_project
-            from core.engines.execution_objects.integration import load_execution_object_store
-            from core.design.profile_schema import option_label
+            from core.engines.execution_objects.design_project import (
+                load_latest_design_project,
+            )
+            from core.engines.execution_objects.integration import (
+                load_execution_object_store,
+            )
 
             save_manager.load_save(self.runtime_root, save_id)
             self._restore_project_config_from(save_id)
@@ -374,6 +408,7 @@ class SaveManagerDialog(tk.Toplevel):
     def on_rename_selected(self) -> None:
         """重命名选中存档。"""
         import json
+
         save_id = self.selected_save_id()
         if not save_id:
             messagebox.showinfo("未选择存档", "请先选择一个存档。", parent=self)
@@ -389,7 +424,9 @@ class SaveManagerDialog(tk.Toplevel):
             manifest_path = save_manager.save_manifest_path(self.runtime_root, save_id)
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             manifest["display_name"] = new_name
-            manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
             save_manager._replace_entry(self.runtime_root, manifest)
             self.refresh()
             self.status_var.set(f"已重命名为：{new_name}")

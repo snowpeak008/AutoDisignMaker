@@ -153,6 +153,44 @@ def test_step00_uses_genre_inference_for_new_step01_genres():
         )
 
 
+def test_step00_uses_genre_inference_for_broad_market_genres():
+    cases = [
+        ("Stardew Valley farming life sim", "farming_sim"),
+        ("Slay the Spire deck card battler", "card_game"),
+        ("Vampire Survivors bullet heaven", "bullet_heaven"),
+        ("Subway Surfers hypercasual runner", "hypercasual"),
+        ("Coin Master idle incremental", "idle"),
+        ("Royal Match match-3", "match3"),
+        ("Elden Ring souls-like", "souls_like"),
+        ("God of War action adventure", "action_adventure"),
+        ("Resident Evil survival horror", "survival_horror"),
+        ("Borderlands looter shooter", "looter_shooter"),
+        ("Apex Legends battle royale", "battle_royale"),
+        ("Valorant hero shooter", "hero_shooter"),
+        ("World of Warcraft MMORPG", "mmorpg"),
+        ("Factorio factory automation", "factory_sim"),
+        ("A Short Hike exploration sandbox", "exploration"),
+        ("Dead Cells metroidvania", "metroidvania"),
+        ("Brawl Stars brawler arena", "brawler"),
+    ]
+
+    for raw_text, expected_genre in cases:
+        parsed = {
+            "source": "concept.md",
+            "raw_text": raw_text,
+            "selections": [_selection(1, "游戏类型", raw_text)],
+        }
+        report = QuestionEngine().evaluate(parsed)
+        questions = {item["id"]: item for item in report["questions"]}
+
+        assert report["coverage_rate"] >= 0.55
+        assert (
+            questions["CQ-011"]["evidence"][0]["source"]
+            == f"genre_template:{expected_genre}"
+        )
+        assert questions["CQ-011"]["evidence"][0]["match"] == "genre_inference"
+
+
 def test_step00_roguelike_action_supplies_runtime_flow_evidence():
     parsed = {
         "source": "concept.md",
@@ -395,6 +433,87 @@ def test_step02_missing_entities_use_real_expected_node_ids():
     assert report["entity_coverage_rate"] == round(1 / 3, 4)
     assert missing_node_ids == {"ability_choice_decision", "level_space_decision"}
     assert not any(node_id.startswith("UNMAPPED-NODE") for node_id in missing_node_ids)
+
+
+def test_step02_entity_coverage_excludes_governance_nodes_from_denominator():
+    parsed = {
+        "source": "test.md",
+        "design_summary": {"node_count": 4},
+        "selections": [
+            _selection(1, "商业模式", "buyout", layer_title="项目愿景"),
+            _selection(2, "运营模式", "offline_single_release", layer_title="项目愿景"),
+            _selection(3, "combat_system_decision", "Combat", layer_title="设计决策"),
+            _selection(
+                4, "documentation_core_doc_decision", "Docs", layer_title="设计决策"
+            ),
+            _selection(
+                5, "launch_store_page_decision", "Launch", layer_title="设计决策"
+            ),
+            _selection(
+                6,
+                "compliance_age_rating_decision",
+                "Compliance",
+                layer_title="设计决策",
+            ),
+            _selection(
+                7,
+                "L5实体",
+                "Combat Runtime",
+                "kind=system；schema=system.v1",
+                ["combat_system_decision"],
+                layer_title="L5实体",
+            ),
+        ],
+    }
+
+    report = EntityValidator().validate(parsed)
+
+    assert report["concrete_node_count"] == 1
+    assert report["covered_concrete_nodes"] == 1
+    assert report["entity_coverage_rate"] == 1.0
+    assert report["missing_entities"] == []
+
+
+def test_step02_liveops_projects_keep_liveops_only_nodes_in_denominator():
+    parsed = {
+        "source": "test.md",
+        "design_summary": {"node_count": 6},
+        "selections": [
+            _selection(1, "商业模式", "free_to_play", layer_title="项目愿景"),
+            _selection(2, "运营模式", "live_service", layer_title="项目愿景"),
+            _selection(3, "combat_system_decision", "Combat", layer_title="设计决策"),
+            _selection(4, "data_metric_decision", "Data", layer_title="设计决策"),
+            _selection(
+                5, "retention_daily_loop_decision", "Retention", layer_title="设计决策"
+            ),
+            _selection(
+                6, "launch_store_page_decision", "Launch", layer_title="设计决策"
+            ),
+            _selection(
+                7, "documentation_core_doc_decision", "Docs", layer_title="设计决策"
+            ),
+            _selection(
+                8,
+                "L5实体",
+                "Combat Runtime",
+                "kind=system；schema=system.v1",
+                ["combat_system_decision"],
+                layer_title="L5实体",
+            ),
+        ],
+    }
+
+    report = EntityValidator().validate(parsed)
+    missing_node_ids = {item["node_id"] for item in report["missing_entities"]}
+
+    assert report["concrete_node_count"] == 4
+    assert report["covered_concrete_nodes"] == 1
+    assert report["entity_coverage_rate"] == 0.25
+    assert missing_node_ids == {
+        "data_metric_decision",
+        "retention_daily_loop_decision",
+        "launch_store_page_decision",
+    }
 
 
 def test_step02_real_l5_without_expected_total_does_not_report_fake_full_coverage():

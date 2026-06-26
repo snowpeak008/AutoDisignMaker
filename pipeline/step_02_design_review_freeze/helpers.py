@@ -273,6 +273,126 @@ def _expected_node_ids(parsed: dict[str, Any]) -> list[str]:
     return node_ids
 
 
+_ALWAYS_EXCLUDE_PREFIXES = frozenset(
+    {
+        "documentation_",
+        "help_support_",
+    }
+)
+
+_LIVEOPS_ONLY_PREFIXES = frozenset(
+    {
+        "liveops_",
+        "data_",
+        "retention_",
+        "launch_",
+        "release_",
+        "compliance_",
+    }
+)
+
+_LIVEOPS_PROJECT_TOKENS = frozenset(
+    {
+        "live_service",
+        "free_to_play",
+        "subscription",
+        "season_pass",
+        "liveops",
+        "large_service",
+        "长线服务",
+        "长线运营",
+        "服务型",
+        "赛季",
+    }
+)
+
+_NON_LIVEOPS_PROJECT_TOKENS = frozenset(
+    {
+        "buyout",
+        "buy_to_play",
+        "offline_single_release",
+        "offline",
+        "single_release",
+        "买断",
+        "离线",
+        "单机",
+        "单次发布",
+    }
+)
+
+
+def _project_classification_text(parsed: dict[str, Any]) -> str:
+    """Return project metadata text used for liveops classification."""
+    values: list[str] = []
+    for key in (
+        "businessModel",
+        "business_model",
+        "operationModel",
+        "operation_model",
+        "targetScale",
+        "target_scale",
+    ):
+        values.append(_text(parsed.get(key)))
+
+    for container_key in ("profile", "project_profile", "project_metadata"):
+        container = parsed.get(container_key)
+        if not isinstance(container, dict):
+            continue
+        for key in (
+            "businessModel",
+            "business_model",
+            "operationModel",
+            "operation_mode",
+            "targetScale",
+            "target_scale",
+        ):
+            values.append(_text(container.get(key)))
+
+    for item in parsed.get("selections", []) or []:
+        item_type = _text(_field(item, "item_type")).lower()
+        label = _text(_field(item, "label")).lower()
+        if any(
+            token in item_type + " " + label
+            for token in ("商业模式", "运营模式", "business", "operation")
+        ):
+            values.extend(
+                [
+                    _text(_field(item, "option")),
+                    _text(_field(item, "value")),
+                    _text(_field(item, "purpose")),
+                    label,
+                ]
+            )
+    return " ".join(value for value in values if value).lower()
+
+
+def _is_liveops_project(parsed: dict[str, Any]) -> bool:
+    """Return whether project metadata indicates a live-service/operated game."""
+    text = _project_classification_text(parsed)
+    if any(token in text for token in _LIVEOPS_PROJECT_TOKENS):
+        return True
+    if any(token in text for token in _NON_LIVEOPS_PROJECT_TOKENS):
+        return False
+    return True
+
+
+def _filter_governance_nodes(
+    node_ids: list[str], parsed: dict[str, Any] | None = None
+) -> list[str]:
+    """Exclude governance-only nodes from gameplay entity coverage."""
+    is_liveops = _is_liveops_project(parsed) if parsed else True
+    filtered = []
+    for node_id in node_ids:
+        if any(node_id.startswith(prefix) for prefix in _ALWAYS_EXCLUDE_PREFIXES):
+            continue
+        if not is_liveops and any(
+            node_id.startswith(prefix) for prefix in _LIVEOPS_ONLY_PREFIXES
+        ):
+            continue
+        filtered.append(node_id)
+    return filtered
+
+
 def supplement_trigger_reason(
     entities: list[dict[str, Any]],
     entity_coverage_rate: float,
@@ -352,9 +472,11 @@ class EntityValidator:
         """Build the entity coverage report for Step 02."""
         entities = extract_l5_entities(parsed)
         expected_total = _expected_node_count(parsed, entities)
-        expected_node_ids = _expected_node_ids(parsed)
+        expected_node_ids = _filter_governance_nodes(
+            _expected_node_ids(parsed), parsed=parsed
+        )
         if expected_node_ids:
-            expected_total = max(expected_total, len(expected_node_ids))
+            expected_total = len(expected_node_ids)
         pre_concrete_nodes = {
             item["node_id"] for item in entities if item.get("node_id")
         }
@@ -413,7 +535,7 @@ class EntityValidator:
         )
         expected_total = _expected_node_count(parsed, entities)
         if expected_node_ids:
-            expected_total = max(expected_total, len(expected_node_ids))
+            expected_total = len(expected_node_ids)
             expected_node_set = set(expected_node_ids)
             covered_nodes = len(expected_node_set & set(concrete_nodes))
             missing_seed = [
