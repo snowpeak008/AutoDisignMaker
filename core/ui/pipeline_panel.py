@@ -8,6 +8,7 @@ import sys
 import threading
 import tkinter as tk
 from tkinter import messagebox, ttk
+from typing import Any
 
 from core.paths import PROJECT_ROOT, ARTIFACTS_DIR
 from core.registry import max_step_number
@@ -185,17 +186,17 @@ class PipelinePanel(tk.Frame):
             side=tk.LEFT, padx=(4, 0)
         )
 
-        right_paned = tk.PanedWindow(
+        self._right_paned = tk.PanedWindow(
             right,
             orient=tk.VERTICAL,
             sashrelief=tk.FLAT,
             sashwidth=4,
             bg=COLORS["border"],
         )
-        right_paned.pack(fill=tk.BOTH, expand=True)
+        self._right_paned.pack(fill=tk.BOTH, expand=True)
 
-        self._detail = tk.Frame(right_paned, bg=COLORS["bg"])
-        right_paned.add(self._detail, stretch="never")
+        self._detail = tk.Frame(self._right_paned, bg=COLORS["bg"])
+        self._right_paned.add(self._detail, stretch="never")
         tk.Label(
             self._detail,
             text="点击左侧步骤查看详情",
@@ -204,8 +205,8 @@ class PipelinePanel(tk.Frame):
             font=FONT_BODY,
         ).pack(expand=True)
 
-        log_frame = tk.Frame(right_paned, bg=COLORS["surface"])
-        right_paned.add(log_frame, stretch="always", minsize=80)
+        log_frame = tk.Frame(self._right_paned, bg=COLORS["surface"])
+        self._right_paned.add(log_frame, stretch="always", minsize=80)
         tk.Label(
             log_frame,
             text="运行日志",
@@ -327,6 +328,187 @@ class PipelinePanel(tk.Frame):
         ttk.Button(
             btn_row, text=run_label, command=lambda: self._run_single(step_num)
         ).pack(side=tk.LEFT)
+        if step_num in (7, 8) and self._maybe_render_style_grid(step_num):
+            self.after(60, self._expand_style_detail)
+        else:
+            self.after(60, self._restore_default_detail_height)
+
+    def _maybe_render_style_grid(self, step_num: int) -> bool:
+        style_json = self._locate_style_options_json(step_num)
+        if style_json is None:
+            return False
+        options = [
+            item
+            for item in style_json.get("options", [])
+            if isinstance(item, dict) and item.get("style_id")
+        ]
+        if not options:
+            return False
+
+        self._style_var = tk.StringVar(value=str(options[0].get("style_id", "")))
+        self._style_imgs: list[tk.PhotoImage] = []
+
+        grid_shell = tk.Frame(self._detail, bg=COLORS["bg"])
+        grid_shell.pack(fill=tk.BOTH, expand=True, padx=12, pady=(0, 8))
+        canvas = tk.Canvas(grid_shell, bg=COLORS["bg"], highlightthickness=0)
+        vsb = ttk.Scrollbar(grid_shell, orient=tk.VERTICAL, command=canvas.yview)
+        canvas.configure(yscrollcommand=vsb.set)
+        vsb.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        inner = tk.Frame(canvas, bg=COLORS["bg"])
+        win_id = canvas.create_window((0, 0), window=inner, anchor=tk.NW)
+        canvas.bind(
+            "<Configure>",
+            lambda event: canvas.itemconfig(win_id, width=event.width),
+        )
+        inner.bind(
+            "<Configure>",
+            lambda _event: canvas.configure(scrollregion=canvas.bbox("all")),
+        )
+
+        for index, option in enumerate(options):
+            self._build_style_option_card(inner, option, index)
+
+        footer = tk.Frame(self._detail, bg=COLORS["bg"], padx=12, pady=8)
+        footer.pack(fill=tk.X)
+        tk.Label(
+            footer,
+            text="批注",
+            bg=COLORS["bg"],
+            fg=COLORS["text"],
+            font=FONT_SMALL,
+        ).pack(anchor=tk.W)
+        self._style_notes = tk.Text(footer, height=3, wrap=tk.WORD, font=FONT_SMALL)
+        self._style_notes.pack(fill=tk.X, pady=(2, 6))
+        row_btn = tk.Frame(footer, bg=COLORS["bg"])
+        row_btn.pack(anchor=tk.W)
+        ttk.Button(
+            row_btn,
+            text="确认选择",
+            command=lambda: self._on_style_confirm(options),
+        ).pack(side=tk.LEFT)
+        ttk.Button(
+            row_btn,
+            text="重新生成",
+            command=self._on_style_regenerate,
+        ).pack(side=tk.LEFT, padx=(8, 0))
+        return True
+
+    def _build_style_option_card(
+        self, parent: tk.Widget, option: dict[str, Any], index: int
+    ) -> None:
+        row, col = index // 3, index % 3
+        card = tk.Frame(
+            parent,
+            bg=COLORS["surface"],
+            highlightbackground=COLORS["border"],
+            highlightthickness=1,
+            padx=8,
+            pady=8,
+        )
+        card.grid(row=row, column=col, sticky="nsew", padx=6, pady=6)
+        parent.grid_columnconfigure(col, weight=1)
+
+        image_label = tk.Label(card, bg=COLORS["surface"])
+        image_label.pack(fill=tk.BOTH, expand=True)
+        try:
+            from core.ui.style_confirmation_dialog import _resolve_image_path
+
+            image_path = _resolve_image_path(str(option.get("image_path") or ""))
+            image = tk.PhotoImage(file=str(image_path))
+            while image.width() > 220 or image.height() > 150:
+                image = image.subsample(2, 2)
+            self._style_imgs.append(image)
+            image_label.configure(image=image)
+        except (tk.TclError, OSError, ValueError):
+            image_label.configure(
+                text="图片不可用",
+                fg=COLORS["danger"],
+                font=FONT_SMALL,
+                width=24,
+                height=8,
+            )
+
+        title = f"{option.get('style_id')}  {option.get('title', '')}".strip()
+        tk.Radiobutton(
+            card,
+            text=title,
+            value=str(option.get("style_id")),
+            variable=self._style_var,
+            bg=COLORS["surface"],
+            fg=COLORS["text"],
+            activebackground=COLORS["surface"],
+            anchor=tk.W,
+            wraplength=220,
+            justify=tk.LEFT,
+        ).pack(anchor=tk.W, fill=tk.X, pady=(6, 2))
+        tk.Label(
+            card,
+            text=str(option.get("description") or ""),
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+            wraplength=220,
+            justify=tk.LEFT,
+        ).pack(anchor=tk.W)
+
+    def _on_style_confirm(self, options: list[dict[str, Any]]) -> None:
+        style_var = getattr(self, "_style_var", None)
+        selected_id = style_var.get() if style_var is not None else ""
+        option = next(
+            (item for item in options if str(item.get("style_id")) == selected_id),
+            None,
+        )
+        if option is None:
+            messagebox.showwarning("无法确认", "请先选择一个风格方案。", parent=self)
+            return
+        notes_widget = getattr(self, "_style_notes", None)
+        notes = notes_widget.get("1.0", tk.END) if notes_widget is not None else ""
+        from core.ui.style_confirmation_dialog import write_style_confirmation
+
+        write_style_confirmation(ARTIFACTS_DIR / "stage_08", option, notes)
+        self._exec_range(8, 8)
+
+    def _on_style_regenerate(self) -> None:
+        self._exec_range(7, 8)
+
+    def _locate_style_options_json(self, step_num: int) -> dict[str, Any] | None:
+        _ = step_num
+        candidates = [
+            ARTIFACTS_DIR / "stage_07" / "art_style_options.json",
+            ARTIFACTS_DIR / "stage_07" / "style_options.json",
+        ]
+        for path in candidates:
+            if not path.exists():
+                continue
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            return data if isinstance(data, dict) else None
+        return None
+
+    def _expand_style_detail(self) -> None:
+        total = self._right_paned.winfo_height()
+        if total <= 120:
+            return
+        target = min(max(80, total - 100), total - 80)
+        try:
+            self._right_paned.sash_place(0, 0, target)
+        except tk.TclError:
+            pass
+
+    def _restore_default_detail_height(self) -> None:
+        total = self._right_paned.winfo_height()
+        if total <= 240:
+            return
+        requested = self._detail.winfo_reqheight() + 24
+        target = min(max(150, requested), total - 180)
+        try:
+            self._right_paned.sash_place(0, 0, target)
+        except tk.TclError:
+            pass
 
     def _run_single(self, step_num: int):
         if step_num >= 3:
@@ -388,6 +570,10 @@ class PipelinePanel(tk.Frame):
             return
         step_number = int(state.get("current_step") or 0)
         if state.get("confirmation_ui") != "style_confirmation_dialog":
+            return
+        if self._locate_style_options_json(step_number) is not None:
+            self._select_step(step_number)
+            self._append_log("[风格确认] 请在右侧详情面板选择风格方案。\n")
             return
         try:
             from core.ui.style_confirmation_dialog import StyleConfirmationDialog

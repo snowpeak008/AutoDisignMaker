@@ -134,9 +134,14 @@ def profile_to_dict(profile: AIProfile) -> dict[str, Any]:
 
 
 def create_default_config() -> AIConfig:
+    image_entries = default_entries(CATEGORY_IMAGE)
     return AIConfig(
         dev=APICategory(CATEGORY_DEV, default_entries(CATEGORY_DEV), "default"),
-        image=APICategory(CATEGORY_IMAGE, default_entries(CATEGORY_IMAGE), ""),
+        image=APICategory(
+            CATEGORY_IMAGE,
+            image_entries,
+            image_entries[0].id if image_entries else "",
+        ),
         completion=APICategory(CATEGORY_COMPLETION, default_entries(CATEGORY_COMPLETION), "completion_openai_api"),
     )
 

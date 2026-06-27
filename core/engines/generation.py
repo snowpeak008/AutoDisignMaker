@@ -2035,6 +2035,43 @@ def _write_style_placeholder_png(path: Path, palette: tuple[str, str, str]) -> N
     path.write_bytes(png)
 
 
+def _active_image_config_type() -> str:
+    try:
+        from core.config.ai_config import AI_CONFIG_PATH, get_active_image_entry
+
+        if not AI_CONFIG_PATH.exists():
+            return ""
+        entry = get_active_image_entry()
+        return str(entry.config_type) if entry is not None else ""
+    except Exception:
+        return ""
+
+
+def _create_image_generator() -> Any:
+    from core.config.ai_config_schema import CONFIG_TYPE_CODEX_CLI_IMAGE
+
+    if _active_image_config_type() == CONFIG_TYPE_CODEX_CLI_IMAGE:
+        from tools.asset_production.codex_image_tool import CodexCLIImageGenerator
+
+        return CodexCLIImageGenerator()
+
+    from tools.asset_production.image_tool import Image2Generator
+
+    return Image2Generator()
+
+
+def _image_generation_result_success(result: str) -> bool:
+    text = str(result)
+    lower = text.lower()
+    if "已保存" in text or "saved" in lower:
+        return True
+    try:
+        path = Path(text.strip())
+        return path.exists() if text else False
+    except OSError:
+        return False
+
+
 def _generate_style_option_images(
     out_dir: Path, parsed: dict[str, Any], options: list[dict[str, Any]]
 ) -> dict[str, Any]:
@@ -2045,9 +2082,7 @@ def _generate_style_option_images(
     generator = None
     if use_api:
         try:
-            from tools.asset_production.image_tool import Image2Generator
-
-            generator = Image2Generator()
+            generator = _create_image_generator()
         except Exception as exc:  # noqa: BLE001 - optional image dependency
             records.append(
                 {
@@ -2880,14 +2915,13 @@ def _write_generated_images_manifest(
         return manifest
 
     try:
-        from tools.asset_production.image_tool import Image2Generator
+        generator = _create_image_generator()
     except Exception as exc:  # noqa: BLE001 - optional runtime dependency
         manifest.update({"status": "blocked", "reason": str(exc)})
         write_json(out_dir / "generated_images_manifest.json", manifest)
         return manifest
 
     generated_dir = out_dir / "generated_images"
-    generator = Image2Generator()
     records = []
     for task in tasks:
         task_id = str(task.get("task_id") or task.get("asset_id") or "art")
@@ -2897,7 +2931,7 @@ def _write_generated_images_manifest(
                 output_dir=str(generated_dir),
                 output_format="png",
             )
-            ok = "已保存" in result or "saved" in result.lower()
+            ok = _image_generation_result_success(result)
             records.append(
                 {
                     "task_id": task_id,

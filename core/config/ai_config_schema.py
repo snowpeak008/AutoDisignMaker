@@ -131,7 +131,9 @@ class AIConfig:
         if not self.dev.entries:
             self.dev = APICategory(CATEGORY_DEV, default_entries(CATEGORY_DEV), "default")
         if not self.image.entries:
-            self.image = APICategory(CATEGORY_IMAGE, default_entries(CATEGORY_IMAGE), "")
+            image_entries = default_entries(CATEGORY_IMAGE)
+            image_active = image_entries[0].id if image_entries else ""
+            self.image = APICategory(CATEGORY_IMAGE, image_entries, image_active)
         if not self.completion.entries:
             self.completion = APICategory(CATEGORY_COMPLETION, default_entries(CATEGORY_COMPLETION), "completion_openai_api")
         ensure_category_defaults(self)
@@ -260,8 +262,12 @@ def ensure_category_defaults(config: AIConfig) -> None:
         config.dev.active_entry_id = "default" if config.dev.get_entry("default") else config.dev.entries[0].id
     if config.completion.active_entry_id and not config.completion.get_entry(config.completion.active_entry_id):
         config.completion.active_entry_id = config.completion.entries[0].id
-    if config.image.active_entry_id and not config.image.get_entry(config.image.active_entry_id):
-        config.image.active_entry_id = ""
+    if not config.image.active_entry_id or not config.image.get_entry(
+        config.image.active_entry_id
+    ):
+        config.image.active_entry_id = (
+            config.image.entries[0].id if config.image.entries else ""
+        )
 
 
 def category_to_dict(category: APICategory) -> dict[str, Any]:

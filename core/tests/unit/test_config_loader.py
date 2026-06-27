@@ -271,6 +271,23 @@ def test_image_generation_enabled_uses_ai_profile(tmp_path: Path, monkeypatch) -
     assert generation._image_generation_enabled() is True
 
 
+def test_image_generator_routes_codex_cli_image_entry(
+    tmp_path: Path, monkeypatch
+) -> None:
+    from core.engines import generation
+    from tools.asset_production.codex_image_tool import CodexCLIImageGenerator
+
+    profile_path = tmp_path / "ai_config.json"
+    data = ai_config.create_default_config()
+    data.image.active_entry_id = "codex_cli_image"
+    ai_config.save_ai_config(data, path=profile_path)
+    monkeypatch.setattr(ai_config, "AI_CONFIG_PATH", profile_path)
+
+    generator = generation._create_image_generator()
+
+    assert isinstance(generator, CodexCLIImageGenerator)
+
+
 def test_ai_config_default_file_is_created(tmp_path: Path) -> None:
     profile_path = tmp_path / "ai_config.json"
 

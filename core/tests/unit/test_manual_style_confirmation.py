@@ -126,6 +126,21 @@ def test_style_confirmation_writer_records_selection(tmp_path) -> None:
     assert payload["notes"] == "Keep high contrast."
 
 
+def test_pipeline_panel_locates_style_options(tmp_path, monkeypatch) -> None:
+    from core.ui import pipeline_panel
+
+    write_json(
+        tmp_path / "stage_07" / "style_options.json",
+        {"options": [{"style_id": "STYLE-05", "title": "Readable"}]},
+    )
+    monkeypatch.setattr(pipeline_panel, "ARTIFACTS_DIR", tmp_path)
+
+    found = pipeline_panel.PipelinePanel._locate_style_options_json(object(), 8)
+
+    assert found is not None
+    assert found["options"][0]["style_id"] == "STYLE-05"
+
+
 def test_step08_plugin_preserves_manual_confirmation_across_import_reset(
     tmp_path, monkeypatch
 ) -> None:

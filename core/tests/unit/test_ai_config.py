@@ -11,6 +11,7 @@ def test_create_default_config_has_four_profiles() -> None:
     assert config.active_profile_id == "default"
     assert config.schema_version == 3
     assert config.dev.active_entry_id == "default"
+    assert config.image.active_entry_id == "codex_cli_image"
     assert config.completion.active_entry_id == "completion_openai_api"
     assert {profile.id for profile in config.profiles} >= {
         "default",
@@ -121,6 +122,18 @@ def test_loading_legacy_file_writes_v3_schema(tmp_path) -> None:
     assert saved["schema_version"] == 3
     assert saved["dev"]["active_entry_id"] == "legacy_api"
     assert "profiles" not in saved
+
+
+def test_empty_image_active_entry_defaults_to_first_entry(tmp_path) -> None:
+    path = tmp_path / "ai_config.json"
+    data = ai_config.config_to_dict(ai_config.create_default_config())
+    data["image"]["active_entry_id"] = ""
+    path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+
+    loaded = ai_config.load_ai_config(path=path)
+
+    assert loaded.image.active_entry_id == "codex_cli_image"
+    assert ai_config.image_config_from_entry(loaded.image.active_entry).enabled is True
 
 
 def test_compat_profiles_have_independent_image_configs() -> None:

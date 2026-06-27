@@ -8,6 +8,35 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-27
+**ID**: 2026-06-27-005
+**Summary**: Executed `step07_image_fix_and_ui`: fixed Step07 image generation activation/routing, added Codex CLI image generation support, and embedded the Step07/08 style confirmation UI.
+
+**Completed**:
+- [x] Default and empty v3 image categories now activate `codex_cli_image`, so Step07 image generation is not disabled by default.
+- [x] Added `CodexCLIImageGenerator` using `codex.cmd`/`codex.exe`/`codex` priority and `codex exec -` to drive the local image_gen-capable Codex CLI.
+- [x] Routed image generation by active image entry type: Codex CLI for `codex_cli_image`, HTTP Image2 API otherwise.
+- [x] Reused the same image-generator routing for later generated image manifests.
+- [x] Embedded Step07/08 style option cards in the pipeline detail panel with image previews, selection, notes, confirm, regenerate, and log-area compression.
+- [x] Waiting Step08 style confirmation now selects the embedded detail panel when style options are available; the old dialog remains as fallback.
+- [x] Added regression tests for image activation, Codex image tool copying, generator routing, and style option JSON discovery.
+
+**Verification**:
+- [x] Targeted Step07/image/UI tests: 34 passed.
+- [x] `python -B -m pytest -q`: 151 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] Manually click-test GUI Step07/08 embedded style grid: confirm, regenerate, layout, and log area.
+- [ ] Real Codex CLI image generation still needs an end-to-end Step07 run against the user's subscribed local CLI environment.
+- [ ] Continue excluding `plan/`, runtime drafts, local AI config files, and `sunny_girl_image2.png` from commits unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-27
 **ID**: 2026-06-27-004
 **Summary**: Completed `ai_config_ui_redesign/BUGS.md` follow-up fixes for initialization data loss, label preservation, compatibility image aliasing, and save-side effects.
 
@@ -32,8 +61,6 @@
 - [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-27
 **ID**: 2026-06-27-003
