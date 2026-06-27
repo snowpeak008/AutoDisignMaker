@@ -119,7 +119,8 @@ core/
 │   └── pipeline_state.py  流水线步骤状态读写
 │
 ├── config/             配置加载
-│   ├── ai_config.py    统一 AI Profile + Adapter 配置（settings/ai_config.json）
+│   ├── ai_config.py    统一 AI API 三分类配置入口（settings/ai_config.json）
+│   ├── ai_config_schema.py  AI 配置 v3 数据结构与兼容转换
 │   ├── validator.py    AI 配置验证与 CLI 可用性检测
 │   ├── loader.py       load_config()/get_pipeline_adapter()/get_api_config兼容层
 │   └── integrity.py    启动时数据完整性检查与 AI 配置迁移

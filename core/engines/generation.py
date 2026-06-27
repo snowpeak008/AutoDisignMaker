@@ -1405,11 +1405,25 @@ def _stage2_supplement_adapter(out_dir: Path) -> Any:
         return None
     try:
         from core.adapters.registry import get_adapter
-        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+        from core.config.ai_config import (
+            AI_CONFIG_PATH,
+            AIProfile,
+            get_active_completion_entry,
+            image_config_from_entry,
+            llm_config_from_entry,
+        )
 
         if AI_CONFIG_PATH.exists():
-            profile = get_active_profile()
-            model_adapter = get_adapter(profile.adapter, profile=profile)
+            entry = get_active_completion_entry()
+            adapter_name, llm = llm_config_from_entry(entry)
+            profile = AIProfile(
+                id=getattr(entry, "id", "completion"),
+                name=getattr(entry, "label", "Completion"),
+                adapter=adapter_name,
+                llm=llm,
+                image=image_config_from_entry(None),
+            )
+            model_adapter = get_adapter(adapter_name, profile=profile)
     except Exception:
         model_adapter = None
     from pipeline.step_02_design_review_freeze.supplement import EntitySupplementAdapter
@@ -1423,10 +1437,12 @@ def _stage2_supplement_adapter(out_dir: Path) -> Any:
 
 def _active_pipeline_adapter_name() -> str:
     try:
-        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+        from core.config.ai_config import AI_CONFIG_PATH, get_active_completion_entry, llm_config_from_entry
 
         if AI_CONFIG_PATH.exists():
-            return get_active_profile().adapter
+            entry = get_active_completion_entry()
+            adapter_name, _llm = llm_config_from_entry(entry)
+            return adapter_name
     except Exception:
         pass
     return str(load_project_settings(BASE_DIR).get("pipeline_adapter", "none"))
@@ -2810,10 +2826,10 @@ def _art_tasks() -> list[dict[str, Any]]:
 
 def _image_generation_enabled() -> bool:
     try:
-        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+        from core.config.ai_config import AI_CONFIG_PATH, get_active_image_entry, image_config_from_entry
 
         if AI_CONFIG_PATH.exists():
-            return bool(get_active_profile().image.enabled)
+            return bool(image_config_from_entry(get_active_image_entry()).enabled)
     except Exception:
         pass
     value = os.getenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", "").strip().lower()

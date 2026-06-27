@@ -56,7 +56,7 @@ def test_get_pipeline_adapter_uses_active_ai_profile(tmp_path, monkeypatch) -> N
 
     path = tmp_path / "ai_config.json"
     config = ai_config.create_default_config()
-    config.active_profile_id = "codex_cli"
+    config.dev.active_entry_id = "codex_cli"
     ai_config.save_ai_config(config, path=path)
     monkeypatch.setattr(ai_config, "AI_CONFIG_PATH", path)
 

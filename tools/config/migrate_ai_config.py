@@ -13,6 +13,7 @@ from core.config.ai_config import (
     AIProfile,
     ImageConfig,
     LLMConfig,
+    config_from_legacy_profiles,
     create_default_config,
     save_ai_config,
 )
@@ -145,7 +146,7 @@ def migrate_from_legacy(*, target_path: Path | None = None) -> AIConfig:
                 break
     active_ids = {profile.id for profile in profiles}
     active = active if active in active_ids else profiles[0].id
-    config = AIConfig(active_profile_id=active, profiles=profiles)
+    config = config_from_legacy_profiles(profiles, active)
     if target_path:
         save_ai_config(config, path=target_path)
     return config

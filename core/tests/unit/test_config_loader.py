@@ -263,7 +263,7 @@ def test_image_generation_enabled_uses_ai_profile(tmp_path: Path, monkeypatch) -
 
     profile_path = tmp_path / "ai_config.json"
     data = ai_config.create_default_config()
-    data.profiles[0].image.enabled = True
+    data.image.active_entry_id = "codex_cli_image"
     ai_config.save_ai_config(data, path=profile_path)
     monkeypatch.setattr(ai_config, "AI_CONFIG_PATH", profile_path)
     monkeypatch.delenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", raising=False)

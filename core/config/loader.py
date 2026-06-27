@@ -242,13 +242,19 @@ def get_api_config(provider_name: str = "llm") -> dict[str, Any]:
 
 
 def _api_config_from_active_profile(provider_name: str) -> dict[str, Any]:
-    from core.config.ai_config import get_active_profile
+    from core.config.ai_config import (
+        get_active_dev_entry,
+        get_active_image_entry,
+        image_config_from_entry,
+        llm_config_from_entry,
+    )
 
-    profile = get_active_profile()
-    cfg = profile.llm if provider_name == "llm" else profile.image
-    if provider_name == "llm" and cfg.source != "api":
-        return {}
-    if provider_name != "llm" and cfg.source != "api":
+    if provider_name == "llm":
+        entry = get_active_dev_entry()
+        _adapter, cfg = llm_config_from_entry(entry)
+    else:
+        cfg = image_config_from_entry(get_active_image_entry())
+    if cfg.source != "api":
         return {}
     api_key = str(cfg.api_key or "").strip()
     base_url = str(cfg.base_url or "").strip()
@@ -267,7 +273,7 @@ def _api_config_from_active_profile(provider_name: str) -> dict[str, Any]:
         "default_model": model,
         "provider": provider,
         "reasoning_effort": getattr(cfg, "reasoning_effort", None),
-        "profile_id": profile.id,
+        "profile_id": getattr(entry, "id", "") if provider_name == "llm" else "",
         "source": cfg.source,
         "enabled": getattr(cfg, "enabled", True),
     }
@@ -287,6 +293,24 @@ def get_active_ai_profile():
     from core.config.ai_config import get_active_profile
 
     return get_active_profile()
+
+
+def get_active_dev_entry():
+    from core.config.ai_config import get_active_dev_entry as _get
+
+    return _get()
+
+
+def get_active_image_entry():
+    from core.config.ai_config import get_active_image_entry as _get
+
+    return _get()
+
+
+def get_active_completion_entry():
+    from core.config.ai_config import get_active_completion_entry as _get
+
+    return _get()
 
 
 def get_pipeline_adapter():

@@ -9,6 +9,9 @@ def test_create_default_config_has_four_profiles() -> None:
     config = ai_config.create_default_config()
 
     assert config.active_profile_id == "default"
+    assert config.schema_version == 3
+    assert config.dev.active_entry_id == "default"
+    assert config.completion.active_entry_id == "completion_openai_api"
     assert {profile.id for profile in config.profiles} >= {
         "default",
         "codex_cli",
@@ -20,13 +23,14 @@ def test_create_default_config_has_four_profiles() -> None:
 def test_save_and_load_ai_config(tmp_path) -> None:
     path = tmp_path / "ai_config.json"
     config = ai_config.create_default_config()
-    config.active_profile_id = "codex_cli"
+    config.dev.active_entry_id = "codex_cli"
 
     ai_config.save_ai_config(config, path=path)
     loaded = ai_config.load_ai_config(path=path)
 
     assert loaded.active_profile_id == "codex_cli"
     assert loaded.active_profile.adapter == "codex"
+    assert loaded.dev.active_entry_id == "codex_cli"
 
 
 def test_set_active_profile(tmp_path) -> None:
@@ -64,9 +68,47 @@ def test_profile_serialization_normalizes_legacy_active_key(tmp_path) -> None:
 
     loaded = ai_config.load_ai_config(path=path)
 
-    assert loaded.schema_version == 2
+    assert loaded.schema_version == 3
+    assert loaded.dev.active_entry_id == "legacy"
+    assert loaded.completion.active_entry_id == "completion_legacy"
     assert loaded.active_profile_id == "legacy"
     assert loaded.active_profile.llm.model == "gpt-4o"
+
+
+def test_loading_legacy_file_writes_v3_schema(tmp_path) -> None:
+    path = tmp_path / "ai_config.json"
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": 2,
+                "active_profile_id": "legacy_api",
+                "profiles": [
+                    {
+                        "id": "legacy_api",
+                        "name": "Legacy API",
+                        "adapter": "openai",
+                        "llm": {
+                            "source": "api",
+                            "base_url": "https://relay.example/v1",
+                            "api_key": "sk-legacy",
+                            "model": "gpt-4o",
+                        },
+                        "image": {"enabled": False, "source": "none"},
+                    }
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    loaded = ai_config.load_ai_config(path=path)
+    saved = json.loads(path.read_text(encoding="utf-8"))
+
+    assert loaded.schema_version == 3
+    assert saved["schema_version"] == 3
+    assert saved["dev"]["active_entry_id"] == "legacy_api"
+    assert "profiles" not in saved
 
 
 def test_migration_tool_merges_legacy_api_config(tmp_path, monkeypatch) -> None:
@@ -95,5 +137,22 @@ def test_migration_tool_merges_legacy_api_config(tmp_path, monkeypatch) -> None:
     assert migrate_ai_config.run_migration(target_path=target, backup=False) is True
     migrated = json.loads(target.read_text(encoding="utf-8"))
 
-    assert migrated["active_profile_id"] == "legacy_api"
-    assert migrated["profiles"][0]["llm"]["api_key"] == "sk-legacy"
+    assert migrated["schema_version"] == 3
+    assert migrated["dev"]["active_entry_id"] == "legacy_api"
+    assert migrated["dev"]["entries"][0]["api_key"] == "sk-legacy"
+
+
+def test_v3_active_entries_roundtrip(tmp_path) -> None:
+    path = tmp_path / "ai_config.json"
+    config = ai_config.create_default_config()
+    config.dev.active_entry_id = "codex_cli"
+    config.image.active_entry_id = "codex_cli_image"
+    config.completion.active_entry_id = "completion_codex_cli"
+
+    ai_config.save_ai_config(config, path=path)
+    loaded = ai_config.load_ai_config(path=path)
+
+    assert loaded.dev.active_entry_id == "codex_cli"
+    assert loaded.image.active_entry_id == "codex_cli_image"
+    assert loaded.completion.active_entry_id == "completion_codex_cli"
+    assert ai_config.get_active_image_entry(path=path).config_type == "codex_cli_image"

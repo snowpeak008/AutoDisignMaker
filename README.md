@@ -25,10 +25,10 @@ python gui_app.py
 首次启动后在主窗口底部状态栏点击 `AI` 状态，打开统一 AI 配置：
 
 - `OpenAI API`：填写 `base_url`、`api_key`、模型名。
-- `Codex CLI` / `Claude Code CLI`：填写 CLI 命令路径，确保已安装并登录。
-- 图片生成只看当前 Profile 的图片开关和来源。
+- `Codex CLI` / `Claude Code CLI`：选择本地 CLI 类型，确保已安装并登录。
+- AI 配置按 `开发API` / `生图API` / `补全API` 三类分别启用。
 
-底部状态栏会显示当前 AI Profile、DevFlow 进度和系统运行状态；点击进度可切换到开发流水线并定位到当前未完成步骤。
+底部状态栏会显示当前开发 API、DevFlow 进度和系统运行状态；点击进度可切换到开发流水线并定位到当前未完成步骤。
 
 正式 DevFlow 运行仍需要在“项目配置”中填写项目路径和编辑器路径。
 
@@ -36,7 +36,7 @@ python gui_app.py
 
 - `settings/app.toml`：应用、UI、插件、人工门控等非敏感配置。
 - `settings/ai_config.example.json`：可提交的 AI 配置模板。
-- `settings/ai_config.json`：本地统一 AI 配置，包含 API Key，已忽略，禁止提交。
+- `settings/ai_config.json`：本地统一 AI 配置（v3 三分类），包含 API Key，已忽略，禁止提交。
 - `settings/project_settings.json`：本地项目路径配置，已忽略。
 - `settings/api_config.toml`：旧版 API 配置，仅作为迁移来源保留兼容。
 

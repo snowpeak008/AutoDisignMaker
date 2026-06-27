@@ -8,6 +8,34 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-27
+**ID**: 2026-06-27-003
+**Summary**: Executed `ai_config_ui_redesign`: upgraded AI config to v3 `dev` / `image` / `completion` API categories and redesigned the unified AI config dialog into three tabs.
+
+**Completed**:
+- [x] Added v3 schema primitives in `core/config/ai_config_schema.py` and kept `core/config/ai_config.py` as the load/save/migration facade.
+- [x] Migrated v2 Profile data into `dev`, `image`, and `completion` categories while preserving `get_active_profile()` compatibility.
+- [x] Updated loader, validator, Step02 supplement selection, image-generation enablement, image API helper, migration tool, and config example for v3.
+- [x] Rewrote `AIConfigUnifiedDialog` into `开发API` / `生图API` / `补全API` tabs with active-entry highlight, CLI read-only panels, API fields, custom JSON, and Codex path fields.
+- [x] Updated README, AI config guide, AI_README, and AI config tests.
+
+**Verification**:
+- [x] Targeted AI config tests: 28 passed.
+- [x] `python -B -m pytest -q`: 143 passed.
+- [x] `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+- [x] Targeted `py_compile`: passed.
+- [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
+
+**Follow-up**:
+- [ ] Manually click-test the redesigned AI config dialog: tabs, active highlight, local CLI read-only panel, Codex file fields, custom JSON validation, save/reopen.
+- [ ] Keep `settings/ai_config.json`, old `settings/api_config.toml`, and `settings/ai_profiles.json` local and ignored.
+- [ ] Continue excluding `plan/`, bug documents, and runtime drafts from commits.
+- [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-27
 **ID**: 2026-06-27-002
 **Summary**: Executed `ui_improvement_v1`: moved AI visibility into the main-window bottom status bar, enhanced the unified AI config dialog, audited UI component usage, updated docs, and isolated tests from local ignored AI config.
 
@@ -33,8 +61,6 @@
 - [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-27
 **ID**: 2026-06-27-001

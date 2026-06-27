@@ -1,5 +1,39 @@
 [
   {
+    "id": "2026-06-27-003",
+    "date": "2026-06-27",
+    "summary": "Executed ai_config_ui_redesign: upgraded AI config to v3 dev/image/completion categories and redesigned the unified AI config dialog into three tabs",
+    "changed_files": [
+      "AI_README.md",
+      "README.md",
+      "core/config/ai_config.py",
+      "core/config/ai_config_schema.py",
+      "core/config/loader.py",
+      "core/config/validator.py",
+      "core/engines/generation.py",
+      "core/tests/integration/test_adapter_configuration.py",
+      "core/tests/unit/test_ai_config.py",
+      "core/tests/unit/test_config_loader.py",
+      "core/ui/ai_config_unified_dialog.py",
+      "docs/AI_CONFIG_GUIDE.md",
+      "settings/ai_config.example.json",
+      "tools/asset_production/image_api_config.py",
+      "tools/config/migrate_ai_config.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-27-003.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "core/config/ai_config_schema.py",
+      "knowledge/ai_memory/session_history/2026-06-27-003.md"
+    ],
+    "next_tasks": [
+      "Manually click-test the redesigned AI config dialog in GUI",
+      "Continue excluding plan/, bug documents, runtime drafts, and ignored local AI config files from commits",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-27-002",
     "date": "2026-06-27",
     "summary": "Executed ui_improvement_v1: added bottom AI/progress/system status bar, enhanced unified AI config dialog, audited UI usage, updated docs, and isolated tests from local AI config",

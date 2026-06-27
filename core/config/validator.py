@@ -4,9 +4,20 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import json
 from dataclasses import dataclass, field
 
-from core.config.ai_config import AIConfig, AIProfile, SUPPORTED_ADAPTERS
+from core.config.ai_config import (
+    APIEntry,
+    AIConfig,
+    AIProfile,
+    API_CONFIG_TYPES,
+    CODEX_FILE_CONFIG_TYPES,
+    CUSTOM_CONFIG_TYPES,
+    LOCAL_CLI_TYPES,
+    SUPPORTED_ADAPTERS,
+    TYPE_LABELS,
+)
 from core.utils.process_utils import child_process_env, hidden_subprocess_kwargs
 
 
@@ -26,6 +37,34 @@ class ValidationResult:
 
 class AIConfigValidator:
     """Validate AI profiles without making network calls."""
+
+    def validate_entry(self, entry: APIEntry, *, check_cli: bool = False) -> ValidationResult:
+        result = ValidationResult()
+        label = entry.label or TYPE_LABELS.get(entry.config_type, entry.id)
+        if entry.config_type in LOCAL_CLI_TYPES:
+            cli_path = "claude" if "claude" in entry.config_type else "codex"
+            if check_cli:
+                available, info = self.check_cli_availability(cli_path)
+                if not available:
+                    result.errors.append(f"{label}: CLI '{cli_path}' is unavailable: {info}")
+                else:
+                    result.warnings.append(f"CLI '{cli_path}' available: {info}")
+        elif entry.config_type in API_CONFIG_TYPES:
+            if not entry.api_url:
+                result.errors.append(f"{label}: missing api_url")
+            if not entry.api_key:
+                result.errors.append(f"{label}: missing api_key")
+        if entry.config_type in CUSTOM_CONFIG_TYPES and entry.extra_json.strip():
+            try:
+                data = json.loads(entry.extra_json)
+            except json.JSONDecodeError as exc:
+                result.errors.append(f"{label}: invalid extra_json ({exc.msg})")
+            else:
+                if not isinstance(data, dict):
+                    result.errors.append(f"{label}: extra_json must be a JSON object")
+        if entry.config_type in CODEX_FILE_CONFIG_TYPES:
+            pass
+        return result
 
     def validate_profile(self, profile: AIProfile, *, check_cli: bool = False) -> ValidationResult:
         result = ValidationResult()
@@ -74,18 +113,17 @@ class AIConfigValidator:
 
     def validate_config(self, config: AIConfig, *, check_cli: bool = False) -> ValidationResult:
         result = ValidationResult()
-        if config.schema_version != 2:
+        if config.schema_version != 3:
             result.errors.append(f"Unsupported AI config schema_version: {config.schema_version}")
-        if not config.profiles:
-            result.errors.append("AI config has no profiles")
-            return result
-        profile_ids = [profile.id for profile in config.profiles]
-        if len(profile_ids) != len(set(profile_ids)):
-            result.errors.append("AI config profile IDs must be unique")
-        if config.active_profile_id not in set(profile_ids):
-            result.errors.append(f"Active AI profile does not exist: {config.active_profile_id}")
-        for profile in config.profiles:
-            result.extend(self.validate_profile(profile, check_cli=check_cli))
+        for category in (config.dev, config.image, config.completion):
+            entry_ids = [entry.id for entry in category.entries]
+            if len(entry_ids) != len(set(entry_ids)):
+                result.errors.append(f"{category.category_id}: entry IDs must be unique")
+            if category.active_entry_id and category.active_entry_id not in set(entry_ids):
+                result.errors.append(f"{category.category_id}: active entry does not exist")
+            for entry in category.entries:
+                if entry.id == category.active_entry_id:
+                    result.extend(self.validate_entry(entry, check_cli=check_cli))
         return result
 
     def check_cli_availability(self, cli_path: str) -> tuple[bool, str]:
