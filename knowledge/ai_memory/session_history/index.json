@@ -1,5 +1,31 @@
 [
   {
+    "id": "2026-06-28-001",
+    "date": "2026-06-28",
+    "summary": "Executed pending_tasks_20260628: fixed Codex CLI subprocess/image handling, added orphan draft and snapshot cleanup, cleaned drafts, and verified real Step07 image generation",
+    "changed_files": [
+      "core/adapters/codex/executor.py",
+      "core/save/manager.py",
+      "core/tests/unit/test_codex_image_tool.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/tests/unit/test_model_adapters.py",
+      "core/ui/gui_app.py",
+      "tools/asset_production/codex_image_tool.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-001.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "sandbox/codex_cli_image_e2e_20260628/ig_069bb28281db1b16016a3ffec35894819180bf64e1aa4edb70.png",
+      "drafts/codex_template_2d_redesign_fixes_validation/outputs/artifacts/stage_07/generated_images/"
+    ],
+    "next_tasks": [
+      "User should visually review the generated Step07 images",
+      "Future sandboxed Codex CLI image runs need an authenticated CODEX_HOME or outside-sandbox execution",
+      "Continue excluding plan/, runtime drafts, sandbox/, ignored local AI config files, and sunny_girl_image2.png from commits"
+    ]
+  },
+  {
     "id": "2026-06-27-004",
     "date": "2026-06-27",
     "summary": "Fixed ai_config_ui_redesign BUGS.md issues: first-open UI data loss, label preservation, compatibility image aliasing, and save input mutation",

@@ -1,11 +1,43 @@
 # AI 会话记忆索引
 
-> 最后更新：2026-06-27
+> 最后更新：2026-06-28
 > 缓存状态：✓ 有效
 
 ---
 
 ## 上次会话摘要
+
+**Date**: 2026-06-28
+**ID**: 2026-06-28-001
+**Summary**: Executed `pending_tasks_20260628`: committed Codex CLI subprocess/image fixes, added orphan draft and snapshot pruning, cleaned old drafts, and verified real Codex CLI image generation through Step07.
+
+**Completed**:
+- [x] Removed the obsolete `-` stdin argument from Codex CLI subprocess calls and passed `stdin=None` so `input=` can pipe prompts without conflicting with `DEVNULL`.
+- [x] Added UTF-8 replacement decoding for Codex subprocess output on Windows.
+- [x] Updated `CodexCLIImageGenerator` to recursively find PNGs under `CODEX_HOME/generated_images/**`, matching current `image_gen` output.
+- [x] Treated drafts linked to missing save directories as pruneable orphan drafts.
+- [x] Added `prune_draft_snapshots()` and GUI startup cleanup for pruneable draft snapshots only.
+- [x] Ran one-time cleanup: 34 pruneable drafts deleted; `drafts/` reduced to 16 dirs / about 551.51 MB.
+- [x] Verified real Codex CLI image generation with a rigorous Lumen Archive prompt and Step07 end-to-end run.
+- [x] Created commits `f1eb62f` and `7090277`.
+
+**Verification**:
+- [x] Targeted Codex image/model/draft tests: 18 passed.
+- [x] `python -B -m pytest -q`: 154 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+- [x] `codex.cmd --version`: `codex-cli 0.142.3`.
+- [x] Step07 manifest in `drafts/codex_template_2d_redesign_fixes_validation` shows 5 generated images with status `success`.
+
+**Follow-up**:
+- [ ] User should visually review generated images under `drafts/codex_template_2d_redesign_fixes_validation/outputs/artifacts/stage_07/generated_images/`.
+- [ ] Future sandboxed Codex CLI image runs need an authenticated `CODEX_HOME` or outside-sandbox execution; `C:\Users\CodexSandboxOffline\.codex` has no credentials.
+- [ ] Continue excluding `plan/`, runtime drafts, local AI config files, and `sunny_girl_image2.png` from commits unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
 
 **Date**: 2026-06-27
 **ID**: 2026-06-27-005
@@ -28,13 +60,10 @@
 
 **Follow-up**:
 - [ ] Manually click-test GUI Step07/08 embedded style grid: confirm, regenerate, layout, and log area.
-- [ ] Real Codex CLI image generation still needs an end-to-end Step07 run against the user's subscribed local CLI environment.
 - [ ] Continue excluding `plan/`, runtime drafts, local AI config files, and `sunny_girl_image2.png` from commits unless explicitly requested.
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-27
 **ID**: 2026-06-27-004

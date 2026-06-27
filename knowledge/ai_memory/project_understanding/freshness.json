@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T23:32:02",
+  "generated_at": "2026-06-28T01:10:13",
   "files": {
     "core/main.py": {
       "sha256": "75993071d1b22f6968b4ca69f162a9ca8284d5b4289901039b169638b499910b",
@@ -98,8 +98,8 @@
       "size": 2414
     },
     "core/save/manager.py": {
-      "sha256": "5ba382e2839e61f5b234f1db50e1494f984062e568609c3084e5ff337824c389",
-      "size": 42891
+      "sha256": "f4cc49c3124ed9df1c818e7af134e5a798854567d418feb226174dd450885ec9",
+      "size": 44831
     },
     "core/design/engine.py": {
       "sha256": "df236f80e8190bde8416227e0aacd160715381f3db84bf9c7351768b7f0c17f2",
@@ -114,8 +114,8 @@
       "size": 18442
     },
     "core/ui/gui_app.py": {
-      "sha256": "06bed15f261de209da534b8d18a1dd8267e0dc18045faf6afced1e2552f4168c",
-      "size": 1148
+      "sha256": "80501dbc91d7e3a79ff622723e0f5180d51322b17a86c431159a9b70b076ca85",
+      "size": 1229
     },
     "core/ui/app_window.py": {
       "sha256": "5539d761d75c5330e1b2ee410cce55e7e36d01e9eef2128e4701069199c7f95d",
