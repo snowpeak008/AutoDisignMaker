@@ -8,6 +8,34 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-27
+**ID**: 2026-06-27-004
+**Summary**: Completed `ai_config_ui_redesign/BUGS.md` follow-up fixes for initialization data loss, label preservation, compatibility image aliasing, and save-side effects.
+
+**Completed**:
+- [x] Fixed `AIConfigUnifiedDialog._switch_tab()` so first render does not write empty UI fields into the first dev entry.
+- [x] Preserved migrated/custom labels when changing config type, while still updating default labels.
+- [x] Removed unused imports from the redesigned AI config dialog.
+- [x] Gave each compatibility `AIProfile` an independent `ImageConfig` copy.
+- [x] Removed `save_ai_config()` mutation of the caller's `AIConfig.active_profile_id`.
+- [x] Added regression tests for independent image configs, save non-mutation, v2 auto-writeback, and label preservation.
+
+**Verification**:
+- [x] Targeted AI config tests: 32 passed.
+- [x] `python -B -m pytest -q`: 147 passed.
+- [x] `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+- [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
+
+**Follow-up**:
+- [ ] Manually click-test the redesigned AI config dialog: first-open migration preservation, tabs, active highlight, Codex file fields, custom JSON validation, save/reopen.
+- [ ] Keep `settings/ai_config.json`, old `settings/api_config.toml`, and `settings/ai_profiles.json` local and ignored.
+- [ ] Continue excluding `plan/`, bug documents, and runtime drafts from commits.
+- [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-27
 **ID**: 2026-06-27-003
 **Summary**: Executed `ai_config_ui_redesign`: upgraded AI config to v3 `dev` / `image` / `completion` API categories and redesigned the unified AI config dialog into three tabs.
 
@@ -19,8 +47,8 @@
 - [x] Updated README, AI config guide, AI_README, and AI config tests.
 
 **Verification**:
-- [x] Targeted AI config tests: 28 passed.
-- [x] `python -B -m pytest -q`: 143 passed.
+- [x] Targeted AI config tests: 29 passed.
+- [x] `python -B -m pytest -q`: 144 passed.
 - [x] `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
 - [x] Targeted `py_compile`: passed.
 - [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
@@ -32,8 +60,6 @@
 - [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-27
 **ID**: 2026-06-27-002

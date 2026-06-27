@@ -253,7 +253,6 @@ def save_ai_config(config: AIConfig | dict[str, Any], *, path: Path | None = Non
     target = _config_path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     normalized = config if isinstance(config, AIConfig) else _normalize_config(config)
-    normalized.active_profile_id = normalized.dev.active_entry_id
     target.write_text(json.dumps(config_to_dict(normalized), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return target
 

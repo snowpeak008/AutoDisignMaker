@@ -13,13 +13,11 @@ from core.config.ai_config import (
     CATEGORY_DEV,
     CATEGORY_IMAGE,
     CODEX_FILE_CONFIG_TYPES,
-    CONFIG_TYPE_CODEX_CLI_IMAGE,
     CUSTOM_CONFIG_TYPES,
     LOCAL_CLI_TYPES,
     TYPE_LABELS,
     default_entries,
     load_ai_config,
-    mask_secret,
     new_entry,
     save_ai_config,
 )
@@ -80,9 +78,11 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         self._codex_toml_var = tk.StringVar()
         self._codex_json_var = tk.StringVar()
         self._status_var = tk.StringVar(value="就绪")
+        self._initialized = False
 
         self._build()
         self._switch_tab(CATEGORY_DEV)
+        self._initialized = True
         self.update_idletasks()
         center_window(self, 820, 650)
         self.deiconify()
@@ -134,7 +134,8 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         return entries[self._selected_index] if 0 <= self._selected_index < len(entries) else None
 
     def _switch_tab(self, tab_id: str) -> None:
-        self._save_fields_to_entry()
+        if self._initialized:
+            self._save_fields_to_entry()
         self._current_tab = tab_id
         for item, button in self._tab_buttons.items():
             selected = item == tab_id
@@ -209,11 +210,16 @@ class AIConfigUnifiedDialog(tk.Toplevel):
                 return config_type
         return TYPE_OPTIONS[self._current_tab][0][1]
 
+    def _set_entry_type(self, entry: APIEntry, config_type: str) -> None:
+        old_default_label = TYPE_LABELS.get(entry.config_type, "")
+        entry.config_type = config_type
+        if not entry.label or entry.label == old_default_label:
+            entry.label = TYPE_LABELS.get(config_type, entry.label)
+
     def _on_type_select(self) -> None:
         entry = self._current_entry()
         if entry is not None:
-            entry.config_type = self._selected_type()
-            entry.label = TYPE_LABELS.get(entry.config_type, entry.label)
+            self._set_entry_type(entry, self._selected_type())
         self._render_condition_fields()
 
     def _render_condition_fields(self) -> None:
@@ -270,8 +276,7 @@ class AIConfigUnifiedDialog(tk.Toplevel):
                 if not isinstance(data, dict):
                     messagebox.showerror("JSON 格式错误", "高级 JSON 配置必须是 JSON 对象。", parent=self)
                     return False
-        entry.config_type = config_type
-        entry.label = TYPE_LABELS.get(config_type, entry.label)
+        self._set_entry_type(entry, config_type)
         entry.api_url = self._api_url_var.get().strip()
         entry.api_key = self._api_key_var.get().strip()
         entry.extra_json = extra_json

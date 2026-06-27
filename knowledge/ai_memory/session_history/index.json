@@ -1,5 +1,27 @@
 [
   {
+    "id": "2026-06-27-004",
+    "date": "2026-06-27",
+    "summary": "Fixed ai_config_ui_redesign BUGS.md issues: first-open UI data loss, label preservation, compatibility image aliasing, and save input mutation",
+    "changed_files": [
+      "core/config/ai_config.py",
+      "core/config/ai_config_schema.py",
+      "core/tests/unit/test_ai_config.py",
+      "core/ui/ai_config_unified_dialog.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-27-004.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-27-004.md"
+    ],
+    "next_tasks": [
+      "Manually click-test the redesigned AI config dialog in GUI",
+      "Continue excluding plan/, bug documents, runtime drafts, and ignored local AI config files from commits",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-27-003",
     "date": "2026-06-27",
     "summary": "Executed ai_config_ui_redesign: upgraded AI config to v3 dev/image/completion categories and redesigned the unified AI config dialog into three tabs",

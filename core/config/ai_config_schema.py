@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from typing import Any
 
 
@@ -301,5 +301,5 @@ def compat_profiles_from_entries(config: AIConfig) -> list[AIProfile]:
     profiles: list[AIProfile] = []
     for entry in config.dev.entries:
         adapter, llm = llm_config_from_entry(entry)
-        profiles.append(AIProfile(entry.id, entry.label or TYPE_LABELS.get(entry.config_type, entry.id), adapter, llm, image_cfg))
+        profiles.append(AIProfile(entry.id, entry.label or TYPE_LABELS.get(entry.config_type, entry.id), adapter, llm, replace(image_cfg)))
     return profiles

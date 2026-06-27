@@ -33,6 +33,18 @@ def test_save_and_load_ai_config(tmp_path) -> None:
     assert loaded.dev.active_entry_id == "codex_cli"
 
 
+def test_save_ai_config_does_not_mutate_input_active_profile(tmp_path) -> None:
+    path = tmp_path / "ai_config.json"
+    config = ai_config.create_default_config()
+    config.dev.active_entry_id = "codex_cli"
+
+    ai_config.save_ai_config(config, path=path)
+    loaded = ai_config.load_ai_config(path=path)
+
+    assert config.active_profile_id == "default"
+    assert loaded.active_profile_id == "codex_cli"
+
+
 def test_set_active_profile(tmp_path) -> None:
     path = tmp_path / "ai_config.json"
     ai_config.ensure_ai_config_file(path=path)
@@ -109,6 +121,29 @@ def test_loading_legacy_file_writes_v3_schema(tmp_path) -> None:
     assert saved["schema_version"] == 3
     assert saved["dev"]["active_entry_id"] == "legacy_api"
     assert "profiles" not in saved
+
+
+def test_compat_profiles_have_independent_image_configs() -> None:
+    config = ai_config.create_default_config()
+    config.image.active_entry_id = "codex_cli_image"
+    config = ai_config.AIConfig(dev=config.dev, image=config.image, completion=config.completion)
+
+    assert config.profiles[0].image is not config.profiles[1].image
+    assert config.profiles[1].image.enabled is True
+    config.profiles[0].image.enabled = False
+    assert config.profiles[1].image.enabled is True
+
+
+def test_dialog_type_assignment_preserves_custom_label() -> None:
+    from core.ui.ai_config_unified_dialog import AIConfigUnifiedDialog
+
+    custom = ai_config.APIEntry("prod", "生产环境 OpenAI", "openai_dev_api")
+    AIConfigUnifiedDialog._set_entry_type(None, custom, "custom_dev_api")  # type: ignore[arg-type]
+    assert custom.label == "生产环境 OpenAI"
+
+    default = ai_config.APIEntry("api", "OpenAI 兼容 API", "openai_dev_api")
+    AIConfigUnifiedDialog._set_entry_type(None, default, "local_codex_cli")  # type: ignore[arg-type]
+    assert default.label == "本地 Codex CLI"
 
 
 def test_migration_tool_merges_legacy_api_config(tmp_path, monkeypatch) -> None:
