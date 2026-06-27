@@ -43,13 +43,14 @@ def run_codex_exec(task: ModelTask, cwd: Path, *, cli_path: str = "codex") -> Mo
             "--sandbox",
             task.sandbox,
             "--skip-git-repo-check",
-            "-",
         ],
         input=prompt,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         timeout=task.timeout_seconds,
-        **hidden_subprocess_kwargs(env=child_process_env()),
+        **hidden_subprocess_kwargs(stdin=None, env=child_process_env()),
     )
     if result.returncode != 0:
         return ModelResult(

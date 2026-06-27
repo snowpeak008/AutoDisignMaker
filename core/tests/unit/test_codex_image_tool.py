@@ -18,8 +18,9 @@ def test_codex_cli_image_generator_copies_new_png(tmp_path, monkeypatch) -> None
         captured["args"] = args
         captured["input"] = input
         captured["kwargs"] = kwargs
-        generated_dir.mkdir(parents=True, exist_ok=True)
-        (generated_dir / "style.png").write_bytes(b"\x89PNG\r\n\x1a\nfake")
+        session_dir = generated_dir / "019f09f7-test"
+        session_dir.mkdir(parents=True, exist_ok=True)
+        (session_dir / "style.png").write_bytes(b"\x89PNG\r\n\x1a\nfake")
         return SimpleNamespace(returncode=0, stdout="done", stderr="")
 
     monkeypatch.setenv("CODEX_HOME", str(codex_home))
@@ -36,4 +37,8 @@ def test_codex_cli_image_generator_copies_new_png(tmp_path, monkeypatch) -> None
     assert result == f"saved: {copied}"
     assert captured["args"][0] == "C:/bin/codex.cmd"
     assert captured["args"][1] == "exec"
+    assert captured["args"][-1] != "-"
+    assert captured["kwargs"]["stdin"] is None
+    assert captured["kwargs"]["encoding"] == "utf-8"
+    assert captured["kwargs"]["errors"] == "replace"
     assert "image_gen tool" in str(captured["input"])

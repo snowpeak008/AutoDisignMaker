@@ -31,14 +31,14 @@ def _codex_command() -> str:
 def _snapshot_pngs(directory: Path) -> dict[Path, int]:
     return {
         path: path.stat().st_mtime_ns
-        for path in directory.glob("*.png")
+        for path in directory.rglob("*.png")
         if path.is_file()
     }
 
 
 def _new_or_updated_pngs(directory: Path, before: dict[Path, int]) -> list[Path]:
     candidates = []
-    for path in directory.glob("*.png"):
+    for path in directory.rglob("*.png"):
         if not path.is_file():
             continue
         previous = before.get(path)
@@ -85,13 +85,14 @@ class CodexCLIImageGenerator(BaseTool):
                 "--sandbox",
                 "workspace-write",
                 "--skip-git-repo-check",
-                "-",
             ],
             input=task_prompt,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout,
-            **hidden_subprocess_kwargs(env=child_process_env()),
+            **hidden_subprocess_kwargs(stdin=None, env=child_process_env()),
         )
         if result.returncode != 0:
             message = (result.stderr or result.stdout or "").strip()

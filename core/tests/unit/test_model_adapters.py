@@ -26,6 +26,9 @@ def test_codex_exec_defaults_to_workspace_write_sandbox(tmp_path, monkeypatch) -
 
     def fake_run(args, **kwargs):
         captured["args"] = args
+        captured["stdin"] = kwargs["stdin"]
+        captured["encoding"] = kwargs["encoding"]
+        captured["errors"] = kwargs["errors"]
         captured["timeout"] = kwargs["timeout"]
         return SimpleNamespace(returncode=0, stdout='{"ok": true}', stderr="")
 
@@ -41,6 +44,10 @@ def test_codex_exec_defaults_to_workspace_write_sandbox(tmp_path, monkeypatch) -
     assert result.status == "success"
     assert isinstance(args, list)
     assert args[args.index("--sandbox") + 1] == "workspace-write"
+    assert args[-1] != "-"
+    assert captured["stdin"] is None
+    assert captured["encoding"] == "utf-8"
+    assert captured["errors"] == "replace"
     assert captured["timeout"] == 12
 
 
@@ -49,6 +56,9 @@ def test_codex_exec_uses_task_sandbox(tmp_path, monkeypatch) -> None:
 
     def fake_run(args, **kwargs):
         captured["args"] = args
+        captured["stdin"] = kwargs["stdin"]
+        captured["encoding"] = kwargs["encoding"]
+        captured["errors"] = kwargs["errors"]
         return SimpleNamespace(returncode=0, stdout='{"ok": true}', stderr="")
 
     monkeypatch.setattr("core.adapters.codex.executor._codex_command", lambda: "codex")
@@ -63,6 +73,10 @@ def test_codex_exec_uses_task_sandbox(tmp_path, monkeypatch) -> None:
     assert result.status == "success"
     assert isinstance(args, list)
     assert args[args.index("--sandbox") + 1] == "read-only"
+    assert args[-1] != "-"
+    assert captured["stdin"] is None
+    assert captured["encoding"] == "utf-8"
+    assert captured["errors"] == "replace"
 
 
 def test_step02_supplement_uses_stdout_only_codex_sandbox(tmp_path) -> None:
