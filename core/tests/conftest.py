@@ -4,6 +4,14 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
+def isolate_local_ai_config(tmp_path, monkeypatch) -> None:
+    """Keep unit tests independent from the user's ignored AI profile file."""
+    from core.config import ai_config
+
+    monkeypatch.setattr(ai_config, "AI_CONFIG_PATH", tmp_path / "ai_config.json")
+
+
+@pytest.fixture(autouse=True)
 def clear_step01_template_cache() -> None:
     """Clear Step 01 genre template cache around every test."""
     from pipeline.step_01_gameplay_framework.helpers import _clear_template_cache

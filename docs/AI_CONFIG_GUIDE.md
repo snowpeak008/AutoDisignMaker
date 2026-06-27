@@ -6,6 +6,14 @@ AutoDesignMaker 使用 `settings/ai_config.json` 管理所有 AI 相关配置。
 
 `settings/ai_config.json` 是本地敏感配置，已被 `.gitignore` 忽略。可提交模板为 `settings/ai_config.example.json`。
 
+## 主窗口入口
+
+主窗口底部状态栏显示当前激活的 AI Profile 和适配器。绿色表示字段验证通过，红色表示配置缺失或异常。点击该状态可打开统一 AI 配置弹窗。
+
+弹窗左侧 Profile 列表会高亮当前激活项；右侧详情区会实时显示字段验证结果。切换 Codex CLI 或 Claude Code CLI Profile 时，CLI 可用性检测在后台执行，不阻塞界面。
+
+`应用` 会保存配置但保留弹窗，`保存` 会保存后关闭弹窗。保存成功后主窗口状态栏会立即刷新。
+
 ## Profile 字段
 
 - `adapter`：`openai`、`codex`、`claude`、`local` 或 `none`

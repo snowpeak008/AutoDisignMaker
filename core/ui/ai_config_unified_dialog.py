@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 import tkinter as tk
 from tkinter import messagebox, ttk
 from typing import Callable
@@ -42,10 +43,14 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         self.configure(bg=COLORS["bg"])
         self.resizable(False, False)
         self.grab_set()
+        self.protocol("WM_DELETE_WINDOW", self._close)
         self._on_saved = on_saved
         self._config = load_ai_config()
         self._selected_index = 0
         self._validator = AIConfigValidator()
+        self._validation_after_id: str | None = None
+        self._validation_request_id = 0
+        self._suspend_validation = False
 
         self._name_var = tk.StringVar()
         self._adapter_var = tk.StringVar(value="openai")
@@ -60,6 +65,8 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         self._image_cli_path_var = tk.StringVar()
         self._image_model_var = tk.StringVar()
         self._status_var = tk.StringVar()
+        self._validation_status_var = tk.StringVar(value="验证: 等待加载")
+        self._install_validation_traces()
 
         self._build()
         self._reload_profiles()
@@ -67,6 +74,16 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         self.update_idletasks()
         center_window(self, 820, 650)
         self.deiconify()
+
+    def _install_validation_traces(self) -> None:
+        variables = (
+            self._name_var, self._adapter_var, self._llm_base_url_var, self._llm_api_key_var,
+            self._llm_cli_path_var, self._llm_model_var, self._image_enabled_var,
+            self._image_source_var, self._image_base_url_var, self._image_api_key_var,
+            self._image_cli_path_var, self._image_model_var,
+        )
+        for variable in variables:
+            variable.trace_add("write", lambda *_: self._queue_form_validation())
 
     def _build(self) -> None:
         root = tk.Frame(self, bg=COLORS["bg"], padx=16, pady=14)
@@ -100,6 +117,11 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         )
         adapter_box.pack(fill=tk.X, pady=(2, 10))
         adapter_box.bind("<<ComboboxSelected>>", lambda _event: self._on_adapter_change())
+        self._validation_label = tk.Label(
+            editor, textvariable=self._validation_status_var, bg=COLORS["success_soft"],
+            fg=COLORS["success"], font=FONT_SMALL, anchor=tk.W, padx=8, pady=5,
+        )
+        self._validation_label.pack(fill=tk.X, pady=(0, 10))
 
         self._api_frame = tk.LabelFrame(editor, text="API LLM", bg=COLORS["surface"], fg=COLORS["text"], font=FONT_BODY, padx=8, pady=8)
         self._api_frame.pack(fill=tk.X, pady=(0, 8))
@@ -126,16 +148,26 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         footer = tk.Frame(root, bg=COLORS["bg"])
         footer.pack(fill=tk.X, pady=(12, 0))
         tk.Label(footer, textvariable=self._status_var, bg=COLORS["bg"], fg=COLORS["muted"], font=FONT_SMALL, anchor=tk.W).pack(side=tk.LEFT, fill=tk.X, expand=True)
-        ttk.Button(footer, text="测试连接", command=self._test_current).pack(side=tk.RIGHT)
-        ttk.Button(footer, text="保存", command=self._save_and_close).pack(side=tk.RIGHT, padx=(0, 8))
+        ttk.Button(footer, text="取消", command=self._close).pack(side=tk.RIGHT)
+        ttk.Button(footer, text="保存", command=lambda: self._apply_changes(close=True)).pack(side=tk.RIGHT, padx=(0, 8))
+        ttk.Button(footer, text="应用", command=lambda: self._apply_changes(close=False)).pack(side=tk.RIGHT, padx=(0, 8))
         ttk.Button(footer, text="激活", command=self._activate_selected).pack(side=tk.RIGHT, padx=(0, 8))
-        ttk.Button(footer, text="取消", command=self.destroy).pack(side=tk.RIGHT, padx=(0, 8))
+        ttk.Button(footer, text="测试连接", command=self._test_current).pack(side=tk.RIGHT, padx=(0, 8))
 
     def _reload_profiles(self) -> None:
         self._listbox.delete(0, tk.END)
-        for profile in self._config.profiles:
-            mark = "● " if profile.id == self._config.active_profile_id else "  "
+        for index, profile in enumerate(self._config.profiles):
+            active = profile.id == self._config.active_profile_id
+            mark = "● " if active else "  "
             self._listbox.insert(tk.END, f"{mark}{profile.name} ({profile.adapter})")
+            if active:
+                try:
+                    self._listbox.itemconfig(
+                        index, background=COLORS["primary_soft"], foreground=COLORS["primary"],
+                        selectbackground=COLORS["primary"], selectforeground="#FFFFFF",
+                    )
+                except tk.TclError:
+                    pass
 
     def _select_active(self) -> None:
         active = self._config.active_profile
@@ -153,20 +185,24 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         self._load_profile(self._config.profiles[self._selected_index])
 
     def _load_profile(self, profile: AIProfile) -> None:
-        self._name_var.set(profile.name)
-        self._adapter_var.set(profile.adapter)
-        self._llm_base_url_var.set(profile.llm.base_url)
-        self._llm_api_key_var.set(profile.llm.api_key)
-        self._llm_cli_path_var.set(profile.llm.cli_path or profile.adapter)
-        self._llm_model_var.set(profile.llm.model)
-        self._image_enabled_var.set(profile.image.enabled)
-        self._image_source_var.set(profile.image.source)
-        self._image_base_url_var.set(profile.image.base_url)
-        self._image_api_key_var.set(profile.image.api_key)
-        self._image_cli_path_var.set(profile.image.cli_path or "codex")
-        self._image_model_var.set(profile.image.model)
+        self._suspend_validation = True
+        try:
+            self._name_var.set(profile.name)
+            self._adapter_var.set(profile.adapter)
+            self._llm_base_url_var.set(profile.llm.base_url)
+            self._llm_api_key_var.set(profile.llm.api_key)
+            self._llm_cli_path_var.set(profile.llm.cli_path or profile.adapter)
+            self._llm_model_var.set(profile.llm.model)
+            self._image_enabled_var.set(profile.image.enabled)
+            self._image_source_var.set(profile.image.source)
+            self._image_base_url_var.set(profile.image.base_url)
+            self._image_api_key_var.set(profile.image.api_key)
+            self._image_cli_path_var.set(profile.image.cli_path or "codex")
+            self._image_model_var.set(profile.image.model)
+        finally:
+            self._suspend_validation = False
         self._refresh_visibility()
-        self._show_validation(profile, check_cli=False)
+        self._schedule_validation(check_cli=True)
 
     def _save_fields_to_profile(self) -> AIProfile:
         profile = self._config.profiles[self._selected_index]
@@ -207,6 +243,7 @@ class AIConfigUnifiedDialog(tk.Toplevel):
             self._image_enabled_var.set(False)
             self._image_source_var.set("none")
         self._refresh_visibility()
+        self._schedule_validation(check_cli=True)
 
     def _refresh_visibility(self) -> None:
         adapter = self._adapter_var.get()
@@ -222,37 +259,119 @@ class AIConfigUnifiedDialog(tk.Toplevel):
         current_key = mask_secret(self._llm_api_key_var.get()) or "未填写"
         self._status_var.set(f"当前 Profile: {self._name_var.get() or '未命名'} / Key {current_key}")
 
-    def _show_validation(self, profile: AIProfile, *, check_cli: bool) -> None:
+    def _queue_form_validation(self) -> None:
+        if self._suspend_validation:
+            return
+        self._refresh_visibility()
+        self._schedule_validation(check_cli=False)
+
+    def _schedule_validation(self, *, check_cli: bool) -> None:
+        if self._validation_after_id:
+            try:
+                self.after_cancel(self._validation_after_id)
+            except tk.TclError:
+                pass
+        delay = 120 if check_cli else 250
+        self._validation_after_id = self.after(
+            delay,
+            lambda: self._run_validation(self._save_fields_to_profile(), check_cli=check_cli),
+        )
+
+    def _run_validation(self, profile: AIProfile, *, check_cli: bool, show_message: bool = False) -> None:
+        self._validation_after_id = None
+        self._validation_request_id += 1
+        request_id = self._validation_request_id
+        needs_thread = check_cli and profile.adapter in {"codex", "claude"}
+        if needs_thread:
+            self._validation_status_var.set("验证: 正在检测 CLI 可用性...")
+            self._validation_label.configure(bg=COLORS["warning_soft"], fg=COLORS["warning"])
+
+            def _worker() -> None:
+                result = self._validator.validate_profile(profile, check_cli=True)
+                try:
+                    self.after(0, lambda: self._apply_validation_result(request_id, profile, result, show_message))
+                except tk.TclError:
+                    pass
+
+            threading.Thread(target=_worker, daemon=True).start()
+            return
+
         result = self._validator.validate_profile(profile, check_cli=check_cli)
+        self._apply_validation_result(request_id, profile, result, show_message)
+
+    def _apply_validation_result(self, request_id, profile: AIProfile, result, show_message: bool) -> None:
+        if request_id != self._validation_request_id:
+            return
         if result.errors:
-            self._status_var.set("✗ " + "；".join(result.errors[:2]))
+            self._validation_status_var.set("✗ " + "；".join(result.errors[:2]))
+            self._validation_label.configure(bg=COLORS["danger_soft"], fg=COLORS["danger"])
         elif result.warnings:
-            self._status_var.set("⚠ " + "；".join(result.warnings[:2]))
+            cli_available = all(" available:" in item for item in result.warnings)
+            prefix = "✓ " if cli_available else "⚠ "
+            self._validation_status_var.set(prefix + "；".join(result.warnings[:2]))
+            colors = (COLORS["success_soft"], COLORS["success"]) if cli_available else (
+                COLORS["warning_soft"], COLORS["warning"]
+            )
+            self._validation_label.configure(bg=colors[0], fg=colors[1])
         else:
-            self._status_var.set(f"✓ 配置可用：{profile.name} ({profile.adapter})")
+            self._validation_status_var.set(f"✓ 配置可用：{profile.name} ({profile.adapter})")
+            self._validation_label.configure(bg=COLORS["success_soft"], fg=COLORS["success"])
+        if show_message:
+            if result.is_valid:
+                messagebox.showinfo("测试完成", "当前配置验证通过。", parent=self)
+            else:
+                messagebox.showwarning("测试未通过", "；".join(result.errors[:3]), parent=self)
 
     def _test_current(self) -> None:
         profile = self._save_fields_to_profile()
-        self._show_validation(profile, check_cli=True)
-        if self._validator.validate_profile(profile, check_cli=True).is_valid:
-            messagebox.showinfo("测试完成", "当前配置验证通过。", parent=self)
+        self._run_validation(profile, check_cli=True, show_message=True)
 
     def _activate_selected(self) -> None:
         profile = self._save_fields_to_profile()
         self._config.active_profile_id = profile.id
         self._reload_profiles()
+        self._listbox.selection_clear(0, tk.END)
         self._listbox.selection_set(self._selected_index)
-        self._show_validation(profile, check_cli=False)
+        self._schedule_validation(check_cli=False)
+        self._show_toast("已激活，保存后生效")
 
-    def _save_and_close(self) -> None:
+    def _apply_changes(self, *, close: bool) -> None:
         try:
             self._save_fields_to_profile()
             save_ai_config(self._config)
             if self._on_saved:
                 self._on_saved()
-            self.destroy()
+            self._reload_profiles()
+            self._listbox.selection_clear(0, tk.END)
+            self._listbox.selection_set(self._selected_index)
+            self._show_toast("配置已保存")
+            self._schedule_validation(check_cli=True)
+            if close:
+                self.after(450, self._close)
         except Exception as exc:
             messagebox.showerror("保存失败", str(exc), parent=self)
+
+    def _close(self) -> None:
+        self._validation_request_id += 1
+        if self._validation_after_id:
+            try:
+                self.after_cancel(self._validation_after_id)
+            except tk.TclError:
+                pass
+            self._validation_after_id = None
+        self.destroy()
+
+    def _show_toast(self, text: str) -> None:
+        toast = tk.Toplevel(self)
+        toast.overrideredirect(True)
+        toast.configure(bg=COLORS["success"])
+        toast.transient(self)
+        tk.Label(toast, text=text, bg=COLORS["success"], fg="#FFFFFF", font=FONT_SMALL, padx=14, pady=8).pack()
+        self.update_idletasks()
+        x = self.winfo_rootx() + self.winfo_width() - 180
+        y = self.winfo_rooty() + 52
+        toast.geometry(f"+{x}+{y}")
+        toast.after(900, toast.destroy)
 
     def _add_profile(self) -> None:
         config = create_default_config()
@@ -264,11 +383,8 @@ class AIConfigUnifiedDialog(tk.Toplevel):
             index += 1
             profile_id = f"custom_{index}"
         profile = AIProfile(
-            id=profile_id,
-            name=f"自定义配置 {index}",
-            adapter=base.adapter,
-            llm=LLMConfig(**base.llm.__dict__),
-            image=ImageConfig(**base.image.__dict__),
+            id=profile_id, name=f"自定义配置 {index}", adapter=base.adapter,
+            llm=LLMConfig(**base.llm.__dict__), image=ImageConfig(**base.image.__dict__),
         )
         self._config.profiles.append(profile)
         self._reload_profiles()

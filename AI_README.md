@@ -132,10 +132,14 @@ core/
 │
 ├── ui/                 GUI代码
 │   ├── gui_app.py      完整GUI入口（tkinter）
-│   ├── app_window.py   主窗口 CommercialDesignApp
+│   ├── main_window.py  完整GUI壳：顶部切换 + 底部 AI/进度状态栏
+│   ├── app_window.py   设计工作台 CommercialDesignApp
+│   ├── pipeline_panel.py  Step00-17 开发流水线面板
+│   ├── ai_config_unified_dialog.py  统一 AI Profile 配置弹窗
 │   ├── ai_interview_window.py  AI访谈窗口
+│   ├── embedded_interview.py  设计工作台内嵌访谈面板
 │   ├── theme.py        主题配色
-│   └── workbench.py    桌面工作台
+│   └── workbench.py    旧桌面工作台辅助工具，当前无主入口引用，删除前需二次审计
 │
 ├── utils/              通用工具（无业务依赖）
 │   ├── base_tool.py    BaseTool基类

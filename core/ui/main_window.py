@@ -20,14 +20,18 @@ class MainWindow(tk.Tk):
 
         self._configure_style()
         self._geom_after_id = None
+        self._status_after_id = None
+        self._latest_incomplete_step: int | None = None
         self._load_geometry()
         self.bind("<Configure>", self._on_configure)
         self.protocol("WM_DELETE_WINDOW", self._on_close)
 
         self._build_topbar()
+        self._build_statusbar()
         self._build_main_area()
-        self._update_ai_config_status()
         self._show_design()
+        self._update_status_bar()
+        self._schedule_status_refresh()
 
     def _configure_style(self):
         style = ttk.Style(self)
@@ -79,23 +83,73 @@ class MainWindow(tk.Tk):
         self._pipeline_btn.pack(side=tk.LEFT, padx=(4, 0))
         self._pipeline_btn.bind("<Button-1>", lambda _: self._show_pipeline())
 
-        self._ai_config_label = tk.Label(
+    def _build_statusbar(self):
+        bar = tk.Frame(self, bg=COLORS["dark"], pady=4)
+        bar.pack(fill=tk.X, side=tk.BOTTOM)
+
+        self._ai_status_label = tk.Label(
             bar,
             text="AI: 加载中",
-            bg=COLORS["surface"],
-            fg=COLORS["muted"],
+            bg=COLORS["dark"],
+            fg="#C8D3DF",
             font=FONT_SMALL,
             padx=12,
-            pady=6,
+            pady=3,
             cursor="hand2",
         )
-        self._ai_config_label.pack(side=tk.RIGHT, padx=(0, 12))
-        self._ai_config_label.bind("<Button-1>", lambda _: self._open_ai_config())
+        self._ai_status_label.pack(side=tk.LEFT)
+        self._ai_status_label.bind("<Button-1>", lambda _: self._open_ai_config())
+
+        self._progress_label = tk.Label(
+            bar,
+            text="进度: -/-",
+            bg=COLORS["dark"],
+            fg="#C8D3DF",
+            font=FONT_SMALL,
+            padx=12,
+            pady=3,
+            cursor="hand2",
+        )
+        self._progress_label.pack(side=tk.LEFT)
+        self._progress_label.bind("<Button-1>", lambda _: self._open_pipeline_progress())
+
+        self._system_status_label = tk.Label(
+            bar,
+            text="系统: 就绪",
+            bg=COLORS["dark"],
+            fg="#C8D3DF",
+            font=FONT_SMALL,
+            padx=12,
+            pady=3,
+        )
+        self._system_status_label.pack(side=tk.RIGHT)
 
     def _open_ai_config(self):
         from core.ui.ai_config_unified_dialog import AIConfigUnifiedDialog
 
-        AIConfigUnifiedDialog(self, on_saved=self._update_ai_config_status)
+        AIConfigUnifiedDialog(self, on_saved=self._on_ai_config_saved)
+
+    def _on_ai_config_saved(self):
+        self._update_status_bar()
+        if self._pipeline_panel is not None:
+            self._pipeline_panel.refresh()
+
+    def _update_status_bar(self):
+        self._update_ai_config_status()
+        self._update_progress_status()
+        running = bool(self._pipeline_panel is not None and getattr(self._pipeline_panel, "_running", False))
+        self._system_status_label.configure(
+            text="系统: 流水线运行中" if running else "系统: 就绪",
+            fg=COLORS["warning"] if running else "#C8D3DF",
+        )
+
+    def _schedule_status_refresh(self):
+        self._status_after_id = self.after(2000, self._on_status_refresh_tick)
+
+    def _on_status_refresh_tick(self):
+        self._status_after_id = None
+        self._update_status_bar()
+        self._schedule_status_refresh()
 
     def _update_ai_config_status(self):
         try:
@@ -105,13 +159,37 @@ class MainWindow(tk.Tk):
             profile = get_active_profile()
             result = AIConfigValidator().validate_profile(profile, check_cli=False)
             icon = "✓" if result.is_valid else "✗"
-            color = "#1F7A4D" if result.is_valid else "#B42318"
-            self._ai_config_label.configure(
+            color = "#30D158" if result.is_valid else "#FF6B6B"
+            self._ai_status_label.configure(
                 text=f"{icon} AI: {profile.name} ({profile.adapter})",
                 fg=color,
             )
         except Exception:
-            self._ai_config_label.configure(text="✗ AI: 配置异常", fg="#B42318")
+            self._ai_status_label.configure(text="✗ AI: 配置异常", fg="#FF6B6B")
+
+    def _update_progress_status(self):
+        try:
+            from core.paths import PROJECT_ROOT
+            from core.registry import iter_steps
+            from core.runtime.pipeline_state import load_pipeline_state
+
+            state = load_pipeline_state(PROJECT_ROOT)
+            steps_state = state.get("steps", {})
+            specs = iter_steps()
+            passed = 0
+            first_incomplete: int | None = None
+            for spec in specs:
+                raw = steps_state.get(str(spec.number), {})
+                status = raw.get("status", "pending") if isinstance(raw, dict) else "pending"
+                if status == "success":
+                    passed += 1
+                elif first_incomplete is None:
+                    first_incomplete = spec.number
+            self._latest_incomplete_step = first_incomplete
+            self._progress_label.configure(text=f"进度: {passed}/{len(specs)}")
+        except Exception:
+            self._latest_incomplete_step = None
+            self._progress_label.configure(text="进度: -/-")
 
     def _build_main_area(self):
         self._content = tk.Frame(self, bg=COLORS["bg"])
@@ -143,8 +221,14 @@ class MainWindow(tk.Tk):
         panel = self._get_pipeline_panel()
         panel.lift()
         panel.refresh()
+        if self._latest_incomplete_step is not None:
+            panel._select_step(self._latest_incomplete_step)
         self._design_btn.configure(bg=COLORS["surface"], fg=COLORS["muted"])
         self._pipeline_btn.configure(bg=COLORS["primary"], fg="white")
+        self._update_status_bar()
+
+    def _open_pipeline_progress(self):
+        self._show_pipeline()
 
     def _on_close(self) -> None:
         from core.paths import PROJECT_ROOT
@@ -179,5 +263,8 @@ class MainWindow(tk.Tk):
     def _do_close(self) -> None:
         from core.paths import PROJECT_ROOT
         from core.save import manager as sm
+        if self._status_after_id:
+            self.after_cancel(self._status_after_id)
+            self._status_after_id = None
         sm.release_current_lock(PROJECT_ROOT)
         self.destroy()

@@ -8,18 +8,41 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-27
+**ID**: 2026-06-27-002
+**Summary**: Executed `ui_improvement_v1`: moved AI visibility into the main-window bottom status bar, enhanced the unified AI config dialog, audited UI component usage, updated docs, and isolated tests from local ignored AI config.
+
+**Completed**:
+- [x] Added bottom status bar in `core/ui/main_window.py` for active AI Profile/adapter, DevFlow progress, and system state.
+- [x] Wired status-bar AI click to unified AI config and progress click to the pipeline panel with first-incomplete-step selection.
+- [x] Enhanced `core/ui/ai_config_unified_dialog.py` with active Profile highlight, detail validation status, async CLI checks, `应用`, save toast, and close cleanup.
+- [x] Audited UI components: `bottom_panel.py` and `embedded_interview.py` are still referenced; `workbench.py` is retained as a deletion-audit candidate.
+- [x] Updated `README.md`, `docs/AI_CONFIG_GUIDE.md`, and `AI_README.md` for the new status-bar entry.
+- [x] Added test isolation in `core/tests/conftest.py` so local ignored `settings/ai_config.json` cannot pollute unit tests.
+
+**Verification**:
+- [x] `python -B -m py_compile core\ui\main_window.py core\ui\ai_config_unified_dialog.py core\tests\conftest.py`: passed.
+- [x] Targeted local-config-polluted regression tests: 3 passed.
+- [x] `python -B -m pytest -q`: 142 passed.
+- [x] UI module import smoke test: passed.
+- [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
+
+**Follow-up**:
+- [ ] Manually spot-check the bottom status bar, AI config save/apply flow, and progress jump in the GUI.
+- [ ] Keep `settings/ai_config.json`, old `settings/api_config.toml`, and `settings/ai_profiles.json` local and ignored.
+- [ ] Continue excluding `plan/`, bug documents, and runtime drafts from commits.
+- [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-27
 **ID**: 2026-06-27-001
 **Summary**: Executed `ai_config_optimization_v2`: unified AI config into `settings/ai_config.json`, bound Profile to Adapter/LLM/Image, added migration, validation, GUI, status indicator, tests, and docs.
 
 **Completed**:
-- [x] Added `core/config/ai_config.py` and `core/config/validator.py`.
-- [x] Added `tools/config/migrate_ai_config.py` and wired startup migration in `core/config/integrity.py`.
-- [x] Updated adapter registry and OpenAI/Codex/Claude/Local adapters to accept Profile-based `configure()`.
-- [x] Updated `core/config/loader.py` with `get_active_ai_profile()` / `get_pipeline_adapter()` and deprecated `get_api_config()` compatibility.
+- [x] Added `core/config/ai_config.py`, `core/config/validator.py`, migration tooling, Profile-bound adapters, loader compatibility, unified AI config GUI, docs, and tests.
 - [x] Updated Step02 supplement, Stage12 execution, and image generation to prefer active AI Profile.
-- [x] Added `core/ui/ai_config_unified_dialog.py`, main-window AI status, and removed AI adapter selection from project config.
-- [x] Added `settings/ai_config.example.json`, `docs/AI_CONFIG_GUIDE.md`, README/AI_README updates, and v2 architecture memory.
-- [x] Added tests for config model, validator, migration, adapter injection, loader compatibility, and deprecation warnings.
 
 **Verification**:
 - [x] Targeted AI config/adapter tests: 27 passed.
@@ -31,13 +54,10 @@
 **Follow-up**:
 - [ ] Manually spot-check the main-window AI status and unified AI config save/activate flow.
 - [ ] Keep `settings/ai_config.json`, old `settings/api_config.toml`, and `settings/ai_profiles.json` local and ignored.
-- [ ] This turn requested memory sync only; the code changes are not committed yet.
 - [ ] Continue excluding `plan/`, bug documents, and runtime drafts from commits.
 - [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-26
 **ID**: 2026-06-26-006
