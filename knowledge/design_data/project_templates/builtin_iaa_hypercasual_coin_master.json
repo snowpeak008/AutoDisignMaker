@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_iaa_hypercasual_coin_master",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Coin Master",
+    "sourceLabel": "内置范本",
+    "name": "Coin Master（硬币大师）",
     "gameName": "Coin Master",
     "targetScale": "iaa_hypercasual",
-    "scaleLabel": "IAA ??????",
-    "qualityTier": "A",
+    "scaleLabel": "IAA 超休闲小游戏",
+    "qualityTier": "B",
     "order": 9,
     "internalComplexityRank": "high",
-    "summary": "Coin Master 2D L5 template for spin economy, village building, collection pacing, and light social competition.",
+    "summary": "老虎机+村庄建造，社交攻击/防御循环，IAA变现，病毒传播机制。",
     "analysis": [
       "Coin Master is used as a 2D iaa_hypercasual reference for 2D slot-and-village progression.",
       "The template emphasizes spin pacing, raid friction, collection pressure, and social revenge loops across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-16T09:57:27",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Coin Master",
+    "projectName": "范本：Coin Master（硬币大师）",
     "profile": {
       "businessModel": "f2p_iap",
       "operationModel": "live_service_continuous",

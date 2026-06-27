@@ -1,5 +1,115 @@
 [
   {
+    "id": "2026-06-27-001",
+    "date": "2026-06-27",
+    "summary": "Executed ai_config_optimization_v2: unified AI config into settings/ai_config.json, added migration, validation, Profile-bound adapters, unified GUI, status indicator, tests, and docs",
+    "changed_files": [
+      ".gitignore",
+      "AI_README.md",
+      "README.md",
+      "core/adapters/base.py",
+      "core/adapters/claude_code_model_adapter.py",
+      "core/adapters/codex/executor.py",
+      "core/adapters/codex_adapter.py",
+      "core/adapters/local_adapter.py",
+      "core/adapters/openai_adapter.py",
+      "core/adapters/registry.py",
+      "core/config/ai_config.py",
+      "core/config/integrity.py",
+      "core/config/loader.py",
+      "core/config/validator.py",
+      "core/engines/generation.py",
+      "core/tests/integration/test_adapter_configuration.py",
+      "core/tests/unit/test_ai_config.py",
+      "core/tests/unit/test_config_loader.py",
+      "core/tests/unit/test_config_validator.py",
+      "core/ui/ai_config_unified_dialog.py",
+      "core/ui/main_window.py",
+      "core/ui/pipeline_panel.py",
+      "core/ui/unity_config_dialog.py",
+      "docs/AI_CONFIG_GUIDE.md",
+      "settings/ai_config.example.json",
+      "settings/app.toml",
+      "tools/asset_production/image_api_config.py",
+      "tools/config/migrate_ai_config.py",
+      "knowledge/ai_memory/project_understanding/ai_config_v2_architecture.md",
+      "knowledge/ai_memory/session_history/2026-06-27-001.md"
+    ],
+    "artifacts_created": [
+      "core/config/ai_config.py",
+      "core/config/validator.py",
+      "core/ui/ai_config_unified_dialog.py",
+      "core/tests/integration/test_adapter_configuration.py",
+      "core/tests/unit/test_ai_config.py",
+      "core/tests/unit/test_config_validator.py",
+      "docs/AI_CONFIG_GUIDE.md",
+      "settings/ai_config.example.json",
+      "tools/config/migrate_ai_config.py",
+      "knowledge/ai_memory/project_understanding/ai_config_v2_architecture.md",
+      "knowledge/ai_memory/session_history/2026-06-27-001.md"
+    ],
+    "next_tasks": [
+      "Manually spot-check the main-window AI status and unified AI config save/activate flow",
+      "Run CLI connection checks only in an environment with Codex/Claude installed and logged in",
+      "Keep settings/ai_config.json, settings/api_config.toml, and settings/ai_profiles.json local and ignored",
+      "This turn requested memory sync only; code changes are not committed yet",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
+    "id": "2026-06-26-006",
+    "date": "2026-06-26",
+    "summary": "Executed ai_config_manager: added named AI profiles, GUI configuration dialog, profile-first config loading, and profile-controlled image generation",
+    "changed_files": [
+      ".gitignore",
+      "core/config/ai_profiles.py",
+      "core/config/integrity.py",
+      "core/config/loader.py",
+      "core/engines/generation.py",
+      "core/tests/unit/test_config_loader.py",
+      "core/ui/ai_config_dialog.py",
+      "core/ui/pipeline_panel.py",
+      "tools/asset_production/image_tool.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-26-006.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "core/config/ai_profiles.py",
+      "core/ui/ai_config_dialog.py",
+      "knowledge/ai_memory/session_history/2026-06-26-006.md"
+    ],
+    "next_tasks": [
+      "Manually spot-check the GUI AI 配置 dialog save/activate flow",
+      "Keep settings/ai_profiles.json local and ignored because it may contain API keys",
+      "This turn requested memory sync only; code changes are not committed yet",
+      "Continue excluding plan/, bug documents, and runtime drafts from commits",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
+    "id": "2026-06-26-005",
+    "date": "2026-06-26",
+    "summary": "Executed template_2d_redesign PLAN_FIXES: fixed replacement filenames, large_service count, Axiom Verge, and concrete-node test reference",
+    "changed_files": [
+      "knowledge/design_data/project_templates/builtin_*.json",
+      "knowledge/design_data/project_templates/template_index.json",
+      "core/tests/unit/test_template_l5_expansion.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-26-005.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-26-005.md"
+    ],
+    "next_tasks": [
+      "This turn requested memory sync only; code changes are not committed yet",
+      "Do not commit runtime validation draft drafts/codex_template_2d_redesign_fixes_validation",
+      "Continue excluding plan/ from commits",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-26-004",
     "date": "2026-06-26",
     "summary": "Executed template_2d_redesign: rebuilt all 37 public templates as 2D L5 templates",

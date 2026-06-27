@@ -18,6 +18,7 @@ class Image2Generator(BaseTool):
         img_cfg = get_api_config("image2")
         api_base = img_cfg["base_url"]
         api_key = img_cfg["api_key"]
+        image_model = img_cfg.get("default_model") or "gpt-image-2"
 
         payload = {
             "model": "gpt-5.5",
@@ -26,7 +27,7 @@ class Image2Generator(BaseTool):
             "input": [{"role": "user", "content": [{"type": "input_text", "text": prompt}]}],
             "tools": [{
                 "type": "image_generation",
-                "model": "gpt-image-2",
+                "model": image_model,
                 "size": size,
                 "quality": quality,
                 "output_format": output_format,

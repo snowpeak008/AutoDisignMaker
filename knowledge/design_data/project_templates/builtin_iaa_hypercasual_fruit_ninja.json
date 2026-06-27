@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_iaa_hypercasual_fruit_ninja",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Fruit Ninja",
+    "sourceLabel": "内置范本",
+    "name": "Fruit Ninja（水果忍者）",
     "gameName": "Fruit Ninja",
     "targetScale": "iaa_hypercasual",
-    "scaleLabel": "IAA ??????",
-    "qualityTier": "A",
+    "scaleLabel": "IAA 超休闲小游戏",
+    "qualityTier": "B",
     "order": 4,
     "internalComplexityRank": "low",
-    "summary": "Fruit Ninja 2D L5 template for gesture slicing, combo scoring, and readable bomb pressure.",
+    "summary": "触屏手势切割，时间压力节奏，多模式变体，IAA超休闲经典。",
     "analysis": [
       "Fruit Ninja is used as a 2D iaa_hypercasual reference for 2D gesture-slicing score attack.",
       "The template emphasizes arc recognition, bomb risk, combo feedback, and short-run mastery across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-08T20:28:15",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Fruit Ninja",
+    "projectName": "范本：Fruit Ninja（水果忍者）",
     "profile": {
       "businessModel": "iaa",
       "operationModel": "content_updates",

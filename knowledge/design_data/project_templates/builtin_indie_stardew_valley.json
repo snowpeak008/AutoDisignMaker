@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_indie_stardew_valley",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Stardew Valley",
+    "sourceLabel": "内置范本",
+    "name": "Stardew Valley（星露谷物语）",
     "gameName": "Stardew Valley",
     "targetScale": "indie",
-    "scaleLabel": "????",
-    "qualityTier": "A+",
+    "scaleLabel": "独立游戏",
+    "qualityTier": "B",
     "order": 5,
     "internalComplexityRank": "mid",
-    "summary": "Stardew Valley 2D L5 template for farming schedules, town relationships, resource loops, and seasonal content.",
+    "summary": "2D农场模拟经营，自由探索与人际关系，买断制独立游戏长留存典范。",
     "analysis": [
       "Stardew Valley is used as a 2D indie reference for 2D farming life simulation.",
       "The template emphasizes daily planning, crop economy, relationship cadence, and long-tail collection across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-08T20:28:16",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Stardew Valley",
+    "projectName": "范本：Stardew Valley（星露谷物语）",
     "profile": {
       "businessModel": "buyout",
       "operationModel": "content_updates",

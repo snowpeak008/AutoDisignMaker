@@ -42,6 +42,28 @@ def mask_secret(value: str | None) -> str:
 
 
 def _providers_root() -> dict[str, Any]:
+    try:
+        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+
+        if AI_CONFIG_PATH.exists():
+            profile = get_active_profile()
+            if profile.image.source == "api":
+                return {
+                    "llm": {
+                        "provider": profile.llm.provider,
+                        "base_url": profile.llm.base_url,
+                        "api_key": profile.llm.api_key,
+                        "model": profile.llm.model,
+                    },
+                    "image": {
+                        "provider": profile.image.provider,
+                        "base_url": profile.image.base_url,
+                        "api_key": profile.image.api_key,
+                        "model": profile.image.model,
+                    },
+                }
+    except Exception:
+        pass
     document = _load_config_document()
     providers = document.get("providers")
     return providers if isinstance(providers, dict) else document

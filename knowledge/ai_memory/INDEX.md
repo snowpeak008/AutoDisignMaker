@@ -1,11 +1,103 @@
 # AI 会话记忆索引
 
-> 最后更新：2026-06-26
+> 最后更新：2026-06-27
 > 缓存状态：✓ 有效
 
 ---
 
 ## 上次会话摘要
+
+**Date**: 2026-06-27
+**ID**: 2026-06-27-001
+**Summary**: Executed `ai_config_optimization_v2`: unified AI config into `settings/ai_config.json`, bound Profile to Adapter/LLM/Image, added migration, validation, GUI, status indicator, tests, and docs.
+
+**Completed**:
+- [x] Added `core/config/ai_config.py` and `core/config/validator.py`.
+- [x] Added `tools/config/migrate_ai_config.py` and wired startup migration in `core/config/integrity.py`.
+- [x] Updated adapter registry and OpenAI/Codex/Claude/Local adapters to accept Profile-based `configure()`.
+- [x] Updated `core/config/loader.py` with `get_active_ai_profile()` / `get_pipeline_adapter()` and deprecated `get_api_config()` compatibility.
+- [x] Updated Step02 supplement, Stage12 execution, and image generation to prefer active AI Profile.
+- [x] Added `core/ui/ai_config_unified_dialog.py`, main-window AI status, and removed AI adapter selection from project config.
+- [x] Added `settings/ai_config.example.json`, `docs/AI_CONFIG_GUIDE.md`, README/AI_README updates, and v2 architecture memory.
+- [x] Added tests for config model, validator, migration, adapter injection, loader compatibility, and deprecation warnings.
+
+**Verification**:
+- [x] Targeted AI config/adapter tests: 27 passed.
+- [x] Adapter/Step02/image/manual-gate related tests: 42 passed.
+- [x] `python -B -m pytest -q`: 142 passed.
+- [x] `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall ...`: passed.
+- [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
+
+**Follow-up**:
+- [ ] Manually spot-check the main-window AI status and unified AI config save/activate flow.
+- [ ] Keep `settings/ai_config.json`, old `settings/api_config.toml`, and `settings/ai_profiles.json` local and ignored.
+- [ ] This turn requested memory sync only; the code changes are not committed yet.
+- [ ] Continue excluding `plan/`, bug documents, and runtime drafts from commits.
+- [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-26
+**ID**: 2026-06-26-006
+**Summary**: Executed `ai_config_manager`: added named AI profiles, GUI configuration dialog, profile-first config loading, and profile-controlled image generation.
+
+**Completed**:
+- [x] Added `core/config/ai_profiles.py` for ignored `settings/ai_profiles.json`, active profile management, LLM/image config parsing, and secret masking.
+- [x] Updated `core/config/loader.py` so active profiles override `llm` / `image` / `image2`, with fallback to old `api_config.toml` when profile config is absent or incomplete.
+- [x] Added `core/ui/ai_config_dialog.py` and wired an `AI 配置` button into `core/ui/pipeline_panel.py`.
+- [x] Changed image generation enablement to prefer the active profile image switch while preserving the legacy env-var fallback when no profile file exists.
+- [x] Updated image tooling to use the configured image model instead of a hardcoded default.
+- [x] Ignored `settings/ai_profiles.json` so local API keys are not committed.
+- [x] Added regression tests for profile fallback, override, image2 mapping, image enablement, and default profile file creation.
+- [x] Self-check fix: isolated the legacy `image2` fallback test from local `settings/ai_profiles.json` so future personal profiles cannot pollute test results.
+
+**Verification**:
+- [x] Targeted config/image tests: 15 passed.
+- [x] `python -B -m py_compile ...`: passed.
+- [x] `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall ...`: passed.
+- [x] `python -B -m pytest -q`: 129 passed.
+- [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
+
+**Follow-up**:
+- [ ] Manually spot-check the GUI `AI 配置` dialog save/activate flow.
+- [ ] Keep `settings/ai_profiles.json` local and ignored because it may contain API keys.
+- [ ] This turn requested memory sync only; the code changes are not committed yet.
+- [ ] Continue excluding `plan/`, bug documents, and runtime drafts from commits.
+- [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
+
+---
+
+**Date**: 2026-06-26
+**ID**: 2026-06-26-005
+**Summary**: Executed `template_2d_redesign/PLAN_FIXES.md`: fixed template replacement filenames, service count, Axiom Verge replacement, and concrete-node reference rules.
+
+**Completed**:
+- [x] Renamed 18 replacement template files so public `fileName` matches `template.id`.
+- [x] Deleted `builtin_large_service_splatoon_3.json`; public `large_service` templates now total 5.
+- [x] Replaced the duplicate 3A Hollow Knight slot with `builtin_3a_axiom_verge.json`, including metadata, notes, and entity ids.
+- [x] Synced `template_index.json` with new file names, Axiom Verge metadata, and large-service ordering.
+- [x] Updated `core/tests/unit/test_template_l5_expansion.py` to derive concrete nodes from `builtin_indie_hades_l5_complete.json`.
+- [x] Added tests for removed old files, `fileName == id + .json`, and public scale counts: iaa=9 / indie=10 / midcore=3 / 3a=9 / large_service=5.
+
+**Verification**:
+- [x] All project template JSON parsed successfully.
+- [x] Static audit: 36 public templates, no removed old replacement files, no public file/id mismatch.
+- [x] `python -B -m pytest core\tests\unit\test_template_l5_expansion.py -q`: 3 passed.
+- [x] D4 export from new `builtin_3a_axiom_verge.json` followed by Step00-08: all success.
+- [x] Pipeline quality: 104 entities, requirement binding 1.0, placeholder rate 0, Step05 blocking 0.
+- [x] `python -B -m pytest -q`: 122 passed.
+- [x] `PYTHONPYCACHEPREFIX=.cache\pycache python -B -m compileall ...`: passed.
+- [x] `git diff --check`: passed with only the existing CRLF working-copy warning.
+
+**Follow-up**:
+- [ ] This turn requested memory sync only; the code changes are not committed yet.
+- [ ] Runtime validation draft `drafts\codex_template_2d_redesign_fixes_validation` should not be committed.
+- [ ] `plan/` remains local execution material and should not be committed.
+- [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
+
+---
 
 **Date**: 2026-06-26
 **ID**: 2026-06-26-004
@@ -36,8 +128,6 @@
 - [ ] CC-Panes shared memory was skipped because all required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **日期**：2026-06-26
 **ID**：2026-06-26-003

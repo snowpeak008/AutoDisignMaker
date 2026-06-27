@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_midcore_marvel_snap",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Marvel Snap",
+    "sourceLabel": "内置范本",
+    "name": "Marvel Snap（漫威终极逆转）",
     "gameName": "Marvel Snap",
     "targetScale": "midcore",
-    "scaleLabel": "??????",
-    "qualityTier": "A",
+    "scaleLabel": "中度商业游戏",
+    "qualityTier": "B",
     "order": 1,
     "internalComplexityRank": "low",
-    "summary": "Marvel Snap 2D L5 template for short card battles, location variance, stakes escalation, and live collection systems.",
+    "summary": "2D卡牌对战，快速对局，位置策略，IP授权驱动的中度商业卡牌游戏。",
     "analysis": [
       "Marvel Snap is used as a 2D midcore reference for 2D competitive card battler.",
       "The template emphasizes six-turn pacing, location variance, snap stakes, and seasonal collection across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-08T20:28:17",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Marvel Snap",
+    "projectName": "范本：Marvel Snap（漫威终极逆转）",
     "profile": {
       "businessModel": "f2p_iap",
       "operationModel": "live_service_seasonal",

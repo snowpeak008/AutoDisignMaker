@@ -25,5 +25,8 @@ class ModelResult:
 
 
 class ModelAdapter:
+    def configure(self, **kwargs) -> "ModelAdapter":
+        return self
+
     def generate(self, task: ModelTask) -> ModelResult:
         raise NotImplementedError

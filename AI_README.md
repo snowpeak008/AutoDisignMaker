@@ -119,8 +119,10 @@ core/
 │   └── pipeline_state.py  流水线步骤状态读写
 │
 ├── config/             配置加载
-│   ├── loader.py       load_config()/get_api_config()/build_llm()
-│   └── integrity.py    启动时数据完整性检查
+│   ├── ai_config.py    统一 AI Profile + Adapter 配置（settings/ai_config.json）
+│   ├── validator.py    AI 配置验证与 CLI 可用性检测
+│   ├── loader.py       load_config()/get_pipeline_adapter()/get_api_config兼容层
+│   └── integrity.py    启动时数据完整性检查与 AI 配置迁移
 │
 ├── design/             设计引擎（原design_tool/）
 │   ├── engine.py       DesignEngine 领域/节点/玩法系统
@@ -238,10 +240,11 @@ knowledge/
 
 ```
 settings/
-├── app.toml                应用配置（git提交）
-├── api_config.example.toml API配置模板（git提交）
-├── api_config.toml         实际API密钥（gitignore！勿提交）
-├── project_settings.json   Unity路径等本地设置（gitignore！勿提交）
+├── app.toml                应用/UI/插件/门控配置（git提交，不含AI密钥）
+├── ai_config.example.json  AI配置模板（git提交，不含真实密钥）
+├── ai_config.json          统一AI配置：Profile + Adapter + LLM/Image（gitignore！勿提交）
+├── project_settings.json   项目路径等本地设置（gitignore！勿提交）
+├── api_config.toml         旧版API配置，仅用于自动迁移兼容（gitignore！勿提交）
 └── local.toml              本地覆盖（gitignore！勿提交）
 ```
 
@@ -338,7 +341,7 @@ AutoDesignMaker 是一个**Step00-17 确定性游戏设计文档流水线**。AI
 | 引擎文件 | `{功能}.py`（名词） | `generation.py`, `delta_patch.py` |
 | 工具脚本 | 动词+名词 | `inspect_reports.py`, `export_concept.py` |
 | Schema文件 | `{名称}.schema.json` | `execution_object_workflow.schema.json` |
-| 配置文件 | `{范围}.toml` | `app.toml`, `api_config.toml` |
+| 配置文件 | `{范围}.toml/json` | `app.toml`, `ai_config.example.json` |
 
 ---
 
@@ -350,7 +353,7 @@ AutoDesignMaker 是一个**Step00-17 确定性游戏设计文档流水线**。AI
 ❌ 直接 import steps.* 或 design_tool.*（已删除）
 ❌ 在 tools/ 根目录放任何 .py 文件（必须放在子目录）
 ❌ 在 sandbox/ saves/ logs/ 下提交任何文件（gitignore）
-❌ 在 settings/api_config.toml 和 project_settings.json 里提交真实密钥/路径
+❌ 在 settings/ai_config.json、settings/api_config.toml 和 project_settings.json 里提交真实密钥/路径
 ❌ 创建超过 400 行的单一功能文件（必须拆分）
 ❌ 在 ucos/knowledge/episodic/ 以外的 ucos/ 目录添加或修改文件
 ```

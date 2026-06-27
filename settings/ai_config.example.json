@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "active_profile_id": "default",
+  "profiles": [
+    {
+      "id": "default",
+      "name": "默认 OpenAI",
+      "adapter": "openai",
+      "llm": {
+        "source": "api",
+        "provider": "openai",
+        "base_url": "https://vip.auto-code.net/v1",
+        "api_key": "",
+        "cli_path": "",
+        "model": "gpt-5.5",
+        "temperature": 0.7,
+        "timeout": 300,
+        "reasoning_effort": null
+      },
+      "image": {
+        "enabled": false,
+        "source": "api",
+        "provider": "openai",
+        "base_url": "https://vip.auto-code.net/v1",
+        "api_key": "",
+        "cli_path": "",
+        "model": "gpt-image-2"
+      },
+      "metadata": {}
+    },
+    {
+      "id": "codex_cli",
+      "name": "Codex CLI",
+      "adapter": "codex",
+      "llm": {
+        "source": "cli",
+        "provider": "openai",
+        "base_url": "",
+        "api_key": "",
+        "cli_path": "codex",
+        "model": "gpt-5.5",
+        "temperature": 0.7,
+        "timeout": 300,
+        "reasoning_effort": null
+      },
+      "image": {
+        "enabled": true,
+        "source": "cli_builtin",
+        "provider": "openai",
+        "base_url": "",
+        "api_key": "",
+        "cli_path": "codex",
+        "model": "gpt-image-2"
+      },
+      "metadata": {}
+    },
+    {
+      "id": "claude_cli",
+      "name": "Claude Code CLI",
+      "adapter": "claude",
+      "llm": {
+        "source": "cli",
+        "provider": "openai",
+        "base_url": "",
+        "api_key": "",
+        "cli_path": "claude",
+        "model": "claude-sonnet-4-6",
+        "temperature": 0.7,
+        "timeout": 300,
+        "reasoning_effort": null
+      },
+      "image": {
+        "enabled": false,
+        "source": "none",
+        "provider": "openai",
+        "base_url": "",
+        "api_key": "",
+        "cli_path": "",
+        "model": "gpt-image-2"
+      },
+      "metadata": {}
+    },
+    {
+      "id": "local_ollama",
+      "name": "本地 Ollama",
+      "adapter": "openai",
+      "llm": {
+        "source": "api",
+        "provider": "openai",
+        "base_url": "http://127.0.0.1:11434/v1",
+        "api_key": "local",
+        "cli_path": "",
+        "model": "qwen2.5:14b",
+        "temperature": 0.7,
+        "timeout": 300,
+        "reasoning_effort": null
+      },
+      "image": {
+        "enabled": true,
+        "source": "api",
+        "provider": "openai",
+        "base_url": "http://127.0.0.1:7860/sdapi/v1",
+        "api_key": "local",
+        "cli_path": "",
+        "model": "sd-webui"
+      },
+      "metadata": {}
+    }
+  ]
+}

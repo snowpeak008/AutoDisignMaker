@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_iaa_hypercasual_stickman_hook",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Stickman Hook",
+    "sourceLabel": "内置范本",
+    "name": "Stickman Hook（火柴人钩索）",
     "gameName": "Stickman Hook",
     "targetScale": "iaa_hypercasual",
-    "scaleLabel": "IAA ??????",
-    "qualityTier": "A",
+    "scaleLabel": "IAA 超休闲小游戏",
+    "qualityTier": "B",
     "order": 6,
     "internalComplexityRank": "high",
-    "summary": "Stickman Hook 2D L5 template for swing timing, momentum curves, and concise level progression.",
+    "summary": "2D物理钩索摆荡，关卡闯关，动作节奏感强，超休闲快节奏体验。",
     "analysis": [
       "Stickman Hook is used as a 2D iaa_hypercasual reference for 2D swing-physics runner.",
       "The template emphasizes anchor timing, momentum arcs, and low-friction level retries across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-16T09:57:27",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Stickman Hook",
+    "projectName": "范本：Stickman Hook（火柴人钩索）",
     "profile": {
       "businessModel": "iaa",
       "operationModel": "content_updates",

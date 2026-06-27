@@ -23,6 +23,15 @@ def _non_empty_directory(path: Path, label: str, *, pattern: str = "*") -> list[
 
 def validate_data_integrity() -> None:
     errors: list[str] = []
+    try:
+        from core.config.ai_config import ensure_ai_config_file
+        from tools.config.migrate_ai_config import run_migration
+
+        run_migration()
+        ensure_ai_config_file()
+    except Exception as exc:
+        errors.append(f"AI config initialization failed: {exc}")
+
     # design data check — skip if not yet migrated
     design_domains = DESIGN_DATA_DIR / "domains"
     if design_domains.exists():

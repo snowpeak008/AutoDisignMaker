@@ -17,15 +17,19 @@ SUPPORTED_ADAPTERS: dict[str, str] = {
 }
 
 
-def get_adapter(name: str) -> ModelAdapter:
+def get_adapter(name: str, profile=None) -> ModelAdapter:
     if name == "none":
-        return LocalAdapter()
-    if name == "codex":
-        return CodexAdapter()
-    if name == "claude":
-        return ClaudeCodeModelAdapter()
-    if name == "openai":
-        return OpenAIAdapter()
-    if name == "local":
-        return LocalAdapter()
-    raise ValueError(f"unknown adapter: {name}")
+        adapter: ModelAdapter = LocalAdapter()
+    elif name == "codex":
+        adapter = CodexAdapter()
+    elif name == "claude":
+        adapter = ClaudeCodeModelAdapter()
+    elif name == "openai":
+        adapter = OpenAIAdapter()
+    elif name == "local":
+        adapter = LocalAdapter()
+    else:
+        raise ValueError(f"unknown adapter: {name}")
+    if profile is not None:
+        adapter.configure(profile=profile)
+    return adapter

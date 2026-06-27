@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_indie_vampire_survivors",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Vampire Survivors",
+    "sourceLabel": "内置范本",
+    "name": "Vampire Survivors（吸血鬼幸存者）",
     "gameName": "Vampire Survivors",
     "targetScale": "indie",
-    "scaleLabel": "????",
-    "qualityTier": "A",
+    "scaleLabel": "独立游戏",
+    "qualityTier": "B",
     "order": 7,
     "internalComplexityRank": "low",
-    "summary": "Vampire Survivors 2D L5 template for auto-attack survival, upgrade drafting, and escalating crowd pressure.",
+    "summary": "2D Bullet Heaven，自动攻击+武器进化，极简操作，超高重玩性独立爆款。",
     "analysis": [
       "Vampire Survivors is used as a 2D indie reference for 2D bullet heaven survival.",
       "The template emphasizes automatic attacks, crowd density, build escalation, and unlock compulsion across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-16T09:57:29",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Vampire Survivors",
+    "projectName": "范本：Vampire Survivors（吸血鬼幸存者）",
     "profile": {
       "businessModel": "buyout",
       "operationModel": "content_updates",

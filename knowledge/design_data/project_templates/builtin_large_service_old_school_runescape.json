@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_large_service_old_school_runescape",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Old School RuneScape",
+    "sourceLabel": "内置范本",
+    "name": "Old School RuneScape（旧学校符文之地）",
     "gameName": "Old School RuneScape",
     "targetScale": "large_service",
-    "scaleLabel": "2D????????",
-    "qualityTier": "A+",
+    "scaleLabel": "2D长线服务游戏",
+    "qualityTier": "B",
     "order": 1,
     "internalComplexityRank": "low",
-    "summary": "Old School RuneScape 2D L5 template for MMO skill economies, quests, trading, and long-term service governance.",
+    "summary": "2D经典MMORPG，极长线运营，强社区驱动，玩家投票决策机制。",
     "analysis": [
       "Old School RuneScape is used as a 2D large_service reference for 2D/isometric MMORPG service.",
       "The template emphasizes skill economies, quest breadth, player trading, and community-voted long-tail updates across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-16T09:57:33",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Old School RuneScape",
+    "projectName": "范本：Old School RuneScape（旧学校符文之地）",
     "profile": {
       "businessModel": "iap_subscription",
       "operationModel": "live_service_continuous",

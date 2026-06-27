@@ -3,14 +3,14 @@
   "template": {
     "id": "builtin_indie_hades",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Hades",
+    "sourceLabel": "内置范本",
+    "name": "Hades（哈迪斯）",
     "gameName": "Hades",
     "targetScale": "indie",
-    "scaleLabel": "????",
-    "qualityTier": "A+",
+    "scaleLabel": "独立游戏",
+    "qualityTier": "B",
     "order": 3,
-    "summary": "Hades 2D L5 public template for action roguelite combat, boon synergy, and narrative progression loops.",
+    "summary": "2D动作Roguelike，快节奏战斗，Boon协同机制，叙事与玩法深度融合的独立标杆。",
     "analysis": [
       "Hades is used as a 2D indie reference for 2D/isometric action roguelite.",
       "The template emphasizes boon drafting, room combat, narrative return loops, and weapon mastery across product, system, content, UX, presentation, balance, and service decisions.",
@@ -27,13 +27,13 @@
       ]
     },
     "createdAt": "2026-06-08T20:28:16",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Hades",
+    "projectName": "范本：Hades（哈迪斯）",
     "profile": {
       "businessModel": "buyout",
       "operationModel": "content_updates",

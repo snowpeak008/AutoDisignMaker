@@ -26,6 +26,7 @@ class MainWindow(tk.Tk):
 
         self._build_topbar()
         self._build_main_area()
+        self._update_ai_config_status()
         self._show_design()
 
     def _configure_style(self):
@@ -77,6 +78,40 @@ class MainWindow(tk.Tk):
                                       font=FONT_BODY, padx=16, pady=6, cursor="hand2")
         self._pipeline_btn.pack(side=tk.LEFT, padx=(4, 0))
         self._pipeline_btn.bind("<Button-1>", lambda _: self._show_pipeline())
+
+        self._ai_config_label = tk.Label(
+            bar,
+            text="AI: 加载中",
+            bg=COLORS["surface"],
+            fg=COLORS["muted"],
+            font=FONT_SMALL,
+            padx=12,
+            pady=6,
+            cursor="hand2",
+        )
+        self._ai_config_label.pack(side=tk.RIGHT, padx=(0, 12))
+        self._ai_config_label.bind("<Button-1>", lambda _: self._open_ai_config())
+
+    def _open_ai_config(self):
+        from core.ui.ai_config_unified_dialog import AIConfigUnifiedDialog
+
+        AIConfigUnifiedDialog(self, on_saved=self._update_ai_config_status)
+
+    def _update_ai_config_status(self):
+        try:
+            from core.config.ai_config import get_active_profile
+            from core.config.validator import AIConfigValidator
+
+            profile = get_active_profile()
+            result = AIConfigValidator().validate_profile(profile, check_cli=False)
+            icon = "✓" if result.is_valid else "✗"
+            color = "#1F7A4D" if result.is_valid else "#B42318"
+            self._ai_config_label.configure(
+                text=f"{icon} AI: {profile.name} ({profile.adapter})",
+                fg=color,
+            )
+        except Exception:
+            self._ai_config_label.configure(text="✗ AI: 配置异常", fg="#B42318")
 
     def _build_main_area(self):
         self._content = tk.Frame(self, bg=COLORS["bg"])

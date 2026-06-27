@@ -3,8 +3,8 @@
   "template": {
     "id": "builtin_indie_hades_l5_complete",
     "source": "builtin",
-    "sourceLabel": "内置",
-    "name": "Hades L5 Complete",
+    "sourceLabel": "内置范本",
+    "name": "Hades L5 Complete（哈迪斯·完整版）",
     "gameName": "Hades",
     "targetScale": "indie",
     "scaleLabel": "独立游戏",
@@ -13,7 +13,7 @@
     "visibility": "internal",
     "qualityNote": "ADR 0009 M13 complete sample: all concrete nodes carry schema-valid L5 entities and cross-layer CRITICAL is zero.",
     "order": 5,
-    "summary": "Hades L5_complete_consistent template with all concrete nodes covered by schema-valid design entities.",
+    "summary": "2D动作Roguelike，快节奏战斗，Boon协同机制，叙事与玩法深度融合的独立标杆。",
     "analysis": [
       "Extends the Hades L5_partial sample to every concrete gameplay, content, UX, presentation, balance, and liveops node.",
       "Keeps the corrected target-player profile and L4 selections from the partial sample so cross-layer CRITICAL remains zero.",
@@ -30,10 +30,10 @@
       ]
     },
     "createdAt": "2026-06-15T13:00:00",
-    "updatedAt": "2026-06-15T13:00:00"
+    "updatedAt": "2026-06-26T22:10:00"
   },
   "projectState": {
-    "projectName": "范本：Hades L5 Complete",
+    "projectName": "范本：Hades L5 Complete（哈迪斯·完整版）",
     "profile": {
       "businessModel": "buyout",
       "operationModel": "offline_single_release",
@@ -43,7 +43,8 @@
       "regionScope": "global",
       "targetScale": "indie",
       "contentRating": "mature_17_plus",
-      "targetSessionBand": "session_20_40"
+      "targetSessionBand": "session_20_40",
+      "dimension": "2D"
     },
     "nodes": {
       "product_vision_decision": {

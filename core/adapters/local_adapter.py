@@ -6,6 +6,9 @@ from core.adapters.base import ModelAdapter, ModelResult, ModelTask
 
 
 class LocalAdapter(ModelAdapter):
+    def configure(self, **kwargs) -> "LocalAdapter":
+        return self
+
     def generate(self, task: ModelTask) -> ModelResult:
         return ModelResult(
             task_id=task.task_id,

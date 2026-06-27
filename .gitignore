@@ -136,6 +136,10 @@ credentials/
 
 # Settings (sensitive)
 settings/api_config.toml
+settings/ai_profiles.json
+settings/ai_config.json
+settings/.backup_*/
+logs/config_migration.log
 settings/local.toml
 settings/project_settings.json
 settings/window_geometry.json

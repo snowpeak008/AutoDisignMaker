@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-26T21:38:44",
+  "generated_at": "2026-06-27T08:15:06",
   "files": {
     "core/main.py": {
       "sha256": "75993071d1b22f6968b4ca69f162a9ca8284d5b4289901039b169638b499910b",
       "size": 9668
     },
     "core/engines/generation.py": {
-      "sha256": "000c8c7fa1116d65d584e2c46d14a3d8e2507cfadf79e0dc375da04c2083c1e6",
-      "size": 204777
+      "sha256": "b671468c2f7f0acf5cfef8ec3a53d0d1ff8e7dca7b56ef97b884fc9e7366743c",
+      "size": 206054
     },
     "core/registry.py": {
       "sha256": "2b2dbb22bc5684fc6bbed0c6179a59fc38f39103e738beb72bb728aefb793435",
@@ -38,20 +38,20 @@
       "size": 3741
     },
     "core/adapters/base.py": {
-      "sha256": "43e902c63ce92e932af42f24ae01c89217e1ea15fe1c409151cc19901f110981",
-      "size": 676
+      "sha256": "e0f25984bf8a3438653d1a88f85d495812bff923217dc8199f418f5b685e6ab8",
+      "size": 750
     },
     "core/adapters/registry.py": {
-      "sha256": "0d00be80f4518f23bc58377a0b4c8a7771f6b87702b9362823382397f3792a81",
-      "size": 927
+      "sha256": "856e90e69d96deb392bfd7bbe802d437fd2c8156c4b9a4b46d3f0277aa6c1313",
+      "size": 1075
     },
     "core/adapters/openai_adapter.py": {
-      "sha256": "9acadcfe852700d1836f5571ba2b91b14c4fdfb0bc6df25e9ad74f48310a2606",
-      "size": 1390
+      "sha256": "59d67f482663704e7ab7ef1a2c8a67ebd1c1b9a93bf75025994e18296cef4ff8",
+      "size": 2737
     },
     "core/adapters/codex_adapter.py": {
-      "sha256": "15d216439c78b278015671206db3021ceef2d6a0712c3ca1285e7f9878532454",
-      "size": 478
+      "sha256": "6b9027d96fa21bd4bf29861d064021d65db7ed3278d9f2901bd36fcfbe749483",
+      "size": 939
     },
     "core/artifact/graph.py": {
       "sha256": "b2ef454758c01b374749a7d8846e304eade357257ac75d847bf54ea117e31ab1",
@@ -78,12 +78,12 @@
       "size": 1470
     },
     "core/config/loader.py": {
-      "sha256": "2ec3b61328309587faa810269daa794b16204436b98ff77183e2c108a851636a",
-      "size": 8041
+      "sha256": "9a6926279dd7016118d20f993aa95467119b00367aab38d4b81c6299fdd15334",
+      "size": 9814
     },
     "core/config/integrity.py": {
-      "sha256": "56166b08566b50a65dd4d05100ce10e3cf2b8d1a38d332865982008ebb0a7be8",
-      "size": 1816
+      "sha256": "7f69124d536e2f4fabd147d7ca50a20f469b0809dca824716587a3cf050a0208",
+      "size": 2102
     },
     "core/runtime/control.py": {
       "sha256": "e6f4ad147fa3cf006f1aa6072221965dec4d6affabe17d4cc2d0b692ef0d3918",

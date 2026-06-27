@@ -134,6 +134,9 @@ class PipelinePanel(tk.Frame):
             config_bar, text="项目配置", command=lambda: UnityConfigDialog(self)
         ).pack(side=tk.LEFT)
         ttk.Button(
+            config_bar, text="AI 配置", command=self._open_ai_config
+        ).pack(side=tk.LEFT, padx=(8, 0))
+        ttk.Button(
             config_bar, text="导出到流水线", command=self._export_to_pipeline
         ).pack(side=tk.LEFT, padx=(8, 0))
         self._from_var = tk.IntVar(value=0)
@@ -272,8 +275,19 @@ class PipelinePanel(tk.Frame):
         engine_label = ENGINE_LABELS.get(engine_key, engine_key)
         if engine_key == "custom" and settings.get("custom_engine_name"):
             engine_label = f"自定义（{settings['custom_engine_name']}）"
-        adapter_key = settings.get("pipeline_adapter", "none")
-        adapter_label = SUPPORTED_ADAPTERS.get(adapter_key, adapter_key)
+        try:
+            from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+
+            if AI_CONFIG_PATH.exists():
+                profile = get_active_profile()
+                adapter_key = profile.adapter
+                adapter_label = f"{profile.name} ({SUPPORTED_ADAPTERS.get(adapter_key, adapter_key)})"
+            else:
+                adapter_key = settings.get("pipeline_adapter", "none")
+                adapter_label = SUPPORTED_ADAPTERS.get(adapter_key, adapter_key)
+        except Exception:
+            adapter_key = settings.get("pipeline_adapter", "none")
+            adapter_label = SUPPORTED_ADAPTERS.get(adapter_key, adapter_key)
 
         card = tk.Frame(self._detail, bg=COLORS["surface"], padx=16, pady=12)
         card.pack(fill=tk.X, padx=12, pady=12)
@@ -331,6 +345,11 @@ class PipelinePanel(tk.Frame):
 
     def _run_range(self):
         self._exec_range(self._from_var.get(), self._to_var.get())
+
+    def _open_ai_config(self):
+        from core.ui.ai_config_unified_dialog import AIConfigUnifiedDialog
+
+        AIConfigUnifiedDialog(self, on_saved=self.refresh)
 
     def _exec_range(self, from_step: int, stop_step: int):
         if self._running:

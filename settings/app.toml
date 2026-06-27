@@ -10,14 +10,6 @@ design_data = "knowledge/design_data"
 ucos = "ucos"
 memory = "memory"
 
-[model]
-provider = "openai"
-base_url = "https://vip.auto-code.net/v1"
-model = "gpt-5.5"
-max_tokens = 350000
-temperature = 0.7
-timeout = 300
-
 [unity]
 project_path = ""
 editor_path = ""
@@ -51,5 +43,4 @@ gate_program_architecture = false
 num_options = 5
 image_width = 1024
 image_height = 1024
-enable_image_generation = true
 

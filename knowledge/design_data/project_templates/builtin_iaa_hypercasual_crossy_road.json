@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_iaa_hypercasual_crossy_road",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Crossy Road",
+    "sourceLabel": "内置范本",
+    "name": "Crossy Road（疯狂青蛙）",
     "gameName": "Crossy Road",
     "targetScale": "iaa_hypercasual",
-    "scaleLabel": "IAA ??????",
-    "qualityTier": "A",
+    "scaleLabel": "IAA 超休闲小游戏",
+    "qualityTier": "B",
     "order": 2,
     "internalComplexityRank": "mid",
-    "summary": "Crossy Road 2D L5 template for lane timing, collectible variety, and short-session escalation.",
+    "summary": "俯视角无尽跳跃，IAA变现，硬币收集解锁角色，轻量社交分享驱动传播。",
     "analysis": [
       "Crossy Road is used as a 2D iaa_hypercasual reference for 2D/isometric lane-crossing survival.",
       "The template emphasizes lane timing, collectible characters, and short-session risk reads across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-08T20:28:15",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Crossy Road",
+    "projectName": "范本：Crossy Road（疯狂青蛙）",
     "profile": {
       "businessModel": "iaa",
       "operationModel": "live_service_continuous",

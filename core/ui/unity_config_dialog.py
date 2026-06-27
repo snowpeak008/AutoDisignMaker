@@ -12,7 +12,6 @@ from core.runtime.preflight import (
     load_project_settings,
     run_actual_development_preflight,
 )
-from core.adapters.registry import SUPPORTED_ADAPTERS
 from core.ui.theme import (
     COLORS,
     FONT_BADGE,
@@ -83,7 +82,7 @@ class ProjectConfigDialog(tk.Toplevel):
     """项目配置对话框（卡片布局）。
 
     固定顺序：
-      [环境设置] 引擎 + AI适配器（左右并排）
+      [环境设置] 引擎
       [custom] 引擎名称
       [项目路径] dev_section（始终可见）
       [编辑器路径] editor_section
@@ -119,22 +118,21 @@ class ProjectConfigDialog(tk.Toplevel):
         ).pack(side=tk.LEFT)
         tk.Label(
             title_row,
-            text="设置游戏引擎与 AI 流水线适配器",
+            text="设置游戏引擎与项目路径",
             bg=COLORS["bg"],
             fg=COLORS["muted"],
             font=FONT_SMALL,
         ).pack(side=tk.LEFT, padx=(10, 0), pady=(3, 0))
 
-        # ── 环境设置卡片（引擎 + 适配器左右并排） ─────────────────
+        # ── 环境设置卡片 ───────────────────────────────────────
         env_card = _section(root_frame, "环境设置")
         env_cols = tk.Frame(env_card, bg=COLORS["surface"])
         env_cols.pack(fill=tk.X)
         env_cols.columnconfigure(0, weight=1)
-        env_cols.columnconfigure(1, weight=1)
 
         # 引擎列
         engine_col = tk.Frame(env_cols, bg=COLORS["surface"])
-        engine_col.grid(row=0, column=0, sticky="ew", padx=(0, 8))
+        engine_col.grid(row=0, column=0, sticky="ew")
         tk.Label(
             engine_col,
             text="游戏引擎",
@@ -154,28 +152,6 @@ class ProjectConfigDialog(tk.Toplevel):
         )
         engine_combo.pack(anchor=tk.W, pady=(4, 0))
         engine_combo.bind("<<ComboboxSelected>>", lambda _: self._on_engine_change())
-
-        # AI 适配器列
-        adapter_col = tk.Frame(env_cols, bg=COLORS["surface"])
-        adapter_col.grid(row=0, column=1, sticky="ew")
-        tk.Label(
-            adapter_col,
-            text="AI 适配器（流水线）",
-            bg=COLORS["surface"],
-            fg=COLORS["muted"],
-            font=FONT_SMALL,
-        ).pack(anchor=tk.W)
-        current_adapter = settings.get("pipeline_adapter", "none")
-        self._adapter_var = tk.StringVar(
-            value=SUPPORTED_ADAPTERS.get(current_adapter, "禁用 AI")
-        )
-        ttk.Combobox(
-            adapter_col,
-            textvariable=self._adapter_var,
-            values=list(SUPPORTED_ADAPTERS.values()),
-            state="readonly",
-            width=18,
-        ).pack(anchor=tk.W, pady=(4, 0))
 
         # ── 自定义引擎名称（仅 custom 时显示） ─────────────────────
         self._custom_name_outer = tk.Frame(root_frame, bg=COLORS["bg"])
@@ -320,14 +296,9 @@ class ProjectConfigDialog(tk.Toplevel):
 
     def _save(self) -> None:
         engine = self._current_engine_key()
-        adapter_key = next(
-            (k for k, v in SUPPORTED_ADAPTERS.items() if v == self._adapter_var.get()),
-            "none",
-        )
         _save_project_settings(
             {
                 "project_engine": engine,
-                "pipeline_adapter": adapter_key,
                 "custom_engine_name": (
                     self._custom_name_var.get().strip() if engine == "custom" else ""
                 ),

@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_indie_the_binding_of_isaac_rebirth",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "The Binding of Isaac: Rebirth",
+    "sourceLabel": "内置范本",
+    "name": "The Binding of Isaac: Rebirth（以撒的结合：重生）",
     "gameName": "The Binding of Isaac: Rebirth",
     "targetScale": "indie",
-    "scaleLabel": "????",
-    "qualityTier": "A+",
+    "scaleLabel": "独立游戏",
+    "qualityTier": "B",
     "order": 2,
     "internalComplexityRank": "mid",
-    "summary": "The Binding of Isaac: Rebirth 2D L5 template for room-based combat, item synergies, and procedural run pressure.",
+    "summary": "俯视角Roguelike射击，随机物品协同，高重玩性，暗黑美术风格。",
     "analysis": [
       "The Binding of Isaac: Rebirth is used as a 2D indie reference for 2D top-down action roguelike.",
       "The template emphasizes room combat, item transformation, procedural pacing, and high-variance runs across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-16T09:57:28",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???The Binding of Isaac: Rebirth",
+    "projectName": "范本：The Binding of Isaac: Rebirth（以撒的结合：重生）",
     "profile": {
       "businessModel": "buyout",
       "operationModel": "content_updates",

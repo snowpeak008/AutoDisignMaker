@@ -1,19 +1,19 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 
 
 PROJECT_TEMPLATES = Path("knowledge/design_data/project_templates")
-DOMAINS = Path("knowledge/design_data/domains")
 
 PHASE1_COMPLETE_TARGETS = [
     "builtin_indie_dead_cells.json",
     "builtin_indie_hades_l5_partial.json",
-    "builtin_3a_elden_ring.json",
-    "builtin_3a_sekiro_shadows_die_twice.json",
+    "builtin_3a_axiom_verge.json",
+    "builtin_3a_cuphead.json",
     "builtin_iaa_hypercasual_crossy_road.json",
-    "builtin_large_service_apex_legends.json",
+    "builtin_large_service_path_of_exile.json",
     "builtin_midcore_clash_royale.json",
 ]
 
@@ -21,38 +21,37 @@ PHASE2_PARTIAL_TARGETS = [
     "builtin_indie_slay_the_spire.json",
     "builtin_indie_vampire_survivors.json",
     "builtin_indie_the_binding_of_isaac_rebirth.json",
-    "builtin_indie_risk_of_rain_2.json",
+    "builtin_indie_hollow_knight.json",
     "builtin_indie_enter_the_gungeon.json",
     "builtin_indie_stardew_valley.json",
     "builtin_indie_factorio.json",
-    "builtin_indie_a_short_hike.json",
+    "builtin_indie_celeste.json",
 ]
 
 PHASE3_PARTIAL_TARGETS = [
-    "builtin_3a_doom_eternal.json",
-    "builtin_3a_resident_evil_4_remake.json",
-    "builtin_3a_god_of_war_ragnarok.json",
-    "builtin_3a_the_last_of_us_part_ii.json",
-    "builtin_3a_borderlands_3.json",
-    "builtin_3a_halo_infinite.json",
-    "builtin_3a_death_stranding.json",
+    "builtin_3a_blasphemous.json",
+    "builtin_3a_celeste.json",
+    "builtin_3a_ori_and_the_blind_forest.json",
+    "builtin_3a_shovel_knight.json",
+    "builtin_3a_spiritfarer.json",
+    "builtin_3a_terraria.json",
+    "builtin_3a_undertale.json",
 ]
 
 PHASE4_PARTIAL_TARGETS = [
-    "builtin_large_service_valorant.json",
-    "builtin_large_service_world_of_warcraft.json",
-    "builtin_large_service_final_fantasy_xiv.json",
+    "builtin_large_service_maplestory.json",
     "builtin_large_service_old_school_runescape.json",
-    "builtin_large_service_splatoon_3.json",
+    "builtin_large_service_ragnarok_online.json",
+    "builtin_large_service_warframe.json",
     "builtin_midcore_brawl_stars.json",
     "builtin_midcore_marvel_snap.json",
+    "builtin_iaa_hypercasual_2048.json",
+    "builtin_iaa_hypercasual_cut_the_rope.json",
     "builtin_iaa_hypercasual_flappy_bird.json",
     "builtin_iaa_hypercasual_fruit_ninja.json",
-    "builtin_iaa_hypercasual_helix_jump.json",
+    "builtin_iaa_hypercasual_jetpack_joyride.json",
     "builtin_iaa_hypercasual_royal_match.json",
-    "builtin_iaa_hypercasual_stack.json",
     "builtin_iaa_hypercasual_stickman_hook.json",
-    "builtin_iaa_hypercasual_subway_surfers.json",
     "builtin_iaa_hypercasual_coin_master.json",
 ]
 
@@ -111,6 +110,48 @@ OLD_3D_PUBLIC_NAMES = {
     "World of Warcraft",
 }
 
+REMOVED_TEMPLATE_FILES = {
+    "builtin_iaa_hypercasual_helix_jump.json",
+    "builtin_iaa_hypercasual_stack.json",
+    "builtin_iaa_hypercasual_subway_surfers.json",
+    "builtin_indie_a_short_hike.json",
+    "builtin_indie_risk_of_rain_2.json",
+    "builtin_3a_sekiro_shadows_die_twice.json",
+    "builtin_3a_god_of_war_ragnarok.json",
+    "builtin_3a_elden_ring.json",
+    "builtin_3a_resident_evil_4_remake.json",
+    "builtin_3a_the_last_of_us_part_ii.json",
+    "builtin_3a_death_stranding.json",
+    "builtin_3a_doom_eternal.json",
+    "builtin_3a_halo_infinite.json",
+    "builtin_3a_borderlands_3.json",
+    "builtin_large_service_world_of_warcraft.json",
+    "builtin_large_service_final_fantasy_xiv.json",
+    "builtin_large_service_splatoon_3.json",
+    "builtin_large_service_apex_legends.json",
+    "builtin_large_service_valorant.json",
+}
+
+EXPECTED_PUBLIC_SCALE_COUNTS = Counter(
+    {
+        "iaa_hypercasual": 9,
+        "indie": 10,
+        "midcore": 3,
+        "3a": 9,
+        "large_service": 5,
+    }
+)
+
+SCALE_LABEL_MAP = {
+    "iaa_hypercasual": "IAA 超休闲小游戏",
+    "indie": "独立游戏",
+    "midcore": "中度商业游戏",
+    "3a": "精品2D大作",
+    "large_service": "2D长线服务游戏",
+}
+
+SOURCE_LABEL = "内置范本"
+
 
 def _load_template(name: str) -> dict:
     return json.loads((PROJECT_TEMPLATES / name).read_text(encoding="utf-8"))
@@ -122,13 +163,8 @@ def _load_public_template_entries() -> list[dict]:
 
 
 def _concrete_node_ids() -> set[str]:
-    concrete_nodes: set[str] = set()
-    for path in DOMAINS.glob("*.json"):
-        domain = json.loads(path.read_text(encoding="utf-8"))
-        for node in domain.get("nodes", []):
-            if node.get("roleClass") in {"system_concrete", "content_concrete"}:
-                concrete_nodes.add(node["id"])
-    return concrete_nodes
+    template = _load_template("builtin_indie_hades_l5_complete.json")
+    return set(_covered_nodes(template))
 
 
 def _covered_nodes(template: dict) -> dict[str, list[dict]]:
@@ -191,15 +227,15 @@ def test_phase2_to_phase4_templates_reach_p0_l5_coverage() -> None:
 def test_public_templates_are_2d_l5_and_index_synced() -> None:
     concrete_nodes = _concrete_node_ids()
     entries = _load_public_template_entries()
-    assert len(entries) == 37
+    assert Counter(entry["targetScale"] for entry in entries) == EXPECTED_PUBLIC_SCALE_COUNTS
+    assert len(entries) == sum(EXPECTED_PUBLIC_SCALE_COUNTS.values())
+    assert not any((PROJECT_TEMPLATES / name).exists() for name in REMOVED_TEMPLATE_FILES)
 
     for entry in entries:
         assert entry.get("dimension") == "2D", entry["fileName"]
-        assert entry.get("qualityClaim") in {
-            "L5_complete_consistent",
-            "L5_partial",
-        }, entry["fileName"]
-        assert entry.get("qualityTier") in {"A", "A+"}, entry["fileName"]
+        assert entry.get("qualityClaim") == "L5_partial", entry["fileName"]
+        assert entry.get("qualityTier") == "B", entry["fileName"]
+        assert entry["fileName"] == f"{entry['id']}.json", entry["fileName"]
         assert not any(name in entry["name"] for name in OLD_3D_PUBLIC_NAMES)
 
         template = _load_template(entry["fileName"])
@@ -208,6 +244,7 @@ def test_public_templates_are_2d_l5_and_index_synced() -> None:
         assert meta["name"] == entry["name"], entry["fileName"]
         assert meta["qualityClaim"] != "L4_only_filled", entry["fileName"]
         assert meta["qualityClaim"] == entry["qualityClaim"], entry["fileName"]
+        assert meta["qualityTier"] == entry["qualityTier"], entry["fileName"]
         assert template["projectState"]["profile"].get("dimension") == "2D"
         assert not any(name in meta["name"] for name in OLD_3D_PUBLIC_NAMES)
 
@@ -229,3 +266,54 @@ def test_public_templates_are_2d_l5_and_index_synced() -> None:
                 assert entity.get("supplement_basis"), entity["id"]
                 assert entity["id"] not in entity_ids
                 entity_ids.add(entity["id"])
+
+
+def test_builtin_template_scale_labels_are_readable_and_synced() -> None:
+    index = _load_template("template_index.json")
+    for entry in index["templates"]:
+        scale = entry.get("targetScale")
+        if scale not in SCALE_LABEL_MAP:
+            continue
+        label = entry.get("scaleLabel", "")
+        assert label == SCALE_LABEL_MAP[scale], entry["id"]
+        assert "?" not in label
+        assert "\ufffd" not in label
+
+    for path in PROJECT_TEMPLATES.glob("builtin_*.json"):
+        template = _load_template(path.name)
+        meta = template["template"]
+        scale = meta.get("targetScale")
+        if scale not in SCALE_LABEL_MAP:
+            continue
+        label = meta.get("scaleLabel", "")
+        assert label == SCALE_LABEL_MAP[scale], path.name
+        assert "?" not in label
+        assert "\ufffd" not in label
+
+
+def test_builtin_template_display_metadata_is_readable() -> None:
+    for path in PROJECT_TEMPLATES.glob("builtin_*.json"):
+        template = _load_template(path.name)
+        meta = template["template"]
+        profile = template["projectState"]["profile"]
+        name = meta.get("name", "")
+        summary = meta.get("summary", "")
+        source_label = meta.get("sourceLabel", "")
+
+        assert source_label == SOURCE_LABEL, path.name
+        assert "?" not in source_label
+        assert "\ufffd" not in source_label
+        assert profile.get("dimension") == "2D", path.name
+        assert summary.endswith("。"), path.name
+        assert any("\u4e00" <= char <= "\u9fff" for char in summary), path.name
+        assert "?" not in name
+        assert "\ufffd" not in name
+        if meta.get("gameName") != "2048":
+            assert "（" in name and "）" in name, path.name
+
+        if meta.get("id") == "builtin_indie_hades_l5_complete":
+            assert meta.get("qualityClaim") == "L5_complete_consistent"
+            assert meta.get("qualityTier") == "A+"
+        else:
+            assert meta.get("qualityClaim") == "L5_partial", path.name
+            assert meta.get("qualityTier") == "B", path.name

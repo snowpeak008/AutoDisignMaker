@@ -3,15 +3,15 @@
   "template": {
     "id": "builtin_indie_factorio",
     "source": "builtin",
-    "sourceLabel": "??",
-    "name": "Factorio",
+    "sourceLabel": "内置范本",
+    "name": "Factorio（异星工厂）",
     "gameName": "Factorio",
     "targetScale": "indie",
-    "scaleLabel": "????",
-    "qualityTier": "A+",
+    "scaleLabel": "独立游戏",
+    "qualityTier": "B",
     "order": 6,
     "internalComplexityRank": "high",
-    "summary": "Factorio 2D L5 template for automation chains, logistics planning, and scalable production systems.",
+    "summary": "2D工厂自动化策略，复杂生产链设计，深度系统与逻辑构建的硬核独立游戏。",
     "analysis": [
       "Factorio is used as a 2D indie reference for 2D factory automation strategy.",
       "The template emphasizes production chains, logistics readability, optimization curves, and systemic expansion across product, system, content, UX, presentation, balance, and service decisions.",
@@ -28,13 +28,13 @@
       ]
     },
     "createdAt": "2026-06-16T09:57:29",
-    "updatedAt": "2026-06-26T21:30:00",
-    "qualityClaim": "L5_complete_consistent",
+    "updatedAt": "2026-06-26T22:10:00",
+    "qualityClaim": "L5_partial",
     "qualityNote": "2D-only L5 redesign: all 39 concrete system/content nodes carry schema-valid entities; planning nodes have game-specific notes.",
     "visibility": "public"
   },
   "projectState": {
-    "projectName": "???Factorio",
+    "projectName": "范本：Factorio（异星工厂）",
     "profile": {
       "businessModel": "buyout",
       "operationModel": "content_updates",

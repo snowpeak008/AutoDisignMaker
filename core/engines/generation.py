@@ -1399,12 +1399,37 @@ def _stage2_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
 def _stage2_supplement_adapter(out_dir: Path) -> Any:
     """Return the configured Step 02 L5 supplement adapter, or None when disabled."""
-    adapter_name = load_project_settings(BASE_DIR).get("pipeline_adapter", "none")
+    model_adapter = None
+    adapter_name = _active_pipeline_adapter_name()
     if not adapter_name or adapter_name == "none":
         return None
+    try:
+        from core.adapters.registry import get_adapter
+        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+
+        if AI_CONFIG_PATH.exists():
+            profile = get_active_profile()
+            model_adapter = get_adapter(profile.adapter, profile=profile)
+    except Exception:
+        model_adapter = None
     from pipeline.step_02_design_review_freeze.supplement import EntitySupplementAdapter
 
-    return EntitySupplementAdapter(cache_dir=out_dir, adapter_name=str(adapter_name))
+    return EntitySupplementAdapter(
+        cache_dir=out_dir,
+        adapter_name=str(adapter_name),
+        model_adapter=model_adapter,
+    )
+
+
+def _active_pipeline_adapter_name() -> str:
+    try:
+        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+
+        if AI_CONFIG_PATH.exists():
+            return get_active_profile().adapter
+    except Exception:
+        pass
+    return str(load_project_settings(BASE_DIR).get("pipeline_adapter", "none"))
 
 
 def _requirement_text(item: Selection) -> str:
@@ -1910,7 +1935,7 @@ def _style_option_count() -> int:
 
 
 def _style_image_generation_enabled() -> bool:
-    return _config_bool("art_style_generation.enable_image_generation", False) and _image_generation_enabled()
+    return _image_generation_enabled()
 
 
 def _stage_title(parsed: dict[str, Any]) -> str:
@@ -2784,6 +2809,13 @@ def _art_tasks() -> list[dict[str, Any]]:
 
 
 def _image_generation_enabled() -> bool:
+    try:
+        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+
+        if AI_CONFIG_PATH.exists():
+            return bool(get_active_profile().image.enabled)
+    except Exception:
+        pass
     value = os.getenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", "").strip().lower()
     return value in {"1", "true", "yes", "on"}
 
@@ -2817,7 +2849,7 @@ def _write_generated_images_manifest(
         "reason": (
             ""
             if enabled
-            else "Set AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION=1 to call the image generator."
+            else "Enable image generation in the active AI profile to call the image generator."
         ),
         "task_count": len(tasks),
         "generated_count": 0,
@@ -4157,12 +4189,18 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     model_task.timeout_seconds = 720
                     try:
                         from core.adapters.registry import get_adapter
+                        from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
                         from core.runtime.preflight import load_project_settings
 
-                        _adapter_name = load_project_settings(BASE_DIR).get(
-                            "pipeline_adapter", "codex"
-                        )
-                        codex_result = get_adapter(_adapter_name).generate(model_task)
+                        if AI_CONFIG_PATH.exists():
+                            _profile = get_active_profile()
+                            model_adapter = get_adapter(_profile.adapter, profile=_profile)
+                        else:
+                            _adapter_name = load_project_settings(BASE_DIR).get(
+                                "pipeline_adapter", "codex"
+                            )
+                            model_adapter = get_adapter(_adapter_name)
+                        codex_result = model_adapter.generate(model_task)
                         codex_errors.extend(codex_result.errors)
                     except Exception as exc:
                         codex_errors.append(str(exc))

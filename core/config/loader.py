@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import warnings
 from copy import deepcopy
 from dataclasses import dataclass
 from pathlib import Path
@@ -24,14 +25,6 @@ except ModuleNotFoundError:
 
 DEFAULT_APP_CONFIG: dict[str, Any] = {
     "project": {"name": "AutoDesignMaker", "version": "1.0.0"},
-    "model": {
-        "provider": "openai",
-        "base_url": "https://vip.auto-code.net/v1",
-        "model": "gpt-5.5",
-        "max_tokens": 350000,
-        "temperature": 0.7,
-        "timeout": 300,
-    },
     "plugins": {"manifest_path": "pipeline/_registry.json", "auto_discover": True},
     "manual_gates": {
         "enable_manual_gates": True,
@@ -42,7 +35,6 @@ DEFAULT_APP_CONFIG: dict[str, Any] = {
         "num_options": 5,
         "image_width": 1024,
         "image_height": 1024,
-        "enable_image_generation": True,
     },
 }
 
@@ -200,6 +192,24 @@ class OpenAICompatibleCaller:
 
 
 def get_api_config(provider_name: str = "llm") -> dict[str, Any]:
+    """Return OpenAI-compatible API config.
+
+    Deprecated: new code should use get_active_ai_profile() or
+    get_pipeline_adapter(). This remains for image/audio tools and older flows.
+    """
+    warnings.warn(
+        "get_api_config() is deprecated; use get_active_ai_profile() or get_pipeline_adapter().",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    if provider_name in {"llm", "image", "image2"}:
+        try:
+            profile_cfg = _api_config_from_active_profile(provider_name)
+            if profile_cfg:
+                return profile_cfg
+        except Exception:
+            pass
+
     document = _load_config_document()
     cfg: dict[str, Any] = {}
     if isinstance(document.get(provider_name), dict):
@@ -231,6 +241,38 @@ def get_api_config(provider_name: str = "llm") -> dict[str, Any]:
     }
 
 
+def _api_config_from_active_profile(provider_name: str) -> dict[str, Any]:
+    from core.config.ai_config import get_active_profile
+
+    profile = get_active_profile()
+    cfg = profile.llm if provider_name == "llm" else profile.image
+    if provider_name == "llm" and cfg.source != "api":
+        return {}
+    if provider_name != "llm" and cfg.source != "api":
+        return {}
+    api_key = str(cfg.api_key or "").strip()
+    base_url = str(cfg.base_url or "").strip()
+    model = str(cfg.model or "").strip()
+    if not api_key or not base_url or not model:
+        return {}
+    provider = str(cfg.provider or "openai")
+    if provider == "openai":
+        base_url = normalize_openai_base_url(base_url)
+    else:
+        base_url = base_url.rstrip("/")
+    return {
+        "api_key": api_key,
+        "base_url": base_url,
+        "model": f"{provider}/{model}",
+        "default_model": model,
+        "provider": provider,
+        "reasoning_effort": getattr(cfg, "reasoning_effort", None),
+        "profile_id": profile.id,
+        "source": cfg.source,
+        "enabled": getattr(cfg, "enabled", True),
+    }
+
+
 def build_llm(cfg: dict[str, Any], temperature: float = 0.0) -> OpenAICompatibleCaller:
     return OpenAICompatibleCaller(
         model=cfg["model"],
@@ -239,3 +281,16 @@ def build_llm(cfg: dict[str, Any], temperature: float = 0.0) -> OpenAICompatible
         temperature=temperature,
         reasoning_effort=cfg.get("reasoning_effort"),
     )
+
+
+def get_active_ai_profile():
+    from core.config.ai_config import get_active_profile
+
+    return get_active_profile()
+
+
+def get_pipeline_adapter():
+    from core.adapters.registry import get_adapter
+
+    profile = get_active_ai_profile()
+    return get_adapter(profile.adapter, profile=profile)
