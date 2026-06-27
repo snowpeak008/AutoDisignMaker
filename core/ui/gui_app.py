@@ -23,12 +23,13 @@ def main() -> int:
     from core.paths import PROJECT_ROOT
     from core.config.loader import load_config
     from core.config.integrity import validate_data_integrity
-    from core.save.manager import prune_old_drafts
+    from core.save.manager import prune_draft_snapshots, prune_old_drafts
     from core.ui.main_window import MainWindow
 
     load_config()
     validate_data_integrity()
     prune_old_drafts(PROJECT_ROOT, keep_count=5)
+    prune_draft_snapshots(PROJECT_ROOT, keep_per_draft=0)
     app = MainWindow()
     app.mainloop()
     return 0

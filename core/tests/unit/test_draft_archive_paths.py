@@ -129,10 +129,13 @@ def test_prune_old_drafts_keeps_recent_linked_and_current(
     current = make_draft(isolated_project_root, "20260101_000002_current")
     monkeypatch.setattr(save_manager, "DRAFT_DIR", current)
     make_draft(isolated_project_root, "20260101_000000_old")
+    # linked draft: the save directory actually exists on disk → kept
+    save_keep = isolated_project_root / "saves" / "save_keep"
+    save_keep.mkdir(parents=True)
     make_draft(
         isolated_project_root,
         "20260101_000001_linked",
-        {"linked_archive_path": str(isolated_project_root / "saves" / "save_keep")},
+        {"linked_archive_path": str(save_keep)},
     )
     make_draft(isolated_project_root, "20260101_000003_old")
     recent_a = make_draft(isolated_project_root, "20260101_000004_recent")
@@ -145,6 +148,93 @@ def test_prune_old_drafts_keeps_recent_linked_and_current(
     assert recent_a.exists()
     assert recent_b.exists()
     assert (isolated_project_root / "drafts" / "20260101_000001_linked").exists()
+
+
+def test_prune_old_drafts_removes_orphan_drafts(
+    isolated_project_root,
+    monkeypatch,
+) -> None:
+    current = make_draft(isolated_project_root, "20260101_000002_current")
+    monkeypatch.setattr(save_manager, "DRAFT_DIR", current)
+    # orphan: linked_save_id points to a save that no longer exists
+    make_draft(
+        isolated_project_root,
+        "20260101_000000_orphan",
+        {"linked_save_id": "save_gone"},
+    )
+    recent = make_draft(isolated_project_root, "20260101_000001_recent")
+
+    deleted = save_manager.prune_old_drafts(isolated_project_root, keep_count=1)
+
+    assert "20260101_000000_orphan" in deleted
+    assert recent.exists()
+    assert current.exists()
+
+
+def test_prune_draft_snapshots_prunes_only_pruneable_drafts(
+    isolated_project_root,
+    monkeypatch,
+) -> None:
+    current = make_draft(isolated_project_root, "20260101_000000_current")
+    current_snapshot = current / "snapshots" / "000001_current"
+    current_snapshot.mkdir(parents=True)
+    monkeypatch.setattr(save_manager, "DRAFT_DIR", current)
+
+    save_keep = isolated_project_root / "saves" / "save_keep"
+    save_keep.mkdir(parents=True)
+    linked = make_draft(
+        isolated_project_root,
+        "20260101_000001_linked",
+        {"linked_save_id": "save_keep"},
+    )
+    linked_snapshot = linked / "snapshots" / "000001_linked"
+    linked_snapshot.mkdir(parents=True)
+
+    orphan = make_draft(
+        isolated_project_root,
+        "20260101_000002_orphan",
+        {"linked_save_id": "save_gone"},
+    )
+    (orphan / "snapshots" / "000001_orphan").mkdir(parents=True)
+    (orphan / "snapshots" / "000002_orphan").mkdir(parents=True)
+
+    unlinked = make_draft(isolated_project_root, "20260101_000003_unlinked")
+    (unlinked / "snapshots" / "000001_unlinked").mkdir(parents=True)
+
+    pruned = save_manager.prune_draft_snapshots(
+        isolated_project_root, keep_per_draft=0
+    )
+
+    assert pruned == ["20260101_000002_orphan", "20260101_000003_unlinked"]
+    assert current_snapshot.exists()
+    assert linked_snapshot.exists()
+    assert not (orphan / "snapshots").exists()
+    assert not (unlinked / "snapshots").exists()
+
+
+def test_prune_draft_snapshots_keeps_latest_snapshots(
+    isolated_project_root,
+    monkeypatch,
+) -> None:
+    current = make_draft(isolated_project_root, "20260101_000000_current")
+    monkeypatch.setattr(save_manager, "DRAFT_DIR", current)
+    draft = make_draft(
+        isolated_project_root,
+        "20260101_000001_orphan",
+        {"linked_save_id": "save_gone"},
+    )
+    old_snapshot = draft / "snapshots" / "000001_old"
+    new_snapshot = draft / "snapshots" / "000002_new"
+    old_snapshot.mkdir(parents=True)
+    new_snapshot.mkdir(parents=True)
+
+    pruned = save_manager.prune_draft_snapshots(
+        isolated_project_root, keep_per_draft=1
+    )
+
+    assert pruned == ["20260101_000001_orphan"]
+    assert not old_snapshot.exists()
+    assert new_snapshot.exists()
 
 
 def test_delete_save_removes_linked_drafts_but_keeps_current_and_unrelated(

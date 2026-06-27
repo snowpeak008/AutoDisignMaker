@@ -220,6 +220,14 @@ def _draft_linked_save_id(draft: Path) -> str | None:
     return _linked_save_id_from_meta(meta)
 
 
+def _draft_is_pruneable(draft: Path, saves_root: Path) -> bool:
+    """True when the draft has no live save to protect it."""
+    save_id = _draft_linked_save_id(draft)
+    if save_id is None:
+        return True
+    return not (saves_root / save_id).is_dir()
+
+
 def _drafts_root(project_root: Path) -> Path:
     return _formal_root(project_root) / "drafts"
 
@@ -581,24 +589,61 @@ def prune_sibling_draft_outputs(project_root: Path, stage_from: int = 0) -> list
 
 
 def prune_old_drafts(project_root: Path, keep_count: int = 5) -> list[str]:
-    """Delete oldest unlinked draft directories, keeping recent and linked drafts."""
+    """Delete oldest pruneable draft directories (unlinked or orphaned saves)."""
     drafts_root = _drafts_root(project_root)
     if not drafts_root.exists():
         return []
     keep_count = max(0, int(keep_count))
+    saves_root = save_root(_formal_root(project_root))
     drafts = sorted(
         (path for path in drafts_root.iterdir() if path.is_dir()),
         key=lambda path: path.name,
     )
     candidates = [draft for draft in drafts if not _is_current_draft(draft)]
-    unlinked = [draft for draft in candidates if _draft_linked_save_id(draft) is None]
-    to_delete = unlinked[: max(0, len(unlinked) - keep_count)]
+    pruneable = [draft for draft in candidates if _draft_is_pruneable(draft, saves_root)]
+    to_delete = pruneable[: max(0, len(pruneable) - keep_count)]
 
     deleted: list[str] = []
     for draft in to_delete:
         if _safe_remove_tree(drafts_root, draft):
             deleted.append(draft.name)
     return deleted
+
+
+def prune_draft_snapshots(project_root: Path, keep_per_draft: int = 0) -> list[str]:
+    """Delete snapshot directories from pruneable drafts to reclaim space.
+
+    keep_per_draft=0 removes all snapshots from pruneable drafts.
+    Live (non-pruneable) drafts are not touched.
+    """
+    drafts_root = _drafts_root(project_root)
+    if not drafts_root.exists():
+        return []
+    saves_root = save_root(_formal_root(project_root))
+    pruned: list[str] = []
+    for draft in sorted(drafts_root.iterdir(), key=lambda p: p.name):
+        if not draft.is_dir() or _is_current_draft(draft):
+            continue
+        if not _draft_is_pruneable(draft, saves_root):
+            continue
+        snap_dir = draft / "snapshots"
+        if not snap_dir.exists():
+            continue
+        if keep_per_draft <= 0:
+            if _safe_remove_tree(draft, snap_dir):
+                pruned.append(draft.name)
+        else:
+            snaps = sorted(snap_dir.iterdir(), key=lambda p: p.name)
+            removed = False
+            for snap in snaps[: max(0, len(snaps) - keep_per_draft)]:
+                if snap.is_dir():
+                    removed = _safe_remove_tree(snap_dir, snap) or removed
+                else:
+                    snap.unlink(missing_ok=True)
+                    removed = True
+            if removed:
+                pruned.append(draft.name)
+    return pruned
 
 
 def _prune_drafts_linked_to(project_root: Path, save_id: str) -> list[str]:
