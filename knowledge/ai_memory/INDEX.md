@@ -8,6 +8,27 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-005
+**Summary**: Fixed BUG-NEW-001: Codex image stdout PNG path extraction now allows backticks inside filenames instead of relying on session/new-file fallbacks.
+
+**Completed**:
+- [x] Allowed backticks in `_png_paths_from_text()` path segments while keeping backticks valid as wrapping delimiters.
+- [x] Added regression coverage for `saved: \`...\style\`board.png\`` so saved-path parsing succeeds directly.
+
+**Verification**:
+- [x] `python -B -m pytest core\tests\unit\test_codex_image_tool.py -q`: 6 passed.
+- [x] `python -B -m pytest -q`: 168 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+
+**Follow-up**:
+- [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-004
 **Summary**: Completed `bug_collection_20260628_step07_edge_cases`: handled remaining Step07 edge cases around deleted files, cleanup logging, path parser documentation, and trailing-backtick path tests.
 
@@ -28,10 +49,6 @@
 - [ ] Real Codex CLI Step07 image generation was not rerun.
 - [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
-
----
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-003

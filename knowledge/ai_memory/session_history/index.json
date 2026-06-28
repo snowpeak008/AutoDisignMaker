@@ -1,5 +1,23 @@
 [
   {
+    "id": "2026-06-28-005",
+    "date": "2026-06-28",
+    "summary": "Fixed BUG-NEW-001: Codex image stdout PNG path extraction now allows backticks inside filenames",
+    "changed_files": [
+      "tools/asset_production/codex_image_tool.py",
+      "core/tests/unit/test_codex_image_tool.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-005.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-005.md"
+    ],
+    "next_tasks": [
+      "Do not commit sunny_girl_image2.png unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-004",
     "date": "2026-06-28",
     "summary": "Completed bug_collection_20260628_step07_edge_cases: handled deleted-file scan races, cleanup logging, parser documentation, and trailing-backtick path tests",

@@ -66,8 +66,8 @@ def _png_paths_from_text(text: str) -> list[Path]:
     pattern = (
         r"(?:^|[\s:：`\"'])"
         r"((?:[A-Za-z]:\\|/)"
-        r"(?:[^\r\n`<>\"'\\/:*?|]+[/\\])*"
-        r"[^\r\n`<>\"'\\/:*?|]+?\.png)"
+        r"(?:[^\r\n<>\"'\\/:*?|]+[/\\])*"
+        r"[^\r\n<>\"'\\/:*?|]+?\.png)"
         r"(?=$|[\s`<>\"'）),.;:：，。])"
     )
     for match in re.finditer(pattern, text):

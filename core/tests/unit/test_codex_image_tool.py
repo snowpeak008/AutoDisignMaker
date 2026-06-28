@@ -132,6 +132,15 @@ def test_saved_pngs_from_output_prefers_saved_lines(tmp_path) -> None:
     assert paths == [saved_path]
 
 
+def test_saved_pngs_from_output_allows_backticks_in_filename(tmp_path) -> None:
+    saved_path = tmp_path / "style`board.png"
+    saved_path.write_bytes(b"png")
+
+    paths = codex_image_tool._saved_pngs_from_output(f"saved: `{saved_path}`")
+
+    assert paths == [saved_path]
+
+
 def test_session_pngs_from_output_requires_uuid(tmp_path) -> None:
     generated_dir = tmp_path / "generated_images"
     loose_session = generated_dir / "12345678901234567890aaaaaaaaaa"
