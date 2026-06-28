@@ -18,7 +18,13 @@ from core.design.gameplay_systems import (
     infer_gameplay_systems_from_template,
     parse_interview_answers_to_custom_systems,
 )
-from core.design.project_templates import custom_template_path, list_project_templates, save_custom_template, target_scale_options
+from core.design.project_templates import (
+    custom_template_path,
+    delete_custom_template,
+    list_project_templates,
+    save_custom_template,
+    target_scale_options,
+)
 from core.design.profile_schema import PROFILE_FIELDS, field_label, option_label, value_from_label
 from core.ui.ai_interview_window import AIInterviewWindow
 from core.ui.theme import COLORS, FONT_BADGE, FONT_BODY, FONT_CARD, FONT_SECTION, FONT_SMALL, FONT_TITLE, center_window
@@ -1676,7 +1682,30 @@ class CommercialDesignApp(tk.Frame):
             window.destroy()
             self.render()
 
+        def on_delete():
+            payload = selected_payload.get("value")
+            if not payload:
+                return
+            meta = payload.get("template", {})
+            if meta.get("source") != "custom":
+                messagebox.showinfo("提示", "内置模板不可删除。", parent=window)
+                return
+            name = meta.get("name", "")
+            scale = meta.get("targetScale", "")
+            if not messagebox.askyesno(
+                "删除模板",
+                f"确定删除自定义模板「{name}」？此操作不可恢复。",
+                parent=window,
+            ):
+                return
+            if not delete_custom_template(name, scale):
+                messagebox.showwarning("删除模板", "未找到可删除的自定义模板文件。", parent=window)
+                return
+            window.destroy()
+            self.open_template_viewer()
+
         ttk.Button(buttons, text="载入范本项目", command=on_import).pack(side=tk.LEFT, padx=(0, 8))
+        ttk.Button(buttons, text="删除自定义模板", command=on_delete).pack(side=tk.LEFT)
         ttk.Button(buttons, text="关闭", command=window.destroy).pack(side=tk.RIGHT)
         tree.bind("<<TreeviewSelect>>", on_select)
         first = tree.get_children()

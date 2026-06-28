@@ -1,5 +1,33 @@
 [
   {
+    "id": "2026-06-28-014",
+    "date": "2026-06-28",
+    "summary": "Completed asset_type_fix_and_parallel_image_gen: fixed asset type UI substring bug, parallelized Step07 style images, enlarged thumbnails, and added custom-template deletion",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/ui/pipeline_panel.py",
+      "core/ui/app_window.py",
+      "core/design/project_templates.py",
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "core/tests/unit/test_project_templates.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-014.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "core/tests/unit/test_project_templates.py",
+      "knowledge/ai_memory/session_history/2026-06-28-014.md"
+    ],
+    "next_tasks": [
+      "Manual GUI spot-check remains useful for Step07 style-card sizing and custom-template deletion dialogs",
+      "Manual Step04/Step07 reruns remain useful for real asset distribution and real image-generation timing",
+      "Do not commit plan/asset_type_fix_and_parallel_image_gen.md unless explicitly requested",
+      "Leave unrelated local core/engines/execution_objects/workflow.py changes out of this task commit"
+    ]
+  },
+  {
     "id": "2026-06-28-013",
     "date": "2026-06-28",
     "summary": "Completed template gameplay-systems completion: all builtin templates now have selected gameplay systems, weights, core loops, import fallback, and regression tests",

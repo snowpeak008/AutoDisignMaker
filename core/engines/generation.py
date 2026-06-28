@@ -18,6 +18,7 @@ import struct
 import subprocess
 import time
 import zlib
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -1682,7 +1683,7 @@ def _asset_type(item: Selection) -> str:
     normalized = text.lower()
     if "配置" in text or "config" in normalized:
         return "config"
-    if any(token in normalized for token in ("ui", "hud")) or any(
+    if re.search(r"(?<![a-z0-9])(?:ui|hud)(?![a-z0-9])", normalized) or any(
         token in text for token in ("图标", "界面")
     ):
         return "ui"
@@ -2197,10 +2198,7 @@ def _place_style_image(source: Path, target: Path) -> Path:
 
 
 def _style_image_generation_workers(option_count: int) -> int:
-    _ = option_count
-    # Real image generation may use local CLI state and shared output folders.
-    # Keep Step07 image generation serial to avoid overlapping Codex CLI launches.
-    return 1
+    return max(1, min(5, int(option_count or 0)))
 
 
 def _new_style_pngs(
@@ -2277,17 +2275,30 @@ def _generate_style_option_images(
             use_api = False
     api_records: dict[str, dict[str, str]] = {}
     if generator is not None:
-        for option in options:
+        def _gen_one(option: dict[str, Any]) -> tuple[str, dict[str, str]]:
             style_id = option["style_id"]
+            worker_dir = generated_dir / f"{style_id}_work"
+            worker_dir.mkdir(parents=True, exist_ok=True)
             try:
-                api_records[style_id] = _run_style_image_generation(
+                return style_id, _run_style_image_generation(
                     generator,
                     str(option["prompt"]),
-                    generated_dir,
+                    worker_dir,
                     generated_dir / f"{style_id}.png",
                 )
             except Exception as exc:  # noqa: BLE001 - external API boundary
-                api_records[style_id] = {"status": "failed", "result": str(exc)}
+                return style_id, {"status": "failed", "result": str(exc)}
+            finally:
+                try:
+                    worker_dir.rmdir()
+                except OSError:
+                    pass
+
+        with ThreadPoolExecutor(
+            max_workers=_style_image_generation_workers(len(options))
+        ) as executor:
+            for style_id, record in executor.map(_gen_one, options):
+                api_records[style_id] = record
     for option in options:
         image_path = generated_dir / f"{option['style_id']}.png"
         prompt = str(option["prompt"])

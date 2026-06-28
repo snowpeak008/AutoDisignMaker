@@ -176,6 +176,14 @@ def save_custom_template(name, target_scale, project_state):
     return path
 
 
+def delete_custom_template(name: str, target_scale: str) -> bool:
+    path = custom_template_path(name, target_scale)
+    if path.exists() and path.name.startswith(CUSTOM_PREFIX):
+        path.unlink()
+        return True
+    return False
+
+
 def target_scale_options():
     values = []
     labels = PROFILE_OPTION_LABELS.get("targetScale", {})

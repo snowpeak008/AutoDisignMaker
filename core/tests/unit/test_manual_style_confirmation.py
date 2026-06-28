@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import shutil
+import threading
 from pathlib import Path
 
 from core.engines import generation
@@ -52,10 +53,53 @@ def test_step07_generates_style_options(tmp_path, monkeypatch) -> None:
     assert first_image.read_bytes().startswith(b"\x89PNG")
 
 
-def test_step07_image_generation_workers_stays_serial(monkeypatch) -> None:
+def test_step07_image_generation_workers_allows_parallel(monkeypatch) -> None:
     monkeypatch.setattr(generation, "get_config", lambda key, default=None: 5)
 
-    assert generation._style_image_generation_workers(5) == 1
+    assert generation._style_image_generation_workers(5) == 5
+    assert generation._style_image_generation_workers(7) == 5
+    assert generation._style_image_generation_workers(0) == 1
+
+
+def test_step07_generates_style_images_in_parallel(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(generation, "_style_image_generation_enabled", lambda: True)
+    monkeypatch.setattr(generation, "_create_image_generator", lambda: object())
+    barrier = threading.Barrier(3, timeout=2)
+    lock = threading.Lock()
+    active = {"count": 0, "max": 0}
+
+    def fake_run(generator, prompt, generated_dir, image_path):
+        _ = generator, prompt, generated_dir
+        with lock:
+            active["count"] += 1
+            active["max"] = max(active["max"], active["count"])
+        try:
+            barrier.wait()
+            image_path.write_bytes(b"\x89PNG\r\n\x1a\n")
+            return {"status": "success", "result": "ok", "image_path": str(image_path)}
+        finally:
+            with lock:
+                active["count"] -= 1
+
+    monkeypatch.setattr(generation, "_run_style_image_generation", fake_run)
+    options = [
+        {
+            "style_id": f"STYLE-{index:02d}",
+            "prompt": f"prompt {index}",
+            "palette": ("#111111", "#222222", "#333333"),
+        }
+        for index in range(1, 4)
+    ]
+
+    manifest = generation._generate_style_option_images(
+        tmp_path,
+        {"project_name": "Parallel Test"},
+        options,
+    )
+
+    assert active["max"] > 1
+    assert manifest["enabled"] is True
+    assert [record["status"] for record in manifest["records"]] == ["success"] * 3
 
 
 def test_step07_places_image_with_copy_fallback(tmp_path, monkeypatch) -> None:

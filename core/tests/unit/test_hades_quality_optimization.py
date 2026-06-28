@@ -216,6 +216,46 @@ def test_stage4_asset_items_detect_english_environment_entities() -> None:
     assert assets[0]["name"] == "内容：underworld_room"
 
 
+def test_stage4_asset_type_does_not_treat_buildcraft_as_ui() -> None:
+    buildcraft = generation.Selection(
+        index=1,
+        layer_number=1,
+        layer_title="构筑系统",
+        layer_status="已提交",
+        item_type="内容",
+        option="buildcraft_upgrade_asset",
+        purpose="Buildcraft progression icon-free gameplay asset for weapon evolution.",
+        source_ref="design.md:1",
+        source_line=1,
+    )
+    ui_element = generation.Selection(
+        index=2,
+        layer_number=1,
+        layer_title="界面",
+        layer_status="已提交",
+        item_type="内容",
+        option="ui_element",
+        purpose="HUD readable panel.",
+        source_ref="design.md:2",
+        source_line=2,
+    )
+    pickup = generation.Selection(
+        index=3,
+        layer_number=1,
+        layer_title="掉落物",
+        layer_status="已提交",
+        item_type="内容",
+        option="pickup_orb",
+        purpose="Collectible pickup gameplay asset.",
+        source_ref="design.md:3",
+        source_line=3,
+    )
+
+    assert generation._asset_type(buildcraft) == "art_asset"
+    assert generation._asset_type(ui_element) == "ui"
+    assert generation._asset_type(pickup) == "art_asset"
+
+
 def test_stage4_uses_stage2_supplemented_entities_for_assets(
     tmp_path, monkeypatch
 ) -> None:

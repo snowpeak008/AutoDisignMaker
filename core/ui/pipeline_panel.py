@@ -468,7 +468,7 @@ class PipelinePanel(tk.Frame):
 
             image_path = _resolve_image_path(image_path_text)
             image = tk.PhotoImage(file=str(image_path))
-            while image.width() > 220 or image.height() > 150:
+            while image.width() > 330 or image.height() > 225:
                 image = image.subsample(2, 2)
             self._style_imgs.append(image)
             image_label.configure(image=image)
@@ -499,7 +499,7 @@ class PipelinePanel(tk.Frame):
             fg=COLORS["text"],
             activebackground=COLORS["surface"],
             anchor=tk.W,
-            wraplength=220,
+            wraplength=330,
             justify=tk.LEFT,
         ).pack(anchor=tk.W, fill=tk.X, pady=(6, 2))
         tk.Label(
@@ -508,7 +508,7 @@ class PipelinePanel(tk.Frame):
             bg=COLORS["surface"],
             fg=COLORS["muted"],
             font=FONT_SMALL,
-            wraplength=220,
+            wraplength=330,
             justify=tk.LEFT,
         ).pack(anchor=tk.W)
 
