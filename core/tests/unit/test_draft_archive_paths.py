@@ -347,3 +347,79 @@ def test_prune_sibling_draft_outputs_clears_same_save_artifacts_only(
     assert linked_source.exists()
     assert (linked / "draft_meta.json").exists()
     assert unrelated_stage.exists()
+
+
+def test_migrate_workspace_project_id_reports_manifest_changes_once(
+    isolated_project_root,
+) -> None:
+    package = isolated_project_root / "source_artifacts" / "devflow_Concept_v1"
+    package.mkdir(parents=True)
+    (package / "selected_play_prototype.json").write_text("{}", encoding="utf-8")
+
+    assert save_manager.migrate_workspace_project_id(isolated_project_root) is True
+    manifest = json.loads((package / "package_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["project_id"] == save_manager.PROJECT_ID
+    assert manifest["package_type"] == "Concept"
+
+    assert save_manager.migrate_workspace_project_id(isolated_project_root) is False
+
+
+def test_build_file_map_reuses_cached_sha256(
+    isolated_project_root,
+    monkeypatch,
+) -> None:
+    workspace_file = isolated_project_root / "workspace" / "notes.txt"
+    workspace_file.parent.mkdir(parents=True)
+    workspace_file.write_text("unchanged", encoding="utf-8")
+    first = save_manager.build_file_map(isolated_project_root, transaction_seq=1)
+    save_manager.write_json(isolated_project_root / "draft_file_map.json", first)
+
+    def fail_sha256(path: Path) -> str:
+        raise AssertionError(f"unexpected sha256 recompute: {path}")
+
+    monkeypatch.setattr(save_manager, "_sha256", fail_sha256)
+
+    second = save_manager.build_file_map(isolated_project_root, transaction_seq=2)
+
+    entry = next(item for item in second["files"] if item["workspace_path"] == "workspace/notes.txt")
+    assert entry["sha256"] == first["files"][0]["sha256"]
+    assert entry["latest_transaction_seq"] == 2
+
+
+def test_sync_current_save_trims_current_draft_snapshots(
+    isolated_project_root,
+) -> None:
+    workspace_file = isolated_project_root / "workspace" / "notes.txt"
+    workspace_file.parent.mkdir(parents=True)
+    workspace_file.write_text("0", encoding="utf-8")
+    manifest = save_manager.create_save(isolated_project_root, "Demo", event="unit_test")
+
+    for index in range(7):
+        workspace_file.write_text(str(index + 1), encoding="utf-8")
+        save_manager.sync_current_save(isolated_project_root, event=f"unit_test_{index}")
+
+    snap_dir = isolated_project_root / "snapshots"
+    snapshots = sorted(path.name for path in snap_dir.iterdir() if path.is_dir())
+    assert len(snapshots) == 5
+    assert snapshots[-1].endswith("unit_test_6")
+    assert save_manager.current_save_id(isolated_project_root) == manifest["save_id"]
+
+
+def test_load_save_fast_path_skips_snapshot_creation(
+    isolated_project_root,
+) -> None:
+    source_file = isolated_project_root / "source_artifacts" / "idea.txt"
+    source_file.parent.mkdir(parents=True)
+    source_file.write_text("demo", encoding="utf-8")
+    manifest = save_manager.create_save(isolated_project_root, "Demo", event="unit_test")
+    save_id = manifest["save_id"]
+
+    loaded = save_manager.load_save(isolated_project_root, save_id)
+
+    assert loaded["save_id"] == save_id
+    assert not (isolated_project_root / "snapshots").exists()
+    timeline = (isolated_project_root / "timeline.jsonl").read_text(encoding="utf-8")
+    assert "fast path: no migration changes" in timeline
+    assert (save_manager.workspace_dir(isolated_project_root, save_id) / "source_artifacts" / "idea.txt").read_text(
+        encoding="utf-8"
+    ) == "demo"

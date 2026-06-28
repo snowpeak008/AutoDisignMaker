@@ -55,6 +55,8 @@ class CommercialDesignApp(tk.Frame):
         self.ai_window = None
         self._autosave_after_id = None
         self._saved_state_hash: str | None = None
+        self._state_version = 0
+        self._last_results_version: tuple | None = None
 
         self.configure_style()
         self.build_ui()
@@ -287,11 +289,16 @@ class CommercialDesignApp(tk.Frame):
         """Call after every formal save or load to anchor the 'no unsaved changes' baseline."""
         self._saved_state_hash = self._project_state_hash()
 
+    def _mark_state_changed(self) -> None:
+        self._state_version += 1
+        self._last_results_version = None
+
     def render(self, preserve_node_scroll=False):
         self.project_state["projectName"] = self.project_name.get()
         self.project_state["profile"] = self.current_profile_values()
         self.project_state = self.engine.normalize_state(self.project_state)
         self.sync_profile_labels()
+        self._last_results_version = None
         self.render_domains()
         self.render_nodes(preserve_scroll=preserve_node_scroll)
         self.render_results()
@@ -1127,6 +1134,11 @@ class CommercialDesignApp(tk.Frame):
         return {"bg": COLORS["surface"], "border": COLORS["border"], "fg": COLORS["text"], "muted": COLORS["muted"], "marker_bg": COLORS["surface_alt"], "marker_fg": COLORS["muted"]}
 
     def render_results(self):
+        sig = (self._state_version, self.current_domain_id, self.project_name.get())
+        if sig == self._last_results_version:
+            return
+        self._last_results_version = sig
+
         project_coverage = self.engine.project_coverage(self.project_state)
         quality = self.engine.quality_metrics(self.project_state)
         concreteness = quality["concretenessCoverage"]
@@ -1252,6 +1264,7 @@ class CommercialDesignApp(tk.Frame):
         self.render_nodes()
 
     def on_profile_change(self):
+        self._mark_state_changed()
         self.render()
 
     def on_gameplay_system_toggle(self, system_id, checked):
@@ -1265,6 +1278,7 @@ class CommercialDesignApp(tk.Frame):
             state.setdefault("coreLoops", {}).pop(system_id, None)
         state["selected"] = selected
         self.project_state["gameplaySystems"] = state
+        self._mark_state_changed()
         self.status_text.set("玩法系统选择已更新。")
         self.render(preserve_node_scroll=True)
 
@@ -1283,6 +1297,7 @@ class CommercialDesignApp(tk.Frame):
         state.setdefault("weights", {})[item["id"]] = {"weight": "", "weight_type": "percent"}
         state.setdefault("coreLoops", {})[item["id"]] = ""
         self.project_state["gameplaySystems"] = state
+        self._mark_state_changed()
         if hasattr(name_var, "set"):
             name_var.set("")
         self.status_text.set(f"已添加自定义玩法系统：{item['name']}")
@@ -1297,6 +1312,7 @@ class CommercialDesignApp(tk.Frame):
         interview = state.setdefault("interview", {})
         interview["parsedSystemIds"] = [item for item in interview.get("parsedSystemIds", []) if item != system_id]
         self.project_state["gameplaySystems"] = state
+        self._mark_state_changed()
         self.status_text.set("自定义玩法系统已删除。")
         self.render(preserve_node_scroll=True)
 
@@ -1316,6 +1332,7 @@ class CommercialDesignApp(tk.Frame):
             value = number
         state.setdefault("weights", {})[system_id] = {"weight": value, "weight_type": "percent"}
         self.project_state["gameplaySystems"] = state
+        self._mark_state_changed()
         summary = self.engine.gameplay_weight_summary(self.project_state)
         self.status_text.set(f"玩法系统总占比：{summary['total']}%")
         self.render(preserve_node_scroll=True)
@@ -1324,6 +1341,7 @@ class CommercialDesignApp(tk.Frame):
         state = self.engine.gameplay_systems_state(self.project_state)
         state.setdefault("coreLoops", {})[system_id] = str(value or "").strip()
         self.project_state["gameplaySystems"] = state
+        self._mark_state_changed()
         self.status_text.set("核心循环描述已更新。")
         self.render(preserve_node_scroll=True)
 
@@ -1336,6 +1354,7 @@ class CommercialDesignApp(tk.Frame):
         answers = [line.strip() for line in str(value or "").splitlines() if line.strip()]
         state.setdefault("interview", {})["answers"] = answers
         self.project_state["gameplaySystems"] = state
+        self._mark_state_changed()
         self.status_text.set("玩法系统兜底访谈回答已保存。")
         self.render(preserve_node_scroll=True)
 
@@ -1350,6 +1369,7 @@ class CommercialDesignApp(tk.Frame):
         )
         if not created:
             self.project_state["gameplaySystems"] = state
+            self._mark_state_changed()
             self.status_text.set("访谈回答未解析出新的自定义系统。")
             self.render(preserve_node_scroll=True)
             return
@@ -1363,6 +1383,7 @@ class CommercialDesignApp(tk.Frame):
             state.setdefault("coreLoops", {})[item["id"]] = ""
             parsed_ids.append(item["id"])
         self.project_state["gameplaySystems"] = state
+        self._mark_state_changed()
         self.status_text.set(f"访谈已补充 {len(created)} 个自定义玩法系统。")
         self.render(preserve_node_scroll=True)
 
@@ -1376,37 +1397,51 @@ class CommercialDesignApp(tk.Frame):
 
     def on_checklist_change(self, node_id, item_id, checked):
         self.engine.set_checklist_item(self.project_state, node_id, item_id, checked)
-        self.render(preserve_node_scroll=True)
+        self._mark_state_changed()
+        self.render_nodes(preserve_scroll=True)
+        self.render_results()
+        self._schedule_autosave()
 
     def on_option_group_option_change(self, node_id, item_id, group_id, option_id, checked):
         self.engine.set_option_group_option(self.project_state, node_id, item_id, group_id, option_id, checked)
+        self._mark_state_changed()
         self.refresh_item_option_group_widgets(node_id, item_id)
         self.render_results()
+        self._schedule_autosave()
 
     def on_option_group_primary_change(self, node_id, item_id, group_id, option_id):
         self.engine.set_option_group_primary(self.project_state, node_id, item_id, group_id, option_id)
+        self._mark_state_changed()
         self.refresh_item_option_group_widgets(node_id, item_id)
         self.render_results()
+        self._schedule_autosave()
 
     def toggle_note_editor(self, node_id):
-        self.save_visible_notes()
+        if self.save_visible_notes():
+            self._mark_state_changed()
         if node_id in self.expanded_note_nodes:
             self.expanded_note_nodes.remove(node_id)
         else:
             self.expanded_note_nodes.add(node_id)
-        self.render(preserve_node_scroll=True)
+        self.render_nodes(preserve_scroll=True)
+        self._schedule_autosave()
 
     def on_risk_toggle(self, node_id, checked):
-        self.save_visible_notes()
+        if self.save_visible_notes():
+            self._mark_state_changed()
         if checked:
             self.expanded_risk_nodes.add(node_id)
         else:
             self.expanded_risk_nodes.discard(node_id)
             self.project_state["nodes"].setdefault(node_id, {})["riskNote"] = ""
-        self.render(preserve_node_scroll=True)
+        self._mark_state_changed()
+        self.render_nodes(preserve_scroll=True)
+        self.render_results()
+        self._schedule_autosave()
 
     def on_not_applicable_change(self, node_id, checked):
-        self.save_visible_notes()
+        if self.save_visible_notes():
+            self._mark_state_changed()
         if checked:
             self.engine.set_node_state(self.project_state, node_id, "not_applicable")
             self.expanded_na_nodes.add(node_id)
@@ -1415,15 +1450,20 @@ class CommercialDesignApp(tk.Frame):
             self.expanded_na_nodes.discard(node_id)
             self.project_state["nodes"].setdefault(node_id, {})["notApplicableReason"] = ""
             self.engine.refresh_node_state(self.project_state, node_id)
-        self.render(preserve_node_scroll=True)
+        self._mark_state_changed()
+        self.render_nodes(preserve_scroll=True)
+        self.render_results()
+        self._schedule_autosave()
 
     def update_node_text(self, node_id, field_name, value):
         self.project_state["nodes"].setdefault(node_id, {})[field_name] = value
+        self._mark_state_changed()
         if field_name == "designNote":
             self.engine.refresh_node_state(self.project_state, node_id)
             self.render(preserve_node_scroll=True)
         else:
             self.render_results()
+            self._schedule_autosave()
 
     def update_node_design_entities(self, node_id, value):
         try:
@@ -1437,6 +1477,7 @@ class CommercialDesignApp(tk.Frame):
         node_state["designEntities"] = entities
         node_state["entityValidationErrors"] = errors
         self.engine.refresh_node_state(self.project_state, node_id)
+        self._mark_state_changed()
         if errors:
             self.status_text.set(f"L5 实体已保存，存在 {len(errors)} 条校验警告。")
         else:
@@ -1448,18 +1489,31 @@ class CommercialDesignApp(tk.Frame):
         node_state["designEntities"] = []
         node_state["entityValidationErrors"] = []
         self.engine.refresh_node_state(self.project_state, node_id)
+        self._mark_state_changed()
         self.status_text.set("L5 实体已清空。")
         self.render(preserve_node_scroll=True)
 
-    def save_visible_notes(self):
+    def save_visible_notes(self) -> bool:
+        changed = False
         for node_id, widgets in self.node_widgets.items():
             for field_name, widget_key in (("designNote", "note"), ("riskNote", "risk"), ("notApplicableReason", "na")):
                 widget = widgets.get(widget_key)
                 if widget:
-                    self.project_state["nodes"].setdefault(node_id, {})[field_name] = widget.get("1.0", tk.END).strip()
+                    node_state = self.project_state["nodes"].setdefault(node_id, {})
+                    value = widget.get("1.0", tk.END).strip()
+                    if node_state.get(field_name, "") != value:
+                        node_state[field_name] = value
+                        changed = True
             self.engine.refresh_node_state(self.project_state, node_id)
-        self.project_state["projectName"] = self.project_name.get()
-        self.project_state["profile"] = self.current_profile_values()
+        project_name = self.project_name.get()
+        if self.project_state.get("projectName") != project_name:
+            self.project_state["projectName"] = project_name
+            changed = True
+        profile = self.current_profile_values()
+        if self.project_state.get("profile") != profile:
+            self.project_state["profile"] = profile
+            changed = True
+        return changed
 
     def current_profile_values(self):
         return {
@@ -1607,6 +1661,7 @@ class CommercialDesignApp(tk.Frame):
             self.project_state = self.engine.normalize_state(template_state)
             self.project_state["projectName"] = f"范本：{name}"
             self.project_name.set(self.project_state["projectName"])
+            self._mark_state_changed()
             self.sync_profile_labels()
             self.current_domain_id = self.engine.first_domain_id()
             self.clear_expanded_nodes()
@@ -1976,6 +2031,7 @@ class CommercialDesignApp(tk.Frame):
 
             self.project_state = self.engine.normalize_state(payload)
             self.project_name.set(self.project_state.get("projectName", "未命名游戏设计项目"))
+            self._mark_state_changed()
 
             # 重置UI状态
             for key, value in self.project_state.get("profile", {}).items():
@@ -2008,6 +2064,7 @@ class CommercialDesignApp(tk.Frame):
             return
         self.project_state = self.engine.empty_state()
         self.project_name.set(self.project_state["projectName"])
+        self._mark_state_changed()
         for key, value in self.project_state["profile"].items():
             self.profile_vars.setdefault(key, tk.StringVar()).set(option_label(key, value))
         self.current_domain_id = self.engine.first_domain_id()

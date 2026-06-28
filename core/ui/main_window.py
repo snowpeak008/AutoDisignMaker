@@ -8,11 +8,14 @@ from tkinter import ttk
 from core.ui.theme import COLORS, FONT_BODY, FONT_SMALL
 
 _GEOM_FILE = Path(__file__).resolve().parents[2] / "settings" / "window_geometry.json"
+_current_main_window: "MainWindow | None" = None
 
 
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
+        global _current_main_window
+        _current_main_window = self
         self.title("AutoDesignMaker")
         self.minsize(1180, 720)
         self.resizable(True, True)
@@ -29,8 +32,9 @@ class MainWindow(tk.Tk):
         self._build_topbar()
         self._build_statusbar()
         self._build_main_area()
-        self._show_design()
-        self._update_status_bar()
+        self._active_view = "design"
+        self.after(1, self._show_design)
+        self.after(300, self._update_status_bar)
         self._schedule_status_refresh()
 
     def _configure_style(self):
@@ -196,6 +200,8 @@ class MainWindow(tk.Tk):
         self._content.pack(fill=tk.BOTH, expand=True)
         self._design_panel = None
         self._pipeline_panel = None
+        self._design_loading_placeholder = None
+        self._design_creation_scheduled = False
 
     def _get_design_panel(self):
         if self._design_panel is None:
@@ -213,11 +219,38 @@ class MainWindow(tk.Tk):
         return self._pipeline_panel
 
     def _show_design(self):
-        self._get_design_panel().lift()
+        self._active_view = "design"
         self._design_btn.configure(bg=COLORS["primary"], fg="white")
         self._pipeline_btn.configure(bg=COLORS["surface"], fg=COLORS["muted"])
+        if self._design_panel is None:
+            if self._design_loading_placeholder is None:
+                placeholder = tk.Label(
+                    self._content,
+                    text="加载中…",
+                    bg=COLORS["bg"],
+                    fg=COLORS["muted"],
+                    font=FONT_BODY,
+                )
+                placeholder.place(relx=0.5, rely=0.5, anchor="center")
+                self._design_loading_placeholder = placeholder
+            if not self._design_creation_scheduled:
+                self._design_creation_scheduled = True
+                self.after(1, self._create_design_panel_deferred)
+            return
+        self._design_panel.lift()
+
+    def _create_design_panel_deferred(self):
+        self._design_creation_scheduled = False
+        placeholder = self._design_loading_placeholder
+        self._design_loading_placeholder = None
+        if placeholder is not None:
+            placeholder.destroy()
+        panel = self._get_design_panel()
+        if self._active_view == "design":
+            panel.lift()
 
     def _show_pipeline(self):
+        self._active_view = "pipeline"
         panel = self._get_pipeline_panel()
         panel.lift()
         panel.refresh()
@@ -242,7 +275,7 @@ class MainWindow(tk.Tk):
             saved_hash = panel._saved_state_hash
 
             if current_hash != saved_hash:
-                save_id = sm.current_save_id(PROJECT_ROOT)
+                save_id = sm.current_save_id_readonly(PROJECT_ROOT)
                 if not save_id:
                     # Case 1: never formally saved
                     if not messagebox.askyesno("退出确认", "当前项目还未保存，确定要退出吗？"):
@@ -263,8 +296,11 @@ class MainWindow(tk.Tk):
     def _do_close(self) -> None:
         from core.paths import PROJECT_ROOT
         from core.save import manager as sm
+        global _current_main_window
         if self._status_after_id:
             self.after_cancel(self._status_after_id)
             self._status_after_id = None
         sm.release_current_lock(PROJECT_ROOT)
+        if _current_main_window is self:
+            _current_main_window = None
         self.destroy()

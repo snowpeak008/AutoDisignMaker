@@ -261,27 +261,29 @@ def _replace_legacy_text(value: str) -> str:
     return updated
 
 
-def _rewrite_legacy_file(path: Path) -> None:
+def _rewrite_legacy_file(path: Path) -> bool:
     if not path.exists() or not path.is_file():
-        return
+        return False
     suffixes = {".json", ".md", ".txt", ".yaml", ".yml", ".log"}
     if path.suffix.lower() not in suffixes:
-        return
+        return False
     try:
         raw = path.read_text(encoding="utf-8-sig")
     except UnicodeDecodeError:
-        return
+        return False
     updated = _replace_legacy_text(raw)
+    changed = updated != raw
     if updated != raw:
         path.write_text(updated, encoding="utf-8")
     if path.suffix.lower() == ".json":
-        _normalize_project_json(path)
+        changed = _normalize_project_json(path) or changed
+    return changed
 
 
-def _normalize_project_json(path: Path) -> None:
+def _normalize_project_json(path: Path) -> bool:
     data = read_json(path, None)
     if not isinstance(data, dict):
-        return
+        return False
     changed = False
     if data.get("project") in LEGACY_PROJECT_IDS or data.get("project") == PROJECT_ID:
         data["project"] = PROJECT_DISPLAY_NAME
@@ -291,6 +293,7 @@ def _normalize_project_json(path: Path) -> None:
         changed = True
     if changed:
         write_json(path, data)
+    return changed
 
 
 def _package_version_from_name(path: Path) -> int:
@@ -318,9 +321,10 @@ def _infer_source_type(path: Path) -> str:
     return ""
 
 
-def _ensure_source_package_manifests(source_root: Path) -> None:
+def _ensure_source_package_manifests(source_root: Path) -> bool:
     if not source_root.exists() or not source_root.is_dir():
-        return
+        return False
+    changed = False
     for package_dir in source_root.iterdir():
         if not package_dir.is_dir() or package_dir.name in {"operator_drafts"}:
             continue
@@ -334,7 +338,8 @@ def _ensure_source_package_manifests(source_root: Path) -> None:
         manifest = read_json(manifest_path, {})
         if not isinstance(manifest, dict):
             manifest = {}
-        manifest.update({
+        updated_manifest = {
+            **manifest,
             "schema_version": 1,
             "project": PROJECT_DISPLAY_NAME,
             "project_id": PROJECT_ID,
@@ -346,30 +351,37 @@ def _ensure_source_package_manifests(source_root: Path) -> None:
             "stage": submission.get("step"),
             "stage_slug": submission.get("slug", ""),
             "stage_title": submission.get("title", ""),
-            "created_at": submission.get("created_at") or now_iso(),
+            "created_at": submission.get("created_at") or manifest.get("created_at") or now_iso(),
             "version": manifest.get("version") or _package_version_from_name(package_dir),
-        })
-        write_json(manifest_path, manifest)
+        }
+        if updated_manifest != manifest:
+            write_json(manifest_path, updated_manifest)
+            changed = True
+    return changed
 
 
-def _rewrite_legacy_file_refs(root: Path) -> None:
+def _rewrite_legacy_file_refs(root: Path) -> bool:
     if not root.exists() or not root.is_dir():
-        return
+        return False
     suffixes = {".json", ".md", ".txt", ".yaml", ".yml", ".log"}
+    changed = False
     for path in root.rglob("*"):
         if not path.is_file() or path.suffix.lower() not in suffixes:
             continue
-        _rewrite_legacy_file(path)
+        changed = _rewrite_legacy_file(path) or changed
+    return changed
 
 
-def _rename_legacy_dirs(root: Path) -> None:
+def _rename_legacy_dirs(root: Path) -> bool:
     if not root.exists():
-        return
+        return False
     dirs = sorted((path for path in root.rglob("*") if path.is_dir()), key=lambda path: len(path.parts), reverse=True)
+    changed = False
     for path in dirs:
         new_name = _replace_legacy_text(path.name)
         if new_name == path.name:
             continue
+        changed = True
         target = path.with_name(new_name)
         if target.exists():
             for item in path.iterdir():
@@ -384,19 +396,22 @@ def _rename_legacy_dirs(root: Path) -> None:
             shutil.rmtree(path)
         else:
             path.rename(target)
+    return changed
 
 
-def migrate_workspace_project_id(workspace_root: Path) -> None:
-    """Update active workspace naming from legacy demo ids to the compact id."""
+def migrate_workspace_project_id(workspace_root: Path) -> bool:
+    """Update active workspace naming. Returns True when files changed."""
     root = Path(workspace_root)
+    changed = False
     for dirname in ACTIVE_DIRS:
         active_dir = root / dirname
-        _rename_legacy_dirs(active_dir)
-        _rewrite_legacy_file_refs(active_dir)
+        changed = _rename_legacy_dirs(active_dir) or changed
+        changed = _rewrite_legacy_file_refs(active_dir) or changed
     for filename in ACTIVE_FILES:
         path = root / filename
-        _rewrite_legacy_file(path)
-    _ensure_source_package_manifests(root / "source_artifacts")
+        changed = _rewrite_legacy_file(path) or changed
+    changed = _ensure_source_package_manifests(root / "source_artifacts") or changed
+    return changed
 
 
 def append_jsonl(path: Path, item: dict[str, Any]) -> None:
@@ -451,6 +466,13 @@ def set_current_save(project_root: Path, save_id: str | None) -> None:
 
 def current_save_id(project_root: Path) -> str | None:
     value = ensure_save_system(project_root).get("current_save_id")
+    return str(value) if value else None
+
+
+def current_save_id_readonly(project_root: Path) -> str | None:
+    """Pure read; does not initialize or write save-system metadata."""
+    data = read_json(index_path(_formal_root(project_root)), {})
+    value = data.get("current_save_id") if isinstance(data, dict) else None
     return str(value) if value else None
 
 
@@ -779,7 +801,24 @@ def _file_role_from_reference(project_root: Path, rel_path: str, step: int | Non
     return "stage_file", artifact_ids, ref_path
 
 
-def _file_map_entry(project_root: Path, path: Path, rel_path: str, *, transaction_seq: int | None) -> dict[str, Any]:
+def _file_map_entry(
+    project_root: Path,
+    path: Path,
+    rel_path: str,
+    *,
+    transaction_seq: int | None,
+    prev_entry: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    stat = path.stat()
+    cached_sha256 = None
+    if (
+        prev_entry
+        and prev_entry.get("mtime_ns") == stat.st_mtime_ns
+        and prev_entry.get("size_bytes") == stat.st_size
+        and prev_entry.get("sha256")
+    ):
+        cached_sha256 = prev_entry["sha256"]
+
     stage = _stage_from_path(rel_path)
     role, artifact_id, reference_manifest = _file_role_from_reference(project_root, rel_path, stage)
     if rel_path.startswith("source_artifacts/"):
@@ -794,8 +833,9 @@ def _file_map_entry(project_root: Path, path: Path, rel_path: str, *, transactio
         source_type = "workspace_file"
     return {
         "workspace_path": rel_path,
-        "size_bytes": path.stat().st_size,
-        "sha256": _sha256(path),
+        "size_bytes": stat.st_size,
+        "mtime_ns": stat.st_mtime_ns,
+        "sha256": cached_sha256 or _sha256(path),
         "stage": stage,
         "artifact_id": artifact_id,
         "role": role,
@@ -807,11 +847,23 @@ def _file_map_entry(project_root: Path, path: Path, rel_path: str, *, transactio
 
 def build_file_map(project_root: Path, *, transaction_seq: int | None = None) -> dict[str, Any]:
     root = _active_root(project_root)
+    previous = read_json(root / "draft_file_map.json", {})
+    prev_by_path = {
+        str(item.get("workspace_path")): item
+        for item in previous.get("files", [])
+        if isinstance(item, dict) and item.get("workspace_path") and item.get("mtime_ns")
+    } if isinstance(previous, dict) else {}
     files = []
     for path in _iter_active_files(root):
         try:
             rel_path = _rel(path, root)
-            files.append(_file_map_entry(root, path, rel_path, transaction_seq=transaction_seq))
+            files.append(_file_map_entry(
+                root,
+                path,
+                rel_path,
+                transaction_seq=transaction_seq,
+                prev_entry=prev_by_path.get(rel_path),
+            ))
         except OSError as exc:
             files.append({
                 "workspace_path": _rel(path, root),
@@ -824,7 +876,13 @@ def build_file_map(project_root: Path, *, transaction_seq: int | None = None) ->
         if store_path.is_file():
             rel_path = _execution_object_store_relpath().as_posix()
             files = [item for item in files if item.get("workspace_path") != rel_path]
-            files.append(_file_map_entry(root, store_path, rel_path, transaction_seq=transaction_seq))
+            files.append(_file_map_entry(
+                root,
+                store_path,
+                rel_path,
+                transaction_seq=transaction_seq,
+                prev_entry=prev_by_path.get(rel_path),
+            ))
     return {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -879,7 +937,7 @@ def _copy_active_to(project_root: Path, dest_root: Path) -> None:
         (dest_root / dirname).mkdir(parents=True, exist_ok=True)
 
 
-def _copy_workspace_to_active(project_root: Path, source_root: Path) -> None:
+def _copy_workspace_to_active(project_root: Path, source_root: Path) -> bool:
     clear_active_workspace(project_root)
     root = _active_root(project_root)
     for dirname in ACTIVE_DIRS:
@@ -900,7 +958,7 @@ def _copy_workspace_to_active(project_root: Path, source_root: Path) -> None:
             shutil.copy2(src, dest)
     for dirname in EMPTY_DIRS:
         (root / dirname).mkdir(parents=True, exist_ok=True)
-    migrate_workspace_project_id(root)
+    return migrate_workspace_project_id(root)
 
 
 def _execution_object_store_relpath() -> Path:
@@ -1110,6 +1168,15 @@ def _remove_formal_runtime_artifacts(save_path: Path) -> None:
             path.unlink()
 
 
+def _trim_current_draft_snapshots(draft: Path, keep: int = 5) -> None:
+    snap_dir = draft / "snapshots"
+    if not snap_dir.exists():
+        return
+    snaps = sorted((path for path in snap_dir.iterdir() if path.is_dir()), key=lambda path: path.name)
+    for old in snaps[: max(0, len(snaps) - keep)]:
+        _safe_remove_tree(snap_dir, old)
+
+
 def sync_current_save(
     project_root: Path,
     *,
@@ -1183,6 +1250,7 @@ def sync_current_save(
     })
     _replace_entry(root, manifest, current=True)
     _write_draft_meta(project_root, linked_save_id=save_id)
+    _trim_current_draft_snapshots(active, keep=5)
     return manifest
 
 
@@ -1221,6 +1289,36 @@ def overwrite_save(project_root: Path, save_id: str, *, event: str = "manual_sav
     return sync_current_save(project_root, event=event)
 
 
+def _load_save_lightweight(
+    project_root: Path,
+    root: Path,
+    save_id: str,
+    manifest: dict[str, Any],
+    active: Path,
+) -> dict[str, Any]:
+    """Load bookkeeping when active workspace already equals the archive."""
+    seq = _next_seq(manifest)
+    progress = manifest.get("progress") or _progress(project_root)
+    manifest.update({
+        "last_worked_at": now_iso(),
+        "last_transaction_seq": seq,
+        "progress": progress,
+    })
+    target = save_dir(root, save_id)
+    write_json(target / MANIFEST_NAME, manifest)
+    append_jsonl(active / "timeline.jsonl", {
+        "seq": seq,
+        "event": "load_save",
+        "stage": None,
+        "timestamp": now_iso(),
+        "message": "fast path: no migration changes",
+        "progress": progress,
+    })
+    _replace_entry(root, manifest, current=True)
+    _write_draft_meta(project_root, linked_save_id=save_id)
+    return manifest
+
+
 def load_save(project_root: Path, save_id: str) -> dict[str, Any]:
     root = _formal_root(project_root)
     manifest = get_save(root, save_id)
@@ -1231,9 +1329,12 @@ def load_save(project_root: Path, save_id: str) -> dict[str, Any]:
         raise RuntimeError(f"Save workspace is missing: {save_id}")
     if not acquire_archive_lock(root, save_id):
         raise RuntimeError(f"Archive is already open in another window: {save_id}")
-    _copy_workspace_to_active(project_root, ws)
+    migration_changed = _copy_workspace_to_active(project_root, ws)
     set_current_save(root, save_id)
-    return sync_current_save(project_root, event="load_save")
+    active = _active_root(project_root)
+    if migration_changed:
+        return sync_current_save(project_root, event="load_save_migrated")
+    return _load_save_lightweight(project_root, root, save_id, manifest, active)
 
 
 def delete_save(project_root: Path, save_id: str) -> None:

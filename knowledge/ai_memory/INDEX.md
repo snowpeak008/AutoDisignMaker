@@ -8,6 +8,32 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-009
+**Summary**: Implemented `plan/perf_fix/FINAL_PLAN.md`: improved GUI startup responsiveness, reduced high-frequency design-workbench render work, and optimized save/load bookkeeping for unchanged workspaces.
+
+**Completed**:
+- [x] Deferred startup integrity checks and draft pruning until after `MainWindow` is created, with logged/visible startup-check warnings.
+- [x] Added lazy `CommercialDesignApp` creation with an active-view guard.
+- [x] Added result-panel cache invalidation and changed frequent checklist/risk/not-applicable interactions to skip `render_domains()`.
+- [x] Added `current_save_id_readonly()` for close-time checks without save-system write side effects.
+- [x] Made workspace migration report actual changes, added `mtime_ns` SHA256 cache reuse, limited current draft snapshots to 5, and added a `load_save` fast path.
+- [x] Added focused save-manager tests for manifest idempotence, SHA256 cache reuse, snapshot trimming, and load fast path.
+
+**Verification**:
+- [x] `python -B -m compileall core\ui\gui_app.py core\ui\main_window.py core\ui\app_window.py core\save\manager.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_draft_archive_paths.py -q`: 16 passed.
+- [x] `python -B -m pytest -q`: 174 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+
+**Follow-up**:
+- [ ] Manual GUI timing/click-through remains useful for lazy design-panel creation and high-frequency design-workbench interactions.
+- [ ] `plan/perf_fix/` remains local planning material and should not be committed unless explicitly requested.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-008
 **Summary**: Completed `plan/step07_08_merge/BUGFIX_PLAN.md`: fixed Step07/08 merge follow-up issues around output function numbering, legacy confirmation wrapper, UI fallback routing, and legacy skip-gate messaging.
 
@@ -28,8 +54,6 @@
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-007

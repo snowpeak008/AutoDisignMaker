@@ -19,18 +19,38 @@ if str(PROJECT_ROOT_FOR_BOOTSTRAP) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT_FOR_BOOTSTRAP))
 
 
-def main() -> int:
-    from core.paths import PROJECT_ROOT
-    from core.config.loader import load_config
+def _deferred_startup() -> None:
+    import logging
+
     from core.config.integrity import validate_data_integrity
+    from core.paths import PROJECT_ROOT
     from core.save.manager import prune_draft_snapshots, prune_old_drafts
+
+    try:
+        validate_data_integrity()
+    except RuntimeError as exc:
+        logging.getLogger(__name__).warning("启动检查异常: %s", exc)
+        try:
+            from core.ui.main_window import _current_main_window
+
+            if _current_main_window is not None:
+                _current_main_window._system_status_label.configure(
+                    text=f"系统: 启动检查异常 {exc}",
+                    fg="#FF6B6B",
+                )
+        except Exception:
+            logging.getLogger(__name__).debug("Failed to show startup warning", exc_info=True)
+    prune_old_drafts(PROJECT_ROOT, keep_count=5)
+    prune_draft_snapshots(PROJECT_ROOT, keep_per_draft=0)
+
+
+def main() -> int:
+    from core.config.loader import load_config
     from core.ui.main_window import MainWindow
 
     load_config()
-    validate_data_integrity()
-    prune_old_drafts(PROJECT_ROOT, keep_count=5)
-    prune_draft_snapshots(PROJECT_ROOT, keep_per_draft=0)
     app = MainWindow()
+    app.after_idle(_deferred_startup)
     app.mainloop()
     return 0
 

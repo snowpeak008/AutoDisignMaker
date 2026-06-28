@@ -1,5 +1,27 @@
 [
   {
+    "id": "2026-06-28-009",
+    "date": "2026-06-28",
+    "summary": "Implemented perf_fix FINAL_PLAN: deferred GUI startup work, cached result rendering, optimized save file maps, snapshot trimming, and load-save fast path",
+    "changed_files": [
+      "core/save/manager.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/ui/app_window.py",
+      "core/ui/gui_app.py",
+      "core/ui/main_window.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-009.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-009.md"
+    ],
+    "next_tasks": [
+      "Manual GUI timing/click-through remains useful for lazy design-panel creation and high-frequency design-workbench interactions",
+      "Do not commit plan/perf_fix unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-008",
     "date": "2026-06-28",
     "summary": "Completed step07_08_merge BUGFIX_PLAN: fixed output-function numbering, legacy wrapper, UI fallback routing, and skip-gate-08 messaging",
