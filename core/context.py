@@ -13,7 +13,15 @@ from typing import Any, Literal
 
 from core.paths import PROJECT_ROOT, get_stage_artifact_dir
 
-StageStatus = Literal["success", "failed", "skipped", "blocked", "waiting_confirmation"]
+StageStatus = Literal[
+    "success",
+    "failed",
+    "skipped",
+    "blocked",
+    "stopped",
+    "waiting_confirmation",
+    "completed_with_review",
+]
 
 
 @dataclass

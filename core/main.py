@@ -145,6 +145,38 @@ def run_range(
                     )
                     print(json.dumps({"step": step_num, "status": result.status}))
                     return 0
+                if result.status == "completed_with_review":
+                    payload = {
+                        "status": result.status,
+                        "stage": step_num,
+                        "requires_review": True,
+                    }
+                    write_run_state(
+                        PROJECT_ROOT,
+                        status="completed_with_review",
+                        run_id=run_id,
+                        from_step=from_step,
+                        stop_step=stop_step,
+                        current_step=step_num,
+                        requires_review=True,
+                    )
+                    retry_sync(
+                        PROJECT_ROOT,
+                        event="run_stage_completed_with_review",
+                        stage=step_num,
+                        message=json.dumps(payload),
+                        log=lambda t: print(t, end=""),
+                    )
+                    print(json.dumps({"step": step_num, "status": result.status}))
+                    continue_after_review = bool(
+                        load_config().get(
+                            "pipeline.unattended_execution.continue_after_completed_with_review",
+                            False,
+                        )
+                    )
+                    if not continue_after_review:
+                        return 0
+                    continue
                 run_review_pipeline(step_num)
                 run_artifact_validators(step_num)
                 retry_sync(PROJECT_ROOT, event="run_stage_success", stage=step_num,

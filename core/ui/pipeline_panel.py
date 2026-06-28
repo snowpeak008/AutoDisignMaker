@@ -55,6 +55,9 @@ _PIPELINE_STATUS_MAP = {
     "pending": "not_started",
     "skipped": "not_started",
     "waiting_confirmation": "waiting_confirmation",
+    "blocked": "blocked",
+    "stopped": "blocked",
+    "completed_with_review": "completed_with_review",
 }
 
 
@@ -692,6 +695,7 @@ class PipelinePanel(tk.Frame):
     def _on_run_done(self):
         self._running = False
         self.refresh()
+        self._append_pause_resume_summary()
         self._check_and_show_confirmation_dialog()
 
     def _check_and_show_confirmation_dialog(self):
@@ -728,6 +732,19 @@ class PipelinePanel(tk.Frame):
             return json.loads(run_state_path(PROJECT_ROOT).read_text(encoding="utf-8"))
         except Exception:
             return {}
+
+    def _append_pause_resume_summary(self) -> None:
+        for stage_num in (11, 12):
+            path = ARTIFACTS_DIR / f"stage_{stage_num:02d}" / "pause_resume_log.md"
+            if not path.exists():
+                continue
+            try:
+                text = path.read_text(encoding="utf-8").strip()
+            except OSError:
+                continue
+            if not text:
+                continue
+            self._append_log(f"\n[无人值守恢复提示 Step{stage_num:02d}]\n{text}\n")
 
     def _load_style_options(self) -> dict:
         path = ARTIFACTS_DIR / "stage_07" / "style_options.json"

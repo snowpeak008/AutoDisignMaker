@@ -44,3 +44,14 @@ num_options = 5
 image_width = 1024
 image_height = 1024
 
+[pipeline.unattended_execution]
+max_auto_repair_attempts = 2
+repair_timeout_seconds = 120
+continue_independent_tasks = true
+continue_after_completed_with_review = false
+sync_per_group = true
+sync_checkpoint_every_tasks = 10
+sync_checkpoint_seconds = 600
+enable_step11_auto_repair = true
+enable_step12_auto_repair = false
+

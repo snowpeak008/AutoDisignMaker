@@ -919,6 +919,34 @@ class ExecutionObjectStore:
         self.save()
         return deep_copy(obj)
 
+    def record_automated_remediation(self, execution_object_id: str, *, evidence: dict[str, Any]) -> dict[str, Any]:
+        obj = self.get(execution_object_id)
+        _require_state(obj, {"execution_failed", "approved"}, "record_automated_remediation")
+        required = {
+            "repair_attempt_id",
+            "correction_id",
+            "affected_files",
+            "final_hashes",
+            "validation_result",
+            "scope_verified",
+            "allowed_write_paths_checked",
+        }
+        missing = sorted(key for key in required if not evidence.get(key))
+        if missing:
+            raise ExecutionObjectError(f"Automated remediation missing evidence: {missing}")
+        if evidence.get("unexpected_changes"):
+            raise ExecutionObjectError("Automated remediation cannot verify unexpected changes.")
+        affected_scope = _as_string_set(evidence.get("affected_scopes", []))
+        approved_scope = _as_string_set(obj.get("write_scope", []))
+        if affected_scope and not affected_scope.issubset(approved_scope):
+            raise ExecutionObjectError("Automated remediation scope exceeds original approved scope.")
+        obj["automated_remediation"] = {
+            "at": now_iso(),
+            "evidence": deep_copy(evidence),
+        }
+        self.save()
+        return deep_copy(obj)
+
     def cancel_after_failure(self, execution_object_id: str, *, reason: str) -> dict[str, Any]:
         obj = self.get(execution_object_id)
         _require_state(obj, {"execution_failed"}, "cancel_after_failure")
@@ -935,7 +963,11 @@ class ExecutionObjectStore:
     def verify(self, execution_object_id: str, *, evidence: dict[str, Any]) -> dict[str, Any]:
         obj = self.get(execution_object_id)
         _require_state(obj, {"executing", "approved", "execution_failed"}, "verify")
-        if obj.get("state") == "execution_failed" and not obj.get("manual_remediation"):
+        if (
+            obj.get("state") == "execution_failed"
+            and not obj.get("manual_remediation")
+            and not obj.get("automated_remediation")
+        ):
             raise ExecutionObjectError("execution_failed requires manual remediation or another recovery path before verification.")
         required_shared = {
             "execution_logs_complete",

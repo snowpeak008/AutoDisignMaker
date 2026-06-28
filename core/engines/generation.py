@@ -10,6 +10,7 @@ own save flow.
 from __future__ import annotations
 
 import hashlib
+import json
 import logging
 import os
 import re
@@ -41,10 +42,25 @@ from core.engines.execution_objects.integration import (
     complete_art_task_execution_object,
     complete_relationship_graph_execution_object,
     complete_rollback_plan_execution_object,
+    confirm_automated_retry_from_safe_point,
     load_execution_object_store,
+    project_file_hashes,
+    record_automated_remediation,
     record_execution_object_failure,
     validate_execution_object_references,
     verify_program_task_execution_object,
+)
+from core.engines.execution_objects.unattended_recovery import (
+    REPRODUCTION_COMMAND,
+    build_failure_event,
+    build_resume_cursor,
+    correction_id_for_event,
+    dependency_skip_ids,
+    unattended_config,
+    upsert_failure_queue,
+    write_pause_resume_log,
+    write_reproduction_payload,
+    write_unattended_summary,
 )
 from core.utils.process_utils import child_process_env, hidden_subprocess_kwargs
 from core.runtime.control import PipelineStopRequested
@@ -3804,6 +3820,10 @@ def _write_stage10_task_record(
     write_json(_stage10_resume_dir() / filename, record)
 
 
+def _stage11_record_successful(record: dict[str, Any]) -> bool:
+    return str(record.get("status")) in {"success", "auto_repaired"}
+
+
 def _previous_records_by_task() -> dict[str, dict[str, Any]]:
     report = _previous_stage10_report()
     records = report.get("records", []) if isinstance(report, dict) else []
@@ -3865,12 +3885,12 @@ def _write_stage10_progress(
     stop_reason: str = "",
 ) -> None:
     successful_count = sum(
-        1 for record in execution_records if record.get("status") == "success"
+        1 for record in execution_records if _stage11_record_successful(record)
     )
     completed_units = [
         str(record.get("task_id"))
         for record in execution_records
-        if record.get("task_id") and record.get("status") == "success"
+        if record.get("task_id") and _stage11_record_successful(record)
     ]
     progress = {
         "schema_version": 2,
@@ -4042,6 +4062,352 @@ def _write_stage10_stop_report(
     }
     write_json(out_dir / "devexecution_stop_report.json", report)
     return report
+
+
+@dataclass
+class _Stage11SyncTracker:
+    out_dir: Path
+    every_tasks: int
+    seconds: int
+    completed_since_sync: int = 0
+    last_sync_at: float = field(default_factory=time.monotonic)
+
+    def task_checkpoint(self, *, event: str, message: str = "") -> None:
+        self.completed_since_sync += 1
+        elapsed = time.monotonic() - self.last_sync_at
+        if self.completed_since_sync >= self.every_tasks or elapsed >= self.seconds:
+            self.force(event=event, message=message)
+
+    def group_checkpoint(self, *, event: str, message: str = "") -> None:
+        self.force(event=event, message=message)
+
+    def force(self, *, event: str, message: str = "") -> None:
+        _sync_stage10_checkpoint(self.out_dir, event=event, message=message)
+        self.completed_since_sync = 0
+        self.last_sync_at = time.monotonic()
+
+
+def _write_stage11_dependency_skip_report(
+    out_dir: Path, skipped_records: list[dict[str, Any]]
+) -> None:
+    write_json(
+        out_dir / "dependency_skip_report.json",
+        {
+            "schema_version": 1,
+            "generated_at": now_iso(),
+            "skipped_task_count": len(skipped_records),
+            "skipped_tasks": skipped_records,
+        },
+    )
+
+
+def _append_stage11_review_outputs(
+    out_dir: Path,
+    *,
+    status: str,
+    records: list[dict[str, Any]],
+    current_group_id: str = "",
+    current_task_id: str = "",
+    next_task_id: str = "",
+    project_state_tainted: bool = False,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    failed_records = [
+        record
+        for record in records
+        if record.get("status") not in {"success", "auto_repaired"}
+        and not str(record.get("status", "")).startswith("skipped")
+    ]
+    events = [
+        build_failure_event(
+            stage=DEV_EXECUTION_STAGE,
+            record=record,
+            reproduction_payload_path=str(record.get("reproduction_payload_path") or ""),
+            log_paths=[str(item) for item in record.get("log_paths", []) if str(item)],
+        )
+        for record in failed_records
+    ]
+    correction_summary = upsert_failure_queue(
+        out_dir,
+        stage=DEV_EXECUTION_STAGE,
+        events=events,
+        reviewed_contract="program_task_breakdown.json",
+        source_review="stage_11_unattended_execution",
+    )
+    resume_cursor = build_resume_cursor(
+        stage=DEV_EXECUTION_STAGE,
+        records=records,
+        current_group_id=current_group_id,
+        current_task_id=current_task_id,
+        next_task_id=next_task_id,
+        project_state_tainted=project_state_tainted,
+    )
+    config = unattended_config()
+    summary = write_unattended_summary(
+        out_dir,
+        stage=DEV_EXECUTION_STAGE,
+        status=status,
+        records=records,
+        correction_summary=correction_summary,
+        resume_cursor=resume_cursor,
+        continue_after_completed_with_review=config.continue_after_completed_with_review,
+    )
+    write_pause_resume_log(
+        out_dir,
+        stage=DEV_EXECUTION_STAGE,
+        status=status,
+        records=records,
+        resume_cursor=resume_cursor,
+        correction_summary=correction_summary,
+        title="Development Execution Pause and Resume",
+    )
+    return summary, resume_cursor
+
+
+def _extract_repair_payload(text: str) -> dict[str, Any]:
+    match = re.search(r"REPAIR_JSON_START\s*(\{.*?\})\s*REPAIR_JSON_END", text, re.S)
+    if not match:
+        raise ValueError("repair response missing REPAIR_JSON_START/REPAIR_JSON_END block")
+    data = json.loads(match.group(1))
+    if not isinstance(data, dict):
+        raise ValueError("repair response JSON must be an object")
+    return data
+
+
+def _is_safe_relative_path(value: str) -> bool:
+    path = Path(value)
+    if path.is_absolute() or ".." in path.parts or path.drive:
+        return False
+    return bool(str(value).strip())
+
+
+def _allowed_repair_path(path: str, allowed_write_paths: list[str]) -> bool:
+    normalized = Path(path).as_posix()
+    for allowed in allowed_write_paths:
+        allowed_norm = Path(str(allowed)).as_posix().rstrip("/")
+        if normalized == allowed_norm or normalized.startswith(f"{allowed_norm}/"):
+            return True
+    return False
+
+
+def _attempt_auto_repair_task(
+    *,
+    task: dict[str, Any],
+    record: dict[str, Any],
+    execution_store: Any,
+    execution_object_id: str,
+    project_path: Path,
+    editor_path: Path,
+    out_dir: Path,
+    allowed_write_paths: list[str],
+    output_files: list[str],
+    repair_prompt_context: str,
+) -> tuple[dict[str, Any], bool]:
+    config = unattended_config()
+    failure_event = build_failure_event(
+        stage=DEV_EXECUTION_STAGE,
+        record=record,
+        reproduction_payload_path=str(record.get("reproduction_payload_path") or ""),
+    )
+    if not config.enable_step11_auto_repair or not failure_event.auto_repairable:
+        return record, False
+    if not execution_object_id:
+        return record, False
+    correction_id = correction_id_for_event(failure_event)
+    try:
+        current_object = execution_store.get(execution_object_id)
+        current_facts = (
+            current_object.get("submission_snapshot", {}).get("related_facts", {})
+            if isinstance(current_object, dict)
+            else {}
+        )
+        confirm_automated_retry_from_safe_point(
+            execution_store,
+            execution_object_id=execution_object_id,
+            remaining_write_scope=[f"unity_file:{item}" for item in output_files],
+            current_facts=current_facts,
+            correction_id=correction_id,
+        )
+    except Exception as exc:  # noqa: BLE001 - recovery boundary
+        record.setdefault("codex_errors", []).append(f"auto repair skipped: {exc}")
+        return record, False
+
+    attempts_path = out_dir / "repair_attempts.jsonl"
+    last_hash = failure_event.error_hash
+    for attempt_index in range(1, config.max_auto_repair_attempts + 1):
+        attempt_id = f"RA-ST11-{task.get('task_id')}-{attempt_index:03d}"
+        repair_task = build_file_generation_task(
+            task_id=f"{task.get('task_id')}-repair-{attempt_index}",
+            goal="\n".join(
+                [
+                    "Repair this Unity C# task failure.",
+                    "Return only a REPAIR_JSON_START/REPAIR_JSON_END block.",
+                    "Do not modify files outside allowed_write_paths.",
+                    repair_prompt_context,
+                    f"Failure summary: {failure_event.error_summary}",
+                    f"Allowed write paths: {', '.join(allowed_write_paths)}",
+                ]
+            ),
+            input_files=[],
+            output_files=output_files,
+            allowed_write_paths=allowed_write_paths,
+        )
+        repair_task.timeout_seconds = config.repair_timeout_seconds
+        started_at = now_iso()
+        attempt_record: dict[str, Any] = {
+            "attempt_id": attempt_id,
+            "correction_id": correction_id,
+            "started_at": started_at,
+            "timeout_seconds": config.repair_timeout_seconds,
+            "written_files": [],
+            "error_hash_before": last_hash,
+        }
+        try:
+            from core.adapters.registry import get_adapter
+            from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
+
+            if AI_CONFIG_PATH.exists():
+                profile = get_active_profile()
+                adapter = get_adapter(profile.adapter, profile=profile)
+            else:
+                adapter_name = load_project_settings(BASE_DIR).get("pipeline_adapter", "codex")
+                adapter = get_adapter(adapter_name)
+            repair_result = adapter.generate(repair_task)
+            if repair_result.errors:
+                raise RuntimeError("; ".join(repair_result.errors))
+            payload = _extract_repair_payload(repair_result.text)
+            if payload.get("needs_human"):
+                attempt_record.update({"status": "needs_user_review", "finished_at": now_iso()})
+                _append_jsonl(attempts_path, attempt_record)
+                return record, False
+            files = payload.get("files", [])
+            if not isinstance(files, list):
+                raise ValueError("repair files must be a list")
+            written_files: list[str] = []
+            before = _snapshot_project_files(project_path)
+            for item in files:
+                if not isinstance(item, dict):
+                    raise ValueError("repair file entry must be an object")
+                rel_path = str(item.get("path") or "")
+                if not _is_safe_relative_path(rel_path):
+                    raise ValueError(f"unsafe repair path: {rel_path}")
+                if not _allowed_repair_path(rel_path, allowed_write_paths):
+                    raise ValueError(f"repair path outside allowed_write_paths: {rel_path}")
+                target = project_path / rel_path
+                expected_hash = str(item.get("expected_hash_before") or "").strip()
+                if expected_hash and target.is_file():
+                    current_hash = project_file_hashes(project_path, [rel_path]).get(rel_path, "")
+                    if current_hash and current_hash != expected_hash:
+                        raise ValueError(f"expected_hash_before mismatch: {rel_path}")
+                mode = str(item.get("mode") or "replace")
+                if mode != "replace":
+                    raise ValueError(f"unsupported repair mode: {mode}")
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(str(item.get("content") or ""), encoding="utf-8")
+                written_files.append(rel_path)
+            after = _snapshot_project_files(project_path)
+            changed_files = _changed_files(before, after)
+            unexpected_changes = [
+                item for item in changed_files if item not in set(output_files).union(allowed_write_paths)
+            ]
+            if unexpected_changes:
+                record["project_state_tainted"] = True
+                raise RuntimeError(f"unexpected changes after repair: {unexpected_changes}")
+            verification_results = _run_task_verification(
+                task=task,
+                project_path=project_path,
+                editor_path=editor_path,
+                out_dir=out_dir,
+                defer_unity_batchmode=True,
+            )
+            verification_errors = [
+                item
+                for item in verification_results
+                if item.get("status") not in {"passed", "deferred"}
+            ]
+            if verification_errors:
+                error_hash_after = build_failure_event(
+                    stage=DEV_EXECUTION_STAGE,
+                    record={**record, "verification_results": verification_results},
+                    reproduction_payload_path=str(record.get("reproduction_payload_path") or ""),
+                ).error_hash
+                attempt_record.update(
+                    {
+                        "status": "retry_failed",
+                        "finished_at": now_iso(),
+                        "written_files": written_files,
+                        "error_hash_after": error_hash_after,
+                        "verification_results": verification_results,
+                    }
+                )
+                _append_jsonl(attempts_path, attempt_record)
+                if error_hash_after == last_hash:
+                    return record, False
+                last_hash = error_hash_after
+                continue
+            final_hashes = project_file_hashes(project_path, output_files)
+            record_automated_remediation(
+                execution_store,
+                execution_object_id=execution_object_id,
+                repair_attempt_id=attempt_id,
+                correction_id=correction_id,
+                affected_files=written_files,
+                final_hashes=final_hashes,
+                validation_result={"status": "passed", "verification_results": verification_results},
+                affected_scopes=[f"unity_file:{item}" for item in written_files],
+            )
+            verified_object = verify_program_task_execution_object(
+                execution_store,
+                execution_object_id=execution_object_id,
+                project_path=project_path,
+                output_files=output_files,
+                written_files=written_files or output_files,
+                verification_results=verification_results,
+                execution_record=record,
+            )
+            record.update(
+                {
+                    "status": "auto_repaired",
+                    "codex_errors": [],
+                    "changed_files": sorted(set(record.get("changed_files", []) + written_files)),
+                    "verification_results": verification_results,
+                    "execution_object_state": verified_object.get("state"),
+                    "auto_repair": {
+                        "attempt_id": attempt_id,
+                        "correction_id": correction_id,
+                        "status": "repaired",
+                    },
+                }
+            )
+            attempt_record.update(
+                {
+                    "status": "repaired",
+                    "finished_at": now_iso(),
+                    "written_files": written_files,
+                    "error_hash_after": "",
+                    "verification_results": verification_results,
+                }
+            )
+            _append_jsonl(attempts_path, attempt_record)
+            return record, True
+        except Exception as exc:  # noqa: BLE001 - repair boundary
+            attempt_record.update(
+                {
+                    "status": "retry_failed",
+                    "finished_at": now_iso(),
+                    "error": str(exc),
+                }
+            )
+            _append_jsonl(attempts_path, attempt_record)
+            record.setdefault("codex_errors", []).append(f"auto repair failed: {exc}")
+            if record.get("project_state_tainted"):
+                return record, False
+    return record, False
+
+
+def _append_jsonl(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
 
 def _stage10_active_execution_object_id(execution_store: Any, task_id: Any) -> str:
@@ -4334,6 +4700,12 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     settings = load_project_settings(BASE_DIR)
     project_path = Path(settings["development_path"]).expanduser()
     editor_path = Path(settings["editor_path"]).expanduser()
+    unattended = unattended_config()
+    sync_tracker = _Stage11SyncTracker(
+        out_dir=out_dir,
+        every_tasks=unattended.sync_checkpoint_every_tasks,
+        seconds=unattended.sync_checkpoint_seconds,
+    )
     execution_store = load_execution_object_store(BASE_DIR)
     tasks_by_id = {
         str(task.get("task_id")): task for task in tasks if isinstance(task, dict)
@@ -4351,6 +4723,9 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     soft_stopped = False
     stop_reason = ""
     resume_next_task_id = ""
+    project_state_tainted = False
+    skipped_task_info: dict[str, dict[str, Any]] = {}
+    skipped_records: list[dict[str, Any]] = []
     expected_count = len(tasks_by_id)
     _write_stage10_progress(
         out_dir,
@@ -4371,7 +4746,28 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             group_task_ids = []
         group_record_indexes: list[int] = []
         group_needs_unity_compile = False
+        group_failed_without_taint = False
         for task_id in group_task_ids:
+            if str(task_id) in skipped_task_info:
+                task = tasks_by_id.get(str(task_id), {})
+                info = skipped_task_info[str(task_id)]
+                record = {
+                    "task_id": task_id,
+                    "group_id": group_id,
+                    "requirement_id": task.get("requirement_id") if isinstance(task, dict) else "",
+                    "phase": task.get("phase") if isinstance(task, dict) else "",
+                    "status": info.get("status", "skipped_by_dependency"),
+                    "blocked_by": info.get("blocked_by", []),
+                    "changed_files": [],
+                    "unexpected_changes": [],
+                    "verification_results": [],
+                    "source_refs": task.get("source_refs", []) if isinstance(task, dict) else [],
+                    "execution_note": "Skipped because a dependency requires review.",
+                }
+                execution_records.append(record)
+                skipped_records.append(record)
+                _write_stage10_task_record(out_dir, task_id, record)
+                continue
             if runtime_control.stop_requested(BASE_DIR):
                 stopped = True
                 soft_stopped = True
@@ -4513,16 +4909,30 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     current_task_id=str(task.get("task_id") or ""),
                     current_execution_object_id=execution_object_id,
                 )
-                stopped = True
                 stop_reason = (
                     f"Task {task.get('task_id')} failed execution-object gate."
                 )
+                if unattended.continue_independent_tasks:
+                    failed_id = str(task.get("task_id") or "")
+                    skipped_task_info.update(
+                        dependency_skip_ids(
+                            failed_task_ids={failed_id},
+                            current_group_id=str(group_id),
+                            parallel_groups=parallel_groups,
+                            dependencies=plan.get("dependencies", []),
+                        )
+                    )
+                    group_failed_without_taint = True
+                else:
+                    stopped = True
                 break
 
             reused_existing_output = False
             codex_result = None
             codex_errors: list[str] = []
             codex_warnings: list[str] = []
+            reproduction_payload_path = ""
+            task_prompt_for_repair = ""
             previous_record = previous_records.get(str(task.get("task_id")))
             if previous_record and _can_reuse_existing_task_output(task, project_path):
                 reused_existing_output = True
@@ -4576,6 +4986,8 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         allowed_write_paths=allowed_write_paths,
                     )
                     model_task.timeout_seconds = 720
+                    task_prompt_for_repair = model_task.prompt
+                    adapter_name = "unknown"
                     try:
                         from core.adapters.registry import get_adapter
                         from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
@@ -4583,12 +4995,24 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
 
                         if AI_CONFIG_PATH.exists():
                             _profile = get_active_profile()
+                            adapter_name = _profile.adapter
                             model_adapter = get_adapter(_profile.adapter, profile=_profile)
                         else:
                             _adapter_name = load_project_settings(BASE_DIR).get(
                                 "pipeline_adapter", "codex"
                             )
+                            adapter_name = str(_adapter_name)
                             model_adapter = get_adapter(_adapter_name)
+                        reproduction_payload_path = write_reproduction_payload(
+                            out_dir,
+                            task=task,
+                            prompt=model_task.prompt,
+                            adapter_name=adapter_name,
+                            timeout_seconds=model_task.timeout_seconds,
+                            allowed_write_paths=allowed_write_paths,
+                            output_files=output_files,
+                            package_changes=package_changes,
+                        )
                         codex_result = model_adapter.generate(model_task)
                         codex_errors.extend(codex_result.errors)
                     except Exception as exc:
@@ -4648,6 +5072,8 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 ),
                 "codex_errors": _compact_messages(codex_errors),
                 "codex_warnings": _compact_messages(codex_warnings),
+                "package_errors": _compact_messages(package_report.get("errors", [])),
+                "reproduction_payload_path": reproduction_payload_path,
                 "changed_files": changed_files,
                 "diff_summary": {
                     "changed_file_count": len(changed_files),
@@ -4684,6 +5110,21 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 record["execution_object_state"] = execution_store.get(
                     execution_object_id
                 ).get("state")
+                repaired_record, repaired = _attempt_auto_repair_task(
+                    task=task,
+                    record=record,
+                    execution_store=execution_store,
+                    execution_object_id=execution_object_id,
+                    project_path=project_path,
+                    editor_path=editor_path,
+                    out_dir=out_dir,
+                    allowed_write_paths=allowed_write_paths,
+                    output_files=output_files,
+                    repair_prompt_context=task_prompt_for_repair,
+                )
+                record = repaired_record
+                if repaired:
+                    status = str(record.get("status") or "auto_repaired")
             elif execution_object_id and not any(
                 result.get("status") == "deferred" for result in verification_results
             ):
@@ -4739,14 +5180,28 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 current_task_id=str(task.get("task_id") or ""),
                 current_execution_object_id=execution_object_id,
             )
-            _sync_stage10_checkpoint(
-                out_dir,
-                event="stage10_task_checkpoint",
+            sync_tracker.task_checkpoint(
+                event="stage11_task_checkpoint",
                 message=f"{task.get('task_id')} {status}",
             )
-            if status != "success":
+            if status not in {"success", "auto_repaired"}:
                 stopped = True
                 stop_reason = f"Task {task.get('task_id')} failed."
+                if record.get("unexpected_changes") or record.get("project_state_tainted"):
+                    project_state_tainted = True
+                if project_state_tainted or not unattended.continue_independent_tasks:
+                    break
+                failed_id = str(task.get("task_id") or "")
+                skipped_task_info.update(
+                    dependency_skip_ids(
+                        failed_task_ids={failed_id},
+                        current_group_id=str(group_id),
+                        parallel_groups=parallel_groups,
+                        dependencies=plan.get("dependencies", []),
+                    )
+                )
+                stopped = False
+                group_failed_without_taint = True
                 break
             if runtime_control.stop_requested(BASE_DIR):
                 stopped = True
@@ -4789,6 +5244,13 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 break
         if stopped:
             break
+        if group_failed_without_taint:
+            _write_stage11_dependency_skip_report(out_dir, skipped_records)
+            sync_tracker.group_checkpoint(
+                event="stage11_group_completed_with_review",
+                message=str(group_id),
+            )
+            continue
         if group_record_indexes and group_needs_unity_compile:
             unity_result = _run_unity_batchmode_compile(
                 editor_path=editor_path,
@@ -4820,7 +5282,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         else []
                     )
                     if (
-                        record.get("status") == "success"
+                        _stage11_record_successful(record)
                         and current_state == "executing"
                     ):
                         try:
@@ -4858,7 +5320,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                                 execution_object_id
                             ).get("state")
                     elif (
-                        record.get("status") != "success"
+                        not _stage11_record_successful(record)
                         and current_state == "executing"
                     ):
                         record_execution_object_failure(
@@ -4892,13 +5354,12 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         record.get("execution_object_id") or ""
                     ),
                 )
-            _sync_stage10_checkpoint(
-                out_dir,
-                event="stage10_group_checkpoint",
+            sync_tracker.group_checkpoint(
+                event="stage11_group_checkpoint",
                 message=str(group_id),
             )
             group_failed_after_validation = any(
-                execution_records[index].get("status") != "success"
+                not _stage11_record_successful(execution_records[index])
                 for index in group_record_indexes
             )
             if unity_result.get("status") != "passed":
@@ -4950,20 +5411,42 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     message=stop_reason,
                 )
                 break
+        elif group_record_indexes:
+            sync_tracker.group_checkpoint(
+                event="stage11_group_checkpoint",
+                message=str(group_id),
+            )
 
     executed_successfully = [
-        record for record in execution_records if record.get("status") == "success"
+        record for record in execution_records if _stage11_record_successful(record)
     ]
+    review_records = [
+        record
+        for record in execution_records
+        if not _stage11_record_successful(record)
+        and not str(record.get("status", "")).startswith("skipped")
+    ]
+    skipped_count = sum(
+        1 for record in execution_records if str(record.get("status", "")).startswith("skipped")
+    )
     status = (
         "success"
-        if len(executed_successfully) == expected_count and not stopped
+        if len(executed_successfully) == expected_count and not stopped and not review_records
         else "stopped" if soft_stopped else "blocked"
     )
+    if (
+        status == "blocked"
+        and not project_state_tainted
+        and (review_records or skipped_count)
+    ):
+        status = "completed_with_review"
     blocking_issues = []
     if stop_reason and not soft_stopped:
         blocking_issues.append({"code": "EXECUTION_STOPPED", "message": stop_reason})
     for record in execution_records:
-        if record.get("status") != "success":
+        if not _stage11_record_successful(record) and not str(
+            record.get("status", "")
+        ).startswith("skipped"):
             blocking_issues.append(
                 {
                     "code": "TASK_EXECUTION_FAILED",
@@ -4986,7 +5469,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         "successful_task_count": len(executed_successfully),
         "next_task_id": resume_next_task_id,
         "stop_reason": stop_reason if soft_stopped else "",
-        "resume_supported": status == "stopped",
+        "resume_supported": status in {"stopped", "completed_with_review"},
         "records": execution_records,
         "package_change_reports": package_reports,
         "execution_object_store": rel(execution_store.path),
@@ -4995,10 +5478,28 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             for record in execution_records
             if record.get("execution_object_id")
         ],
-        "blocking_issues": blocking_issues,
+        "blocking_issues": blocking_issues if status == "blocked" else [],
     }
+    unattended_summary: dict[str, Any] = {"review_items_count": 0}
+    resume_cursor: dict[str, Any] = {}
+    if status in {"completed_with_review", "stopped", "blocked"}:
+        cursor_record = review_records[0] if review_records else (execution_records[-1] if execution_records else {})
+        unattended_summary, resume_cursor = _append_stage11_review_outputs(
+            out_dir,
+            status=status,
+            records=execution_records,
+            current_group_id=str(cursor_record.get("group_id") or ""),
+            current_task_id=str(cursor_record.get("task_id") or ""),
+            next_task_id=resume_next_task_id,
+            project_state_tainted=project_state_tainted,
+        )
+        result["resume_cursor"] = resume_cursor
+        result["review_items_count"] = int(
+            unattended_summary.get("review_items_count") or 0
+        )
+        result["correction_summary"] = unattended_summary.get("correction_summary", {})
     write_json(out_dir / "devexecution.json", result)
-    if status != "success":
+    if status == "blocked":
         write_json(out_dir / "actual_development_blocked.json", result)
     write_json(out_dir / "actual_development_report.json", result)
     write_json(
@@ -5029,24 +5530,31 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         + ("\n" if execution_records else "- No tasks executed.\n"),
     )
     write_json(out_dir / "development_execution_log.json", result)
-    if status == "stopped":
-        _sync_stage10_checkpoint(
-            out_dir,
-            event="stage10_soft_stopped_final",
-            message=stop_reason,
-        )
+    sync_tracker.force(
+        event=f"stage11_{status}_final",
+        message=stop_reason or status,
+    )
     return {
         "status": status,
         "content_exists": bool(execution_records),
         "executed_task_count": len(execution_records),
         "blocking_issues": len(blocking_issues) if status == "blocked" else 0,
+        "review_items_count": int(
+            unattended_summary.get("review_items_count") or 0
+        ) if status == "completed_with_review" else 0,
         "ai_review_status": (
             "passed"
             if status == "success"
-            else "stopped" if status == "stopped" else "blocked"
+            else (
+                "stopped"
+                if status == "stopped"
+                else "completed_with_review"
+                if status == "completed_with_review"
+                else "blocked"
+            )
         ),
-        "traceability_valid": all(record["source_refs"] for record in execution_records)
-        and status == "success",
+        "traceability_valid": all(record.get("source_refs") for record in execution_records)
+        and status in {"success", "completed_with_review"},
     }
 
 
@@ -5112,10 +5620,62 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 }
             )
         produced.append(produced_record)
+    status = "success" if produced and not blockers else "blocked"
+    if produced and blockers:
+        status = "completed_with_review"
+    events = [
+        build_failure_event(
+            stage=ART_PRODUCTION_STAGE,
+            record={
+                "task_id": item.get("task_id"),
+                "asset_id": item.get("asset_id"),
+                "status": item.get("status"),
+                "error": item.get("error", ""),
+                "execution_object_id": item.get("execution_object_id", ""),
+                "changed_files": [item.get("asset_id") or item.get("task_id")],
+            },
+            failure_type="asset_contract_failed",
+            severity="task_failed",
+        )
+        for item in produced
+        if item.get("status") != "produced_as_traced_asset_requirement"
+    ]
+    correction_summary = upsert_failure_queue(
+        out_dir,
+        stage=ART_PRODUCTION_STAGE,
+        events=events,
+        reviewed_contract="art_asset_production_plan.json",
+        source_review="stage_12_unattended_execution",
+    )
+    resume_cursor = build_resume_cursor(
+        stage=ART_PRODUCTION_STAGE,
+        records=produced,
+        current_task_id=str(events[0].task_id) if events else "",
+        project_state_tainted=False,
+    )
+    unattended_summary = write_unattended_summary(
+        out_dir,
+        stage=ART_PRODUCTION_STAGE,
+        status=status,
+        records=produced,
+        correction_summary=correction_summary,
+        resume_cursor=resume_cursor,
+        continue_after_completed_with_review=unattended_config().continue_after_completed_with_review,
+    )
+    if status != "success":
+        write_pause_resume_log(
+            out_dir,
+            stage=ART_PRODUCTION_STAGE,
+            status=status,
+            records=produced,
+            resume_cursor=resume_cursor,
+            correction_summary=correction_summary,
+            title="Art Production Pause and Resume",
+        )
     result = {
         "schema_version": 1,
         "generated_at": now_iso(),
-        "status": "success" if produced and not blockers else "blocked",
+        "status": status,
         "produced_assets": produced,
         "execution_object_store": rel(execution_store.path),
         "execution_object_ids": [
@@ -5123,7 +5683,10 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             for item in produced
             if item.get("execution_object_id")
         ],
-        "blocking_issues": blockers,
+        "blocking_issues": blockers if status == "blocked" else [],
+        "review_items_count": unattended_summary.get("review_items_count", 0),
+        "resume_cursor": resume_cursor,
+        "correction_summary": correction_summary,
     }
     write_json(out_dir / "artproduction.json", result)
     write_text(
@@ -5136,12 +5699,14 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     write_skill_guidance(out_dir, "imagegen")
     _write_generated_images_manifest(out_dir, tasks, stage=ART_PRODUCTION_STAGE)
     return {
+        "status": status,
         "content_exists": bool(produced),
         "produced_asset_count": len(produced),
-        "blocking_issues": len(blockers) if produced else 1,
-        "ai_review_status": "passed" if produced and not blockers else "blocked",
+        "blocking_issues": len(blockers) if status == "blocked" else 0,
+        "review_items_count": unattended_summary.get("review_items_count", 0),
+        "ai_review_status": "passed" if status == "success" else status,
         "traceability_valid": all(item["source_refs"] for item in produced)
-        and not blockers,
+        and status in {"success", "completed_with_review"},
     }
 
 
@@ -5153,17 +5718,34 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         stage_dir(DEV_EXECUTION_STAGE) / "changed_files_manifest.json", {}
     )
     blockers = []
-    if dev.get("status") != "success":
+    allow_review_outputs = unattended_config().continue_after_completed_with_review
+    if dev.get("status") == "completed_with_review" and not allow_review_outputs:
         blockers.append(
             {
-                "id": "DEVEXEC-NOT-SUCCESS",
-                "message": "Development execution did not pass.",
+                "id": "DEVEXEC-REQUIRES-REVIEW",
+                "message": "Development execution completed with review items; resolve stage_11/correction_queue.json before integration.",
             }
         )
-    if art.get("status") != "success":
+    if art.get("status") == "completed_with_review" and not allow_review_outputs:
         blockers.append(
-            {"id": "ARTPROD-NOT-SUCCESS", "message": "Art production did not pass."}
+            {
+                "id": "ARTPROD-REQUIRES-REVIEW",
+                "message": "Art production completed with review items; resolve stage_12/correction_queue.json before integration.",
+            }
         )
+    if dev.get("status") != "success":
+        if dev.get("status") != "completed_with_review":
+            blockers.append(
+                {
+                    "id": "DEVEXEC-NOT-SUCCESS",
+                    "message": "Development execution did not pass.",
+                }
+            )
+    if art.get("status") != "success":
+        if art.get("status") != "completed_with_review":
+            blockers.append(
+                {"id": "ARTPROD-NOT-SUCCESS", "message": "Art production did not pass."}
+            )
     records = dev.get("records", []) if isinstance(dev.get("records"), list) else []
     changed_tasks = (
         changed_manifest.get("tasks", []) if isinstance(changed_manifest, dict) else []
@@ -5606,6 +6188,17 @@ def _load_current_design(base_dir: Path = BASE_DIR) -> dict[str, Any]:
     )
 
 
+def _blocking_issue_count(value: Any) -> int:
+    if isinstance(value, list):
+        return len(value)
+    if isinstance(value, dict):
+        return len(value)
+    try:
+        return int(value or 0)
+    except (TypeError, ValueError):
+        return 1 if value else 0
+
+
 def _update_stage_report(
     step_number: int, out_dir: Path, result: dict[str, Any]
 ) -> dict[str, Any]:
@@ -5613,7 +6206,9 @@ def _update_stage_report(
     report = read_json(report_path, {})
     if not isinstance(report, dict):
         report = {}
-    blocking = int(result.get("blocking_issues") or 0)
+    status = str(result.get("status") or "")
+    completed_with_review = status == "completed_with_review"
+    blocking = 0 if completed_with_review else _blocking_issue_count(result.get("blocking_issues"))
     content_exists = bool(result.get("content_exists"))
     report.update(
         {
@@ -5622,18 +6217,25 @@ def _update_stage_report(
                 "ai_review_status", "passed" if blocking == 0 else "blocked"
             ),
             "blocking_issues": blocking,
+            "review_items_count": int(result.get("review_items_count") or 0),
             "traceability_valid": bool(result.get("traceability_valid", True))
-            and blocking == 0,
+            and (blocking == 0 or completed_with_review),
             "scope_budget_valid": True,
             "business_quality": result,
         }
     )
-    if not content_exists:
+    if completed_with_review:
+        report["status"] = "completed_with_review"
+        report["valid"] = True
+    elif not content_exists:
         report["status"] = "content_missing"
         report["valid"] = False
     elif blocking:
         report["status"] = "failed"
         report["valid"] = False
+    elif content_exists:
+        report["status"] = status or report.get("status", "passed")
+        report["valid"] = True
     write_json(report_path, report)
     return report
 

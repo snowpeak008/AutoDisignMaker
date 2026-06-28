@@ -8,6 +8,38 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-018
+**Summary**: Implemented `newplan/step11_12_unattended_recovery_v4.md`: Step11/12 unattended recovery with correction queues, pause/resume logs, completed-with-review status, dependency skip records, and sync reduction.
+
+**Completed**:
+- [x] Added unattended execution config defaults under `settings/app.toml` / `core.config.loader`.
+- [x] Added `unattended_recovery.py` helpers for FailureEvent, queue upsert, reproduction payloads, resume cursors, dependency skip, and pause/resume logs.
+- [x] Preserved correction queue extra fields during JSON round trips.
+- [x] Added execution-object automated remediation evidence and verification support.
+- [x] Added `completed_with_review` across stage status, pipeline state, stage report, and `run_range()`.
+- [x] Updated Step11/12 to write correction queues, summaries, pause/resume logs, and review-oriented statuses.
+- [x] Added Step13 gating for unresolved Step11/12 review outputs and UI display for "需复核".
+- [x] Added regression coverage for unattended recovery contracts.
+
+**Verification**:
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_unattended_recovery.py -q`: 6 passed.
+- [x] `python -B -m pytest core\tests\unit\test_unattended_recovery.py core\tests\unit\test_config_loader.py core\tests\unit\test_model_adapters.py -q`: 26 passed.
+- [x] `python -B -m pytest -q`: 196 passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] Manual GUI spot-check remains useful for Step11/12 "需复核" display and pause/resume log visibility.
+- [ ] Manual long-running Step11 run remains useful to validate real save-sync reduction and unattended correction queues against Unity.
+- [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
+- [ ] Existing unrelated save_id local change in `core/engines/execution_objects/workflow.py` was preserved but should remain outside this task commit.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-017
 **Summary**: Completed `newplan/image_cleanup_and_save_management.md`: cleaned stale Step07 style images, excluded binary files from current-draft snapshots, and added bulk save deletion.
 
@@ -34,8 +66,6 @@
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-016

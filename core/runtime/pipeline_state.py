@@ -17,7 +17,10 @@ VALID_STATUSES = {
     "success",
     "failed",
     "skipped",
+    "blocked",
+    "stopped",
     "waiting_confirmation",
+    "completed_with_review",
 }
 
 

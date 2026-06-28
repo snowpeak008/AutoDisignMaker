@@ -78,6 +78,7 @@ class CorrectionItem:
     target_stage: str = ""
     affected_systems: list[str] = field(default_factory=list)
     affected_files: list[str] = field(default_factory=list)
+    extras: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -420,6 +421,25 @@ def load_queue(path: Path) -> CorrectionQueue:
         for index, item in enumerate(raw.get("corrections", []) or [], 1):
             if not isinstance(item, dict):
                 continue
+            known_keys = {
+                "correction_id",
+                "item_id",
+                "conflict_type",
+                "correction_type",
+                "severity",
+                "detail",
+                "required_change",
+                "source_system",
+                "target_system",
+                "entities",
+                "suggested_action",
+                "selected",
+                "target_stage",
+                "affected_systems",
+                "affected_ids",
+                "affected_files",
+            }
+            extras = {key: value for key, value in item.items() if key not in known_keys}
             correction = CorrectionItem(
                 item_id=_stringify(item.get("correction_id") or item.get("item_id") or f"CORR_{index:03d}"),
                 conflict_type=_stringify(item.get("conflict_type") or item.get("correction_type") or "unknown"),
@@ -434,6 +454,7 @@ def load_queue(path: Path) -> CorrectionQueue:
                 target_stage=_stringify(item.get("target_stage", "")),
                 affected_systems=_split_csv(item.get("affected_systems") or item.get("affected_ids") or []),
                 affected_files=_split_csv(item.get("affected_files", [])),
+                extras=extras,
             )
             queue.items.append(complete_item_routing(correction))
         return queue
@@ -492,7 +513,7 @@ def queue_to_dict(queue: CorrectionQueue) -> dict[str, Any]:
     for raw_item in queue.items:
         item = complete_item_routing(raw_item)
         affected_ids = list(dict.fromkeys((item.affected_systems or []) + (item.entities or [])))
-        corrections.append({
+        item_dict = {
             "correction_id": item.item_id,
             "selected": item.selected,
             "target_stage": item.target_stage,
@@ -509,7 +530,9 @@ def queue_to_dict(queue: CorrectionQueue) -> dict[str, Any]:
             "required_change": item.suggested_action or item.detail,
             "forbidden_change": "",
             "detail": item.detail,
-        })
+        }
+        item_dict.update(item.extras)
+        corrections.append(item_dict)
     return {
         "schema_version": "2.0",
         "generated_at": queue.generated_at,

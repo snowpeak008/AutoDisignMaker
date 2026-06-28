@@ -212,6 +212,56 @@ def record_execution_object_failure(store, *, execution_object_id, failure_stage
         remediation_needed=remediation_needed, validation_needed=validation_needed, error=error)
 
 
+def confirm_automated_retry_from_safe_point(
+    store,
+    *,
+    execution_object_id,
+    remaining_write_scope,
+    current_facts,
+    correction_id,
+):
+    return store.confirm_retry_from_safe_point(
+        execution_object_id,
+        evidence={
+            "failure_stage_displayed": True,
+            "written_files_displayed": True,
+            "unfinished_actions_displayed": True,
+            "confirmed": True,
+            "remaining_write_scope": [str(item) for item in remaining_write_scope],
+            "automated_recovery": True,
+            "correction_id": str(correction_id),
+        },
+        current_facts=current_facts,
+    )
+
+
+def record_automated_remediation(
+    store,
+    *,
+    execution_object_id,
+    repair_attempt_id,
+    correction_id,
+    affected_files,
+    final_hashes,
+    validation_result,
+    affected_scopes,
+):
+    return store.record_automated_remediation(
+        execution_object_id,
+        evidence={
+            "repair_attempt_id": str(repair_attempt_id),
+            "correction_id": str(correction_id),
+            "affected_files": [_norm_path(item) for item in affected_files],
+            "affected_scopes": [str(item) for item in affected_scopes],
+            "final_hashes": dict(final_hashes),
+            "validation_result": validation_result,
+            "scope_verified": True,
+            "unexpected_changes": [],
+            "allowed_write_paths_checked": True,
+        },
+    )
+
+
 def complete_art_task_execution_object(store, *, task, produced_record, stage=11):
     task_id = str(task.get("task_id") or "unknown")
     asset_id = str(task.get("asset_id") or "")

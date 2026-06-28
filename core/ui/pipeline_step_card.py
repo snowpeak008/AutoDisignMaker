@@ -13,6 +13,7 @@ _STATUS_COLOR: dict[str, str] = {
     "failed":       COLORS["danger_soft"],
     "blocked":      COLORS["warning_soft"],
     "waiting_confirmation": COLORS["warning_soft"],
+    "completed_with_review": COLORS["warning_soft"],
 }
 
 _STATUS_LABEL: dict[str, str] = {
@@ -22,6 +23,7 @@ _STATUS_LABEL: dict[str, str] = {
     "failed":       "失败",
     "blocked":      "等待依赖",
     "waiting_confirmation": "等待确认",
+    "completed_with_review": "需复核",
 }
 
 
@@ -84,6 +86,7 @@ class StepCard(tk.Frame):
             "in_progress":  COLORS["primary"],
             "blocked":      COLORS["warning"],
             "waiting_confirmation": COLORS["warning"],
+            "completed_with_review": COLORS["warning"],
         }.get(self._status, COLORS["muted"])
         for w in self._all_widgets:
             try:

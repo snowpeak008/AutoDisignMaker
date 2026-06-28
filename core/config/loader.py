@@ -36,6 +36,19 @@ DEFAULT_APP_CONFIG: dict[str, Any] = {
         "image_width": 1024,
         "image_height": 1024,
     },
+    "pipeline": {
+        "unattended_execution": {
+            "max_auto_repair_attempts": 2,
+            "repair_timeout_seconds": 120,
+            "continue_independent_tasks": True,
+            "continue_after_completed_with_review": False,
+            "sync_per_group": True,
+            "sync_checkpoint_every_tasks": 10,
+            "sync_checkpoint_seconds": 600,
+            "enable_step11_auto_repair": True,
+            "enable_step12_auto_repair": False,
+        },
+    },
 }
 
 DEFAULT_PROJECT_SETTINGS: dict[str, Any] = {

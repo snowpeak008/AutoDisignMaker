@@ -1,5 +1,41 @@
 [
   {
+    "id": "2026-06-28-018",
+    "date": "2026-06-28",
+    "summary": "Completed step11_12_unattended_recovery_v4: added unattended Step11/12 correction queues, pause/resume logs, completed-with-review status, dependency skips, and reduced save sync checkpoints",
+    "changed_files": [
+      "core/config/loader.py",
+      "core/context.py",
+      "core/engines/execution_objects/correction_queue.py",
+      "core/engines/execution_objects/integration.py",
+      "core/engines/execution_objects/unattended_recovery.py",
+      "core/engines/execution_objects/workflow.py",
+      "core/engines/generation.py",
+      "core/main.py",
+      "core/runtime/pipeline_state.py",
+      "core/tests/unit/test_unattended_recovery.py",
+      "core/ui/pipeline_panel.py",
+      "core/ui/pipeline_step_card.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-018.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "settings/app.toml"
+    ],
+    "artifacts_created": [
+      "core/engines/execution_objects/unattended_recovery.py",
+      "core/tests/unit/test_unattended_recovery.py",
+      "knowledge/ai_memory/session_history/2026-06-28-018.md"
+    ],
+    "next_tasks": [
+      "Manual GUI spot-check remains useful for Step11/12 需复核 display and pause/resume log visibility",
+      "Manual long-running Step11 run remains useful to validate real save-sync reduction and unattended correction queues against Unity",
+      "Do not commit newplan/ unless explicitly requested",
+      "Leave unrelated local core/engines/execution_objects/workflow.py save_id change out of this task commit",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-28-017",
     "date": "2026-06-28",
     "summary": "Completed image_cleanup_and_save_management: cleaned Step07 generated images, skipped binary files in snapshot/full copies, and added bulk save deletion",
