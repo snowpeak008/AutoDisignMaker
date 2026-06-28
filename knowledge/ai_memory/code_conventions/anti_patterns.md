@@ -226,6 +226,22 @@ label = tk.Label(frame, font=FONT_TITLE)
 
 ## 错误处理反模式
 
+### ❌ 禁止按进程名批量终止 Codex / sandbox 进程
+
+**问题**：`Stop-Process` / `taskkill` 按 `codex.exe`、`node.exe`、`sandbox` 等进程名或模糊 PID 清理，可能会杀掉当前 AI 会话自身，导致运行中断。
+
+**错误示例**：
+```powershell
+Get-Process | Where-Object { $_.ProcessName -like "*codex*" } | Stop-Process -Force
+Stop-Process -Id 1234,5678 -Force  # 未证明这些 PID 不属于当前会话进程树
+```
+
+**正确做法**：
+- 默认只做只读诊断，不自动杀进程。
+- 如确需终止进程，必须先证明目标 PID 不在当前 Codex/Claude 会话自身进程树内。
+- 终止外部 CLI 残留前，列出 PID、命令行、父进程、启动时间和判断依据，并让用户确认。
+- 不为破坏性进程清理申请持久 approval rule。
+
 ### ❌ 禁止用宽泛的 except 捕获业务逻辑错误
 
 **错误示例**：

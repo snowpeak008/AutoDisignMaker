@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -12,8 +13,8 @@ from core.utils.base_tool import BaseTool
 from core.utils.process_utils import child_process_env, hidden_subprocess_kwargs
 
 
-def _codex_home() -> Path:
-    value = os.getenv("CODEX_HOME") or os.getenv("CODEX_WORKSPACE")
+def _codex_home(override: str | None = None) -> Path:
+    value = override or os.getenv("CODEX_HOME") or os.getenv("CODEX_WORKSPACE")
     return Path(value).expanduser() if value else Path.home() / ".codex"
 
 
@@ -48,6 +49,45 @@ def _new_or_updated_pngs(directory: Path, before: dict[Path, int]) -> list[Path]
     return candidates
 
 
+def _saved_pngs_from_output(text: str) -> list[Path]:
+    saved_lines = [
+        line
+        for line in text.splitlines()
+        if re.search(r"\b(saved|generated|output)\b|已保存|保存", line, re.IGNORECASE)
+    ]
+    paths = _png_paths_from_text("\n".join(saved_lines))
+    return paths if paths else _png_paths_from_text(text)
+
+
+def _png_paths_from_text(text: str) -> list[Path]:
+    paths: list[Path] = []
+    pattern = (
+        r"(?:^|[\s:：`\"'])"
+        r"((?:[A-Za-z]:\\|/)"
+        r"(?:[^\r\n`<>\"'\\/:*?|]+[/\\])*"
+        r"[^\r\n`<>\"'\\/:*?|]+?\.png)"
+        r"(?=$|[\s`<>\"'）),.;:：，。])"
+    )
+    for match in re.finditer(pattern, text):
+        path = Path(match.group(1).strip())
+        if path.is_file():
+            paths.append(path)
+    return paths
+
+
+def _session_pngs_from_output(text: str, generated_dir: Path) -> list[Path]:
+    paths: list[Path] = []
+    pattern = (
+        r"session id:\s*"
+        r"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"
+    )
+    for match in re.finditer(pattern, text, re.IGNORECASE):
+        session_dir = generated_dir / match.group(1)
+        if session_dir.is_dir():
+            paths.extend(path for path in session_dir.glob("*.png") if path.is_file())
+    return paths
+
+
 class CodexCLIImageGenerator(BaseTool):
     name: str = "Codex CLI Image Generator"
     description: str = "通过本地 Codex CLI 内置 image_gen 工具生成图片。"
@@ -58,12 +98,14 @@ class CodexCLIImageGenerator(BaseTool):
         output_dir: str = ".",
         output_format: str = "png",
         timeout: int = 300,
+        codex_home: str | None = None,
         **_: object,
     ) -> str:
         if output_format.lower() != "png":
             raise RuntimeError("Codex CLI image generation currently supports PNG output only.")
 
-        generated_dir = _codex_home() / "generated_images"
+        home = _codex_home(codex_home)
+        generated_dir = home / "generated_images"
         generated_dir.mkdir(parents=True, exist_ok=True)
         before = _snapshot_pngs(generated_dir)
         task_prompt = "\n".join(
@@ -92,13 +134,23 @@ class CodexCLIImageGenerator(BaseTool):
             encoding="utf-8",
             errors="replace",
             timeout=timeout,
-            **hidden_subprocess_kwargs(stdin=None, env=child_process_env()),
+            **hidden_subprocess_kwargs(
+                stdin=None,
+                env=child_process_env({"CODEX_HOME": str(home)}),
+            ),
         )
         if result.returncode != 0:
             message = (result.stderr or result.stdout or "").strip()
             raise RuntimeError(f"Codex CLI image generation failed: {message[:500]}")
 
-        after = _new_or_updated_pngs(generated_dir, before)
+        output_text = "\n".join(
+            part for part in (result.stdout or "", result.stderr or "") if part
+        )
+        after = _saved_pngs_from_output(output_text)
+        if not after:
+            after = _session_pngs_from_output(output_text, generated_dir)
+        if not after:
+            after = _new_or_updated_pngs(generated_dir, before)
         if not after:
             stderr = (result.stderr or "").strip()
             stdout = (result.stdout or "").strip()

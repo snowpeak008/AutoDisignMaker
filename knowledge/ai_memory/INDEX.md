@@ -8,6 +8,52 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-003
+**Summary**: Completed `bug_collection_20260628_step07_prompt_fix`: fixed Step07 image-output edge cases, tightened Codex PNG/session parsing, preserved serial image generation, and verified the full suite.
+
+**Completed**:
+- [x] Added safe Step07 image placement: `replace()` failure falls back to copy, and still-locked targets fall back to a unique image filename.
+- [x] Tightened new PNG detection using path+mtime snapshots and operation-start filtering.
+- [x] Tightened Codex CLI PNG path parsing to prefer saved/generated/output lines.
+- [x] Restricted Codex session-id matching to UUID-form ids.
+- [x] Preserved inner backticks in saved image paths, added fallback asset labels, and kept Step07 image generation serial.
+- [x] Updated local plan status; `plan/` remains ignored.
+
+**Verification**:
+- [x] Targeted Step07/Codex image tests: 18 passed.
+- [x] `python -B -m pytest -q`: 164 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+
+**Follow-up**:
+- [ ] Real Codex CLI Step07 image generation was not rerun to avoid re-triggering Windows sandbox helper issues.
+- [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+**Date**: 2026-06-28
+**ID**: 2026-06-28-002
+**Summary**: Continued the interrupted Step07/Codex image-generation follow-up, forced Step07 image generation back to safe serial execution, and recorded a hard ban on broad Codex/sandbox process termination.
+
+**Completed**:
+- [x] Removed Step07 image-generation concurrency and the unused per-worker Codex home helper from the abandoned parallel approach.
+- [x] Added a regression test proving Step07 image generation workers stay at `1`.
+- [x] Recorded the process-cleanup anti-pattern: never terminate `codex`, `node`, or sandbox-related processes by broad process-name/PID matching; use read-only diagnostics and user confirmation.
+
+**Verification**:
+- [x] Targeted Step07/Codex image tests: 12 passed.
+- [x] `python -B -m pytest -q`: 158 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] If a Codex/sandbox helper popup appears again, inspect only; do not kill processes unless the target is proven outside the active session process tree and the user confirms.
+- [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-001
 **Summary**: Executed `pending_tasks_20260628`: committed Codex CLI subprocess/image fixes, added orphan draft and snapshot pruning, cleaned old drafts, and verified real Codex CLI image generation through Step07.
 
@@ -36,8 +82,6 @@
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-27
 **ID**: 2026-06-27-005

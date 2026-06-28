@@ -12,8 +12,10 @@ from __future__ import annotations
 import hashlib
 import os
 import re
+import shutil
 import struct
 import subprocess
+import time
 import zlib
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -1954,35 +1956,90 @@ def _style_image_generation_enabled() -> bool:
     return _image_generation_enabled()
 
 
+GENERIC_PROJECT_TITLES = {
+    "程序自动开发流程工具",
+    "AutoDesignMaker",
+    "Untitled Game",
+    "Initial Idea Intake",
+    "Idea Intake",
+}
+
+
+def _clean_project_title(value: Any) -> str:
+    text = str(value or "").strip()
+    # Step07 source titles often include placeholder punctuation and subtitles.
+    # The style prompt needs the inspectable project name, not the full document title.
+    text = re.sub(r"^[#\s?？\uFFFD]+", "", text).strip()
+    text = re.split(r"\s+[—-]\s+", text, maxsplit=1)[0].strip()
+    if text in GENERIC_PROJECT_TITLES:
+        return ""
+    return text[:80].strip()
+
+
+def _project_title_from_raw_text(parsed: dict[str, Any]) -> str:
+    raw_text = str(parsed.get("raw_text") or "")
+    for line in raw_text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("# "):
+            title = _clean_project_title(stripped.removeprefix("# "))
+            if title:
+                return title
+    return ""
+
+
 def _stage_title(parsed: dict[str, Any]) -> str:
-    for key in ("project_name", "title", "name"):
-        value = parsed.get(key)
+    for key in ("project_name", "game_title", "display_name", "project", "title", "name"):
+        value = _clean_project_title(parsed.get(key))
         if value:
-            return str(value)
+            return value
     summary = parsed.get("design_summary")
     if isinstance(summary, dict):
-        for key in ("project_name", "title", "display_name"):
-            value = summary.get(key)
+        for key in ("project_name", "game_title", "display_name", "project", "title"):
+            value = _clean_project_title(summary.get(key))
             if value:
-                return str(value)
+                return value
+    value = _project_title_from_raw_text(parsed)
+    if value:
+        return value
     return "Untitled Game"
+
+
+def _short_asset_label(asset: dict[str, Any]) -> str:
+    label = (
+        asset.get("asset_type")
+        or asset.get("asset_id")
+        or str(asset.get("name") or "")
+    )
+    result = str(label).split("：")[0].split("\n")[0][:40].strip()
+    return result if result else "asset"
+
+
+def _representative_asset_text(
+    assets: list[dict[str, Any]], max_chars: int = 80
+) -> str:
+    labels: list[str] = []
+    seen: set[str] = set()
+    for asset in assets[:8]:
+        label = _short_asset_label(asset)
+        if not label or label in seen:
+            continue
+        if labels and len(", ".join([*labels, label])) > max_chars:
+            break
+        labels.append(label)
+        seen.add(label)
+    return ", ".join(labels) if labels else "core gameplay assets"
 
 
 def _style_prompt(
     parsed: dict[str, Any], option: dict[str, Any], assets: list[dict[str, Any]]
 ) -> str:
-    asset_names = [
-        str(asset.get("name") or asset.get("asset_id") or "")
-        for asset in assets[:8]
-        if asset.get("name") or asset.get("asset_id")
-    ]
     return "\n".join(
         [
             "Create a game art style reference image.",
             f"Project: {_stage_title(parsed)}",
             f"Style direction: {option['title']}",
             f"Style intent: {option['description']}",
-            f"Representative assets: {', '.join(asset_names) if asset_names else 'core gameplay assets'}",
+            f"Representative assets: {_representative_asset_text(assets)}",
             "Composition: inspectable style board, clear silhouettes, no text overlays.",
         ]
     )
@@ -2072,6 +2129,103 @@ def _image_generation_result_success(result: str) -> bool:
         return False
 
 
+def _saved_image_path_from_result(result: str) -> Path | None:
+    text = str(result or "").strip()
+    for marker in ("saved:", "图片已保存至："):
+        if marker in text:
+            candidate = text.split(marker, 1)[1].strip().splitlines()[0].strip()
+            if (
+                len(candidate) >= 2
+                and candidate[0] in "`\"'"
+                and candidate[-1] == candidate[0]
+            ):
+                candidate = candidate[1:-1]
+            path = Path(candidate)
+            if path.is_file():
+                return path
+    return None
+
+
+def _unique_style_image_path(image_path: Path) -> Path:
+    return image_path.with_name(
+        f"{image_path.stem}_{time.time_ns()}{image_path.suffix}"
+    )
+
+
+def _place_style_image(source: Path, target: Path) -> Path:
+    if source.resolve() == target.resolve():
+        return target
+    try:
+        source.replace(target)
+        return target
+    except OSError:
+        try:
+            shutil.copy2(source, target)
+            source.unlink(missing_ok=True)
+            return target
+        except OSError:
+            fallback = _unique_style_image_path(target)
+            shutil.copy2(source, fallback)
+            source.unlink(missing_ok=True)
+            return fallback
+
+
+def _style_image_generation_workers(option_count: int) -> int:
+    _ = option_count
+    # Real image generation may use local CLI state and shared output folders.
+    # Keep Step07 image generation serial to avoid overlapping Codex CLI launches.
+    return 1
+
+
+def _new_style_pngs(
+    generated_dir: Path, before: dict[Path, int], operation_start_ns: int
+) -> list[Path]:
+    candidates: list[Path] = []
+    for path in generated_dir.glob("*.png"):
+        if not path.is_file():
+            continue
+        current = path.stat().st_mtime_ns
+        previous = before.get(path)
+        if current < operation_start_ns:
+            continue
+        if previous is None or current > previous:
+            candidates.append(path)
+    return candidates
+
+
+def _run_style_image_generation(
+    generator: Any,
+    prompt: str,
+    generated_dir: Path,
+    image_path: Path,
+) -> dict[str, str]:
+    operation_start_ns = time.time_ns()
+    before = {
+        path: path.stat().st_mtime_ns
+        for path in generated_dir.glob("*.png")
+        if path.is_file()
+    }
+    result = str(
+        generator._run(
+            prompt,
+            output_dir=str(generated_dir),
+            output_format="png",
+        )
+    )
+    if not _image_generation_result_success(result):
+        raise RuntimeError(result)
+    saved_path = _saved_image_path_from_result(result)
+    if saved_path is not None:
+        final_path = _place_style_image(saved_path, image_path)
+        return {"status": "success", "result": result, "image_path": str(final_path)}
+    after = _new_style_pngs(generated_dir, before, operation_start_ns)
+    if after:
+        newest = max(after, key=lambda path: path.stat().st_mtime)
+        final_path = _place_style_image(newest, image_path)
+        return {"status": "success", "result": result, "image_path": str(final_path)}
+    raise RuntimeError(f"Image generation reported success but produced no PNG: {result}")
+
+
 def _generate_style_option_images(
     out_dir: Path, parsed: dict[str, Any], options: list[dict[str, Any]]
 ) -> dict[str, Any]:
@@ -2092,32 +2246,29 @@ def _generate_style_option_images(
                 }
             )
             use_api = False
+    api_records: dict[str, dict[str, str]] = {}
+    if generator is not None:
+        for option in options:
+            style_id = option["style_id"]
+            try:
+                api_records[style_id] = _run_style_image_generation(
+                    generator,
+                    str(option["prompt"]),
+                    generated_dir,
+                    generated_dir / f"{style_id}.png",
+                )
+            except Exception as exc:  # noqa: BLE001 - external API boundary
+                api_records[style_id] = {"status": "failed", "result": str(exc)}
     for option in options:
         image_path = generated_dir / f"{option['style_id']}.png"
         prompt = str(option["prompt"])
-        api_record: dict[str, Any] | None = None
-        if generator is not None:
-            before = {path.name for path in generated_dir.glob("*.png")}
-            try:
-                result = generator._run(
-                    prompt,
-                    output_dir=str(generated_dir),
-                    output_format="png",
-                )
-                after = [
-                    path
-                    for path in generated_dir.glob("*.png")
-                    if path.name not in before
-                ]
-                if after:
-                    newest = max(after, key=lambda path: path.stat().st_mtime)
-                    newest.replace(image_path)
-                api_record = {"status": "success", "result": result}
-            except Exception as exc:  # noqa: BLE001 - external API boundary
-                api_record = {"status": "failed", "result": str(exc)}
-        if not image_path.exists():
-            _write_style_placeholder_png(image_path, tuple(option["palette"]))
-        option["image_path"] = rel(image_path)
+        api_record = api_records.get(option["style_id"])
+        record_path = Path(api_record.get("image_path", "")) if api_record else image_path
+        if not record_path.is_file():
+            record_path = image_path
+            if not record_path.exists():
+                _write_style_placeholder_png(record_path, tuple(option["palette"]))
+        option["image_path"] = rel(record_path)
         records.append(
             {
                 "style_id": option["style_id"],
@@ -2131,6 +2282,7 @@ def _generate_style_option_images(
         "schema_version": 1,
         "generated_at": now_iso(),
         "stage": ART_STYLE_GENERATION_STAGE,
+        "project": _stage_title(parsed),
         "enabled": use_api,
         "records": records,
         "generated_count": len(options),

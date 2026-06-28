@@ -1,5 +1,48 @@
 [
   {
+    "id": "2026-06-28-003",
+    "date": "2026-06-28",
+    "summary": "Completed bug_collection_20260628_step07_prompt_fix: fixed Step07 image-output edge cases, tightened Codex PNG/session parsing, and verified the full suite",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_codex_image_tool.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "tools/asset_production/codex_image_tool.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-003.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-003.md"
+    ],
+    "next_tasks": [
+      "Do not rerun real Codex CLI Step07 image generation unless needed and explicitly approved",
+      "Keep Step07 image generation serial",
+      "Do not commit sunny_girl_image2.png unless explicitly requested"
+    ]
+  },
+  {
+    "id": "2026-06-28-002",
+    "date": "2026-06-28",
+    "summary": "Continued interrupted Step07/Codex image follow-up: forced Step07 image generation serial and recorded a ban on broad Codex/sandbox process termination",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "knowledge/ai_memory/code_conventions/anti_patterns.md",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-002.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-002.md"
+    ],
+    "next_tasks": [
+      "Do not run broad process cleanup for Codex/sandbox helper issues",
+      "If helper popups recur, inspect logs and command lines only and ask before terminating external processes",
+      "Do not commit sunny_girl_image2.png unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-001",
     "date": "2026-06-28",
     "summary": "Executed pending_tasks_20260628: fixed Codex CLI subprocess/image handling, added orphan draft and snapshot cleanup, cleaned drafts, and verified real Step07 image generation",

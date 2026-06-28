@@ -51,6 +51,140 @@ def test_step07_generates_style_options(tmp_path, monkeypatch) -> None:
     assert first_image.read_bytes().startswith(b"\x89PNG")
 
 
+def test_step07_image_generation_workers_stays_serial(monkeypatch) -> None:
+    monkeypatch.setattr(generation, "get_config", lambda key, default=None: 5)
+
+    assert generation._style_image_generation_workers(5) == 1
+
+
+def test_step07_places_image_with_copy_fallback(tmp_path, monkeypatch) -> None:
+    source = tmp_path / "source.png"
+    target = tmp_path / "target.png"
+    source.write_bytes(b"new")
+    target.write_bytes(b"old")
+
+    def fake_replace(self, target_path):
+        _ = self, target_path
+        raise OSError("locked")
+
+    monkeypatch.setattr(Path, "replace", fake_replace)
+
+    final_path = generation._place_style_image(source, target)
+
+    assert final_path == target
+    assert target.read_bytes() == b"new"
+    assert not source.exists()
+
+
+def test_step07_places_image_with_unique_fallback_when_target_locked(
+    tmp_path, monkeypatch
+) -> None:
+    source = tmp_path / "source.png"
+    target = tmp_path / "target.png"
+    source.write_bytes(b"new")
+    target.write_bytes(b"old")
+    real_copy2 = generation.shutil.copy2
+
+    def fake_replace(self, target_path):
+        _ = self, target_path
+        raise OSError("locked")
+
+    def fake_copy2(source_path, target_path, *args, **kwargs):
+        if Path(target_path) == target:
+            raise OSError("target locked")
+        return real_copy2(source_path, target_path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "replace", fake_replace)
+    monkeypatch.setattr(generation.shutil, "copy2", fake_copy2)
+    monkeypatch.setattr(generation.time, "time_ns", lambda: 123456)
+
+    final_path = generation._place_style_image(source, target)
+
+    assert final_path == tmp_path / "target_123456.png"
+    assert final_path.read_bytes() == b"new"
+    assert target.read_bytes() == b"old"
+    assert not source.exists()
+
+
+def test_step07_saved_path_result_preserves_inner_backticks(tmp_path) -> None:
+    image_path = tmp_path / "with`tick.png"
+    image_path.write_bytes(b"png")
+
+    result = generation._saved_image_path_from_result(f"saved: `{image_path}`")
+
+    assert result == image_path
+
+
+def test_step07_new_png_filter_ignores_stale_concurrent_file(
+    tmp_path, monkeypatch
+) -> None:
+    fresh = tmp_path / "fresh.png"
+    stale = tmp_path / "stale.png"
+    fresh.write_bytes(b"fresh")
+    stale.write_bytes(b"stale")
+    old_time = 1_000_000_000
+    new_time = 10_000_000_000
+    monkeypatch.setattr(generation.time, "time_ns", lambda: new_time)
+    import os
+
+    os.utime(stale, ns=(old_time, old_time))
+    os.utime(fresh, ns=(new_time, new_time))
+
+    paths = generation._new_style_pngs(tmp_path, {}, generation.time.time_ns())
+
+    assert paths == [fresh]
+
+
+def test_step07_prompt_uses_short_asset_labels_and_source_title(
+    tmp_path, monkeypatch
+) -> None:
+    _patch_stage_dir(monkeypatch, tmp_path)
+    long_asset_name = (
+        "product_vision_decision：Axiom Verge 2D L5 reference positions "
+        "项目愿景决策 around glitch tools, ability-gated exploration, boss precision, "
+        "alien world mystery, and high-density system discovery."
+    )
+    write_json(
+        tmp_path / "stage_04" / "asset_registry.json",
+        {
+            "assets": [
+                {
+                    "asset_id": "ASSET-001",
+                    "asset_type": "ui",
+                    "name": long_asset_name,
+                    "source": "design.md:1",
+                },
+                {
+                    "asset_id": "ASSET-002",
+                    "asset_type": "ui",
+                    "name": long_asset_name,
+                    "source": "design.md:2",
+                },
+            ]
+        },
+    )
+    monkeypatch.setattr(generation, "get_config", lambda key, default=None: 3)
+    monkeypatch.delenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", raising=False)
+
+    out_dir = tmp_path / "stage_07"
+    generation._stage7_art_style_generation_outputs(
+        {"raw_text": "# ???Axiom Verge — Full Design Specification\n\nbody"},
+        out_dir,
+    )
+
+    style_options = json.loads((out_dir / "style_options.json").read_text("utf-8"))
+    generation_log = json.loads((out_dir / "generation_log.json").read_text("utf-8"))
+    prompt = style_options["options"][0]["prompt"]
+    representative = prompt.split("Representative assets: ", 1)[1].splitlines()[0]
+
+    assert style_options["project"] == "Axiom Verge"
+    assert generation_log["project"] == "Axiom Verge"
+    assert "Project: Axiom Verge" in prompt
+    assert len(representative) <= 80
+    assert representative == "ui"
+    assert "glitch tools" not in representative
+
+
 def test_step08_blocks_without_confirmation(tmp_path, monkeypatch) -> None:
     _patch_stage_dir(monkeypatch, tmp_path)
     write_json(
