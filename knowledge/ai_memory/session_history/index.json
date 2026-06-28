@@ -1,5 +1,30 @@
 [
   {
+    "id": "2026-06-28-013",
+    "date": "2026-06-28",
+    "summary": "Completed template gameplay-systems completion: all builtin templates now have selected gameplay systems, weights, core loops, import fallback, and regression tests",
+    "changed_files": [
+      "core/design/gameplay_systems.py",
+      "core/tests/unit/test_template_l5_expansion.py",
+      "core/ui/app_window.py",
+      "knowledge/design_data/project_templates/builtin_*.json",
+      "tools/design/fill_template_gameplay_systems.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-013.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "tools/design/fill_template_gameplay_systems.py",
+      "knowledge/ai_memory/session_history/2026-06-28-013.md"
+    ],
+    "next_tasks": [
+      "Manual GUI spot-check remains useful for representative template imports and validation-panel status",
+      "Do not commit plan/template_gameplay_systems_completion_plan.md unless explicitly requested",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-28-012",
     "date": "2026-06-28",
     "summary": "Completed deferred_load_thread_fix: moved startup save auto-load to a background thread and preserved restore status through status-bar refreshes",

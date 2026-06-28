@@ -14,7 +14,10 @@ from core.design.data_loader import load_project_data, runtime_project_root
 from core.design.engine import DesignEngine, STATE_LABELS
 from core.design.exporter import export_preview_lines, safe_file_name, write_export
 from core.design.framework_memory import import_memory_archive
-from core.design.gameplay_systems import parse_interview_answers_to_custom_systems
+from core.design.gameplay_systems import (
+    infer_gameplay_systems_from_template,
+    parse_interview_answers_to_custom_systems,
+)
 from core.design.project_templates import custom_template_path, list_project_templates, save_custom_template, target_scale_options
 from core.design.profile_schema import PROFILE_FIELDS, field_label, option_label, value_from_label
 from core.ui.ai_interview_window import AIInterviewWindow
@@ -1656,6 +1659,12 @@ class CommercialDesignApp(tk.Frame):
                 return
             template_state = dict(payload.get("projectState", {}) or {})
             template_state.pop("aiInterview", None)
+            if not template_state.get("gameplaySystems", {}).get("selected"):
+                template_state = infer_gameplay_systems_from_template(
+                    template_state,
+                    self.engine.gameplay_system_options,
+                    meta,
+                )
             self.project_state = self.engine.normalize_state(template_state)
             self.project_state["projectName"] = f"范本：{name}"
             self.project_name.set(self.project_state["projectName"])

@@ -21021,10 +21021,61 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "input_control",
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "buildcraft",
+        "randomness",
+        "meta_structure"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "input_control": {
+          "weight": 18,
+          "weight_type": "percent"
+        },
+        "action_rule": {
+          "weight": 22,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 8,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "buildcraft": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "randomness": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "meta_structure": {
+          "weight": 6,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "input_control": "Enter the Gungeon: 玩家通过俯视射击、弹幕闪避和武器组合的移动、瞄准或闪避形成手感门槛。",
+        "action_rule": "Enter the Gungeon: 战斗规则把敌人模式、风险和收益压缩到连续决策。",
+        "objective": "Enter the Gungeon: 房间、路线和首领目标推动每轮 run 前进。",
+        "settlement": "Enter the Gungeon: 战斗和 run 结算把失败、奖励和下一次尝试闭合。",
+        "progression": "Enter the Gungeon: 永久解锁或能力成长承接反复挑战。",
+        "buildcraft": "Enter the Gungeon: 武器、技能或增益组合形成每局差异化构筑。",
+        "randomness": "Enter the Gungeon: 随机房间、掉落和奖励选择制造重玩性。",
+        "meta_structure": "Enter the Gungeon: 局内 run 与局外准备共同组织长期循环。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 from copy import deepcopy
 
@@ -10,6 +12,41 @@ DEFAULT_INTERVIEW_QUESTIONS = [
     "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",
     "这些补充系统主要解决什么体验、目标、约束或商业需求？",
     "补充系统是否需要独立占比，还是应并入某个已选系统？",
+]
+
+NODE_GAMEPLAY_SYSTEM_MAP = {
+    "input_control_decision": "input_control",
+    "action_rule_decision": "action_rule",
+    "objective_system_decision": "objective",
+    "settlement_system_decision": "settlement",
+    "progression_system_decision": "progression",
+    "build_system_decision": "buildcraft",
+    "randomness_system_decision": "randomness",
+    "meta_structure_decision": "meta_structure",
+    "item_resource_content_decision": "resource_economy",
+    "balance_economy_decision": "resource_economy",
+    "economy_loop_decision": "resource_economy",
+    "content_type_decision": "content_delivery",
+    "level_space_decision": "content_delivery",
+    "quest_event_decision": "content_delivery",
+    "social_relationship_decision": "social_competition",
+    "social_collaboration_decision": "social_competition",
+    "social_competition_decision": "social_competition",
+}
+
+INFERRED_SYSTEM_PRIORITY = [
+    "input_control",
+    "action_rule",
+    "objective",
+    "settlement",
+    "progression",
+    "buildcraft",
+    "randomness",
+    "meta_structure",
+    "resource_economy",
+    "social_competition",
+    "content_delivery",
+    "liveops_event",
 ]
 
 
@@ -105,6 +142,162 @@ def normalize_custom_system(raw, existing_ids=None):
         "category": CUSTOM_CATEGORY,
         "mapping_desc": mapping_desc,
     }
+
+
+def _coerce_weight_value(value):
+    if isinstance(value, dict):
+        value = value.get("weight", 0)
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        number = 0.0
+    return max(0.0, number)
+
+
+def _normalize_weights(raw_weights, selected):
+    selected = [str(system_id) for system_id in selected]
+    if not selected:
+        return {}
+
+    raw_values = {
+        system_id: _coerce_weight_value((raw_weights or {}).get(system_id, 1))
+        for system_id in selected
+    }
+    if not any(raw_values.values()):
+        raw_values = {system_id: 1.0 for system_id in selected}
+
+    total = sum(raw_values.values()) or 1.0
+    scaled = {system_id: (raw_values[system_id] / total) * 100 for system_id in selected}
+    integer_values = {system_id: max(1, int(scaled[system_id])) for system_id in selected}
+
+    def ranked_ids():
+        return sorted(
+            selected,
+            key=lambda system_id: (scaled[system_id] - int(scaled[system_id]), scaled[system_id]),
+            reverse=True,
+        )
+
+    diff = 100 - sum(integer_values.values())
+    order = ranked_ids()
+    while diff > 0:
+        for system_id in order:
+            integer_values[system_id] += 1
+            diff -= 1
+            if diff == 0:
+                break
+    while diff < 0:
+        changed = False
+        for system_id in sorted(selected, key=lambda item: integer_values[item], reverse=True):
+            if integer_values[system_id] <= 1:
+                continue
+            integer_values[system_id] -= 1
+            diff += 1
+            changed = True
+            if diff == 0:
+                break
+        if not changed:
+            break
+
+    return {
+        system_id: {"weight": integer_values[system_id], "weight_type": WEIGHT_TYPE_PERCENT}
+        for system_id in selected
+    }
+
+
+def _template_node_has_content(node_state):
+    if not isinstance(node_state, dict):
+        return False
+    if node_state.get("designEntities"):
+        return True
+    if node_state.get("decisionState") in {"selected", "completed", "risk"}:
+        return True
+    checklist = node_state.get("checklist", {})
+    return isinstance(checklist, dict) and any(bool(value) for value in checklist.values())
+
+
+def _gameplay_system_for_node(node_id):
+    if str(node_id).startswith("liveops_"):
+        return "liveops_event"
+    return NODE_GAMEPLAY_SYSTEM_MAP.get(str(node_id))
+
+
+def infer_gameplay_systems_from_template(project_state, preset_options=None, template_meta=None):
+    state = deepcopy(project_state or {})
+    preset_options = normalize_options(preset_options or [])
+    allowed_ids = {option["id"] for option in preset_options}
+    name_by_id = {option["id"]: option["name"] for option in preset_options}
+    existing = state.get("gameplaySystems", {})
+    if not isinstance(existing, dict):
+        existing = {}
+    normalized_existing = normalize_state(existing, preset_options)
+    if normalized_existing.get("selected"):
+        state["gameplaySystems"] = normalized_existing
+        return state
+
+    inferred = set()
+    nodes = state.get("nodes", {})
+    if isinstance(nodes, dict):
+        for node_id, node_state in nodes.items():
+            if not _template_node_has_content(node_state):
+                continue
+            system_id = _gameplay_system_for_node(node_id)
+            if system_id and system_id in allowed_ids:
+                inferred.add(system_id)
+
+    selected = [
+        system_id
+        for system_id in INFERRED_SYSTEM_PRIORITY
+        if system_id in inferred and system_id in allowed_ids
+    ]
+    if not selected:
+        state["gameplaySystems"] = normalized_existing
+        return state
+
+    core_loops = existing.get("coreLoops", existing.get("core_loops", {})) or {}
+    if not isinstance(core_loops, dict):
+        core_loops = {}
+    template_name = ""
+    if isinstance(template_meta, dict):
+        template_name = str(template_meta.get("name") or template_meta.get("gameName") or "")
+    project_name = str(state.get("projectName") or template_name or "该模板")
+    normalized_loops = {}
+    for system_id in selected:
+        existing_loop = str(core_loops.get(system_id, "") or "").strip()
+        if existing_loop:
+            normalized_loops[system_id] = existing_loop
+            continue
+        system_name = name_by_id.get(system_id, system_id)
+        normalized_loops[system_id] = (
+            f"{system_name}：围绕 {project_name} 已填 L5 节点形成玩家决策、"
+            "系统反馈和下一轮目标。"
+        )
+
+    interview = existing.get("interview", {}) if isinstance(existing.get("interview", {}), dict) else {}
+    state["gameplaySystems"] = {
+        "schemaVersion": GAMEPLAY_SYSTEM_SCHEMA_VERSION,
+        "selected": selected,
+        "custom": existing.get("custom", []) if isinstance(existing.get("custom", []), list) else [],
+        "weights": _normalize_weights(existing.get("weights", {}), selected),
+        "coreLoops": normalized_loops,
+        "interview": {
+            "questions": [
+                str(item)
+                for item in interview.get("questions", DEFAULT_INTERVIEW_QUESTIONS)
+                if str(item).strip()
+            ] or deepcopy(DEFAULT_INTERVIEW_QUESTIONS),
+            "answers": [
+                str(item)
+                for item in interview.get("answers", [])
+                if str(item).strip()
+            ],
+            "parsedSystemIds": [
+                str(item)
+                for item in interview.get("parsedSystemIds", interview.get("parsed_system_ids", []))
+                if str(item) in allowed_ids
+            ],
+        },
+    }
+    return state
 
 
 def normalize_state(state, preset_options=None):

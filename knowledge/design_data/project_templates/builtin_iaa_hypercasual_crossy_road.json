@@ -21021,10 +21021,43 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "input_control",
+        "action_rule",
+        "objective",
+        "settlement",
+        "content_delivery"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "input_control": {
+          "weight": 25,
+          "weight_type": "percent"
+        },
+        "action_rule": {
+          "weight": 25,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 20,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 15,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "input_control": "Crossy Road: 玩家通过车道观察、跳跃时机和无尽前进的低门槛输入进入单局挑战。",
+        "action_rule": "Crossy Road: 核心规则把车道观察、跳跃时机和无尽前进转化为可重复尝试的即时判断。",
+        "objective": "Crossy Road: 玩家围绕车道观察、跳跃时机和无尽前进追求更高分数、过关或更远进度。",
+        "settlement": "Crossy Road: 每轮结果快速反馈成败、分数和重试动机。",
+        "content_delivery": "Crossy Road: 障碍、关卡或模式变化持续刷新车道观察、跳跃时机和无尽前进的短循环。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

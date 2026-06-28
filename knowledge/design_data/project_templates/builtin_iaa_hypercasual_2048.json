@@ -21021,10 +21021,43 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "input_control",
+        "action_rule",
+        "objective",
+        "settlement",
+        "content_delivery"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "input_control": {
+          "weight": 25,
+          "weight_type": "percent"
+        },
+        "action_rule": {
+          "weight": 25,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 20,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 15,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "input_control": "2048: 玩家通过数字滑动、合并规划和高分追求的低门槛输入进入单局挑战。",
+        "action_rule": "2048: 核心规则把数字滑动、合并规划和高分追求转化为可重复尝试的即时判断。",
+        "objective": "2048: 玩家围绕数字滑动、合并规划和高分追求追求更高分数、过关或更远进度。",
+        "settlement": "2048: 每轮结果快速反馈成败、分数和重试动机。",
+        "content_delivery": "2048: 障碍、关卡或模式变化持续刷新数字滑动、合并规划和高分追求的短循环。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

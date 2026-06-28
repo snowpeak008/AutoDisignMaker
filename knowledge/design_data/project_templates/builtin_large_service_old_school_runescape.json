@@ -21021,10 +21021,73 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "buildcraft",
+        "resource_economy",
+        "meta_structure",
+        "social_competition",
+        "content_delivery",
+        "liveops_event"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "action_rule": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 8,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 7,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 18,
+          "weight_type": "percent"
+        },
+        "buildcraft": {
+          "weight": 14,
+          "weight_type": "percent"
+        },
+        "resource_economy": {
+          "weight": 14,
+          "weight_type": "percent"
+        },
+        "meta_structure": {
+          "weight": 8,
+          "weight_type": "percent"
+        },
+        "social_competition": {
+          "weight": 8,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 6,
+          "weight_type": "percent"
+        },
+        "liveops_event": {
+          "weight": 5,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "action_rule": "Old School RuneScape: 战斗、任务或职业规则支撑技能成长、任务探索和玩家社区驱动的日常操作。",
+        "objective": "Old School RuneScape: 主线、赛季、地图和副本目标组织长期推进。",
+        "settlement": "Old School RuneScape: 掉落、评分和副本结果承接下一轮投入。",
+        "progression": "Old School RuneScape: 等级、装备、技能或账号成长形成长期追求。",
+        "buildcraft": "Old School RuneScape: 职业、技能、装备和流派构成深度构筑。",
+        "resource_economy": "Old School RuneScape: 货币、材料、交易和消耗维持长线经济。",
+        "meta_structure": "Old School RuneScape: 日常、周常和赛季结构组织回流节奏。",
+        "social_competition": "Old School RuneScape: 公会、组队、交易或排行提供社区目标。",
+        "content_delivery": "Old School RuneScape: 地图、副本、活动和任务持续投放内容。",
+        "liveops_event": "Old School RuneScape: 版本、赛季和运营活动维持长期服务节奏。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

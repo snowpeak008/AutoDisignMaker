@@ -21021,10 +21021,55 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "input_control",
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "buildcraft",
+        "content_delivery"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "input_control": {
+          "weight": 25,
+          "weight_type": "percent"
+        },
+        "action_rule": {
+          "weight": 20,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "buildcraft": {
+          "weight": 8,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 10,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "input_control": "Celeste: 玩家通过精准跳跃、冲刺节奏和高难关卡路线的移动、跳跃或攻击输入建立技巧表达。",
+        "action_rule": "Celeste: 敌人、平台和能力规则把操作转换成可学习挑战。",
+        "objective": "Celeste: 关卡、地图或 Boss 目标牵引探索与通关。",
+        "settlement": "Celeste: 检查点、死亡和战斗结果给出明确重试反馈。",
+        "progression": "Celeste: 能力、区域和收集成长逐步扩展可达空间。",
+        "buildcraft": "Celeste: 武器、能力或徽章组合提供局部构筑选择。",
+        "content_delivery": "Celeste: 地图、关卡和遭遇节奏持续投放精准跳跃、冲刺节奏和高难关卡路线内容。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

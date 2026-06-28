@@ -21021,10 +21021,55 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "action_rule",
+        "objective",
+        "settlement",
+        "buildcraft",
+        "randomness",
+        "resource_economy",
+        "meta_structure"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "action_rule": {
+          "weight": 20,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "buildcraft": {
+          "weight": 25,
+          "weight_type": "percent"
+        },
+        "randomness": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "resource_economy": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "meta_structure": {
+          "weight": 10,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "action_rule": "Slay the Spire: 回合规则、敌人意图和资源消耗驱动出牌顺序、卡组构筑和遗物协同。",
+        "objective": "Slay the Spire: 路线节点、精英和首领目标组织爬塔推进。",
+        "settlement": "Slay the Spire: 战斗结算把奖励选择、损耗和失败重开闭合。",
+        "buildcraft": "Slay the Spire: 卡牌、遗物和流派协同构成主要策略深度。",
+        "randomness": "Slay the Spire: 地图、奖励池和遭遇随机性制造每局差异。",
+        "resource_economy": "Slay the Spire: 能量、金币、药水和生命共同约束路线取舍。",
+        "meta_structure": "Slay the Spire: 单局构筑和局外解锁承接长期重玩。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

@@ -21021,10 +21021,61 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "buildcraft",
+        "social_competition",
+        "content_delivery",
+        "liveops_event"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "action_rule": {
+          "weight": 20,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "buildcraft": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "social_competition": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 8,
+          "weight_type": "percent"
+        },
+        "liveops_event": {
+          "weight": 7,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "action_rule": "Marvel Snap: 对局规则把卡牌构筑、三地形博弈和快速对局转化为高频竞技判断。",
+        "objective": "Marvel Snap: 胜负、区域或模式目标驱动每场对局。",
+        "settlement": "Marvel Snap: 对局结算承接奖励、段位和再次匹配。",
+        "progression": "Marvel Snap: 账号、角色或卡牌成长支撑中长期目标。",
+        "buildcraft": "Marvel Snap: 阵容、卡组或角色选择形成策略准备层。",
+        "social_competition": "Marvel Snap: 匹配、排行、联盟或异步竞争提供外部压力。",
+        "content_delivery": "Marvel Snap: 模式、地图和挑战持续更新对局内容。",
+        "liveops_event": "Marvel Snap: 赛季、活动和版本平衡维持回流。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

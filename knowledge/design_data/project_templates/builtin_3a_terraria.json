@@ -21021,10 +21021,67 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "buildcraft",
+        "randomness",
+        "resource_economy",
+        "content_delivery",
+        "meta_structure"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "action_rule": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 5,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "buildcraft": {
+          "weight": 20,
+          "weight_type": "percent"
+        },
+        "randomness": {
+          "weight": 5,
+          "weight_type": "percent"
+        },
+        "resource_economy": {
+          "weight": 25,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 5,
+          "weight_type": "percent"
+        },
+        "meta_structure": {
+          "weight": 5,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "action_rule": "Terraria: 玩家围绕探索、采集、建造和 Boss 阶段推进执行建造、规划和调整规则。",
+        "objective": "Terraria: 生产、经营或探索目标组织长期推进。",
+        "settlement": "Terraria: 产出效率、阶段成果或日程结果反馈决策质量。",
+        "progression": "Terraria: 科技、能力或设施成长扩大可用策略。",
+        "buildcraft": "Terraria: 设施、路线和系统组合构成主要创造空间。",
+        "randomness": "Terraria: 地图、资源或事件变化让规划问题保持新鲜。",
+        "resource_economy": "Terraria: 资源产消、瓶颈和转换链条支撑核心深度。",
+        "content_delivery": "Terraria: 新区域、任务或生产目标持续提供阶段内容。",
+        "meta_structure": "Terraria: 长期规划层把短期产出承接成下一阶段目标。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

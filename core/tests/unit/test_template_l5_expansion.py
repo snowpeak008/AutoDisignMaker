@@ -157,6 +157,15 @@ def _load_template(name: str) -> dict:
     return json.loads((PROJECT_TEMPLATES / name).read_text(encoding="utf-8"))
 
 
+def _load_gameplay_system_options() -> list[dict]:
+    payload = json.loads(
+        Path("knowledge/design_data/gameplay_system_options.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    return payload["options"]
+
+
 def _load_public_template_entries() -> list[dict]:
     index = _load_template("template_index.json")
     return [entry for entry in index["templates"] if entry.get("visibility") == "public"]
@@ -317,3 +326,62 @@ def test_builtin_template_display_metadata_is_readable() -> None:
         else:
             assert meta.get("qualityClaim") == "L5_partial", path.name
             assert meta.get("qualityTier") == "B", path.name
+
+
+def test_builtin_templates_have_valid_gameplay_systems() -> None:
+    from core.design.gameplay_systems import validation_messages
+
+    options = _load_gameplay_system_options()
+    option_ids = {option["id"] for option in options}
+
+    for path in PROJECT_TEMPLATES.glob("builtin_*.json"):
+        template = _load_template(path.name)
+        gameplay = template["projectState"].get("gameplaySystems", {})
+        selected = gameplay.get("selected", [])
+        weights = gameplay.get("weights", {})
+        core_loops = gameplay.get("coreLoops", {})
+
+        assert selected, path.name
+        assert len(selected) == len(set(selected)), path.name
+        assert set(selected) <= option_ids, path.name
+
+        total_weight = 0
+        for system_id in selected:
+            weight_entry = weights.get(system_id, {})
+            assert isinstance(weight_entry, dict), (path.name, system_id)
+            assert weight_entry.get("weight_type") == "percent", (path.name, system_id)
+            weight = weight_entry.get("weight")
+            assert isinstance(weight, int), (path.name, system_id, weight)
+            assert 0 < weight <= 100, (path.name, system_id, weight)
+            total_weight += weight
+            assert str(core_loops.get(system_id, "")).strip(), (path.name, system_id)
+
+        assert total_weight == 100, path.name
+        assert validation_messages(options, gameplay) == [], path.name
+
+
+def test_legacy_template_gameplay_systems_can_be_inferred() -> None:
+    from core.design.gameplay_systems import (
+        infer_gameplay_systems_from_template,
+        validation_messages,
+    )
+
+    options = _load_gameplay_system_options()
+    template = _load_template("builtin_indie_slay_the_spire.json")
+    state = template["projectState"]
+    state["gameplaySystems"] = {"schemaVersion": "1.0", "selected": []}
+
+    inferred = infer_gameplay_systems_from_template(state, options)
+    gameplay = inferred["gameplaySystems"]
+
+    assert gameplay["selected"]
+    assert sum(entry["weight"] for entry in gameplay["weights"].values()) == 100
+    assert validation_messages(options, gameplay) == []
+
+
+def test_empty_project_still_requires_manual_gameplay_system_selection() -> None:
+    from core.design.gameplay_systems import empty_state, validation_messages
+
+    options = _load_gameplay_system_options()
+
+    assert validation_messages(options, empty_state()) == ["至少选择一个玩法系统。"]

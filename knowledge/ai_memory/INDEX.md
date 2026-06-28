@@ -8,6 +8,35 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-013
+**Summary**: Completed the template gameplay-systems completion plan: all builtin project templates now carry valid gameplay system selections, weights, and core loops, with template-import fallback and regression coverage.
+
+**Completed**:
+- [x] Added gameplay-system inference and integer weight normalization helpers for legacy template import fallback.
+- [x] Wired the fallback only into the template viewer import path, so blank projects still require manual gameplay-system selection.
+- [x] Added a maintenance script to populate builtin template gameplay-system profiles by genre group.
+- [x] Updated 38 builtin templates with non-empty `gameplaySystems.selected`, integer percent weights summing to 100, and readable `coreLoops`.
+- [x] Added regression tests covering builtin template gameplay completeness, legacy template inference, and empty-project validation.
+
+**Verification**:
+- [x] `python -B -m pytest core\tests\unit\test_template_l5_expansion.py -q`: 8 passed.
+- [x] `python -B -m pytest -q`: 178 passed.
+- [x] `python -B -m compileall core\design\gameplay_systems.py core\ui\app_window.py core\tests\unit\test_template_l5_expansion.py tools\design\fill_template_gameplay_systems.py`: passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+- [x] Builtin template JSON parse check: passed.
+- [x] `python tools\design\fill_template_gameplay_systems.py`: updated/validated 38 builtin templates.
+
+**Follow-up**:
+- [ ] Manual GUI spot-check remains useful for loading representative templates and confirming "玩法系统校验：通过" in the validation panel.
+- [ ] `plan/template_gameplay_systems_completion_plan.md` remains local planning material and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-012
 **Summary**: Completed `plan/deferred_load_thread_fix.md`: moved startup save auto-load off the Tk main thread and preserved a visible restore status while the background load runs.
 
@@ -28,8 +57,6 @@
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-011

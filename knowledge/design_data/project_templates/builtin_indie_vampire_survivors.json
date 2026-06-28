@@ -21021,10 +21021,61 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "input_control",
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "buildcraft",
+        "randomness",
+        "meta_structure"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "input_control": {
+          "weight": 18,
+          "weight_type": "percent"
+        },
+        "action_rule": {
+          "weight": 22,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 8,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "buildcraft": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "randomness": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "meta_structure": {
+          "weight": 6,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "input_control": "Vampire Survivors: 玩家通过自动攻击、走位生存和武器进化的移动、瞄准或闪避形成手感门槛。",
+        "action_rule": "Vampire Survivors: 战斗规则把敌人模式、风险和收益压缩到连续决策。",
+        "objective": "Vampire Survivors: 房间、路线和首领目标推动每轮 run 前进。",
+        "settlement": "Vampire Survivors: 战斗和 run 结算把失败、奖励和下一次尝试闭合。",
+        "progression": "Vampire Survivors: 永久解锁或能力成长承接反复挑战。",
+        "buildcraft": "Vampire Survivors: 武器、技能或增益组合形成每局差异化构筑。",
+        "randomness": "Vampire Survivors: 随机房间、掉落和奖励选择制造重玩性。",
+        "meta_structure": "Vampire Survivors: 局内 run 与局外准备共同组织长期循环。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

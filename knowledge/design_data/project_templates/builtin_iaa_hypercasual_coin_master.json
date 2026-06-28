@@ -21021,10 +21021,61 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "resource_economy",
+        "social_competition",
+        "content_delivery",
+        "liveops_event"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "action_rule": {
+          "weight": 18,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "resource_economy": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "social_competition": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "liveops_event": {
+          "weight": 8,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "action_rule": "Coin Master: 玩家围绕老虎机抽取、村庄成长和社交攻防做出关卡、消除或互动选择。",
+        "objective": "Coin Master: 关卡目标和阶段任务驱动短期推进。",
+        "settlement": "Coin Master: 单局结算把通关、失败和奖励承接到下一轮。",
+        "progression": "Coin Master: 长期装饰、收藏或账号成长承接重复游玩。",
+        "resource_economy": "Coin Master: 货币、道具和体力类资源调节老虎机抽取、村庄成长和社交攻防节奏。",
+        "social_competition": "Coin Master: 轻社交、排行或互访为进度提供外部目标。",
+        "content_delivery": "Coin Master: 关卡包、活动目标和障碍组合持续补充内容。",
+        "liveops_event": "Coin Master: 限时活动和版本节奏维持长期回访。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

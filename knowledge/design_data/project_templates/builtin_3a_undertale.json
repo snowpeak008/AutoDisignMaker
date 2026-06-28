@@ -21021,10 +21021,61 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "input_control",
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "resource_economy",
+        "social_competition",
+        "content_delivery"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "input_control": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "action_rule": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "resource_economy": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "social_competition": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 15,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "input_control": "Undertale: 玩家通过轻量操作进入非暴力选择、弹幕回避和角色关系反馈的情境选择。",
+        "action_rule": "Undertale: 互动、对话或管理规则承载核心决策。",
+        "objective": "Undertale: 剧情、角色或经营目标推动阶段推进。",
+        "settlement": "Undertale: 选择结果、任务完成和关系变化形成反馈。",
+        "progression": "Undertale: 角色、关系或设施成长承接长期投入。",
+        "resource_economy": "Undertale: 时间、资源或情绪成本限制玩家取舍。",
+        "social_competition": "Undertale: 角色关系、社区互动或对抗表达外部反馈。",
+        "content_delivery": "Undertale: 剧情章节、任务和事件持续投放体验内容。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",

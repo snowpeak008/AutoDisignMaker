@@ -21021,10 +21021,61 @@
     },
     "gameplaySystems": {
       "schemaVersion": "1.0",
-      "selected": [],
+      "selected": [
+        "action_rule",
+        "objective",
+        "settlement",
+        "progression",
+        "resource_economy",
+        "social_competition",
+        "content_delivery",
+        "liveops_event"
+      ],
       "custom": [],
-      "weights": {},
-      "coreLoops": {},
+      "weights": {
+        "action_rule": {
+          "weight": 18,
+          "weight_type": "percent"
+        },
+        "objective": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "settlement": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "progression": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "resource_economy": {
+          "weight": 15,
+          "weight_type": "percent"
+        },
+        "social_competition": {
+          "weight": 10,
+          "weight_type": "percent"
+        },
+        "content_delivery": {
+          "weight": 12,
+          "weight_type": "percent"
+        },
+        "liveops_event": {
+          "weight": 8,
+          "weight_type": "percent"
+        }
+      },
+      "coreLoops": {
+        "action_rule": "Royal Match: 玩家围绕三消目标、道具组合和房间装饰推进做出关卡、消除或互动选择。",
+        "objective": "Royal Match: 关卡目标和阶段任务驱动短期推进。",
+        "settlement": "Royal Match: 单局结算把通关、失败和奖励承接到下一轮。",
+        "progression": "Royal Match: 长期装饰、收藏或账号成长承接重复游玩。",
+        "resource_economy": "Royal Match: 货币、道具和体力类资源调节三消目标、道具组合和房间装饰推进节奏。",
+        "social_competition": "Royal Match: 轻社交、排行或互访为进度提供外部目标。",
+        "content_delivery": "Royal Match: 关卡包、活动目标和障碍组合持续补充内容。",
+        "liveops_event": "Royal Match: 限时活动和版本节奏维持长期回访。"
+      },
       "interview": {
         "questions": [
           "除了上方已选系统，你的玩法是否还有玩家会反复接触的独立规则模块？",
