@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 
+from core.context import StageContext
 from core.engines import generation
 from core.engines.execution_objects.correction_queue import load_queue, save_queue_json
 from core.engines.execution_objects.unattended_recovery import (
@@ -13,6 +14,7 @@ from core.engines.execution_objects.unattended_recovery import (
 )
 from core.engines.execution_objects.workflow import ExecutionObjectStore
 from core.io import read_json
+from pipeline.step_13_integration_validation import plugin as step13_plugin
 
 
 def test_unattended_queue_preserves_extra_fields_roundtrip(tmp_path):
@@ -179,3 +181,47 @@ def test_execution_object_allows_automated_remediation_before_verify(tmp_path):
     )
 
     assert verified["state"] == "verified"
+
+
+def test_step13_blocks_direct_run_when_step11_or_step12_completed_with_review(monkeypatch, tmp_path):
+    def unexpected_call(*args, **kwargs):
+        raise AssertionError("Step13 should block before importing or generating outputs.")
+
+    monkeypatch.setattr(step13_plugin, "get_config", lambda key, default=None: False)
+    monkeypatch.setattr(step13_plugin, "run_import_step", unexpected_call)
+    monkeypatch.setattr(step13_plugin, "apply_development_plan_outputs", unexpected_call)
+
+    for step_num in (11, 12):
+        monkeypatch.setattr(
+            step13_plugin,
+            "load_pipeline_state",
+            lambda project_root, step_num=step_num: {
+                "steps": {str(step_num): {"status": "completed_with_review"}},
+            },
+        )
+
+        result = step13_plugin.Plugin().execute(StageContext(stage_id="13", project_root=tmp_path))
+
+        assert result.status == "blocked"
+        assert result.outputs["blocked_step"] == step_num
+        assert "Handle correction_queue first" in result.outputs["message"]
+
+
+def test_step13_direct_run_can_continue_when_review_override_enabled(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        step13_plugin,
+        "load_pipeline_state",
+        lambda project_root: {"steps": {"11": {"status": "completed_with_review"}}},
+    )
+    monkeypatch.setattr(step13_plugin, "get_config", lambda key, default=None: True)
+    monkeypatch.setattr(step13_plugin, "run_import_step", lambda *args, **kwargs: {"imported": True})
+    monkeypatch.setattr(
+        step13_plugin,
+        "apply_development_plan_outputs",
+        lambda stage, report: {"status": "success", "imported": report["imported"]},
+    )
+
+    result = step13_plugin.Plugin().execute(StageContext(stage_id="13", project_root=tmp_path))
+
+    assert result.status == "success"
+    assert result.outputs["imported"] is True

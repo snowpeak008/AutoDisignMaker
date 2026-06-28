@@ -1,5 +1,25 @@
 [
   {
+    "id": "2026-06-28-019",
+    "date": "2026-06-28",
+    "summary": "Patched Step13 direct-run gating so completed_with_review in Step11/12 blocks unless the override config allows continuation",
+    "changed_files": [
+      "core/tests/unit/test_unattended_recovery.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-019.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "pipeline/step_13_integration_validation/plugin.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-019.md"
+    ],
+    "next_tasks": [
+      "Existing unrelated local core/engines/execution_objects/workflow.py save_id change remains intentionally uncommitted",
+      "Do not commit newplan/ unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-018",
     "date": "2026-06-28",
     "summary": "Completed step11_12_unattended_recovery_v4: added unattended Step11/12 correction queues, pause/resume logs, completed-with-review status, dependency skips, and reduced save sync checkpoints",

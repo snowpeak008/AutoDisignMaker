@@ -8,6 +8,29 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-019
+**Summary**: Patched the Step13 direct-run gap after `completed_with_review` support: Step13 now independently blocks when Step11 or Step12 still has unresolved review items unless the override config allows continuation.
+
+**Completed**:
+- [x] Added a Step13 plugin guard that reads pipeline state before import/generation work.
+- [x] Blocked direct Step13 execution when Step11 or Step12 has `status=completed_with_review` and `pipeline.unattended_execution.continue_after_completed_with_review=false`.
+- [x] Kept the existing override path: when the config is true, Step13 continues normally.
+- [x] Added regression coverage for both direct-run blocking and override-enabled continuation.
+
+**Verification**:
+- [x] `python -B -m compileall pipeline\step_13_integration_validation\plugin.py core\tests\unit\test_unattended_recovery.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_unattended_recovery.py core\tests\integration\test_plugins.py -q`: 12 passed.
+- [x] `python -B -m pytest -q`: 198 passed.
+
+**Follow-up**:
+- [ ] Existing unrelated save_id local change in `core/engines/execution_objects/workflow.py` remains intentionally uncommitted.
+- [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-018
 **Summary**: Implemented `newplan/step11_12_unattended_recovery_v4.md`: Step11/12 unattended recovery with correction queues, pause/resume logs, completed-with-review status, dependency skip records, and sync reduction.
 
@@ -36,8 +59,6 @@
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-017
