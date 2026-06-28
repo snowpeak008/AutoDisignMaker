@@ -24,6 +24,7 @@ class MainWindow(tk.Tk):
         self._configure_style()
         self._geom_after_id = None
         self._status_after_id = None
+        self._system_status_override: tuple[str, str] | None = None
         self._latest_incomplete_step: int | None = None
         self._load_geometry()
         self.bind("<Configure>", self._on_configure)
@@ -141,11 +142,23 @@ class MainWindow(tk.Tk):
     def _update_status_bar(self):
         self._update_ai_config_status()
         self._update_progress_status()
+        if self._system_status_override is not None:
+            text, color = self._system_status_override
+            self._system_status_label.configure(text=text, fg=color)
+            return
         running = bool(self._pipeline_panel is not None and getattr(self._pipeline_panel, "_running", False))
         self._system_status_label.configure(
             text="系统: 流水线运行中" if running else "系统: 就绪",
             fg=COLORS["warning"] if running else "#C8D3DF",
         )
+
+    def set_system_status_override(self, text: str, color: str = "#C8D3DF") -> None:
+        self._system_status_override = (text, color)
+        self._system_status_label.configure(text=text, fg=color)
+
+    def clear_system_status_override(self) -> None:
+        self._system_status_override = None
+        self._update_status_bar()
 
     def _schedule_status_refresh(self):
         self._status_after_id = self.after(2000, self._on_status_refresh_tick)

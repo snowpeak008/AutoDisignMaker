@@ -8,6 +8,30 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-012
+**Summary**: Completed `plan/deferred_load_thread_fix.md`: moved startup save auto-load off the Tk main thread and preserved a visible restore status while the background load runs.
+
+**Completed**:
+- [x] Changed `_deferred_startup()` so automatic `load_save()` runs in a daemon background thread when a fresh draft needs to restore the current save.
+- [x] Added a status-bar override API on `MainWindow` so "系统: 恢复上次存档中..." is not overwritten by the periodic status refresh.
+- [x] Preserved startup integrity warning status after the background restore completes instead of blindly resetting to ready.
+- [x] Kept automatic restore errors non-fatal and logged, matching the previous startup behavior.
+
+**Verification**:
+- [x] `python -B -m compileall core\ui\gui_app.py core\ui\main_window.py`: passed.
+- [x] `python -B -m pytest -q`: 175 passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+
+**Follow-up**:
+- [ ] Manual GUI startup check remains useful to confirm the window stays responsive while a large save restores and the status returns to normal after completion.
+- [ ] `plan/deferred_load_thread_fix.md` remains local planning material and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-011
 **Summary**: Completed `plan/step07_ui_fix_plan.md`: fixed Step07 style-confirmation UI behavior around fresh-session save loading, confirmed-style display, image preview, and Chinese style option labels.
 
@@ -31,8 +55,6 @@
 - [ ] `plan/step07_ui_fix_plan.md` remains local planning material and should not be committed unless explicitly requested.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-010

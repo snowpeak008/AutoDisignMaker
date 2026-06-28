@@ -1,5 +1,26 @@
 [
   {
+    "id": "2026-06-28-012",
+    "date": "2026-06-28",
+    "summary": "Completed deferred_load_thread_fix: moved startup save auto-load to a background thread and preserved restore status through status-bar refreshes",
+    "changed_files": [
+      "core/ui/gui_app.py",
+      "core/ui/main_window.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-012.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-012.md"
+    ],
+    "next_tasks": [
+      "Manual GUI startup check remains useful to confirm the window stays responsive while a large save restores",
+      "Do not commit plan/deferred_load_thread_fix.md unless explicitly requested",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-28-011",
     "date": "2026-06-28",
     "summary": "Completed step07_ui_fix_plan: fresh-session save auto-load, confirmed-style summary, image preview, and Chinese Step07 style labels",
