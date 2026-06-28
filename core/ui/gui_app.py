@@ -23,8 +23,13 @@ def _deferred_startup() -> None:
     import logging
 
     from core.config.integrity import validate_data_integrity
-    from core.paths import PROJECT_ROOT
-    from core.save.manager import prune_draft_snapshots, prune_old_drafts
+    from core.paths import DRAFT_DIR, PROJECT_ROOT
+    from core.save.manager import (
+        current_save_id_readonly,
+        load_save,
+        prune_draft_snapshots,
+        prune_old_drafts,
+    )
 
     try:
         validate_data_integrity()
@@ -42,6 +47,13 @@ def _deferred_startup() -> None:
             logging.getLogger(__name__).debug("Failed to show startup warning", exc_info=True)
     prune_old_drafts(PROJECT_ROOT, keep_count=5)
     prune_draft_snapshots(PROJECT_ROOT, keep_per_draft=0)
+    if not (DRAFT_DIR / "draft_file_map.json").exists():
+        save_id = current_save_id_readonly(PROJECT_ROOT)
+        if save_id:
+            try:
+                load_save(PROJECT_ROOT, save_id)
+            except Exception as exc:
+                logging.getLogger(__name__).warning("自动加载存档失败: %s", exc)
 
 
 def main() -> int:

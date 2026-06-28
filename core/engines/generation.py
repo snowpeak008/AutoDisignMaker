@@ -1890,32 +1890,32 @@ STYLE_CONFIRMATION_FILENAME = "style_confirmation.json"
 STYLE_OPTION_PRESETS: tuple[dict[str, Any], ...] = (
     {
         "key": "readable_production",
-        "title": "Readable Production",
-        "description": "Clear silhouettes, production-friendly material separation, and readable gameplay contrast.",
+        "title": "清晰量产风",
+        "description": "清晰轮廓、生产友好的材质分层，游戏对比度易读，适合批量资产制作。",
         "palette": ("#2E3440", "#88C0D0", "#EBCB8B"),
     },
     {
         "key": "painterly_concept",
-        "title": "Painterly Concept",
-        "description": "Painted surfaces, expressive light, and concept-art framing for mood exploration.",
+        "title": "概念绘画风",
+        "description": "手绘质感表面、富有表现力的光线，以概念艺术构图探索氛围与情绪。",
         "palette": ("#3B4252", "#A3BE8C", "#D08770"),
     },
     {
         "key": "high_contrast_arcade",
-        "title": "High Contrast Arcade",
-        "description": "Bold color blocking, crisp feedback accents, and fast scanning under motion.",
+        "title": "高对比街机风",
+        "description": "大胆色块分区、清脆反馈配色，运动中仍能快速扫描识别关键元素。",
         "palette": ("#1B1F3B", "#F2CC8F", "#E07A5F"),
     },
     {
         "key": "cinematic_realism",
-        "title": "Cinematic Realism",
-        "description": "Grounded materials, strong key lighting, and high-fidelity environment staging.",
+        "title": "电影写实风",
+        "description": "真实材质、强烈主光源，高保真场景搭建，接近 AAA 电影级视觉。",
         "palette": ("#202124", "#6D6875", "#B5838D"),
     },
     {
         "key": "stylized_diagrammatic",
-        "title": "Stylized Diagrammatic",
-        "description": "Simplified forms, strong shape language, and UI-friendly visual hierarchy.",
+        "title": "风格化图示风",
+        "description": "简化形体、强烈形状语言，视觉层级清晰，适合 UI 集成与信息传达。",
         "palette": ("#264653", "#2A9D8F", "#E9C46A"),
     },
 )

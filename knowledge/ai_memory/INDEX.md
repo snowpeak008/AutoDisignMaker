@@ -8,6 +8,33 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-011
+**Summary**: Completed `plan/step07_ui_fix_plan.md`: fixed Step07 style-confirmation UI behavior around fresh-session save loading, confirmed-style display, image preview, and Chinese style option labels.
+
+**Completed**:
+- [x] Added deferred startup auto-load of the current save into a fresh draft when no `draft_file_map.json` exists.
+- [x] Updated the Step07 pipeline detail panel to show an approved-style summary instead of reopening the selection grid after confirmation.
+- [x] Added a "重新选择风格" action that clears confirmation and refreshes the Step07 detail panel.
+- [x] Added double-click enlarged preview for available Step07 style thumbnails.
+- [x] Localized `STYLE_OPTION_PRESETS` titles and descriptions to Chinese for newly generated style options.
+- [x] Added regression coverage for Chinese style option titles and approved style confirmation detection.
+
+**Verification**:
+- [x] `python -B -m compileall core\ui\gui_app.py core\ui\pipeline_panel.py core\engines\generation.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_manual_style_confirmation.py -q`: 19 passed.
+- [x] `python -B -m pytest -q`: 175 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+
+**Follow-up**:
+- [ ] Manual GUI click-through remains useful for fresh-session auto-load, Step07 confirmed-summary display, reselect flow, and double-click image preview.
+- [ ] Existing generated `style_options.json` files keep their old titles/descriptions until Step07 is regenerated.
+- [ ] `plan/step07_ui_fix_plan.md` remains local planning material and should not be committed unless explicitly requested.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-010
 **Summary**: Completed `plan/perf_fix/CODE_REVIEW.md`: fixed follow-up UI state-cache issues in the performance optimization implementation.
 
@@ -26,8 +53,6 @@
 - [ ] `plan/perf_fix/` remains local planning material and should not be committed unless explicitly requested.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-009

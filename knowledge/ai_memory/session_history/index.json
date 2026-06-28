@@ -1,5 +1,27 @@
 [
   {
+    "id": "2026-06-28-011",
+    "date": "2026-06-28",
+    "summary": "Completed step07_ui_fix_plan: fresh-session save auto-load, confirmed-style summary, image preview, and Chinese Step07 style labels",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "core/ui/gui_app.py",
+      "core/ui/pipeline_panel.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-011.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-011.md"
+    ],
+    "next_tasks": [
+      "Manual GUI click-through remains useful for fresh-session auto-load and Step07 preview/reselect flows",
+      "Existing generated style_options.json files keep old labels until Step07 is regenerated",
+      "Do not commit plan/step07_ui_fix_plan.md unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-010",
     "date": "2026-06-28",
     "summary": "Completed perf_fix CODE_REVIEW: fixed open-project state-cache invalidation, removed duplicate file-open render, and collapsed redundant version bumps",

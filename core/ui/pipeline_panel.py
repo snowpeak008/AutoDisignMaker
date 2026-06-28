@@ -333,6 +333,11 @@ class PipelinePanel(tk.Frame):
             self.after(60, self._restore_default_detail_height)
 
     def _maybe_render_style_grid(self, step_num: int) -> bool:
+        confirmation = self._load_approved_style_confirmation()
+        if confirmation is not None:
+            self._render_style_confirmed_summary(confirmation)
+            return True
+
         style_json = self._locate_style_options_json(step_num)
         if style_json is None:
             return False
@@ -400,6 +405,46 @@ class PipelinePanel(tk.Frame):
         ).pack(side=tk.LEFT, padx=(8, 0))
         return True
 
+    def _load_approved_style_confirmation(self) -> dict[str, Any] | None:
+        path = ARTIFACTS_DIR / "stage_07" / "style_confirmation.json"
+        if not path.exists():
+            return None
+        try:
+            confirmation = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+        if isinstance(confirmation, dict) and confirmation.get("status") == "approved":
+            return confirmation
+        return None
+
+    def _render_style_confirmed_summary(self, confirmation: dict[str, Any]) -> None:
+        frame = tk.Frame(self._detail, bg=COLORS["bg"], padx=16, pady=16)
+        frame.pack(fill=tk.X)
+        title = confirmation.get("selected_title") or confirmation.get("selected_style_id") or "已选择"
+        tk.Label(
+            frame,
+            text=f"✓ 已确认风格：{title}",
+            bg=COLORS["bg"],
+            fg=COLORS["success"],
+            font=FONT_SECTION,
+        ).pack(anchor=tk.W)
+        notes = str(confirmation.get("notes") or "").strip()
+        if notes:
+            tk.Label(
+                frame,
+                text=f"批注：{notes}",
+                bg=COLORS["bg"],
+                fg=COLORS["muted"],
+                font=FONT_SMALL,
+                wraplength=760,
+                justify=tk.LEFT,
+            ).pack(anchor=tk.W, pady=(4, 0))
+        ttk.Button(
+            frame,
+            text="重新选择风格",
+            command=self._reselect_style,
+        ).pack(anchor=tk.W, pady=(12, 0))
+
     def _build_style_option_card(
         self, parent: tk.Widget, option: dict[str, Any], index: int
     ) -> None:
@@ -417,15 +462,21 @@ class PipelinePanel(tk.Frame):
 
         image_label = tk.Label(card, bg=COLORS["surface"])
         image_label.pack(fill=tk.BOTH, expand=True)
+        image_path_text = str(option.get("image_path") or "")
         try:
             from core.ui.style_confirmation_dialog import _resolve_image_path
 
-            image_path = _resolve_image_path(str(option.get("image_path") or ""))
+            image_path = _resolve_image_path(image_path_text)
             image = tk.PhotoImage(file=str(image_path))
             while image.width() > 220 or image.height() > 150:
                 image = image.subsample(2, 2)
             self._style_imgs.append(image)
             image_label.configure(image=image)
+            image_label.configure(cursor="hand2")
+            image_label.bind(
+                "<Double-1>",
+                lambda _event, path_text=image_path_text: self._show_image_fullscreen(path_text),
+            )
         except (tk.TclError, OSError, ValueError):
             image_label.configure(
                 text="图片不可用",
@@ -481,6 +532,29 @@ class PipelinePanel(tk.Frame):
     def _on_style_regenerate(self) -> None:
         self._clear_style_confirmation()
         self._exec_range(7, 7)
+
+    def _reselect_style(self) -> None:
+        self._clear_style_confirmation()
+        self.refresh()
+
+    def _show_image_fullscreen(self, image_path_text: str) -> None:
+        try:
+            from core.ui.style_confirmation_dialog import _resolve_image_path
+
+            image_path = _resolve_image_path(image_path_text)
+            win = tk.Toplevel(self)
+            win.title("图片预览（点击关闭）")
+            win.configure(bg="#000000")
+            image = tk.PhotoImage(file=str(image_path))
+            while image.width() > 900 or image.height() > 700:
+                image = image.subsample(2, 2)
+            label = tk.Label(win, image=image, bg="#000000", cursor="hand2")
+            label.image = image
+            label.pack()
+            label.bind("<Button-1>", lambda _event: win.destroy())
+            win.bind("<Escape>", lambda _event: win.destroy())
+        except (tk.TclError, OSError, ValueError):
+            pass
 
     def _clear_style_confirmation(self) -> None:
         for filename in ("style_confirmation.json", "style_confirmation_pending.json"):

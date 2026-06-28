@@ -48,6 +48,7 @@ def test_step07_generates_style_options(tmp_path, monkeypatch) -> None:
 
     assert result["style_option_count"] == 3
     assert style_options["option_count"] == 3
+    assert style_options["options"][0]["title"] == "清晰量产风"
     assert first_image.read_bytes().startswith(b"\x89PNG")
 
 
@@ -377,6 +378,21 @@ def test_pipeline_panel_locates_style_options(tmp_path, monkeypatch) -> None:
 
     assert found is not None
     assert found["options"][0]["style_id"] == "STYLE-05"
+
+
+def test_pipeline_panel_loads_approved_style_confirmation(tmp_path, monkeypatch) -> None:
+    from core.ui import pipeline_panel
+
+    stage07 = tmp_path / "stage_07"
+    option = {"style_id": "STYLE-01", "title": "清晰量产风", "image_path": "style.png"}
+    write_style_confirmation(stage07, option, "Approved.")
+    monkeypatch.setattr(pipeline_panel, "ARTIFACTS_DIR", tmp_path)
+
+    confirmation = pipeline_panel.PipelinePanel._load_approved_style_confirmation(object())
+
+    assert confirmation is not None
+    assert confirmation["selected_style_id"] == "STYLE-01"
+    assert confirmation["selected_title"] == "清晰量产风"
 
 
 def test_step07_plugin_preserves_manual_confirmation_across_import_reset(
