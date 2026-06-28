@@ -1,5 +1,30 @@
 [
   {
+    "id": "2026-06-28-015",
+    "date": "2026-06-28",
+    "summary": "Completed step07_prompt_editor_dialog: added Step07 prompt editor dialog, prompt override regeneration, and regression tests",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "core/ui/pipeline_panel.py",
+      "core/ui/style_prompt_editor.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-015.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "core/ui/style_prompt_editor.py",
+      "knowledge/ai_memory/session_history/2026-06-28-015.md"
+    ],
+    "next_tasks": [
+      "Manual GUI spot-check remains useful for the prompt editor dialog, real AI completion calls, and real image-generation timing",
+      "Do not commit plan/step07_prompt_editor_dialog.md unless explicitly requested",
+      "Leave unrelated local core/engines/execution_objects/workflow.py changes out of this task commit",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-28-014",
     "date": "2026-06-28",
     "summary": "Completed asset_type_fix_and_parallel_image_gen: fixed asset type UI substring bug, parallelized Step07 style images, enlarged thumbnails, and added custom-template deletion",

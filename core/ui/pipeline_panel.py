@@ -349,13 +349,7 @@ class PipelinePanel(tk.Frame):
         if not options:
             return False
 
-        recommended_id = str(style_json.get("recommended_style_id") or "")
-        if not recommended_id:
-            recommended = next((item for item in options if item.get("recommended")), None)
-            recommended_id = str(recommended.get("style_id", "")) if recommended else ""
-        self._style_var = tk.StringVar(
-            value=recommended_id or str(options[0].get("style_id", ""))
-        )
+        self._style_var = tk.StringVar(value="")
         self._style_imgs: list[tk.PhotoImage] = []
 
         grid_shell = tk.Frame(self._detail, bg=COLORS["bg"])
@@ -401,7 +395,7 @@ class PipelinePanel(tk.Frame):
         ttk.Button(
             row_btn,
             text="重新生成",
-            command=self._on_style_regenerate,
+            command=lambda: self._open_prompt_editor(options),
         ).pack(side=tk.LEFT, padx=(8, 0))
         return True
 
@@ -532,6 +526,19 @@ class PipelinePanel(tk.Frame):
     def _on_style_regenerate(self) -> None:
         self._clear_style_confirmation()
         self._exec_range(7, 7)
+
+    def _open_prompt_editor(self, options: list[dict[str, Any]]) -> None:
+        try:
+            from core.ui.style_prompt_editor import StylePromptEditorDialog
+
+            StylePromptEditorDialog(
+                self.winfo_toplevel(),
+                options,
+                self,
+                output_dir=ARTIFACTS_DIR / "stage_07",
+            )
+        except Exception as exc:
+            messagebox.showerror("提示词编辑失败", str(exc), parent=self)
 
     def _reselect_style(self) -> None:
         self._clear_style_confirmation()

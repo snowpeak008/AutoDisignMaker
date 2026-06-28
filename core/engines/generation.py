@@ -1887,6 +1887,7 @@ def _art_assets() -> list[dict[str, Any]]:
 
 
 STYLE_CONFIRMATION_FILENAME = "style_confirmation.json"
+STYLE_PROMPT_OVERRIDE_FILENAME = "prompt_override.json"
 
 STYLE_OPTION_PRESETS: tuple[dict[str, Any], ...] = (
     {
@@ -2330,43 +2331,56 @@ def _generate_style_option_images(
     }
 
 
-def _stage7_art_style_generation_outputs(
-    parsed: dict[str, Any], out_dir: Path
-) -> dict[str, Any]:
-    existing_style_options = read_json(out_dir / "style_options.json", {})
-    existing_confirmation = read_json(out_dir / STYLE_CONFIRMATION_FILENAME, {})
-    if (
-        isinstance(existing_confirmation, dict)
-        and existing_confirmation.get("status") == "approved"
-        and _confirmation_options(existing_style_options)
-    ):
-        result = _style_confirmation_outputs(parsed, out_dir, existing_style_options)
-        result.update(
-            {
-                "style_option_count": len(_confirmation_options(existing_style_options)),
-                "generated_image_count": len(_confirmation_options(existing_style_options)),
-                "reused_generation": True,
-            }
+def _style_prompt_override_options(
+    override: Any, parsed: dict[str, Any], assets: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    if not isinstance(override, dict):
+        return []
+    raw_options = override.get("options")
+    if not isinstance(raw_options, list):
+        return []
+    try:
+        count = int(
+            override.get("count") or override.get("requested_count") or len(raw_options)
         )
-        return result
-
-    assets = _art_assets()
-    count = _style_option_count()
-    selected_presets = STYLE_OPTION_PRESETS[:count]
+    except (TypeError, ValueError):
+        count = len(raw_options)
+    count = max(1, min(5, count))
     options: list[dict[str, Any]] = []
-    for index, preset in enumerate(selected_presets, 1):
-        style_id = f"STYLE-{index:02d}-{preset['key']}"
-        option = {
-            "style_id": style_id,
-            "title": preset["title"],
-            "description": preset["description"],
-            "palette": list(preset["palette"]),
-            "source_refs": ["stage_04.asset_registry", "stage_06.art_review"],
-        }
-        option["prompt"] = _style_prompt(parsed, option, assets)
+    for index, raw_option in enumerate(raw_options[:count], 1):
+        if not isinstance(raw_option, dict):
+            continue
+        preset = STYLE_OPTION_PRESETS[(index - 1) % len(STYLE_OPTION_PRESETS)]
+        option = dict(raw_option)
+        style_id = str(option.get("style_id") or f"STYLE-{index:02d}-{preset['key']}")
+        option["style_id"] = style_id
+        option["title"] = str(option.get("title") or preset["title"])
+        option["description"] = str(
+            option.get("description") or "用户调整后的风格图提示词。"
+        )
+        palette = option.get("palette")
+        if not isinstance(palette, (list, tuple)) or len(palette) < 3:
+            option["palette"] = list(preset["palette"])
+        else:
+            option["palette"] = [str(color) for color in palette[:3]]
+        if not str(option.get("prompt") or "").strip():
+            option["prompt"] = _style_prompt(parsed, option, assets)
+        if not isinstance(option.get("source_refs"), list):
+            option["source_refs"] = ["stage_07.prompt_override"]
         options.append(option)
+    return options
+
+
+def _write_style_generation_outputs(
+    parsed: dict[str, Any],
+    out_dir: Path,
+    options: list[dict[str, Any]],
+    *,
+    prompt_override_used: bool = False,
+) -> dict[str, Any]:
     _apply_style_option_recommendations(parsed, options)
     manifest = _generate_style_option_images(out_dir, parsed, options)
+    manifest["prompt_override_used"] = prompt_override_used
     recommended = _recommended_style_option(options)
     style_options = {
         "schema_version": 1,
@@ -2377,6 +2391,7 @@ def _stage7_art_style_generation_outputs(
         "recommended_style_id": recommended.get("style_id", ""),
         "options": options,
         "selection_required": True,
+        "prompt_override_used": prompt_override_used,
     }
     write_json(out_dir / "style_options.json", style_options)
     write_json(out_dir / "generation_log.json", manifest)
@@ -2397,6 +2412,7 @@ def _stage7_art_style_generation_outputs(
             "style_option_count": len(options),
             "generated_image_count": len(options),
             "recommended_style_id": recommended.get("style_id", ""),
+            "prompt_override_used": prompt_override_used,
             "blocking_issues": max(
                 int(confirmation_result.get("blocking_issues", 0)),
                 0 if options else 1,
@@ -2406,6 +2422,57 @@ def _stage7_art_style_generation_outputs(
         }
     )
     return confirmation_result
+
+
+def _stage7_art_style_generation_outputs(
+    parsed: dict[str, Any], out_dir: Path
+) -> dict[str, Any]:
+    assets = _art_assets()
+    override_path = out_dir / STYLE_PROMPT_OVERRIDE_FILENAME
+    override_options = _style_prompt_override_options(
+        read_json(override_path, {}), parsed, assets
+    )
+    if override_options:
+        try:
+            override_path.unlink(missing_ok=True)
+        except OSError:
+            pass
+        return _write_style_generation_outputs(
+            parsed, out_dir, override_options, prompt_override_used=True
+        )
+
+    existing_style_options = read_json(out_dir / "style_options.json", {})
+    existing_confirmation = read_json(out_dir / STYLE_CONFIRMATION_FILENAME, {})
+    if (
+        isinstance(existing_confirmation, dict)
+        and existing_confirmation.get("status") == "approved"
+        and _confirmation_options(existing_style_options)
+    ):
+        result = _style_confirmation_outputs(parsed, out_dir, existing_style_options)
+        result.update(
+            {
+                "style_option_count": len(_confirmation_options(existing_style_options)),
+                "generated_image_count": len(_confirmation_options(existing_style_options)),
+                "reused_generation": True,
+            }
+        )
+        return result
+
+    count = _style_option_count()
+    selected_presets = STYLE_OPTION_PRESETS[:count]
+    options: list[dict[str, Any]] = []
+    for index, preset in enumerate(selected_presets, 1):
+        style_id = f"STYLE-{index:02d}-{preset['key']}"
+        option = {
+            "style_id": style_id,
+            "title": preset["title"],
+            "description": preset["description"],
+            "palette": list(preset["palette"]),
+            "source_refs": ["stage_04.asset_registry", "stage_06.art_review"],
+        }
+        option["prompt"] = _style_prompt(parsed, option, assets)
+        options.append(option)
+    return _write_style_generation_outputs(parsed, out_dir, options)
 
 
 def _style_option_score(

@@ -9,6 +9,10 @@ from core.engines import generation
 from core.io import write_json
 from core.context import StageContext
 from core.ui.style_confirmation_dialog import write_style_confirmation
+from core.ui.style_prompt_editor import (
+    parse_style_prompt_response,
+    write_style_prompt_override,
+)
 from pipeline.step_07_art_style_generation import plugin as style_plugin
 
 
@@ -51,6 +55,91 @@ def test_step07_generates_style_options(tmp_path, monkeypatch) -> None:
     assert style_options["option_count"] == 3
     assert style_options["options"][0]["title"] == "清晰量产风"
     assert first_image.read_bytes().startswith(b"\x89PNG")
+
+
+def test_style_prompt_editor_parses_refined_prompt_block() -> None:
+    response = """已改成更暗黑的低饱和风格。
+
+PROMPT_START
+STYLE-01-readable_production: dark gothic game art style board, readable silhouettes
+- STYLE-02-painterly_concept: painterly horror key art, dramatic rim light
+STYLE-99-extra: should be ignored
+PROMPT_END
+"""
+
+    explanation, prompts = parse_style_prompt_response(
+        response, {"STYLE-01-readable_production", "STYLE-02-painterly_concept"}
+    )
+
+    assert explanation == "已改成更暗黑的低饱和风格。"
+    assert prompts == {
+        "STYLE-01-readable_production": "dark gothic game art style board, readable silhouettes",
+        "STYLE-02-painterly_concept": "painterly horror key art, dramatic rim light",
+    }
+
+
+def test_style_prompt_editor_writes_prompt_override(tmp_path) -> None:
+    options = [
+        {"style_id": "STYLE-01", "prompt": "original 1", "palette": ["#111111"] * 3},
+        {"style_id": "STYLE-02", "prompt": "original 2", "palette": ["#222222"] * 3},
+    ]
+
+    path = write_style_prompt_override(
+        tmp_path,
+        options,
+        {"STYLE-02": "refined 2"},
+        2,
+    )
+    payload = json.loads(path.read_text("utf-8"))
+
+    assert payload["source"] == "style_prompt_editor"
+    assert payload["count"] == 2
+    assert payload["options"][0]["prompt"] == "original 1"
+    assert payload["options"][0]["prompt_refined"] is False
+    assert payload["options"][1]["prompt"] == "refined 2"
+    assert payload["options"][1]["prompt_refined"] is True
+
+
+def test_step07_consumes_prompt_override(tmp_path, monkeypatch) -> None:
+    _patch_stage_dir(monkeypatch, tmp_path)
+    monkeypatch.delenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", raising=False)
+    monkeypatch.setenv("AUTODESIGNMAKER_SKIP_ALL_GATES", "1")
+    out_dir = tmp_path / "stage_07"
+    options = [
+        {
+            "style_id": "STYLE-01-readable_production",
+            "title": "清晰量产风",
+            "description": "Readable",
+            "prompt": "original prompt 1",
+            "palette": ["#111111", "#222222", "#333333"],
+        },
+        {
+            "style_id": "STYLE-02-painterly_concept",
+            "title": "概念绘画风",
+            "description": "Painterly",
+            "prompt": "original prompt 2",
+            "palette": ["#444444", "#555555", "#666666"],
+        },
+    ]
+    write_style_prompt_override(
+        out_dir,
+        options,
+        {"STYLE-01-readable_production": "refined dark prompt"},
+        1,
+    )
+
+    result = generation._stage7_art_style_generation_outputs(
+        {"project_name": "Override Test"}, out_dir
+    )
+    style_options = json.loads((out_dir / "style_options.json").read_text("utf-8"))
+    generation_log = json.loads((out_dir / "generation_log.json").read_text("utf-8"))
+
+    assert result["prompt_override_used"] is True
+    assert style_options["prompt_override_used"] is True
+    assert style_options["option_count"] == 1
+    assert style_options["options"][0]["prompt"] == "refined dark prompt"
+    assert generation_log["generated_count"] == 1
+    assert not (out_dir / "prompt_override.json").exists()
 
 
 def test_step07_image_generation_workers_allows_parallel(monkeypatch) -> None:
