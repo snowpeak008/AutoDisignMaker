@@ -418,3 +418,52 @@ def test_step07_plugin_preserves_manual_confirmation_across_import_reset(
 
     assert result.status == "success"
     assert result.outputs["selected_style_id"] == "STYLE-04"
+
+
+def test_step08_to_step11_dispatch_uses_matching_output_functions(
+    tmp_path, monkeypatch
+) -> None:
+    _patch_stage_dir(monkeypatch, tmp_path)
+    called: list[tuple[int, str]] = []
+
+    def fake_load_design(step_number: int) -> dict:
+        return {"step_number": step_number}
+
+    def fake_update_stage_report(step_number: int, out_dir: Path, result: dict) -> dict:
+        _ = step_number, out_dir, result
+        return {"valid": True}
+
+    def fake_refresh_indexes(step_number: int, out_dir: Path) -> None:
+        _ = step_number, out_dir
+
+    def make_output(expected_step: int):
+        def fake_output(parsed: dict, out_dir: Path) -> dict:
+            called.append((expected_step, out_dir.name))
+            return {
+                "content_exists": True,
+                "blocking_issues": 0,
+                "ai_review_status": "passed",
+                "traceability_valid": True,
+            }
+
+        return fake_output
+
+    monkeypatch.setattr(generation, "_load_design_for_stage", fake_load_design)
+    monkeypatch.setattr(generation, "_update_stage_report", fake_update_stage_report)
+    monkeypatch.setattr(generation, "_refresh_indexes", fake_refresh_indexes)
+    for step_number in range(8, 12):
+        monkeypatch.setattr(
+            generation,
+            f"_stage{step_number}_outputs",
+            make_output(step_number),
+        )
+
+    for step_number in range(8, 12):
+        generation.apply_development_plan_outputs(step_number, {})
+
+    assert called == [
+        (8, "stage_08"),
+        (9, "stage_09"),
+        (10, "stage_10"),
+        (11, "stage_11"),
+    ]

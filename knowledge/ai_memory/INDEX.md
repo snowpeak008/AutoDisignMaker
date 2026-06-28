@@ -8,6 +8,30 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-008
+**Summary**: Completed `plan/step07_08_merge/BUGFIX_PLAN.md`: fixed Step07/08 merge follow-up issues around output function numbering, legacy confirmation wrapper, UI fallback routing, and legacy skip-gate messaging.
+
+**Completed**:
+- [x] Renamed post-merge development output functions so Step08-15 dispatch to matching `_stage8_outputs()` through `_stage15_outputs()`.
+- [x] Removed legacy `_stage8_art_style_confirmation_outputs()` to prevent duplicate `style_options.json` writes into `stage_08`.
+- [x] Fixed GUI confirmation fallback so only Step07 routes confirmation output to `stage_07`.
+- [x] Updated `--skip-gate-08` help text and runtime warning to point users to `--skip-gate-07`.
+- [x] Updated direct unit-test calls and added a dispatch regression for Step08-11.
+
+**Verification**:
+- [x] `python -B -m compileall core\engines\generation.py core\main.py core\ui\pipeline_panel.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_manual_style_confirmation.py core\tests\unit\test_hades_quality_optimization.py -q`: 26 passed.
+- [x] `python -B -m pytest -q`: 170 passed.
+
+**Follow-up**:
+- [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-007
 **Summary**: Implemented `plan/step07_08_merge`: merged Step07 art style generation and Step08 confirmation into one Step07 gate, renumbered the development pipeline to Step00-16, and verified the full suite.
 

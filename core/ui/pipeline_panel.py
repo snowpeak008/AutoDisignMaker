@@ -596,7 +596,7 @@ class PipelinePanel(tk.Frame):
             from core.ui.style_confirmation_dialog import StyleConfirmationDialog
 
             style_options = self._load_style_options()
-            output_step = 7 if step_number in (7, 8) else step_number
+            output_step = 7 if step_number == 7 else step_number
             output_dir = ARTIFACTS_DIR / f"stage_{output_step:02d}"
             dialog = StyleConfirmationDialog(
                 self.winfo_toplevel(), style_options, output_dir

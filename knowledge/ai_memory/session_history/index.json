@@ -1,5 +1,27 @@
 [
   {
+    "id": "2026-06-28-008",
+    "date": "2026-06-28",
+    "summary": "Completed step07_08_merge BUGFIX_PLAN: fixed output-function numbering, legacy wrapper, UI fallback routing, and skip-gate-08 messaging",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/main.py",
+      "core/ui/pipeline_panel.py",
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-008.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-008.md"
+    ],
+    "next_tasks": [
+      "Do not commit sunny_girl_image2.png unless explicitly requested",
+      "Manual GUI click-through remains useful when a GUI session is available"
+    ]
+  },
+  {
     "id": "2026-06-28-007",
     "date": "2026-06-28",
     "summary": "Implemented step07_08_merge: merged Step07 style generation and confirmation, renumbered development pipeline to Step00-16, and verified the full suite",

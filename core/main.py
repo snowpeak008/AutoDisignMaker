@@ -195,9 +195,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--skip-gate-08",
         action="store_true",
-        help="Legacy alias for --skip-gate-07.",
+        help=(
+            "(Deprecated) Legacy alias for --skip-gate-07. "
+            "After the Step07/08 merge, art style confirmation is at Step07."
+        ),
     )
     args = parser.parse_args(argv)
+    if args.skip_gate_08:
+        print(
+            "Warning: --skip-gate-08 is deprecated; use --skip-gate-07 instead. "
+            "After the Step07/08 merge, art style confirmation is at Step07.",
+            file=sys.stderr,
+        )
 
     if args.list:
         for num, spec in STEP_SPECS.items():

@@ -2557,21 +2557,6 @@ def _style_confirmation_outputs(
     }
 
 
-def _stage8_art_style_confirmation_outputs(
-    parsed: dict[str, Any], out_dir: Path
-) -> dict[str, Any]:
-    """Legacy Step08 compatibility wrapper for old callers/tests.
-
-    The merged pipeline writes confirmation artifacts to Step07. This wrapper
-    still accepts the old output directory to avoid breaking external scripts
-    that call the helper directly.
-    """
-    style_options = _load_style_options()
-    if _confirmation_options(style_options):
-        write_json(out_dir / "style_options.json", style_options)
-    return _style_confirmation_outputs(parsed, out_dir)
-
-
 def _review_outputs(
     out_dir: Path,
     *,
@@ -2855,7 +2840,7 @@ def _program_plan() -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage8_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     requirements = _program_requirements()
     structure_spec = _load_program_structure_spec()
@@ -3060,7 +3045,7 @@ def _stage7_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
 
 
-def _stage8_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     assets = _art_assets()
     tasks = []
@@ -3990,7 +3975,7 @@ def _stage10_active_execution_object_id(execution_store: Any, task_id: Any) -> s
     return ""
 
 
-def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     program_plan = _program_plan()
     program_tasks = _program_tasks()
@@ -4208,7 +4193,7 @@ def _stage9_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
 
 
-def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     preflight = run_actual_development_preflight(BASE_DIR, write_report=True)
     plan = _program_plan()
@@ -4982,7 +4967,7 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
 
 
-def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     tasks = _art_tasks()
     execution_store = load_execution_object_store(BASE_DIR)
@@ -5077,7 +5062,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
 
 
-def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     dev = read_json(stage_dir(DEV_EXECUTION_STAGE) / "devexecution.json", {})
     art = read_json(stage_dir(ART_PRODUCTION_STAGE) / "artproduction.json", {})
@@ -5294,7 +5279,7 @@ def _stage12_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
 
 
-def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     integration = read_json(stage_dir(INTEGRATION_STAGE) / "integration.json", {})
     project_audit = read_json(
@@ -5366,7 +5351,7 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     }
 
 
-def _stage14_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+def _stage15_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     _ = parsed
     build = read_json(stage_dir(BUILD_PACKAGE_STAGE) / "build_report.json", {})
     build_artifacts = read_json(
@@ -5696,21 +5681,21 @@ def apply_development_plan_outputs(
     elif step_number == 7:
         result = _stage7_art_style_generation_outputs(parsed, out_dir)
     elif step_number == 8:
-        result = _stage7_outputs(parsed, out_dir)
-    elif step_number == 9:
         result = _stage8_outputs(parsed, out_dir)
-    elif step_number == 10:
+    elif step_number == 9:
         result = _stage9_outputs(parsed, out_dir)
-    elif step_number == 11:
+    elif step_number == 10:
         result = _stage10_outputs(parsed, out_dir)
-    elif step_number == 12:
+    elif step_number == 11:
         result = _stage11_outputs(parsed, out_dir)
-    elif step_number == 13:
+    elif step_number == 12:
         result = _stage12_outputs(parsed, out_dir)
-    elif step_number == 14:
+    elif step_number == 13:
         result = _stage13_outputs(parsed, out_dir)
-    elif step_number == 15:
+    elif step_number == 14:
         result = _stage14_outputs(parsed, out_dir)
+    elif step_number == 15:
+        result = _stage15_outputs(parsed, out_dir)
     else:
         return report or {}
 

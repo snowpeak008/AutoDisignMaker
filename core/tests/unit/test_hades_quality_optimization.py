@@ -79,8 +79,8 @@ def test_stage7_tasks_include_clean_titles_category_and_priority(
         },
     )
 
-    out_dir = tmp_path / "stage_07"
-    generation._stage7_outputs({}, out_dir)
+    out_dir = tmp_path / "stage_08"
+    generation._stage8_outputs({}, out_dir)
     plan = json.loads(
         (out_dir / "program_task_breakdown.json").read_text(encoding="utf-8")
     )
@@ -131,8 +131,8 @@ def test_stage7_skips_documentation_requirements_and_ignores_schema_metadata(
     )
     write_json(stage3 / "program_structure_spec.json", {"system_path_map": []})
 
-    out_dir = tmp_path / "stage_07"
-    generation._stage7_outputs({}, out_dir)
+    out_dir = tmp_path / "stage_08"
+    generation._stage8_outputs({}, out_dir)
     plan = json.loads(
         (out_dir / "program_task_breakdown.json").read_text(encoding="utf-8")
     )
@@ -142,7 +142,7 @@ def test_stage7_skips_documentation_requirements_and_ignores_schema_metadata(
     assert plan["tasks"][0]["category"] == "combat"
 
 
-def test_stage8_tasks_carry_asset_classification_and_clean_titles(
+def test_stage9_tasks_carry_asset_classification_and_clean_titles(
     tmp_path, monkeypatch
 ) -> None:
     def fake_stage_dir(stage: int) -> Path:
@@ -170,7 +170,7 @@ def test_stage8_tasks_carry_asset_classification_and_clean_titles(
     )
 
     out_dir = tmp_path / "stage_09"
-    generation._stage8_outputs({}, out_dir)
+    generation._stage9_outputs({}, out_dir)
     plan = json.loads((out_dir / "art_task_breakdown.json").read_text(encoding="utf-8"))
     task = plan["tasks"][0]
 
