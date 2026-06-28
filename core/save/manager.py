@@ -44,6 +44,22 @@ EMPTY_DIRS = (
     "workspace/projects",
 )
 ACTIVE_FILES = ("gate_log.yaml",)
+_SNAPSHOT_SKIP_SUFFIXES = frozenset(
+    {
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".gif",
+        ".bmp",
+        ".webp",
+        ".mp4",
+        ".mov",
+        ".avi",
+        ".zip",
+        ".tar",
+        ".gz",
+    }
+)
 DRAFT_RUNTIME_DIRS = ("snapshots",)
 DRAFT_RUNTIME_FILES = ("draft_file_map.json", "timeline.jsonl")
 INDEX_NAME = "save_index.json"
@@ -937,6 +953,39 @@ def _copy_active_to(project_root: Path, dest_root: Path) -> None:
         (dest_root / dirname).mkdir(parents=True, exist_ok=True)
 
 
+def _snapshot_ignore(_dirname: str, names: list[str]) -> set[str]:
+    return {
+        name
+        for name in names
+        if Path(name).suffix.lower() in _SNAPSHOT_SKIP_SUFFIXES
+    }
+
+
+def _copy_active_to_snapshot(project_root: Path, dest_root: Path) -> None:
+    root = _active_root(project_root)
+    migrate_workspace_project_id(root)
+    dest_root.mkdir(parents=True, exist_ok=True)
+    for dirname in ACTIVE_DIRS:
+        src = root / dirname
+        dest = dest_root / dirname
+        if dest.exists():
+            shutil.rmtree(dest)
+        if src.exists():
+            shutil.copytree(src, dest, ignore=_snapshot_ignore)
+        else:
+            dest.mkdir(parents=True, exist_ok=True)
+    for filename in ACTIVE_FILES:
+        src = root / filename
+        dest = dest_root / filename
+        if dest.exists():
+            dest.unlink()
+        if src.exists() and src.suffix.lower() not in _SNAPSHOT_SKIP_SUFFIXES:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dest)
+    for dirname in EMPTY_DIRS:
+        (dest_root / dirname).mkdir(parents=True, exist_ok=True)
+
+
 def _copy_workspace_to_active(project_root: Path, source_root: Path) -> bool:
     clear_active_workspace(project_root)
     root = _active_root(project_root)
@@ -1210,7 +1259,7 @@ def sync_current_save(
     snapshot_root = active / "snapshots" / _snapshot_name(seq, event)
     full_root = snapshot_root / "full"
     delta_root = snapshot_root / "delta"
-    _copy_active_to(project_root, full_root)
+    _copy_active_to_snapshot(project_root, full_root)
     _write_authoritative_execution_object_store(full_root, authoritative_execution_object_store)
     write_json(delta_root / "added.json", delta["added"])
     write_json(delta_root / "modified.json", delta["modified"])
@@ -1352,3 +1401,30 @@ def delete_save(project_root: Path, save_id: str) -> None:
         data["current_save_id"] = None
     save_index(root, data)
     _prune_drafts_linked_to(root, save_id)
+
+
+def delete_all_saves(project_root: Path) -> list[str]:
+    root = _formal_root(project_root)
+    data = ensure_save_system(root)
+    save_root_resolved = save_root(root).resolve()
+    deleted: list[str] = []
+    for entry in list(data.get("saves", [])):
+        save_id = str(entry.get("save_id") or "")
+        if not save_id:
+            continue
+        target = save_dir(root, save_id)
+        try:
+            target_resolved = target.resolve()
+        except OSError:
+            continue
+        if save_root_resolved not in target_resolved.parents:
+            continue
+        if target.exists():
+            shutil.rmtree(target)
+        _prune_drafts_linked_to(root, save_id)
+        deleted.append(save_id)
+    data["saves"] = []
+    data["current_save_id"] = None
+    save_index(root, data)
+    _write_draft_meta(project_root, linked_save_id=None)
+    return deleted

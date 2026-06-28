@@ -8,6 +8,36 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-017
+**Summary**: Completed `newplan/image_cleanup_and_save_management.md`: cleaned stale Step07 style images, excluded binary files from current-draft snapshots, and added bulk save deletion.
+
+**Completed**:
+- [x] Cleared stale top-level PNG files in `stage_07/generated_images/` before regenerating style option images.
+- [x] Removed unselected Step07 generated PNGs after manual style confirmation, while preserving selected fallback image paths.
+- [x] Added snapshot-only binary suffix exclusion so `snapshot/full` skips PNG and other large binary files while formal save archives remain complete.
+- [x] Added `delete_all_saves()` to remove every save and associated linked drafts, then clear `current_save_id`.
+- [x] Added a "删除全部存档" action to the save manager dialog with confirmation and status refresh.
+- [x] Added regression coverage for Step07 image cleanup, snapshot binary exclusion vs archive preservation, and bulk save deletion.
+
+**Verification**:
+- [x] `python -B -m compileall core\engines\generation.py core\ui\pipeline_panel.py core\save\manager.py core\ui\save_manager_dialog.py core\tests\unit\test_manual_style_confirmation.py core\tests\unit\test_draft_archive_paths.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_manual_style_confirmation.py core\tests\unit\test_draft_archive_paths.py -q`: 45 passed.
+- [x] `python -B -m pytest -q`: 190 passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] Manual GUI spot-check remains useful for confirming the "删除全部存档" button and Step07 confirmed-image cleanup.
+- [ ] Manual large-save timing check remains useful to confirm snapshot sync improvement with real generated images.
+- [ ] `newplan/image_cleanup_and_save_management.md` remains local planning material and should not be committed unless explicitly requested.
+- [ ] Existing unrelated local change in `core/engines/execution_objects/workflow.py` was left untouched and should not be included in this task commit.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-016
 **Summary**: Completed `plan/step07_prompt_editor_review.md`: fixed the Step07 prompt editor lifecycle bug where background AI callbacks could touch destroyed Tk widgets after the dialog closed.
 
@@ -32,8 +62,6 @@
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-015

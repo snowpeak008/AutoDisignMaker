@@ -97,7 +97,7 @@ class SaveManagerDialog(tk.Toplevel):
         """构建底部操作按钮行。"""
         button_row = ttk.Frame(parent)
         button_row.grid(row=1, column=0, columnspan=2, sticky="ew", pady=(10, 0))
-        for col in range(8):
+        for col in range(9):
             button_row.columnconfigure(col, weight=1)
 
         button_specs = [
@@ -106,6 +106,7 @@ class SaveManagerDialog(tk.Toplevel):
             ("加载选中存档", self.on_load_selected),
             ("重命名", self.on_rename_selected),
             ("删除选中存档", self.on_delete_selected),
+            ("删除全部存档", self.on_delete_all),
             ("打开存档目录", self.on_open_save_dir),
             ("刷新", self.refresh),
             ("关闭", self.destroy),
@@ -452,6 +453,26 @@ class SaveManagerDialog(tk.Toplevel):
             save_manager.delete_save(self.runtime_root, save_id)
             self.refresh()
             self.status_var.set(f"已删除存档：{save_id}")
+        except Exception as exc:
+            traceback.print_exc()
+            messagebox.showerror("删除失败", str(exc), parent=self)
+
+    def on_delete_all(self) -> None:
+        """永久删除全部存档。"""
+        saves = save_manager.list_saves(self.runtime_root)
+        if not saves:
+            messagebox.showinfo("提示", "当前没有任何存档。", parent=self)
+            return
+        if not messagebox.askyesno(
+            "删除全部存档",
+            f"确定删除全部 {len(saves)} 个存档？\n此操作不可恢复。",
+            parent=self,
+        ):
+            return
+        try:
+            deleted = save_manager.delete_all_saves(self.runtime_root)
+            self.refresh()
+            self.status_var.set(f"已删除全部 {len(deleted)} 个存档。")
         except Exception as exc:
             traceback.print_exc()
             messagebox.showerror("删除失败", str(exc), parent=self)

@@ -405,6 +405,51 @@ def test_sync_current_save_trims_current_draft_snapshots(
     assert save_manager.current_save_id(isolated_project_root) == manifest["save_id"]
 
 
+def test_sync_current_save_snapshot_skips_binary_but_archive_keeps_it(
+    isolated_project_root,
+) -> None:
+    image = (
+        isolated_project_root
+        / "outputs"
+        / "artifacts"
+        / "stage_07"
+        / "generated_images"
+        / "STYLE-01.png"
+    )
+    image.parent.mkdir(parents=True)
+    image.write_bytes(b"\x89PNG\r\n\x1a\n")
+    text = isolated_project_root / "workspace" / "notes.txt"
+    text.parent.mkdir(parents=True)
+    text.write_text("keep", encoding="utf-8")
+
+    manifest = save_manager.create_save(
+        isolated_project_root, "Demo", event="unit_test"
+    )
+    save_id = manifest["save_id"]
+    archive_image = (
+        save_manager.workspace_dir(isolated_project_root, save_id)
+        / "outputs"
+        / "artifacts"
+        / "stage_07"
+        / "generated_images"
+        / "STYLE-01.png"
+    )
+    snapshot_full = next((isolated_project_root / "snapshots").glob("*/full"))
+
+    assert archive_image.exists()
+    assert not (
+        snapshot_full
+        / "outputs"
+        / "artifacts"
+        / "stage_07"
+        / "generated_images"
+        / "STYLE-01.png"
+    ).exists()
+    assert (snapshot_full / "workspace" / "notes.txt").read_text(
+        encoding="utf-8"
+    ) == "keep"
+
+
 def test_load_save_fast_path_skips_snapshot_creation(
     isolated_project_root,
 ) -> None:
@@ -423,3 +468,56 @@ def test_load_save_fast_path_skips_snapshot_creation(
     assert (save_manager.workspace_dir(isolated_project_root, save_id) / "source_artifacts" / "idea.txt").read_text(
         encoding="utf-8"
     ) == "demo"
+
+
+def test_delete_all_saves_clears_index_and_linked_drafts(
+    isolated_project_root,
+    monkeypatch,
+) -> None:
+    manifest_one = save_manager.create_save(
+        isolated_project_root, "One", event="unit_test_one"
+    )
+    manifest_two = save_manager.create_save(
+        isolated_project_root, "Two", event="unit_test_two"
+    )
+    save_one = manifest_one["save_id"]
+    save_two = manifest_two["save_id"]
+    current = make_draft(
+        isolated_project_root,
+        "20260101_000000_current",
+        {"linked_save_id": save_two},
+    )
+    monkeypatch.setattr(save_manager, "DRAFT_DIR", current)
+    linked_one = make_draft(
+        isolated_project_root,
+        "20260101_000001_linked_one",
+        {"linked_save_id": save_one},
+    )
+    linked_two = make_draft(
+        isolated_project_root,
+        "20260101_000002_linked_two",
+        {"linked_save_id": save_two},
+    )
+    unrelated = make_draft(
+        isolated_project_root,
+        "20260101_000003_unrelated",
+        {"linked_save_id": "save_other"},
+    )
+
+    deleted = save_manager.delete_all_saves(isolated_project_root)
+    index = save_manager.load_index(isolated_project_root)
+
+    assert set(deleted) == {save_one, save_two}
+    assert len(deleted) == 2
+    assert index["saves"] == []
+    assert index["current_save_id"] is None
+    assert not save_manager.save_dir(isolated_project_root, save_one).exists()
+    assert not save_manager.save_dir(isolated_project_root, save_two).exists()
+    assert current.exists()
+    assert not linked_one.exists()
+    assert not linked_two.exists()
+    assert unrelated.exists()
+    meta = json.loads(
+        (isolated_project_root / "draft_meta.json").read_text(encoding="utf-8")
+    )
+    assert meta["linked_save_id"] is None

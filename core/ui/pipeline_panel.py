@@ -7,6 +7,7 @@ import queue
 import sys
 import threading
 import tkinter as tk
+from pathlib import Path
 from tkinter import messagebox, ttk
 from typing import Any
 
@@ -55,6 +56,32 @@ _PIPELINE_STATUS_MAP = {
     "skipped": "not_started",
     "waiting_confirmation": "waiting_confirmation",
 }
+
+
+def _cleanup_unselected_style_images(
+    output_dir: Path, selected_id: str, selected_image_path: str = ""
+) -> int:
+    img_dir = output_dir / "generated_images"
+    if not img_dir.exists() or not selected_id:
+        return 0
+    preserved: set[Path] = {img_dir / f"{selected_id}.png"}
+    if selected_image_path:
+        path = Path(selected_image_path)
+        if not path.is_absolute():
+            path = PROJECT_ROOT / path
+        preserved.add(path)
+    removed = 0
+    for png in list(img_dir.glob("*.png")):
+        try:
+            if png.stem == selected_id:
+                continue
+            if any(png.resolve() == keep.resolve() for keep in preserved):
+                continue
+            png.unlink()
+            removed += 1
+        except OSError:
+            pass
+    return removed
 
 
 class _QueueWriter(io.TextIOBase):
@@ -521,6 +548,11 @@ class PipelinePanel(tk.Frame):
         from core.ui.style_confirmation_dialog import write_style_confirmation
 
         write_style_confirmation(ARTIFACTS_DIR / "stage_07", option, notes)
+        _cleanup_unselected_style_images(
+            ARTIFACTS_DIR / "stage_07",
+            str(option.get("style_id") or ""),
+            str(option.get("image_path") or ""),
+        )
         self._exec_range(7, 7)
 
     def _on_style_regenerate(self) -> None:

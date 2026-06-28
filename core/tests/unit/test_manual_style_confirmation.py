@@ -9,6 +9,7 @@ from core.engines import generation
 from core.io import write_json
 from core.context import StageContext
 from core.ui.style_confirmation_dialog import write_style_confirmation
+from core.ui.pipeline_panel import _cleanup_unselected_style_images
 from core.ui.style_prompt_editor import (
     StylePromptEditorDialog,
     parse_style_prompt_response,
@@ -45,6 +46,9 @@ def test_step07_generates_style_options(tmp_path, monkeypatch) -> None:
     monkeypatch.delenv("AUTODESIGNMAKER_ENABLE_IMAGE_GENERATION", raising=False)
 
     out_dir = tmp_path / "stage_07"
+    stale_image = out_dir / "generated_images" / "STYLE-99-stale.png"
+    stale_image.parent.mkdir(parents=True)
+    stale_image.write_bytes(b"stale")
     result = generation._stage7_art_style_generation_outputs(
         {"project_name": "Style Test"}, out_dir
     )
@@ -56,6 +60,7 @@ def test_step07_generates_style_options(tmp_path, monkeypatch) -> None:
     assert style_options["option_count"] == 3
     assert style_options["options"][0]["title"] == "清晰量产风"
     assert first_image.read_bytes().startswith(b"\x89PNG")
+    assert not stale_image.exists()
 
 
 def test_style_prompt_editor_parses_refined_prompt_block() -> None:
@@ -171,6 +176,48 @@ def test_step07_consumes_prompt_override(tmp_path, monkeypatch) -> None:
     assert style_options["options"][0]["prompt"] == "refined dark prompt"
     assert generation_log["generated_count"] == 1
     assert not (out_dir / "prompt_override.json").exists()
+
+
+def test_step07_confirm_cleanup_keeps_only_selected_image(tmp_path) -> None:
+    img_dir = tmp_path / "generated_images"
+    img_dir.mkdir(parents=True)
+    selected = img_dir / "STYLE-02.png"
+    stale_a = img_dir / "STYLE-01.png"
+    stale_b = img_dir / "STYLE-03.png"
+    selected.write_bytes(b"selected")
+    stale_a.write_bytes(b"stale")
+    stale_b.write_bytes(b"stale")
+
+    removed = _cleanup_unselected_style_images(tmp_path, "STYLE-02", str(selected))
+
+    assert removed == 2
+    assert selected.exists()
+    assert not stale_a.exists()
+    assert not stale_b.exists()
+
+
+def test_step07_confirm_cleanup_preserves_selected_unique_fallback(
+    tmp_path, monkeypatch
+) -> None:
+    from core.ui import pipeline_panel
+
+    monkeypatch.setattr(pipeline_panel, "PROJECT_ROOT", tmp_path)
+    img_dir = tmp_path / "generated_images"
+    img_dir.mkdir(parents=True)
+    selected_unique = img_dir / "STYLE-02_123.png"
+    stale = img_dir / "STYLE-01.png"
+    selected_unique.write_bytes(b"selected")
+    stale.write_bytes(b"stale")
+
+    removed = pipeline_panel._cleanup_unselected_style_images(
+        tmp_path,
+        "STYLE-02",
+        "generated_images/STYLE-02_123.png",
+    )
+
+    assert removed == 1
+    assert selected_unique.exists()
+    assert not stale.exists()
 
 
 def test_step07_image_generation_workers_allows_parallel(monkeypatch) -> None:

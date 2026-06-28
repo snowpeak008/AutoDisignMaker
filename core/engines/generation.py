@@ -2259,6 +2259,11 @@ def _generate_style_option_images(
 ) -> dict[str, Any]:
     generated_dir = out_dir / "generated_images"
     generated_dir.mkdir(parents=True, exist_ok=True)
+    for old_png in list(generated_dir.glob("*.png")):
+        try:
+            old_png.unlink()
+        except OSError:
+            pass
     use_api = _style_image_generation_enabled()
     records = []
     generator = None

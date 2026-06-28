@@ -1,5 +1,32 @@
 [
   {
+    "id": "2026-06-28-017",
+    "date": "2026-06-28",
+    "summary": "Completed image_cleanup_and_save_management: cleaned Step07 generated images, skipped binary files in snapshot/full copies, and added bulk save deletion",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/save/manager.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "core/ui/pipeline_panel.py",
+      "core/ui/save_manager_dialog.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-017.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-017.md"
+    ],
+    "next_tasks": [
+      "Manual GUI spot-check remains useful for the delete-all-saves button and Step07 confirmed-image cleanup",
+      "Manual large-save timing check remains useful to confirm snapshot sync improvement with real generated images",
+      "Do not commit newplan/image_cleanup_and_save_management.md unless explicitly requested",
+      "Leave unrelated local core/engines/execution_objects/workflow.py changes out of this task commit",
+      "CC-Panes shared memory was skipped because required environment variables were absent"
+    ]
+  },
+  {
     "id": "2026-06-28-016",
     "date": "2026-06-28",
     "summary": "Completed step07_prompt_editor_review: fixed prompt-editor cancel lifecycle around pending AI callbacks and added regression tests",
