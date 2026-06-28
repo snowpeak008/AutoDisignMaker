@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from core.context import StageContext
 from core.engines import generation
 from core.engines.execution_objects.correction_queue import load_queue, save_queue_json
@@ -12,7 +14,7 @@ from core.engines.execution_objects.unattended_recovery import (
     upsert_failure_queue,
     write_reproduction_payload,
 )
-from core.engines.execution_objects.workflow import ExecutionObjectStore
+from core.engines.execution_objects.workflow import ExecutionObjectError, ExecutionObjectStore
 from core.io import read_json
 from pipeline.step_13_integration_validation import plugin as step13_plugin
 
@@ -181,6 +183,48 @@ def test_execution_object_allows_automated_remediation_before_verify(tmp_path):
     )
 
     assert verified["state"] == "verified"
+
+
+def test_execution_object_save_id_mismatch_still_raises(tmp_path):
+    store = ExecutionObjectStore(tmp_path / "execution_objects.json", expected_save_id="save-B")
+    store.data["save_id"] = "save-A"
+
+    with pytest.raises(ExecutionObjectError, match="does not match expected save_id"):
+        store.save()
+
+
+def test_execution_object_transfer_ownership_records_audit(tmp_path):
+    store = ExecutionObjectStore(tmp_path / "execution_objects.json", expected_save_id=None)
+    store.data["save_id"] = "save-A"
+
+    record = store.transfer_ownership_to_save(
+        "save-B",
+        source_save_id="save-A",
+        reason="manual_save_new",
+    )
+    store.save()
+
+    assert record["from_save_id"] == "save-A"
+    assert record["to_save_id"] == "save-B"
+    assert store.data["save_id"] == "save-B"
+    assert store.data["ownership_migrations"][-1]["reason"] == "manual_save_new"
+    saved = json.loads((tmp_path / "execution_objects.json").read_text(encoding="utf-8"))
+    assert saved["save_id"] == "save-B"
+    assert saved["ownership_migrations"][-1]["from_save_id"] == "save-A"
+
+
+def test_execution_object_transfer_rejects_wrong_source_save_id(tmp_path):
+    store = ExecutionObjectStore(tmp_path / "execution_objects.json", expected_save_id=None)
+    store.data["save_id"] = "save-A"
+
+    with pytest.raises(ExecutionObjectError, match="transfer source_save_id"):
+        store.transfer_ownership_to_save(
+            "save-B",
+            source_save_id="save-X",
+            reason="manual_save_new",
+        )
+
+    assert store.data["save_id"] == "save-A"
 
 
 def test_step13_blocks_direct_run_when_step11_or_step12_completed_with_review(monkeypatch, tmp_path):

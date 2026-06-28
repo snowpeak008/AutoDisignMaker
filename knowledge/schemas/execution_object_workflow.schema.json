@@ -17,6 +17,19 @@
     },
     "generated_at": {"type": "string"},
     "updated_at": {"type": "string"},
+    "ownership_migrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from_save_id", "to_save_id", "reason", "at"],
+        "properties": {
+          "from_save_id": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+          "to_save_id": {"type": "string"},
+          "reason": {"type": "string"},
+          "at": {"type": "string"}
+        }
+      }
+    },
     "objects": {
       "type": "array",
       "items": {

@@ -1,5 +1,27 @@
 [
   {
+    "id": "2026-06-28-020",
+    "date": "2026-06-28",
+    "summary": "Implemented execution_object_save_id_ownership_fix: strict save_id validation plus explicit create/save-as ownership transfer with audit records",
+    "changed_files": [
+      "core/engines/execution_objects/workflow.py",
+      "core/save/manager.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/tests/unit/test_unattended_recovery.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-020.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "knowledge/schemas/execution_object_workflow.schema.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-020.md"
+    ],
+    "next_tasks": [
+      "Do not commit newplan/ unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-019",
     "date": "2026-06-28",
     "summary": "Patched Step13 direct-run gating so completed_with_review in Step11/12 blocks unless the override config allows continuation",

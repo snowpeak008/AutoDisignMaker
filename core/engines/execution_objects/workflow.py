@@ -214,6 +214,7 @@ class ExecutionObjectStore:
                 "updated_at": now_iso(),
                 "objects": [],
                 "audit_cleanup_evidence": [],
+                "ownership_migrations": [],
             }
         try:
             data = json.loads(self.path.read_text(encoding="utf-8-sig"))
@@ -226,14 +227,49 @@ class ExecutionObjectStore:
         data.setdefault("updated_at", now_iso())
         data.setdefault("objects", [])
         data.setdefault("audit_cleanup_evidence", [])
+        data.setdefault("ownership_migrations", [])
         return data
+
+    def transfer_ownership_to_save(
+        self,
+        new_save_id: str,
+        *,
+        source_save_id: str | None,
+        reason: str,
+    ) -> dict[str, Any]:
+        """Explicitly transfer store ownership during create/save-as cloning."""
+        new_save_id = str(new_save_id or "").strip()
+        source_save_id = str(source_save_id or "").strip() or None
+        reason = str(reason or "").strip()
+        if not new_save_id:
+            raise ExecutionObjectError("Ownership transfer requires a new save_id.")
+        if not reason:
+            raise ExecutionObjectError("Ownership transfer requires a reason.")
+        old_save_id = str(self.data.get("save_id") or "").strip() or None
+        if old_save_id and source_save_id and old_save_id != source_save_id:
+            raise ExecutionObjectError(
+                f"Execution object store save_id {old_save_id!r} does not match"
+                f" transfer source_save_id {source_save_id!r}."
+            )
+        record = {
+            "from_save_id": old_save_id,
+            "to_save_id": new_save_id,
+            "reason": reason,
+            "at": now_iso(),
+        }
+        self.data.setdefault("ownership_migrations", []).append(record)
+        self.expected_save_id = new_save_id
+        self.data["save_id"] = new_save_id
+        return deep_copy(record)
 
     def save(self) -> Path:
         existing_save_id = self.data.get("save_id")
         if self.expected_save_id:
             if existing_save_id and existing_save_id != self.expected_save_id:
                 raise ExecutionObjectError(
-                    f"Execution object store save_id {existing_save_id!r} does not match expected save_id {self.expected_save_id!r}."
+                    f"Execution object store save_id {existing_save_id!r} does not match"
+                    f" expected save_id {self.expected_save_id!r}."
+                    " Only explicit create/save-as ownership transfer may change save_id."
                 )
             self.data["save_id"] = self.expected_save_id
         self.data["updated_at"] = now_iso()

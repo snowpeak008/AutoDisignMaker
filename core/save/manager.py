@@ -1029,6 +1029,40 @@ def _write_authoritative_execution_object_store(dest_root: Path, content: str | 
     path.write_text(content, encoding="utf-8")
 
 
+def _transfer_execution_object_store_ownership(
+    workspace_root: Path,
+    *,
+    new_save_id: str,
+    source_save_id: str | None,
+    reason: str,
+) -> bool:
+    path = Path(workspace_root) / _execution_object_store_relpath()
+    if not path.is_file():
+        return False
+
+    from core.engines.execution_objects.workflow import ExecutionObjectStore
+
+    store = ExecutionObjectStore(path, expected_save_id=None)
+    existing_save_id = str(store.data.get("save_id") or "").strip() or None
+    new_save_id = str(new_save_id or "").strip()
+    if existing_save_id == new_save_id:
+        return False
+    record = store.transfer_ownership_to_save(
+        new_save_id,
+        source_save_id=source_save_id,
+        reason=reason,
+    )
+    store.save()
+    append_jsonl(Path(workspace_root) / "timeline.jsonl", {
+        "event": "execution_object_store_ownership_transferred",
+        "from_save_id": record.get("from_save_id"),
+        "to_save_id": record.get("to_save_id"),
+        "reason": record.get("reason"),
+        "timestamp": record.get("at"),
+    })
+    return True
+
+
 def _atomic_copy_to_workspace(project_root: Path, target: Path, authoritative_store: str | None) -> None:
     """Write active state into target/workspace via temp-dir rename (atomic on same drive)."""
     ws = target / "workspace"
@@ -1151,6 +1185,7 @@ def create_save(
 
     root = _formal_root(project_root)
     ensure_save_system(root)
+    source_save_id = current_save_id(root)
     save_id = new_save_id()
     while save_dir(root, save_id).exists():
         save_id = new_save_id()
@@ -1173,6 +1208,12 @@ def create_save(
     (target / "workspace").mkdir(parents=True, exist_ok=True)
     write_json(target / MANIFEST_NAME, manifest)
     _replace_entry(root, manifest, current=True)
+    _transfer_execution_object_store_ownership(
+        _active_root(project_root),
+        new_save_id=save_id,
+        source_save_id=source_save_id,
+        reason=event,
+    )
     sync_current_save(project_root, event=event)
     return _load_manifest(target / MANIFEST_NAME)
 

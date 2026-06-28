@@ -8,6 +8,32 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-020
+**Summary**: Implemented `newplan/execution_object_save_id_ownership_fix.md`: restored strict execution-object `save_id` validation and added explicit create/save-as ownership transfer with audit records.
+
+**Completed**:
+- [x] Replaced the broad `migrate_save_id()` helper with `transfer_ownership_to_save(new_save_id, source_save_id, reason)`.
+- [x] Kept `ExecutionObjectStore.save()` strict: ordinary mismatch between stored `save_id` and expected `save_id` raises `ExecutionObjectError`.
+- [x] Added top-level `ownership_migrations` audit records to execution-object stores and updated the schema.
+- [x] Added save-manager ownership transfer for active draft execution-object stores before the first sync of a newly created save.
+- [x] Wrote active `timeline.jsonl` events for execution-object ownership transfers.
+- [x] Added regression coverage for mismatch errors, successful transfer, wrong source rejection, create/save-as active/archive migration, and load-save non-repair behavior.
+
+**Verification**:
+- [x] `python -B -m compileall core\save\manager.py core\engines\execution_objects\workflow.py core\tests\unit\test_draft_archive_paths.py core\tests\unit\test_unattended_recovery.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_unattended_recovery.py core\tests\unit\test_draft_archive_paths.py -q`: 31 passed.
+- [x] `python -B -m pytest -q`: 203 passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-019
 **Summary**: Patched the Step13 direct-run gap after `completed_with_review` support: Step13 now independently blocks when Step11 or Step12 still has unresolved review items unless the override config allows continuation.
 
@@ -27,8 +53,6 @@
 - [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-018

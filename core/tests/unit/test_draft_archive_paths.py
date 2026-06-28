@@ -36,6 +36,30 @@ def make_draft(root: Path, name: str, meta: dict[str, object] | None = None) -> 
     return draft
 
 
+def write_execution_object_store(workspace_root: Path, save_id: str) -> Path:
+    path = workspace_root / save_manager._execution_object_store_relpath()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "save_id": save_id,
+                "generated_at": "2026-06-28T00:00:00",
+                "updated_at": "2026-06-28T00:00:00",
+                "objects": [],
+                "audit_cleanup_evidence": [],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    return path
+
+
+def read_execution_object_store(path: Path) -> dict[str, object]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def test_runtime_paths_use_current_session_draft() -> None:
     assert DRAFT_DIR.parent == DRAFTS_DIR
     assert SANDBOX_DIR == DRAFT_DIR
@@ -468,6 +492,63 @@ def test_load_save_fast_path_skips_snapshot_creation(
     assert (save_manager.workspace_dir(isolated_project_root, save_id) / "source_artifacts" / "idea.txt").read_text(
         encoding="utf-8"
     ) == "demo"
+
+
+def test_create_save_transfers_active_execution_object_store_ownership(
+    isolated_project_root,
+) -> None:
+    manifest_a = save_manager.create_save(isolated_project_root, "A", event="unit_test_a")
+    save_a = manifest_a["save_id"]
+    active_store = write_execution_object_store(isolated_project_root, save_a)
+    archive_a_store = write_execution_object_store(
+        save_manager.workspace_dir(isolated_project_root, save_a),
+        save_a,
+    )
+
+    manifest_b = save_manager.create_save(
+        isolated_project_root,
+        "B",
+        event="manual_save_new",
+    )
+    save_b = manifest_b["save_id"]
+    archive_b_store = (
+        save_manager.workspace_dir(isolated_project_root, save_b)
+        / save_manager._execution_object_store_relpath()
+    )
+
+    active_data = read_execution_object_store(active_store)
+    archive_b_data = read_execution_object_store(archive_b_store)
+    archive_a_data = read_execution_object_store(archive_a_store)
+
+    assert active_data["save_id"] == save_b
+    assert archive_b_data["save_id"] == save_b
+    assert archive_a_data["save_id"] == save_a
+    assert active_data["ownership_migrations"][-1]["from_save_id"] == save_a
+    assert active_data["ownership_migrations"][-1]["to_save_id"] == save_b
+    assert archive_b_data["ownership_migrations"][-1]["to_save_id"] == save_b
+    timeline = (isolated_project_root / "timeline.jsonl").read_text(encoding="utf-8")
+    assert "execution_object_store_ownership_transferred" in timeline
+
+
+def test_load_save_does_not_repair_execution_object_store_save_id_mismatch(
+    isolated_project_root,
+) -> None:
+    from core.engines.execution_objects.workflow import ExecutionObjectError, ExecutionObjectStore
+
+    manifest_a = save_manager.create_save(isolated_project_root, "A", event="unit_test_a")
+    save_a = manifest_a["save_id"]
+    manifest_b = save_manager.create_save(isolated_project_root, "B", event="unit_test_b")
+    save_b = manifest_b["save_id"]
+    archive_b_store = write_execution_object_store(
+        save_manager.workspace_dir(isolated_project_root, save_b),
+        save_a,
+    )
+
+    save_manager.load_save(isolated_project_root, save_b)
+
+    assert read_execution_object_store(archive_b_store)["save_id"] == save_a
+    with pytest.raises(ExecutionObjectError, match="does not match expected save_id"):
+        ExecutionObjectStore(archive_b_store, expected_save_id=save_b).save()
 
 
 def test_delete_all_saves_clears_index_and_linked_drafts(
