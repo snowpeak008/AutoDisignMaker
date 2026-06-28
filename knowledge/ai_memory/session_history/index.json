@@ -1,5 +1,23 @@
 [
   {
+    "id": "2026-06-28-010",
+    "date": "2026-06-28",
+    "summary": "Completed perf_fix CODE_REVIEW: fixed open-project state-cache invalidation, removed duplicate file-open render, and collapsed redundant version bumps",
+    "changed_files": [
+      "core/ui/app_window.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-010.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-010.md"
+    ],
+    "next_tasks": [
+      "Manual GUI click-through remains useful for open_project and file-open flows",
+      "Do not commit plan/perf_fix unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-009",
     "date": "2026-06-28",
     "summary": "Implemented perf_fix FINAL_PLAN: deferred GUI startup work, cached result rendering, optimized save file maps, snapshot trimming, and load-save fast path",

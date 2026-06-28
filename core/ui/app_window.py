@@ -1427,8 +1427,7 @@ class CommercialDesignApp(tk.Frame):
         self._schedule_autosave()
 
     def on_risk_toggle(self, node_id, checked):
-        if self.save_visible_notes():
-            self._mark_state_changed()
+        self.save_visible_notes()
         if checked:
             self.expanded_risk_nodes.add(node_id)
         else:
@@ -1440,8 +1439,7 @@ class CommercialDesignApp(tk.Frame):
         self._schedule_autosave()
 
     def on_not_applicable_change(self, node_id, checked):
-        if self.save_visible_notes():
-            self._mark_state_changed()
+        self.save_visible_notes()
         if checked:
             self.engine.set_node_state(self.project_state, node_id, "not_applicable")
             self.expanded_na_nodes.add(node_id)
@@ -1990,6 +1988,7 @@ class CommercialDesignApp(tk.Frame):
             # 恢复项目状态
             self.project_state = self.engine.normalize_state(project_data)
             self.project_name.set(self.project_state.get("projectName", "未命名游戏设计项目"))
+            self._mark_state_changed()
 
             # 重置UI状态
             for key, value in self.project_state.get("profile", {}).items():
@@ -2039,6 +2038,7 @@ class CommercialDesignApp(tk.Frame):
             self.current_domain_id = self.engine.first_domain_id()
             self.clear_expanded_nodes()
 
+            self.status_text.set(f"已打开：{path}")
             self.render()
 
             # 提示用户迁移
@@ -2052,12 +2052,6 @@ class CommercialDesignApp(tk.Frame):
 
         except Exception as error:
             messagebox.showerror("打开失败", f"无法读取项目文件：\n{error}")
-        for key, value in self.project_state.get("profile", {}).items():
-            self.profile_vars.setdefault(key, tk.StringVar()).set(option_label(key, value))
-        self.current_domain_id = self.engine.first_domain_id()
-        self.clear_expanded_nodes()
-        self.status_text.set(f"已打开：{path}")
-        self.render()
 
     def reset_project(self):
         if not messagebox.askyesno("重置", "清空当前项目状态？"):

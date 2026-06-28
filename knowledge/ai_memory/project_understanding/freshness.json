@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T16:05:22",
+  "generated_at": "2026-06-28T16:16:57",
   "files": {
     "core/main.py": {
       "sha256": "50810d4219c0522d5c6b4cda011dda279ef627efd240101fab7aecfce69319a8",
@@ -118,8 +118,8 @@
       "size": 1871
     },
     "core/ui/app_window.py": {
-      "sha256": "c11c6dd11ab4dc1b9630ef334933a7d37ce5f87190f1055aa60e94d3363b44f5",
-      "size": 99985
+      "sha256": "eea28dbe5b1fa3bba2e6ca58a5e08f95c5f7375abd1b03b4c6c6075face32e1c",
+      "size": 99633
     },
     "core/ui/theme.py": {
       "sha256": "f334a7956c5753a57bf43bbfce563d47d614e97f4d2c98d76f9d61b3545145b1",

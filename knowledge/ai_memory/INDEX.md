@@ -8,6 +8,28 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-010
+**Summary**: Completed `plan/perf_fix/CODE_REVIEW.md`: fixed follow-up UI state-cache issues in the performance optimization implementation.
+
+**Completed**:
+- [x] Added missing `_mark_state_changed()` after loading a design project from execution-object storage.
+- [x] Removed duplicate post-try render/reset code from `_open_project_from_file()` and moved the open-status update into the successful load path.
+- [x] Collapsed redundant `_mark_state_changed()` calls in risk and not-applicable toggles while preserving cache invalidation after the actual state change.
+
+**Verification**:
+- [x] `python -B -m compileall core\ui\app_window.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_draft_archive_paths.py -q`: 16 passed.
+- [x] `python -B -m pytest -q`: 174 passed.
+
+**Follow-up**:
+- [ ] Manual GUI click-through remains useful for `open_project()` / `_open_project_from_file()` flows.
+- [ ] `plan/perf_fix/` remains local planning material and should not be committed unless explicitly requested.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-009
 **Summary**: Implemented `plan/perf_fix/FINAL_PLAN.md`: improved GUI startup responsiveness, reduced high-frequency design-workbench render work, and optimized save/load bookkeeping for unchanged workspaces.
 
@@ -30,8 +52,6 @@
 - [ ] `plan/perf_fix/` remains local planning material and should not be committed unless explicitly requested.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-008
