@@ -8,6 +8,34 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-016
+**Summary**: Completed `plan/step07_prompt_editor_review.md`: fixed the Step07 prompt editor lifecycle bug where background AI callbacks could touch destroyed Tk widgets after the dialog closed.
+
+**Completed**:
+- [x] Added a `_cancelled` lifecycle flag to `StylePromptEditorDialog`.
+- [x] Routed worker-thread UI callbacks through `_schedule_ui()`, which drops callbacks after cancel and tolerates destroyed Tk widgets.
+- [x] Guarded AI success/error handlers so already-cancelled dialogs do not update conversation widgets.
+- [x] Added the initial assistant greeting to `_history` so follow-up AI calls include the visible conversation context.
+- [x] Added regression coverage for initial greeting history and cancelled AI callbacks.
+
+**Verification**:
+- [x] `python -B -m compileall core\ui\style_prompt_editor.py core\tests\unit\test_manual_style_confirmation.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_manual_style_confirmation.py -q`: 25 passed.
+- [x] `python -B -m pytest -q`: 186 passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] Manual GUI spot-check remains useful for closing the prompt editor while an actual AI completion request is pending.
+- [ ] `plan/step07_prompt_editor_review.md` remains local planning material and should not be committed unless explicitly requested.
+- [ ] Existing unrelated local change in `core/engines/execution_objects/workflow.py` was left untouched and should not be included in this task commit.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-015
 **Summary**: Completed `plan/step07_prompt_editor_dialog.md`: added a Step07 prompt editor dialog for AI-assisted style prompt refinement and wired prompt overrides into one-shot style-image regeneration.
 
@@ -33,8 +61,6 @@
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-014

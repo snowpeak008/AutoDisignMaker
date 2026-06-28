@@ -10,6 +10,7 @@ from core.io import write_json
 from core.context import StageContext
 from core.ui.style_confirmation_dialog import write_style_confirmation
 from core.ui.style_prompt_editor import (
+    StylePromptEditorDialog,
     parse_style_prompt_response,
     write_style_prompt_override,
 )
@@ -98,6 +99,36 @@ def test_style_prompt_editor_writes_prompt_override(tmp_path) -> None:
     assert payload["options"][0]["prompt_refined"] is False
     assert payload["options"][1]["prompt"] == "refined 2"
     assert payload["options"][1]["prompt_refined"] is True
+
+
+def test_style_prompt_editor_initial_greeting_enters_history() -> None:
+    dialog = object.__new__(StylePromptEditorDialog)
+    dialog.options = [{"style_id": "STYLE-01", "title": "Readable", "prompt": "prompt"}]
+    dialog._history = []
+    appended: list[tuple[str, str]] = []
+    dialog._append_message = lambda role, content: appended.append((role, content))
+
+    StylePromptEditorDialog._send_initial_greeting(dialog)
+
+    assert appended[0][0] == "assistant"
+    assert dialog._history == [
+        {"role": "assistant", "content": appended[0][1]},
+    ]
+
+
+def test_style_prompt_editor_ignores_ai_callbacks_after_cancel() -> None:
+    dialog = object.__new__(StylePromptEditorDialog)
+    dialog._cancelled = True
+
+    StylePromptEditorDialog._handle_ai_response(
+        dialog,
+        "explanation\nPROMPT_START\nSTYLE-01: prompt\nPROMPT_END",
+    )
+    StylePromptEditorDialog._handle_ai_error(dialog, RuntimeError("boom"))
+    StylePromptEditorDialog._schedule_ui(
+        dialog,
+        lambda: (_ for _ in ()).throw(AssertionError("should not run")),
+    )
 
 
 def test_step07_consumes_prompt_override(tmp_path, monkeypatch) -> None:

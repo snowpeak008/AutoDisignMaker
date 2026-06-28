@@ -188,6 +188,7 @@ class StylePromptEditorDialog(tk.Toplevel):
         self._count_var = tk.IntVar(value=max(1, min(5, len(self.options) or 1)))
         self._preview_visible = False
         self._pending = False
+        self._cancelled = False
         self._build_ui()
         self._send_initial_greeting()
         self.protocol("WM_DELETE_WINDOW", self._on_cancel)
@@ -292,6 +293,7 @@ class StylePromptEditorDialog(tk.Toplevel):
             "请告诉我你想要的美术风格，或者指出已有风格哪些不满意，我来修改提示词。"
         )
         self._append_message("assistant", greeting)
+        self._history.append({"role": "assistant", "content": greeting})
 
     def _append_message(self, role: str, content: str) -> None:
         label = "你" if role == "user" else "AI"
@@ -354,15 +356,27 @@ class StylePromptEditorDialog(tk.Toplevel):
         try:
             response = run_style_prompt_completion(messages)
         except Exception as exc:  # noqa: BLE001 - UI boundary
-            self.after(0, lambda error=exc: self._handle_ai_error(error))
+            self._schedule_ui(lambda error=exc: self._handle_ai_error(error))
             return
-        self.after(0, lambda: self._handle_ai_response(response))
+        self._schedule_ui(lambda: self._handle_ai_response(response))
+
+    def _schedule_ui(self, callback) -> None:
+        if self._cancelled:
+            return
+        try:
+            self.after(0, callback)
+        except (RuntimeError, tk.TclError):
+            pass
 
     def _handle_ai_error(self, exc: Exception) -> None:
+        if self._cancelled:
+            return
         self._append_message("assistant", f"AI 调用失败：{exc}\n请检查 AI 配置。")
         self._set_pending(False)
 
     def _handle_ai_response(self, response: str) -> None:
+        if self._cancelled:
+            return
         self._history.append({"role": "assistant", "content": response})
         valid_ids = {str(option.get("style_id")) for option in self.options}
         explanation, prompts = parse_style_prompt_response(response, valid_ids)
@@ -394,4 +408,5 @@ class StylePromptEditorDialog(tk.Toplevel):
             messagebox.showerror("无法生成", str(exc), parent=self)
 
     def _on_cancel(self) -> None:
+        self._cancelled = True
         self.destroy()
