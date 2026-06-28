@@ -1,5 +1,26 @@
 [
   {
+    "id": "2026-06-28-004",
+    "date": "2026-06-28",
+    "summary": "Completed bug_collection_20260628_step07_edge_cases: handled deleted-file scan races, cleanup logging, parser documentation, and trailing-backtick path tests",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "tools/asset_production/codex_image_tool.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-004.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-004.md"
+    ],
+    "next_tasks": [
+      "Do not rerun real Codex CLI Step07 image generation unless needed and explicitly approved",
+      "Keep Step07 image generation serial",
+      "Do not commit sunny_girl_image2.png unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-003",
     "date": "2026-06-28",
     "summary": "Completed bug_collection_20260628_step07_prompt_fix: fixed Step07 image-output edge cases, tightened Codex PNG/session parsing, and verified the full suite",

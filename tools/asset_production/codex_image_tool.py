@@ -60,6 +60,8 @@ def _saved_pngs_from_output(text: str) -> list[Path]:
 
 
 def _png_paths_from_text(text: str) -> list[Path]:
+    """Extract existing PNG paths; path.is_file() filters malformed matches."""
+
     paths: list[Path] = []
     pattern = (
         r"(?:^|[\s:：`\"'])"

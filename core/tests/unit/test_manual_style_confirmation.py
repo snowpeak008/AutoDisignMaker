@@ -106,6 +106,35 @@ def test_step07_places_image_with_unique_fallback_when_target_locked(
     assert not source.exists()
 
 
+def test_step07_place_image_logs_cleanup_failure(
+    tmp_path, monkeypatch, caplog
+) -> None:
+    source = tmp_path / "source.png"
+    target = tmp_path / "target.png"
+    source.write_bytes(b"new")
+    original_unlink = Path.unlink
+
+    def fake_replace(self, target_path):
+        _ = self, target_path
+        raise OSError("locked")
+
+    def fake_unlink(self, *args, **kwargs):
+        if self == source:
+            raise PermissionError("source locked")
+        return original_unlink(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "replace", fake_replace)
+    monkeypatch.setattr(Path, "unlink", fake_unlink)
+    caplog.set_level("WARNING", logger="core.engines.generation")
+
+    final_path = generation._place_style_image(source, target)
+
+    assert final_path == target
+    assert target.read_bytes() == b"new"
+    assert source.exists()
+    assert "Failed to remove temporary style image" in caplog.text
+
+
 def test_step07_saved_path_result_preserves_inner_backticks(tmp_path) -> None:
     image_path = tmp_path / "with`tick.png"
     image_path.write_bytes(b"png")
@@ -133,6 +162,41 @@ def test_step07_new_png_filter_ignores_stale_concurrent_file(
     paths = generation._new_style_pngs(tmp_path, {}, generation.time.time_ns())
 
     assert paths == [fresh]
+
+
+def test_step07_new_png_filter_skips_deleted_file(tmp_path, monkeypatch) -> None:
+    keep = tmp_path / "keep.png"
+    deleted = tmp_path / "deleted.png"
+    keep.write_bytes(b"keep")
+    deleted.write_bytes(b"deleted")
+    original_is_file = Path.is_file
+    original_stat = Path.stat
+
+    def fake_is_file(self):
+        if self == deleted:
+            return True
+        return original_is_file(self)
+
+    def fake_stat(self, *args, **kwargs):
+        if self == deleted:
+            raise FileNotFoundError(str(self))
+        return original_stat(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "is_file", fake_is_file)
+    monkeypatch.setattr(Path, "stat", fake_stat)
+
+    paths = generation._new_style_pngs(tmp_path, {}, 0)
+
+    assert paths == [keep]
+
+
+def test_step07_saved_path_handles_backtick_before_extension(tmp_path) -> None:
+    image_path = tmp_path / "image`.png"
+    image_path.write_bytes(b"png")
+
+    result = generation._saved_image_path_from_result(f"saved: `{image_path}`")
+
+    assert result == image_path
 
 
 def test_step07_prompt_uses_short_asset_labels_and_source_title(

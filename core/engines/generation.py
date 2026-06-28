@@ -10,6 +10,7 @@ own save flow.
 from __future__ import annotations
 
 import hashlib
+import logging
 import os
 import re
 import shutil
@@ -32,6 +33,8 @@ from core.runtime.preflight import (
 )
 from core.save import manager as save_manager
 from core.runtime import control as runtime_control
+
+LOGGER = logging.getLogger(__name__)
 from core.engines.execution_objects.integration import (
     begin_program_task_execution_object,
     complete_art_task_execution_object,
@@ -2152,6 +2155,19 @@ def _unique_style_image_path(image_path: Path) -> Path:
     )
 
 
+def _remove_temp_style_image(path: Path) -> None:
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        pass
+    except OSError as unlink_error:
+        LOGGER.warning(
+            "Failed to remove temporary style image %s: %s",
+            path,
+            unlink_error,
+        )
+
+
 def _place_style_image(source: Path, target: Path) -> Path:
     if source.resolve() == target.resolve():
         return target
@@ -2161,12 +2177,12 @@ def _place_style_image(source: Path, target: Path) -> Path:
     except OSError:
         try:
             shutil.copy2(source, target)
-            source.unlink(missing_ok=True)
+            _remove_temp_style_image(source)
             return target
         except OSError:
             fallback = _unique_style_image_path(target)
             shutil.copy2(source, fallback)
-            source.unlink(missing_ok=True)
+            _remove_temp_style_image(source)
             return fallback
 
 
@@ -2182,14 +2198,17 @@ def _new_style_pngs(
 ) -> list[Path]:
     candidates: list[Path] = []
     for path in generated_dir.glob("*.png"):
-        if not path.is_file():
+        try:
+            if not path.is_file():
+                continue
+            current = path.stat().st_mtime_ns
+            previous = before.get(path)
+            if current < operation_start_ns:
+                continue
+            if previous is None or current > previous:
+                candidates.append(path)
+        except OSError:
             continue
-        current = path.stat().st_mtime_ns
-        previous = before.get(path)
-        if current < operation_start_ns:
-            continue
-        if previous is None or current > previous:
-            candidates.append(path)
     return candidates
 
 

@@ -8,6 +8,32 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-004
+**Summary**: Completed `bug_collection_20260628_step07_edge_cases`: handled remaining Step07 edge cases around deleted files, cleanup logging, path parser documentation, and trailing-backtick path tests.
+
+**Completed**:
+- [x] Added `OSError` protection in `_new_style_pngs()` so files deleted during scan are skipped.
+- [x] Added non-blocking warning logging when temporary style images cannot be removed after successful copy fallback.
+- [x] Documented that Codex stdout path regex can match malformed paths, with `path.is_file()` filtering them out.
+- [x] Confirmed non-`OSError` exceptions should keep propagating.
+- [x] Added regression coverage for deleted files during scan and filenames with a backtick immediately before `.png`.
+- [x] Updated local plan status; `plan/` remains ignored.
+
+**Verification**:
+- [x] Targeted Step07/Codex image tests: 21 passed.
+- [x] `python -B -m pytest -q`: 167 passed.
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+
+**Follow-up**:
+- [ ] Real Codex CLI Step07 image generation was not rerun.
+- [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-003
 **Summary**: Completed `bug_collection_20260628_step07_prompt_fix`: fixed Step07 image-output edge cases, tightened Codex PNG/session parsing, preserved serial image generation, and verified the full suite.
 
@@ -28,6 +54,8 @@
 - [ ] Real Codex CLI Step07 image generation was not rerun to avoid re-triggering Windows sandbox helper issues.
 - [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
 - [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-002
