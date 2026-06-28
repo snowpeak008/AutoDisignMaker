@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-06-28T11:23:09",
+  "generated_at": "2026-06-28T12:23:44",
   "files": {
     "core/main.py": {
-      "sha256": "75993071d1b22f6968b4ca69f162a9ca8284d5b4289901039b169638b499910b",
-      "size": 9668
+      "sha256": "5f130c9c8ceba3154985a960e64765dfe405fa00131b91e973bd85cb9c479316",
+      "size": 9826
     },
     "core/engines/generation.py": {
-      "sha256": "8449f7b7baab764ba8cd74d0bda8daf1833267f7d0fc89e63b018dcc3de1b6d4",
-      "size": 213008
+      "sha256": "835b542252c51662913cf2149df2751a5e8e5b5e4ce631f48be16ece2c709da9",
+      "size": 216754
     },
     "core/registry.py": {
-      "sha256": "2b2dbb22bc5684fc6bbed0c6179a59fc38f39103e738beb72bb728aefb793435",
-      "size": 3890
+      "sha256": "162f14baf14727439cdeea0c004cc403703ecbfb659e2d78d24f6902f5584a1c",
+      "size": 3820
     },
     "core/paths.py": {
       "sha256": "22bddded8503db835e6b9662ca4fda5f9ab842a621dac0223c011f934a69eada",
@@ -70,7 +70,7 @@
       "size": 7577
     },
     "core/source/importer.py": {
-      "sha256": "dbae763982faeea3e0c58fa87d5061e3c0e19476476e6876859ea11531e98586",
+      "sha256": "3e69cd7119ea7dc9ef36d90cbb3e9343ba60b2a50ce00bf6325c00bf90282621",
       "size": 24974
     },
     "core/source/groups.py": {
@@ -130,12 +130,12 @@
       "size": 67805
     },
     "pipeline/_registry.json": {
-      "sha256": "92b1ab8cd333c3bb0e04f004437d05bf799b618bc1a363382d4b8305125feaed",
-      "size": 3993
+      "sha256": "ac73fd14b101c6a3bf39217da037ad6f2f4d64960dd6d0c8211bb91c4b35e93f",
+      "size": 3820
     },
     "pipeline/artifact_layer/registry.json": {
-      "sha256": "ad62a22b53363d9cb3f2e88fbfa09a64c7a259f7e29b8bf8fbb53e364443e2fe",
-      "size": 19901
+      "sha256": "98dbb80cca72030998aa6b8efe608e8188fd85f47530cc1b5cc2991f583a81cc",
+      "size": 24075
     }
   }
 }

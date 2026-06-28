@@ -8,6 +8,68 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-28
+**ID**: 2026-06-28-007
+**Summary**: Implemented `plan/step07_08_merge`: merged Step07 art style generation and Step08 confirmation into one Step07 gate, renumbered the development pipeline to Step00-16, and verified the full suite.
+
+**Completed**:
+- [x] Step07 now writes `style_options.json`, scored/recommended options, `generation_log.json`, and `style_confirmation.json` in the same stage.
+- [x] Manual style confirmation now returns `waiting_confirmation` from Step07; confirmed Step07 reruns reuse existing outputs instead of triggering another real image generation.
+- [x] Added legacy compatibility for old `stage_08/style_confirmation.json` migration and both `--skip-gate-07` / `--skip-gate-08`.
+- [x] Renumbered plugin folders, `core.registry`, `pipeline/_registry.json`, artifact registry, dependency graph, GUI groups, old workbench metadata, docs, and tests from Step08 onward.
+- [x] Removed independent `pipeline/step_08_art_style_confirmation/`; Step08 is now Program Plan and Step16 is Migration Audit.
+
+**Verification**:
+- [x] `python -B -m compileall core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_manual_style_confirmation.py core\tests\integration\test_plugins.py -q`: 21 passed.
+- [x] `python -B -m pytest -q`: 169 passed.
+- [x] Dependency graph check: 17 nodes, no errors, final artifact `stage_16.migration_audit_bundle`.
+
+**Follow-up**:
+- [ ] GUI visual click-through for the embedded Step07 style grid was not manually performed in this CLI session.
+- [ ] `sunny_girl_image2.png` remains untracked local output and should not be committed unless explicitly requested.
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
+**ID**: 2026-06-28-006
+**Summary**: Created complete Step07/08 merge implementation plan based on user feedback that running Step07 leaves users unaware images are generated.
+
+**Completed**:
+- [x] Reviewed Factorio project quality: A grade (95/100), all metrics passed except entity coverage 55% vs 75% target.
+- [x] Diagnosed Step07 issue: images successfully generated but user didn't know because Step08 confirmation gate requires separate execution.
+- [x] Confirmed root cause: Step07/08 separation creates UX gap - users expect immediate confirmation after generation.
+- [x] Gathered detailed requirements through 20+ questions covering CLI/GUI behavior, regeneration flow, folder renaming, compatibility.
+- [x] Created comprehensive implementation plan: 4 phases (core 2-3h + GUI 3-4h + advanced 2-3h + migration 1-2h), 8-10h total.
+- [x] Organized all planning documents in `plan/step07_08_merge/` folder with README index.
+
+**Key Requirements Confirmed**:
+- Merge Step07 + Step08 into single "Art Style Generation & Confirmation" step (18 steps → 17 steps)
+- Generate 5 style options (currently 3) with AI scoring to mark recommended
+- CLI: block waiting for confirmation file; GUI: auto-switch to embedded style panel (3x2 grid)
+- Regenerate feature: show current prompt (read-only) + user input modifications + AI-assisted refinement
+- Rename step folders: step_09→step_08 through step_17→step_16
+- Backward compatibility: auto-migrate old Step08 state, support both --skip-gate-07 and --skip-gate-08
+
+**Verification**:
+- [x] Factorio draft located: `drafts/20260628_112840_34072/`
+- [x] Images confirmed generated: 2 PNGs (STYLE-01 2.2MB, STYLE-02 2.4MB) at stage_07/generated_images/
+- [x] Quality metrics: question_coverage=1.0, binding_rate=1.0, placeholder_rate=0.0, asset_count=319, entity_coverage=0.55
+- [x] Implementation plan includes: detailed tasks, testing strategy, risk mitigation, rollback plan, 40+ checklist items
+
+**Follow-up**:
+- [ ] User to review `plan/step07_08_merge/IMPLEMENTATION_PLAN.md` before starting implementation
+- [ ] Estimated 8-10 hours for full implementation including all phases
+- [ ] Success criteria: users immediately see confirmation UI after Step07 generates images
+- [ ] CC-Panes shared memory was skipped because required environment variables were absent.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-28
 **ID**: 2026-06-28-005
 **Summary**: Fixed BUG-NEW-001: Codex image stdout PNG path extraction now allows backticks inside filenames instead of relying on session/new-file fallbacks.
 

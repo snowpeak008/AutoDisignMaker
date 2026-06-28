@@ -1,0 +1,1 @@
+Step 15 prompt: import and validate delta patch and release history artifacts.

@@ -8,7 +8,7 @@ from core.engines import generation
 from core.io import write_json
 from core.context import StageContext
 from core.ui.style_confirmation_dialog import write_style_confirmation
-from pipeline.step_08_art_style_confirmation import plugin as confirmation_plugin
+from pipeline.step_07_art_style_generation import plugin as style_plugin
 
 
 def _patch_stage_dir(monkeypatch, tmp_path: Path) -> None:
@@ -249,7 +249,74 @@ def test_step07_prompt_uses_short_asset_labels_and_source_title(
     assert "glitch tools" not in representative
 
 
-def test_step08_blocks_without_confirmation(tmp_path, monkeypatch) -> None:
+def test_step07_waits_without_confirmation(tmp_path, monkeypatch) -> None:
+    _patch_stage_dir(monkeypatch, tmp_path)
+    write_json(
+        tmp_path / "stage_07" / "style_options.json",
+        {
+            "options": [
+                {
+                    "style_id": "STYLE-01",
+                    "title": "Readable",
+                    "image_path": "drafts/example.png",
+                    "score": 80,
+                },
+                {
+                    "style_id": "STYLE-02",
+                    "title": "Painterly",
+                    "image_path": "drafts/example-2.png",
+                    "score": 95,
+                    "recommended": True,
+                }
+            ]
+        },
+    )
+    monkeypatch.setattr(generation, "get_config", lambda key, default=None: True)
+    monkeypatch.delenv("AUTODESIGNMAKER_SKIP_ALL_GATES", raising=False)
+    monkeypatch.delenv("AUTODESIGNMAKER_SKIP_GATES", raising=False)
+
+    result = generation._style_confirmation_outputs({}, tmp_path / "stage_07")
+
+    assert result["status"] == "waiting_confirmation"
+    assert result["confirmation_ui"] == "style_confirmation_dialog"
+    assert (tmp_path / "stage_07" / "style_confirmation_pending.json").exists()
+
+
+def test_step07_auto_pass_when_gate_disabled(tmp_path, monkeypatch) -> None:
+    _patch_stage_dir(monkeypatch, tmp_path)
+    write_json(
+        tmp_path / "stage_07" / "style_options.json",
+        {
+            "options": [
+                {
+                    "style_id": "STYLE-01",
+                    "title": "Readable",
+                    "image_path": "drafts/example.png",
+                    "score": 80,
+                },
+                {
+                    "style_id": "STYLE-02",
+                    "title": "Painterly",
+                    "image_path": "drafts/example-2.png",
+                    "score": 95,
+                    "recommended": True,
+                }
+            ]
+        },
+    )
+    monkeypatch.setenv("AUTODESIGNMAKER_SKIP_ALL_GATES", "1")
+
+    result = generation._style_confirmation_outputs({}, tmp_path / "stage_07")
+    confirmation = json.loads(
+        (tmp_path / "stage_07" / "style_confirmation.json").read_text("utf-8")
+    )
+
+    assert result["confirmation_status"] == "approved"
+    assert confirmation["mode"] == "auto"
+    assert confirmation["selected_style_id"] == "STYLE-02"
+
+
+def test_step07_legacy_skip_gate_08_auto_passes(tmp_path, monkeypatch) -> None:
     _patch_stage_dir(monkeypatch, tmp_path)
     write_json(
         tmp_path / "stage_07" / "style_options.json",
@@ -265,49 +332,22 @@ def test_step08_blocks_without_confirmation(tmp_path, monkeypatch) -> None:
     )
     monkeypatch.setattr(generation, "get_config", lambda key, default=None: True)
     monkeypatch.delenv("AUTODESIGNMAKER_SKIP_ALL_GATES", raising=False)
-    monkeypatch.delenv("AUTODESIGNMAKER_SKIP_GATES", raising=False)
+    monkeypatch.setenv("AUTODESIGNMAKER_SKIP_GATES", "08")
 
-    result = generation._stage8_art_style_confirmation_outputs({}, tmp_path / "stage_08")
-
-    assert result["status"] == "waiting_confirmation"
-    assert result["confirmation_ui"] == "style_confirmation_dialog"
-    assert (tmp_path / "stage_08" / "style_confirmation_pending.json").exists()
-
-
-def test_step08_auto_pass_when_gate_disabled(tmp_path, monkeypatch) -> None:
-    _patch_stage_dir(monkeypatch, tmp_path)
-    write_json(
-        tmp_path / "stage_07" / "style_options.json",
-        {
-            "options": [
-                {
-                    "style_id": "STYLE-01",
-                    "title": "Readable",
-                    "image_path": "drafts/example.png",
-                }
-            ]
-        },
-    )
-    monkeypatch.setenv("AUTODESIGNMAKER_SKIP_ALL_GATES", "1")
-
-    result = generation._stage8_art_style_confirmation_outputs({}, tmp_path / "stage_08")
-    confirmation = json.loads(
-        (tmp_path / "stage_08" / "style_confirmation.json").read_text("utf-8")
-    )
+    result = generation._style_confirmation_outputs({}, tmp_path / "stage_07")
 
     assert result["confirmation_status"] == "approved"
-    assert confirmation["mode"] == "auto"
-    assert confirmation["selected_style_id"] == "STYLE-01"
+    assert result["selected_style_id"] == "STYLE-01"
 
 
-def test_step08_uses_existing_confirmation(tmp_path, monkeypatch) -> None:
+def test_step07_uses_existing_confirmation(tmp_path, monkeypatch) -> None:
     _patch_stage_dir(monkeypatch, tmp_path)
     option = {"style_id": "STYLE-02", "title": "Painterly", "image_path": "x.png"}
     write_json(tmp_path / "stage_07" / "style_options.json", {"options": [option]})
-    write_style_confirmation(tmp_path / "stage_08", option, "Use warmer lighting.")
+    write_style_confirmation(tmp_path / "stage_07", option, "Use warmer lighting.")
     monkeypatch.setattr(generation, "get_config", lambda key, default=None: True)
 
-    result = generation._stage8_art_style_confirmation_outputs({}, tmp_path / "stage_08")
+    result = generation._style_confirmation_outputs({}, tmp_path / "stage_07")
 
     assert result["confirmation_status"] == "approved"
     assert result["selected_style_id"] == "STYLE-02"
@@ -333,18 +373,18 @@ def test_pipeline_panel_locates_style_options(tmp_path, monkeypatch) -> None:
     )
     monkeypatch.setattr(pipeline_panel, "ARTIFACTS_DIR", tmp_path)
 
-    found = pipeline_panel.PipelinePanel._locate_style_options_json(object(), 8)
+    found = pipeline_panel.PipelinePanel._locate_style_options_json(object(), 7)
 
     assert found is not None
     assert found["options"][0]["style_id"] == "STYLE-05"
 
 
-def test_step08_plugin_preserves_manual_confirmation_across_import_reset(
+def test_step07_plugin_preserves_manual_confirmation_across_import_reset(
     tmp_path, monkeypatch
 ) -> None:
-    stage08 = tmp_path / "stage_08"
+    stage07 = tmp_path / "stage_07"
     option = {"style_id": "STYLE-04", "title": "Ink", "image_path": "ink.png"}
-    write_style_confirmation(stage08, option, "Approved by operator.")
+    write_style_confirmation(stage07, option, "Approved by operator.")
 
     def fake_stage_dir(stage: int) -> Path:
         path = tmp_path / f"stage_{stage:02d}"
@@ -353,8 +393,8 @@ def test_step08_plugin_preserves_manual_confirmation_across_import_reset(
 
     def fake_run_import_step(step_number, groups, *, context=None):
         _ = step_number, groups, context
-        shutil.rmtree(stage08)
-        stage08.mkdir(parents=True, exist_ok=True)
+        shutil.rmtree(stage07)
+        stage07.mkdir(parents=True, exist_ok=True)
         return {"status": "success"}
 
     def fake_apply_outputs(step_number, report):
@@ -370,13 +410,11 @@ def test_step08_plugin_preserves_manual_confirmation_across_import_reset(
             "selected_style_id": confirmation["selected_style_id"],
         }
 
-    monkeypatch.setattr(confirmation_plugin, "stage_dir", fake_stage_dir)
-    monkeypatch.setattr(confirmation_plugin, "run_import_step", fake_run_import_step)
-    monkeypatch.setattr(
-        confirmation_plugin, "apply_development_plan_outputs", fake_apply_outputs
-    )
+    monkeypatch.setattr(style_plugin, "stage_dir", fake_stage_dir)
+    monkeypatch.setattr(style_plugin, "run_import_step", fake_run_import_step)
+    monkeypatch.setattr(style_plugin, "apply_development_plan_outputs", fake_apply_outputs)
 
-    result = confirmation_plugin.Plugin().execute(StageContext(stage_id="08"))
+    result = style_plugin.Plugin().execute(StageContext(stage_id="07"))
 
     assert result.status == "success"
     assert result.outputs["selected_style_id"] == "STYLE-04"

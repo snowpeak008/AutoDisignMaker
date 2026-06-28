@@ -1,2 +1,0 @@
-Step 13 prompt: import and validate build package artifacts.
-

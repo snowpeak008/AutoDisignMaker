@@ -21,10 +21,10 @@ from core.ui.theme import COLORS, FONT_BODY, FONT_SECTION, FONT_SMALL
 
 _GROUPS = [
     ("设计阶段", range(0, 7)),
-    ("风格确认", range(7, 9)),
-    ("计划阶段", range(9, 12)),
-    ("执行阶段", range(12, 14)),
-    ("验证阶段", range(14, 18)),
+    ("风格确认", range(7, 8)),
+    ("计划阶段", range(8, 11)),
+    ("执行阶段", range(11, 13)),
+    ("验证阶段", range(13, 17)),
 ]
 
 _CN_TITLES: dict[int, str] = {
@@ -35,17 +35,16 @@ _CN_TITLES: dict[int, str] = {
     4: "美术需求确认",
     5: "程序需求评审",
     6: "美术需求评审",
-    7: "美术风格生成",
-    8: "美术风格确认",
-    9: "程序开发计划",
-    10: "美术制作计划",
-    11: "资产契约对齐",
-    12: "程序开发执行",
-    13: "美术制作执行",
-    14: "集成验证",
-    15: "构建打包",
-    16: "差量补丁",
-    17: "最终审计",
+    7: "美术风格生成与确认",
+    8: "程序开发计划",
+    9: "美术制作计划",
+    10: "资产契约对齐",
+    11: "程序开发执行",
+    12: "美术制作执行",
+    13: "集成验证",
+    14: "构建打包",
+    15: "差量补丁",
+    16: "最终审计",
 }
 
 _PIPELINE_STATUS_MAP = {
@@ -328,7 +327,7 @@ class PipelinePanel(tk.Frame):
         ttk.Button(
             btn_row, text=run_label, command=lambda: self._run_single(step_num)
         ).pack(side=tk.LEFT)
-        if step_num in (7, 8) and self._maybe_render_style_grid(step_num):
+        if step_num == 7 and self._maybe_render_style_grid(step_num):
             self.after(60, self._expand_style_detail)
         else:
             self.after(60, self._restore_default_detail_height)
@@ -345,7 +344,13 @@ class PipelinePanel(tk.Frame):
         if not options:
             return False
 
-        self._style_var = tk.StringVar(value=str(options[0].get("style_id", "")))
+        recommended_id = str(style_json.get("recommended_style_id") or "")
+        if not recommended_id:
+            recommended = next((item for item in options if item.get("recommended")), None)
+            recommended_id = str(recommended.get("style_id", "")) if recommended else ""
+        self._style_var = tk.StringVar(
+            value=recommended_id or str(options[0].get("style_id", ""))
+        )
         self._style_imgs: list[tk.PhotoImage] = []
 
         grid_shell = tk.Frame(self._detail, bg=COLORS["bg"])
@@ -430,7 +435,10 @@ class PipelinePanel(tk.Frame):
                 height=8,
             )
 
-        title = f"{option.get('style_id')}  {option.get('title', '')}".strip()
+        suffix = "  推荐" if option.get("recommended") else ""
+        score = option.get("score")
+        score_text = f"  {score}分" if score not in (None, "") else ""
+        title = f"{option.get('style_id')}  {option.get('title', '')}{suffix}{score_text}".strip()
         tk.Radiobutton(
             card,
             text=title,
@@ -467,11 +475,20 @@ class PipelinePanel(tk.Frame):
         notes = notes_widget.get("1.0", tk.END) if notes_widget is not None else ""
         from core.ui.style_confirmation_dialog import write_style_confirmation
 
-        write_style_confirmation(ARTIFACTS_DIR / "stage_08", option, notes)
-        self._exec_range(8, 8)
+        write_style_confirmation(ARTIFACTS_DIR / "stage_07", option, notes)
+        self._exec_range(7, 7)
 
     def _on_style_regenerate(self) -> None:
-        self._exec_range(7, 8)
+        self._clear_style_confirmation()
+        self._exec_range(7, 7)
+
+    def _clear_style_confirmation(self) -> None:
+        for filename in ("style_confirmation.json", "style_confirmation_pending.json"):
+            path = ARTIFACTS_DIR / "stage_07" / filename
+            try:
+                path.unlink(missing_ok=True)
+            except OSError:
+                pass
 
     def _locate_style_options_json(self, step_num: int) -> dict[str, Any] | None:
         _ = step_num
@@ -579,15 +596,17 @@ class PipelinePanel(tk.Frame):
             from core.ui.style_confirmation_dialog import StyleConfirmationDialog
 
             style_options = self._load_style_options()
-            output_dir = ARTIFACTS_DIR / f"stage_{step_number:02d}"
+            output_step = 7 if step_number in (7, 8) else step_number
+            output_dir = ARTIFACTS_DIR / f"stage_{output_step:02d}"
             dialog = StyleConfirmationDialog(
                 self.winfo_toplevel(), style_options, output_dir
             )
             result = dialog.wait_result()
             if result == "confirmed":
-                self._exec_range(step_number, step_number)
+                self._exec_range(output_step, output_step)
             elif result == "regenerate":
-                self._exec_range(step_number - 1, step_number)
+                self._clear_style_confirmation()
+                self._exec_range(7, 7)
         except Exception as exc:
             messagebox.showerror("风格确认失败", str(exc), parent=self)
 

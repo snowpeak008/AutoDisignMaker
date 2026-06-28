@@ -71,67 +71,61 @@
       "07": {
         "module": "pipeline.step_07_art_style_generation.plugin",
         "class": "Plugin",
-        "title": "07 Art Style Generation",
+        "title": "07 Art Style Generation & Confirmation",
         "enabled": true
       },
       "08": {
-        "module": "pipeline.step_08_art_style_confirmation.plugin",
+        "module": "pipeline.step_08_design_to_plan.plugin",
         "class": "Plugin",
-        "title": "08 Art Style Confirmation",
+        "title": "08 Design To Plan",
         "enabled": true
       },
       "09": {
-        "module": "pipeline.step_09_design_to_plan.plugin",
+        "module": "pipeline.step_09_art_plan.plugin",
         "class": "Plugin",
-        "title": "09 Design To Plan",
+        "title": "09 Art Plan",
         "enabled": true
       },
       "10": {
-        "module": "pipeline.step_10_art_plan.plugin",
+        "module": "pipeline.step_10_asset_alignment.plugin",
         "class": "Plugin",
-        "title": "10 Art Plan",
+        "title": "10 Asset Alignment",
         "enabled": true
       },
       "11": {
-        "module": "pipeline.step_11_asset_alignment.plugin",
+        "module": "pipeline.step_11_dev_execution.plugin",
         "class": "Plugin",
-        "title": "11 Asset Alignment",
+        "title": "11 Dev Execution",
         "enabled": true
       },
       "12": {
-        "module": "pipeline.step_12_dev_execution.plugin",
+        "module": "pipeline.step_12_art_production.plugin",
         "class": "Plugin",
-        "title": "12 Dev Execution",
+        "title": "12 Art Production",
         "enabled": true
       },
       "13": {
-        "module": "pipeline.step_13_art_production.plugin",
+        "module": "pipeline.step_13_integration_validation.plugin",
         "class": "Plugin",
-        "title": "13 Art Production",
+        "title": "13 Integration Validation",
         "enabled": true
       },
       "14": {
-        "module": "pipeline.step_14_integration_validation.plugin",
+        "module": "pipeline.step_14_build_package.plugin",
         "class": "Plugin",
-        "title": "14 Integration Validation",
+        "title": "14 Build Package",
         "enabled": true
       },
       "15": {
-        "module": "pipeline.step_15_build_package.plugin",
+        "module": "pipeline.step_15_delta_patch.plugin",
         "class": "Plugin",
-        "title": "15 Build Package",
+        "title": "15 Delta Patch",
         "enabled": true
       },
       "16": {
-        "module": "pipeline.step_16_delta_patch.plugin",
+        "module": "pipeline.step_16_migration_audit.plugin",
         "class": "Plugin",
-        "title": "16 Delta Patch",
-        "enabled": true
-      },
-      "17": {
-        "module": "pipeline.step_17_migration_audit.plugin",
-        "class": "Plugin",
-        "title": "17 Migration Audit",
+        "title": "16 Migration Audit",
         "enabled": true
       }
     }

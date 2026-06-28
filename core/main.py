@@ -191,7 +191,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--preflight-only", action="store_true")
     parser.add_argument("--skip-preflight", action="store_true")
     parser.add_argument("--skip-all-gates", action="store_true")
-    parser.add_argument("--skip-gate-08", action="store_true")
+    parser.add_argument("--skip-gate-07", action="store_true")
+    parser.add_argument(
+        "--skip-gate-08",
+        action="store_true",
+        help="Legacy alias for --skip-gate-07.",
+    )
     args = parser.parse_args(argv)
 
     if args.list:
@@ -221,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
         skip_preflight=args.skip_preflight,
         run_id=args.run_id or None,
         skip_all_gates=args.skip_all_gates,
-        skip_gates={8} if args.skip_gate_08 else set(),
+        skip_gates={7} if (args.skip_gate_07 or args.skip_gate_08) else set(),
     )
 
 

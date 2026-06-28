@@ -169,7 +169,7 @@ def test_stage8_tasks_carry_asset_classification_and_clean_titles(
         },
     )
 
-    out_dir = tmp_path / "stage_08"
+    out_dir = tmp_path / "stage_09"
     generation._stage8_outputs({}, out_dir)
     plan = json.loads((out_dir / "art_task_breakdown.json").read_text(encoding="utf-8"))
     task = plan["tasks"][0]

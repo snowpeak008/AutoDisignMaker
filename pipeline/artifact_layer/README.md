@@ -1,6 +1,6 @@
 # Artifact Layer
 
-This directory defines the upper runtime contract for the migrated 0-17 pipeline.
+This directory defines the upper runtime contract for the migrated 0-16 pipeline.
 
 - `registry.json` declares stage artifacts, tasks, reviewers, validators, dependencies, and knowledge references.
 - `dependency_graph.json` is generated from the registry and kept deterministic.

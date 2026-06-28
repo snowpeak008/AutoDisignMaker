@@ -43,7 +43,7 @@ python gui_app.py
 ## Layout
 
 - `core/`: path, configuration, context, adapters, runtime, and UI infrastructure.
-- `pipeline/`: D1-D4 design plugins and Step00-17 development stage plugins.
+- `pipeline/`: D1-D4 design plugins and Step00-16 development stage plugins.
 - `knowledge/`: design data, schemas, governance, skills, and AI memory.
 - `settings/`: local and committed configuration files.
 - `tools/`: validation, migration, memory, build, and asset production utilities.

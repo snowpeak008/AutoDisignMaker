@@ -18,14 +18,14 @@
 
 ### core/engines/generation.py
 - **行数**：5370
-- **职责**：Step00-17 阶段的全部业务输出逻辑，单一巨文件
-- **关键函数**：apply_development_plan_outputs(), _stage0_outputs() ~ _stage14_outputs(), _stage7_art_style_generation_outputs(), _stage8_art_style_confirmation_outputs(), _parse_design_text()
+- **职责**：Step00-16 阶段的全部业务输出逻辑，单一巨文件
+- **关键函数**：apply_development_plan_outputs(), _stage0_outputs() ~ _stage14_outputs(), _stage7_art_style_generation_outputs(), _stage8_art_style_confirmation_outputs()（旧兼容）, _parse_design_text()
 - **注意事项**：每个 _stageN_outputs() 是独立逻辑块，互不调用，全部返回 dict
 - **缓存状态**：✓ 有效（2026-06-26）
 
 ### core/registry.py
 - **行数**：105
-- **职责**：STEP_SPECS 注册表，Step00-17 步骤元数据（名称、依赖、slug）
+- **职责**：STEP_SPECS 注册表，Step00-16 步骤元数据（名称、依赖、slug）
 - **关键常量**：STEP_SPECS dict, DESIGN_STEP_SPECS, max_step_number()
 - **缓存状态**：✓ 有效（2026-06-26）
 
@@ -271,7 +271,7 @@
 
 ### pipeline/artifact_layer/registry.json
 - **行数**：已读取
-- **职责**：Step00-17 阶段的制品依赖声明
+- **职责**：Step00-16 阶段的制品依赖声明
 - **格式**：{"artifacts": [{"id": "stage_00.concept_bundle", "stage": 0, "depends_on": [], "tasks": [...]}]}
 - **缓存状态**：✓ 有效（2026-06-26）
 
@@ -318,7 +318,7 @@
 
 **最重要的5个文件**（理解它们就能修改流水线）：
 1. `core/main.py` — 入口和编排器
-2. `core/engines/generation.py` — Step00-17 阶段业务逻辑
+2. `core/engines/generation.py` — Step00-16 阶段业务逻辑
 3. `core/registry.py` — 步骤元数据
 4. `core/paths.py` — 路径常量
 5. `pipeline/artifact_layer/registry.json` — 制品依赖图

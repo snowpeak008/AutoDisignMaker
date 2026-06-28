@@ -1,2 +1,0 @@
-Step 12 prompt: import and validate integration validation artifacts.
-

@@ -3,7 +3,7 @@
 AutoDesignMaker uses a deterministic no-agent-runtime pipeline.
 
 - Entry point: `core.main`
-- Step modules: `pipeline/step_00_*` through `pipeline/step_17_*`
+- Step modules: `pipeline/step_00_*` through `pipeline/step_16_*`
 - Source inputs: `drafts/{session}/source_artifacts/`
 - Generated outputs: `drafts/{session}/outputs/artifacts/stage_XX/`
 - Governance layer: `pipeline/artifact_layer/`, `knowledge/`, reviewers, validators, and dependency graph.
@@ -17,14 +17,13 @@ AutoDesignMaker uses a deterministic no-agent-runtime pipeline.
 - Step 04: Art Requirements
 - Step 05: Program Review
 - Step 06: Art Review
-- Step 07: Art Style Generation
-- Step 08: Art Style Confirmation
-- Step 09: Design To Plan
-- Step 10: Art Plan
-- Step 11: Asset Alignment
-- Step 12: Development Execution
-- Step 13: Art Production
-- Step 14: Integration Validation
-- Step 15: Build Package
-- Step 16: Delta Patch
-- Step 17: Migration Audit
+- Step 07: Art Style Generation & Confirmation
+- Step 08: Design To Plan
+- Step 09: Art Plan
+- Step 10: Asset Alignment
+- Step 11: Development Execution
+- Step 12: Art Production
+- Step 13: Integration Validation
+- Step 14: Build Package
+- Step 15: Delta Patch
+- Step 16: Migration Audit

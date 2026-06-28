@@ -1,0 +1,1 @@
+Step 10 prompt: import and validate asset alignment artifacts.

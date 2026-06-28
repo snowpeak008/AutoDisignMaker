@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Artifact/task/reviewer/validator registry for the migrated 0-17 pipeline.",
+  "description": "Artifact/task/reviewer/validator registry for the migrated 0-16 pipeline.",
   "default_reviewers": [
     "structure_reviewer",
     "source_trace_reviewer",
@@ -22,169 +22,527 @@
       "kind": "design_import_bundle",
       "depends_on": [],
       "tasks": [
-        {"id": "stage_00.import_concept", "type": "import_or_design_doc", "description": "Import concept artifacts when provided, otherwise use the current project design document."},
-        {"id": "stage_00.generate_design_machine_files", "type": "deterministic_generation", "description": "Generate design source manifest, extraction, option coverage, project selections, open questions, scope catalog, and phase map."}
+        {
+          "id": "stage_00.import_concept",
+          "type": "import_or_design_doc",
+          "description": "Import concept artifacts when provided, otherwise use the current project design document."
+        },
+        {
+          "id": "stage_00.generate_design_machine_files",
+          "type": "deterministic_generation",
+          "description": "Generate design source manifest, extraction, option coverage, project selections, open questions, scope catalog, and phase map."
+        }
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Frozen_Contracts.md", "knowledge/Naming_Convention.md"]
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Frozen_Contracts.md",
+        "knowledge/Naming_Convention.md"
+      ]
     },
     {
       "id": "stage_01.gameplay_framework_bundle",
       "stage": 1,
       "kind": "framework_graph_bundle",
-      "depends_on": ["stage_00.concept_bundle"],
-      "tasks": [
-        {"id": "stage_01.import_framework_history", "type": "import_or_reference", "description": "Import gameplay framework history when provided or reference validated stage 00 outputs."},
-        {"id": "stage_01.generate_framework_graphs", "type": "deterministic_generation", "description": "Generate gameplay framework, core loop, system boundary, full feature scope, implementation phase map, system relation graph, and resource flow graph."}
+      "depends_on": [
+        "stage_00.concept_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Design_Decisions.md", "knowledge/Frozen_Contracts.md"]
+      "tasks": [
+        {
+          "id": "stage_01.import_framework_history",
+          "type": "import_or_reference",
+          "description": "Import gameplay framework history when provided or reference validated stage 00 outputs."
+        },
+        {
+          "id": "stage_01.generate_framework_graphs",
+          "type": "deterministic_generation",
+          "description": "Generate gameplay framework, core loop, system boundary, full feature scope, implementation phase map, system relation graph, and resource flow graph."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Design_Decisions.md",
+        "knowledge/Frozen_Contracts.md"
+      ]
     },
     {
       "id": "stage_02.design_freeze_bundle",
       "stage": 2,
       "kind": "design_freeze_bundle",
-      "depends_on": ["stage_01.gameplay_framework_bundle"],
-      "tasks": [
-        {"id": "stage_02.import_subsystems", "type": "import", "description": "Import subsystem designs."},
-        {"id": "stage_02.import_ai_design_script", "type": "import", "description": "Import AI design script."},
-        {"id": "stage_02.import_development_design", "type": "import", "description": "Import frozen design and development design artifacts."},
-        {"id": "stage_02.freeze_traced_scope", "type": "deterministic_generation", "description": "Generate frozen design summary, freeze contract, scope decisions, phase backlog, design review report, and repair patch record."}
+      "depends_on": [
+        "stage_01.gameplay_framework_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Design_Decisions.md", "knowledge/Frozen_Contracts.md"]
+      "tasks": [
+        {
+          "id": "stage_02.import_subsystems",
+          "type": "import",
+          "description": "Import subsystem designs."
+        },
+        {
+          "id": "stage_02.import_ai_design_script",
+          "type": "import",
+          "description": "Import AI design script."
+        },
+        {
+          "id": "stage_02.import_development_design",
+          "type": "import",
+          "description": "Import frozen design and development design artifacts."
+        },
+        {
+          "id": "stage_02.freeze_traced_scope",
+          "type": "deterministic_generation",
+          "description": "Generate frozen design summary, freeze contract, scope decisions, phase backlog, design review report, and repair patch record."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Design_Decisions.md",
+        "knowledge/Frozen_Contracts.md"
+      ]
     },
     {
       "id": "stage_03.program_requirements_bundle",
       "stage": 3,
       "kind": "program_requirements_bundle",
-      "depends_on": ["stage_02.design_freeze_bundle"],
-      "tasks": [
-        {"id": "stage_03.import_program_requirements", "type": "import_or_generate", "description": "Import program requirements when provided or generate them from the frozen traced design."},
-        {"id": "stage_03.generate_traceability_matrix", "type": "deterministic_generation", "description": "Generate systems, entities, contracts, acceptance criteria, structure spec, program requirements contract, and traceability matrix."}
+      "depends_on": [
+        "stage_02.design_freeze_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Frozen_Contracts.md", "knowledge/Runtime_Standards.md"]
+      "tasks": [
+        {
+          "id": "stage_03.import_program_requirements",
+          "type": "import_or_generate",
+          "description": "Import program requirements when provided or generate them from the frozen traced design."
+        },
+        {
+          "id": "stage_03.generate_traceability_matrix",
+          "type": "deterministic_generation",
+          "description": "Generate systems, entities, contracts, acceptance criteria, structure spec, program requirements contract, and traceability matrix."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Frozen_Contracts.md",
+        "knowledge/Runtime_Standards.md"
+      ]
     },
     {
       "id": "stage_04.art_requirements_bundle",
       "stage": 4,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_03.program_requirements_bundle"],
-      "tasks": [
-        {"id": "stage_04.resolve_art_requirements", "type": "import_or_declare_missing", "description": "Import art requirements or record missing source artifact."},
-        {"id": "stage_04.generate_art_requirements", "type": "deterministic_generation", "description": "Generate source-traced art requirement documents, asset registry, structure spec, drift analysis, and art requirements contract."}
+      "depends_on": [
+        "stage_03.program_requirements_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Naming_Convention.md"]
+      "tasks": [
+        {
+          "id": "stage_04.resolve_art_requirements",
+          "type": "import_or_declare_missing",
+          "description": "Import art requirements or record missing source artifact."
+        },
+        {
+          "id": "stage_04.generate_art_requirements",
+          "type": "deterministic_generation",
+          "description": "Generate source-traced art requirement documents, asset registry, structure spec, drift analysis, and art requirements contract."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Naming_Convention.md"
+      ]
     },
     {
       "id": "stage_05.program_review_bundle",
       "stage": 5,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_03.program_requirements_bundle"],
-      "tasks": [
-        {"id": "stage_05.resolve_program_review", "type": "import_or_declare_missing", "description": "Import program review or record missing source artifact."},
-        {"id": "stage_05.generate_program_review", "type": "deterministic_review", "description": "Review generated program requirements for blockers, warnings, weak relations, missing items, and plan readiness."}
+      "depends_on": [
+        "stage_03.program_requirements_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Runtime_Standards.md"]
+      "tasks": [
+        {
+          "id": "stage_05.resolve_program_review",
+          "type": "import_or_declare_missing",
+          "description": "Import program review or record missing source artifact."
+        },
+        {
+          "id": "stage_05.generate_program_review",
+          "type": "deterministic_review",
+          "description": "Review generated program requirements for blockers, warnings, weak relations, missing items, and plan readiness."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Runtime_Standards.md"
+      ]
     },
     {
       "id": "stage_06.art_review_bundle",
       "stage": 6,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_04.art_requirements_bundle"],
-      "tasks": [
-        {"id": "stage_06.resolve_art_review", "type": "import_or_declare_missing", "description": "Import art review or record missing source artifact."},
-        {"id": "stage_06.generate_art_review", "type": "deterministic_review", "description": "Review generated art requirements and asset registry for blockers and traceability."}
+      "depends_on": [
+        "stage_04.art_requirements_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Naming_Convention.md"]
+      "tasks": [
+        {
+          "id": "stage_06.resolve_art_review",
+          "type": "import_or_declare_missing",
+          "description": "Import art review or record missing source artifact."
+        },
+        {
+          "id": "stage_06.generate_art_review",
+          "type": "deterministic_review",
+          "description": "Review generated art requirements and asset registry for blockers and traceability."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Naming_Convention.md"
+      ]
     },
     {
-      "id": "stage_07.art_style_generation_bundle",
+      "id": "stage_07.art_style_generation_confirmation_bundle",
       "stage": 7,
-      "kind": "manual_gate_preparation",
-      "depends_on": ["stage_06.art_review_bundle"],
-      "tasks": [
-        {"id": "stage_07.resolve_art_review_context", "type": "reference_upstream", "description": "Reference art review outputs and asset requirements as style context."},
-        {"id": "stage_07.generate_style_options", "type": "deterministic_generation", "description": "Generate art style options, image previews, and generation logs."}
-      ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Naming_Convention.md"]
-    },
-    {
-      "id": "stage_08.art_style_confirmation_bundle",
-      "stage": 8,
       "kind": "manual_gate",
-      "depends_on": ["stage_07.art_style_generation_bundle"],
-      "tasks": [
-        {"id": "stage_08.check_manual_style_gate", "type": "manual_gate", "description": "Check whether the art style gate is enabled, skipped, or awaiting operator approval."},
-        {"id": "stage_08.write_style_confirmation", "type": "human_confirmation", "description": "Persist the selected style option and operator notes."}
+      "depends_on": [
+        "stage_06.art_review_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Naming_Convention.md"]
+      "tasks": [
+        {
+          "id": "stage_07.resolve_art_review_context",
+          "type": "reference_upstream",
+          "description": "Reference art review outputs and asset requirements as style context."
+        },
+        {
+          "id": "stage_07.generate_style_options",
+          "type": "deterministic_generation",
+          "description": "Generate art style options, image previews, and generation logs."
+        },
+        {
+          "id": "stage_07.score_style_options",
+          "type": "deterministic_scoring",
+          "description": "Score style options and mark the recommended default option."
+        },
+        {
+          "id": "stage_07.check_manual_style_gate",
+          "type": "manual_gate",
+          "description": "Check whether the art style gate is enabled, skipped, or awaiting operator approval."
+        },
+        {
+          "id": "stage_07.write_style_confirmation",
+          "type": "human_confirmation",
+          "description": "Persist the selected style option and operator notes in the same stage."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Naming_Convention.md"
+      ]
     },
     {
-      "id": "stage_09.program_plan_bundle",
+      "id": "stage_08.program_plan_bundle",
+      "stage": 8,
+      "kind": "source_placeholder_or_import",
+      "depends_on": [
+        "stage_05.program_review_bundle"
+      ],
+      "tasks": [
+        {
+          "id": "stage_08.resolve_program_plan",
+          "type": "import_or_declare_missing",
+          "description": "Import program plans or record missing source artifact."
+        },
+        {
+          "id": "stage_08.generate_program_plan",
+          "type": "deterministic_generation",
+          "description": "Generate program task breakdown, phase task map, build config, config schema, and plan files."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Runtime_Standards.md"
+      ]
+    },
+    {
+      "id": "stage_09.art_plan_bundle",
       "stage": 9,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_05.program_review_bundle"],
-      "tasks": [
-        {"id": "stage_09.resolve_program_plan", "type": "import_or_declare_missing", "description": "Import program plans or record missing source artifact."},
-        {"id": "stage_09.generate_program_plan", "type": "deterministic_generation", "description": "Generate program task breakdown, phase task map, build config, config schema, and plan files."}
+      "depends_on": [
+        "stage_07.art_style_generation_confirmation_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Runtime_Standards.md"]
+      "tasks": [
+        {
+          "id": "stage_09.resolve_art_plan",
+          "type": "import_or_declare_missing",
+          "description": "Import art plans or record missing source artifact."
+        },
+        {
+          "id": "stage_09.generate_art_plan",
+          "type": "deterministic_generation",
+          "description": "Generate art plan index, art task breakdown, and art structure spec using confirmed style."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Naming_Convention.md"
+      ]
     },
     {
-      "id": "stage_10.art_plan_bundle",
+      "id": "stage_10.asset_alignment_bundle",
       "stage": 10,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_08.art_style_confirmation_bundle"],
-      "tasks": [
-        {"id": "stage_10.resolve_art_plan", "type": "import_or_declare_missing", "description": "Import art plans or record missing source artifact."},
-        {"id": "stage_10.generate_art_plan", "type": "deterministic_generation", "description": "Generate art plan index, art task breakdown, and art structure spec using confirmed style."}
+      "depends_on": [
+        "stage_08.program_plan_bundle",
+        "stage_09.art_plan_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Naming_Convention.md"]
+      "tasks": [
+        {
+          "id": "stage_10.resolve_asset_alignment",
+          "type": "import_or_declare_missing",
+          "description": "Import asset alignment or record missing source artifact."
+        },
+        {
+          "id": "stage_10.generate_asset_alignment",
+          "type": "deterministic_generation",
+          "description": "Generate asset alignment protocol, program/art asset lists, dependency graph, gap analysis, and alignment matrix."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Frozen_Contracts.md",
+        "knowledge/Naming_Convention.md"
+      ]
     },
     {
-      "id": "stage_11.asset_alignment_bundle",
+      "id": "stage_11.dev_execution_bundle",
       "stage": 11,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_09.program_plan_bundle", "stage_10.art_plan_bundle"],
-      "tasks": [
-        {"id": "stage_11.resolve_asset_alignment", "type": "import_or_declare_missing", "description": "Import asset alignment or record missing source artifact."},
-        {"id": "stage_11.generate_asset_alignment", "type": "deterministic_generation", "description": "Generate asset alignment protocol, program/art asset lists, dependency graph, gap analysis, and alignment matrix."}
+      "depends_on": [
+        "stage_10.asset_alignment_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Frozen_Contracts.md", "knowledge/Naming_Convention.md"]
+      "tasks": [
+        {
+          "id": "stage_11.resolve_dev_execution",
+          "type": "import_or_declare_missing",
+          "description": "Import development execution or record missing source artifact."
+        },
+        {
+          "id": "stage_11.generate_dev_execution",
+          "type": "deterministic_generation",
+          "description": "Generate traced development execution records from program plan tasks."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "schema_contract_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
+      "schema_refs": [
+        {
+          "path": "outputs/execution_objects/execution_objects.json",
+          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
+          "description": "Project-save scoped execution object workflow store."
+        }
+      ],
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Runtime_Standards.md"
+      ]
     },
     {
-      "id": "stage_12.dev_execution_bundle",
+      "id": "stage_12.art_production_bundle",
       "stage": 12,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_11.asset_alignment_bundle"],
-      "tasks": [
-        {"id": "stage_12.resolve_dev_execution", "type": "import_or_declare_missing", "description": "Import development execution or record missing source artifact."},
-        {"id": "stage_12.generate_dev_execution", "type": "deterministic_generation", "description": "Generate traced development execution records from program plan tasks."}
+      "depends_on": [
+        "stage_10.asset_alignment_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "schema_contract_validator", "knowledge_refs_validator", "dependency_status_validator"],
+      "tasks": [
+        {
+          "id": "stage_12.resolve_art_production",
+          "type": "import_or_declare_missing",
+          "description": "Import art production or record missing source artifact."
+        },
+        {
+          "id": "stage_12.generate_art_production",
+          "type": "deterministic_generation",
+          "description": "Generate traced art production records from art plan tasks and confirmed style."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "schema_contract_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
@@ -192,19 +550,46 @@
           "description": "Project-save scoped execution object workflow store."
         }
       ],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Runtime_Standards.md"]
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Naming_Convention.md"
+      ]
     },
     {
-      "id": "stage_13.art_production_bundle",
+      "id": "stage_13.integration_validation_bundle",
       "stage": 13,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_11.asset_alignment_bundle"],
-      "tasks": [
-        {"id": "stage_13.resolve_art_production", "type": "import_or_declare_missing", "description": "Import art production or record missing source artifact."},
-        {"id": "stage_13.generate_art_production", "type": "deterministic_generation", "description": "Generate traced art production records from art plan tasks and confirmed style."}
+      "depends_on": [
+        "stage_11.dev_execution_bundle",
+        "stage_12.art_production_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "schema_contract_validator", "knowledge_refs_validator", "dependency_status_validator"],
+      "tasks": [
+        {
+          "id": "stage_13.resolve_integration_validation",
+          "type": "import_or_declare_missing",
+          "description": "Import integration validation or record missing source artifact."
+        },
+        {
+          "id": "stage_13.generate_integration_validation",
+          "type": "deterministic_validation",
+          "description": "Validate development execution, art production, automated test records, and issue fix log."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "schema_contract_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
@@ -212,19 +597,46 @@
           "description": "Project-save scoped execution object workflow store."
         }
       ],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Naming_Convention.md"]
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Frozen_Contracts.md",
+        "knowledge/Runtime_Standards.md"
+      ]
     },
     {
-      "id": "stage_14.integration_validation_bundle",
+      "id": "stage_14.build_package_bundle",
       "stage": 14,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_12.dev_execution_bundle", "stage_13.art_production_bundle"],
-      "tasks": [
-        {"id": "stage_14.resolve_integration_validation", "type": "import_or_declare_missing", "description": "Import integration validation or record missing source artifact."},
-        {"id": "stage_14.generate_integration_validation", "type": "deterministic_validation", "description": "Validate development execution, art production, automated test records, and issue fix log."}
+      "depends_on": [
+        "stage_13.integration_validation_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "schema_contract_validator", "knowledge_refs_validator", "dependency_status_validator"],
+      "tasks": [
+        {
+          "id": "stage_14.resolve_build_package",
+          "type": "import_or_declare_missing",
+          "description": "Import build package or record missing source artifact."
+        },
+        {
+          "id": "stage_14.generate_build_package",
+          "type": "deterministic_generation",
+          "description": "Generate test build report, package manifest, and package notes from validated integration output."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "schema_contract_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
@@ -232,19 +644,45 @@
           "description": "Project-save scoped execution object workflow store."
         }
       ],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Frozen_Contracts.md", "knowledge/Runtime_Standards.md"]
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Runtime_Standards.md"
+      ]
     },
     {
-      "id": "stage_15.build_package_bundle",
+      "id": "stage_15.delta_patch_bundle",
       "stage": 15,
       "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_14.integration_validation_bundle"],
-      "tasks": [
-        {"id": "stage_15.resolve_build_package", "type": "import_or_declare_missing", "description": "Import build package or record missing source artifact."},
-        {"id": "stage_15.generate_build_package", "type": "deterministic_generation", "description": "Generate test build report, package manifest, and package notes from validated integration output."}
+      "depends_on": [
+        "stage_14.build_package_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "schema_contract_validator", "knowledge_refs_validator", "dependency_status_validator"],
+      "tasks": [
+        {
+          "id": "stage_15.resolve_delta_patch",
+          "type": "import_or_declare_missing",
+          "description": "Import delta patch or release history, or record missing source artifact."
+        },
+        {
+          "id": "stage_15.generate_delta_patch",
+          "type": "deterministic_generation",
+          "description": "Generate test delta patch manifest, release history, and rollback plan."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "schema_contract_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
@@ -252,38 +690,40 @@
           "description": "Project-save scoped execution object workflow store."
         }
       ],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Runtime_Standards.md"]
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Runtime_Standards.md"
+      ]
     },
     {
-      "id": "stage_16.delta_patch_bundle",
+      "id": "stage_16.migration_audit_bundle",
       "stage": 16,
-      "kind": "source_placeholder_or_import",
-      "depends_on": ["stage_15.build_package_bundle"],
-      "tasks": [
-        {"id": "stage_16.resolve_delta_patch", "type": "import_or_declare_missing", "description": "Import delta patch or release history, or record missing source artifact."},
-        {"id": "stage_16.generate_delta_patch", "type": "deterministic_generation", "description": "Generate test delta patch manifest, release history, and rollback plan."}
-      ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "schema_contract_validator", "knowledge_refs_validator", "dependency_status_validator"],
-      "schema_refs": [
-        {
-          "path": "outputs/execution_objects/execution_objects.json",
-          "schema": "knowledge/schemas/execution_object_workflow.schema.json",
-          "description": "Project-save scoped execution object workflow store."
-        }
-      ],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Runtime_Standards.md"]
-    },
-    {
-      "id": "stage_17.migration_audit_bundle",
-      "stage": 17,
       "kind": "audit_bundle",
-      "depends_on": ["stage_16.delta_patch_bundle"],
-      "tasks": [
-        {"id": "stage_17.audit_migration_runtime", "type": "audit", "description": "Audit stage reports, artifact layer reports, and removed runtime references."}
+      "depends_on": [
+        "stage_15.delta_patch_bundle"
       ],
-      "reviewers": ["structure_reviewer", "source_trace_reviewer", "task_reviewer", "dependency_reviewer"],
-      "validators": ["validator_first_contract", "stage_files_validator", "review_report_validator", "manifest_validator", "schema_contract_validator", "knowledge_refs_validator", "dependency_status_validator"],
+      "tasks": [
+        {
+          "id": "stage_16.audit_migration_runtime",
+          "type": "audit",
+          "description": "Audit stage reports, artifact layer reports, and removed runtime references."
+        }
+      ],
+      "reviewers": [
+        "structure_reviewer",
+        "source_trace_reviewer",
+        "task_reviewer",
+        "dependency_reviewer"
+      ],
+      "validators": [
+        "validator_first_contract",
+        "stage_files_validator",
+        "review_report_validator",
+        "manifest_validator",
+        "schema_contract_validator",
+        "knowledge_refs_validator",
+        "dependency_status_validator"
+      ],
       "schema_refs": [
         {
           "path": "outputs/execution_objects/execution_objects.json",
@@ -291,8 +731,11 @@
           "description": "Project-save scoped execution object workflow store."
         }
       ],
-      "knowledge_refs": ["knowledge/Core_Rules.md", "knowledge/Design_Decisions.md", "knowledge/Runtime_Standards.md"]
+      "knowledge_refs": [
+        "knowledge/Core_Rules.md",
+        "knowledge/Design_Decisions.md",
+        "knowledge/Runtime_Standards.md"
+      ]
     }
   ]
 }
-

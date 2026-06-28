@@ -1,5 +1,60 @@
 [
   {
+    "id": "2026-06-28-007",
+    "date": "2026-06-28",
+    "summary": "Implemented step07_08_merge: merged Step07 style generation and confirmation, renumbered development pipeline to Step00-16, and verified the full suite",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/main.py",
+      "core/registry.py",
+      "core/ui/pipeline_panel.py",
+      "pipeline/_registry.json",
+      "pipeline/artifact_layer/registry.json",
+      "pipeline/artifact_layer/dependency_graph.json",
+      "pipeline/step_07_art_style_generation/",
+      "pipeline/step_08_design_to_plan/",
+      "pipeline/step_09_art_plan/",
+      "pipeline/step_10_asset_alignment/",
+      "pipeline/step_11_dev_execution/",
+      "pipeline/step_12_art_production/",
+      "pipeline/step_13_integration_validation/",
+      "pipeline/step_14_build_package/",
+      "pipeline/step_15_delta_patch/",
+      "pipeline/step_16_migration_audit/",
+      "core/tests/unit/test_manual_style_confirmation.py",
+      "core/tests/integration/test_plugins.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-007.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-007.md"
+    ],
+    "next_tasks": [
+      "Manually click-test the GUI embedded Step07 style grid when a GUI session is available",
+      "Do not commit sunny_girl_image2.png unless explicitly requested"
+    ]
+  },
+  {
+    "id": "2026-06-28-006",
+    "date": "2026-06-28",
+    "summary": "Created the step07_08_merge implementation plan after diagnosing the Step07/Step08 style-confirmation UX gap",
+    "changed_files": [
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/session_history/2026-06-28-006.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "plan/step07_08_merge/"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-006.md",
+      "plan/step07_08_merge/"
+    ],
+    "next_tasks": [
+      "Implement plan/step07_08_merge",
+      "Do not commit plan/ unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-005",
     "date": "2026-06-28",
     "summary": "Fixed BUG-NEW-001: Codex image stdout PNG path extraction now allows backticks inside filenames",

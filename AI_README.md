@@ -22,7 +22,7 @@
 
 AutoDesignMaker 是一个**游戏设计文档自动生成流水线**。  
 输入：游戏创意包（source_artifacts/）  
-输出：经过18个阶段（Step00-17）逐步加工的完整游戏设计文档集
+输出：经过17个阶段（Step00-16）逐步加工的完整游戏设计文档集
 启动：双击 `AutoDesignMaker.exe` 或运行 `python gui_app.py`
 
 ---
@@ -135,7 +135,7 @@ core/
 │   ├── gui_app.py      完整GUI入口（tkinter）
 │   ├── main_window.py  完整GUI壳：顶部切换 + 底部 AI/进度状态栏
 │   ├── app_window.py   设计工作台 CommercialDesignApp
-│   ├── pipeline_panel.py  Step00-17 开发流水线面板
+│   ├── pipeline_panel.py  Step00-16 开发流水线面板
 │   ├── ai_config_unified_dialog.py  统一 AI Profile 配置弹窗
 │   ├── ai_interview_window.py  AI访谈窗口
 │   ├── embedded_interview.py  设计工作台内嵌访谈面板
@@ -177,17 +177,16 @@ pipeline/
 ├── step_04_art_requirements/   步骤04：美术需求
 ├── step_05_program_review/     步骤05：程序评审
 ├── step_06_art_review/         步骤06：美术评审
-├── step_07_art_style_generation/   步骤07：美术风格生成
-├── step_08_art_style_confirmation/ 步骤08：美术风格确认
-├── step_09_design_to_plan/     步骤09：开发计划
-├── step_10_art_plan/           步骤10：美术计划
-├── step_11_asset_alignment/    步骤11：资源对齐
-├── step_12_dev_execution/      步骤12：程序执行记录
-├── step_13_art_production/     步骤13：美术生产记录
-├── step_14_integration_validation/ 步骤14：集成验证
-├── step_15_build_package/      步骤15：构建打包
-├── step_16_delta_patch/        步骤16：增量补丁
-└── step_17_migration_audit/    步骤17：迁移审计
+├── step_07_art_style_generation/   步骤07：美术风格生成与确认
+├── step_08_design_to_plan/     步骤08：开发计划
+├── step_09_art_plan/           步骤09：美术计划
+├── step_10_asset_alignment/    步骤10：资源对齐
+├── step_11_dev_execution/      步骤11：程序执行记录
+├── step_12_art_production/     步骤12：美术生产记录
+├── step_13_integration_validation/ 步骤13：集成验证
+├── step_14_build_package/      步骤14：构建打包
+├── step_15_delta_patch/        步骤15：增量补丁
+└── step_16_migration_audit/    步骤16：迁移审计
 
 每个步骤目录包含：
   plugin.py     实现 StagePlugin.execute()
@@ -278,7 +277,7 @@ tools/
 
 ### 总：项目定位
 
-AutoDesignMaker 是一个**Step00-17 确定性游戏设计文档流水线**。AI辅助内容生成，人类在关键节点决策。所有步骤都是可复现的确定性操作，不依赖随机性。
+AutoDesignMaker 是一个**Step00-16 确定性游戏设计文档流水线**。AI辅助内容生成，人类在关键节点决策。所有步骤都是可复现的确定性操作，不依赖随机性。
 
 ### 分：八层职责分工
 

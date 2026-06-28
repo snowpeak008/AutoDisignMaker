@@ -1,4 +1,4 @@
-"""Source artifact import helpers for the 0-17 pipeline."""
+"""Source artifact import helpers for the 0-16 pipeline."""
 
 from __future__ import annotations
 

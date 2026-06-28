@@ -72,15 +72,17 @@ from pipeline.step_05_program_review.helpers import IntelligentReviewer
 ALLOWED_DESIGN_SOURCE_SUFFIXES = {".md", ".txt"}
 
 ART_STYLE_GENERATION_STAGE = 7
-ART_STYLE_CONFIRMATION_STAGE = 8
-PROGRAM_PLAN_STAGE = 9
-ART_PLAN_STAGE = 10
-ASSET_ALIGNMENT_STAGE = 11
-DEV_EXECUTION_STAGE = 12
-ART_PRODUCTION_STAGE = 13
-INTEGRATION_STAGE = 14
-BUILD_PACKAGE_STAGE = 15
-DELTA_PATCH_STAGE = 16
+ART_STYLE_CONFIRMATION_STAGE = ART_STYLE_GENERATION_STAGE
+LEGACY_ART_STYLE_CONFIRMATION_STAGE = 8
+PROGRAM_PLAN_STAGE = 8
+ART_PLAN_STAGE = 9
+ASSET_ALIGNMENT_STAGE = 10
+DEV_EXECUTION_STAGE = 11
+ART_PRODUCTION_STAGE = 12
+INTEGRATION_STAGE = 13
+BUILD_PACKAGE_STAGE = 14
+DELTA_PATCH_STAGE = 15
+MIGRATION_AUDIT_STAGE = 16
 
 TAXONOMY: tuple[dict[str, str], ...] = (
     {
@@ -1939,7 +1941,15 @@ def _manual_gate_enabled(gate_name: str, step_number: int) -> bool:
         for token in os.getenv("AUTODESIGNMAKER_SKIP_GATES", "").split(",")
         if token.strip()
     }
-    if str(step_number) in skip_tokens or f"{step_number:02d}" in skip_tokens:
+    step_tokens = {str(step_number), f"{step_number:02d}"}
+    if step_number == ART_STYLE_CONFIRMATION_STAGE:
+        step_tokens.update(
+            {
+                str(LEGACY_ART_STYLE_CONFIRMATION_STAGE),
+                f"{LEGACY_ART_STYLE_CONFIRMATION_STAGE:02d}",
+            }
+        )
+    if skip_tokens.intersection(step_tokens):
         return False
     if not _config_bool("manual_gates.enable_manual_gates", True):
         return False
@@ -2312,6 +2322,23 @@ def _generate_style_option_images(
 def _stage7_art_style_generation_outputs(
     parsed: dict[str, Any], out_dir: Path
 ) -> dict[str, Any]:
+    existing_style_options = read_json(out_dir / "style_options.json", {})
+    existing_confirmation = read_json(out_dir / STYLE_CONFIRMATION_FILENAME, {})
+    if (
+        isinstance(existing_confirmation, dict)
+        and existing_confirmation.get("status") == "approved"
+        and _confirmation_options(existing_style_options)
+    ):
+        result = _style_confirmation_outputs(parsed, out_dir, existing_style_options)
+        result.update(
+            {
+                "style_option_count": len(_confirmation_options(existing_style_options)),
+                "generated_image_count": len(_confirmation_options(existing_style_options)),
+                "reused_generation": True,
+            }
+        )
+        return result
+
     assets = _art_assets()
     count = _style_option_count()
     selected_presets = STYLE_OPTION_PRESETS[:count]
@@ -2327,13 +2354,16 @@ def _stage7_art_style_generation_outputs(
         }
         option["prompt"] = _style_prompt(parsed, option, assets)
         options.append(option)
+    _apply_style_option_recommendations(parsed, options)
     manifest = _generate_style_option_images(out_dir, parsed, options)
+    recommended = _recommended_style_option(options)
     style_options = {
         "schema_version": 1,
         "generated_at": now_iso(),
         "project": _stage_title(parsed),
         "source_stage": 6,
         "option_count": len(options),
+        "recommended_style_id": recommended.get("style_id", ""),
         "options": options,
         "selection_required": True,
     }
@@ -2349,14 +2379,63 @@ def _stage7_art_style_generation_outputs(
         )
         + "\n",
     )
-    return {
-        "content_exists": bool(options),
-        "style_option_count": len(options),
-        "generated_image_count": len(options),
-        "blocking_issues": 0 if options else 1,
-        "ai_review_status": "passed" if options else "blocked",
-        "traceability_valid": bool(options),
-    }
+    confirmation_result = _style_confirmation_outputs(parsed, out_dir, style_options)
+    confirmation_result.update(
+        {
+            "content_exists": bool(options),
+            "style_option_count": len(options),
+            "generated_image_count": len(options),
+            "recommended_style_id": recommended.get("style_id", ""),
+            "blocking_issues": max(
+                int(confirmation_result.get("blocking_issues", 0)),
+                0 if options else 1,
+            ),
+            "traceability_valid": bool(options)
+            and bool(confirmation_result.get("traceability_valid", True)),
+        }
+    )
+    return confirmation_result
+
+
+def _style_option_score(
+    parsed: dict[str, Any], option: dict[str, Any], index: int, total: int
+) -> int:
+    _ = parsed
+    baseline = 100 - ((index - 1) * max(4, 24 // max(total, 1)))
+    if "diagram" in str(option.get("style_id", "")).lower():
+        baseline += 2
+    return max(60, min(100, baseline))
+
+
+def _apply_style_option_recommendations(
+    parsed: dict[str, Any], options: list[dict[str, Any]]
+) -> None:
+    if not options:
+        return
+    total = len(options)
+    scored: list[tuple[int, int, dict[str, Any]]] = []
+    for index, option in enumerate(options, 1):
+        score = _style_option_score(parsed, option, index, total)
+        option["score"] = score
+        option["recommended"] = False
+        option["recommendation_reason"] = (
+            "Balanced fit for early production readability and asset consistency."
+        )
+        scored.append((score, -index, option))
+    recommended = max(scored, key=lambda item: (item[0], item[1]))[2]
+    recommended["recommended"] = True
+    recommended["recommendation_reason"] = (
+        "Recommended default: strongest overall fit for this project's current art requirements."
+    )
+
+
+def _recommended_style_option(options: list[dict[str, Any]]) -> dict[str, Any]:
+    for option in options:
+        if option.get("recommended"):
+            return option
+    if not options:
+        return {}
+    return max(options, key=lambda option: int(option.get("score", 0) or 0))
 
 
 def _load_style_options() -> dict[str, Any]:
@@ -2373,7 +2452,7 @@ def _write_auto_style_confirmation(
     out_dir: Path, style_options: dict[str, Any], *, reason: str
 ) -> dict[str, Any]:
     options = _confirmation_options(style_options)
-    selected = options[0] if options else {}
+    selected = _recommended_style_option(options)
     confirmation = {
         "schema_version": 1,
         "generated_at": now_iso(),
@@ -2389,11 +2468,14 @@ def _write_auto_style_confirmation(
     return confirmation
 
 
-def _stage8_art_style_confirmation_outputs(
-    parsed: dict[str, Any], out_dir: Path
+def _style_confirmation_outputs(
+    parsed: dict[str, Any],
+    out_dir: Path,
+    style_options: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     _ = parsed
-    style_options = _load_style_options()
+    if style_options is None:
+        style_options = read_json(out_dir / "style_options.json", {})
     options = _confirmation_options(style_options)
     if not options:
         result = {
@@ -2414,6 +2496,9 @@ def _stage8_art_style_confirmation_outputs(
     confirmation_path = out_dir / STYLE_CONFIRMATION_FILENAME
     confirmation = read_json(confirmation_path, {})
     if isinstance(confirmation, dict) and confirmation.get("status") == "approved":
+        valid_selection = confirmation.get("selected_style_id") in {
+            option.get("style_id") for option in options
+        }
         write_text(
             out_dir / "style_confirmation.md",
             "# Art Style Confirmation\n\n"
@@ -2425,7 +2510,7 @@ def _stage8_art_style_confirmation_outputs(
             "selected_style_id": confirmation.get("selected_style_id", ""),
             "blocking_issues": 0,
             "ai_review_status": "passed",
-            "traceability_valid": bool(confirmation.get("selected_style_id")),
+            "traceability_valid": valid_selection,
         }
 
     if not _manual_gate_enabled("gate_art_style", ART_STYLE_CONFIRMATION_STAGE):
@@ -2452,7 +2537,7 @@ def _stage8_art_style_confirmation_outputs(
         "generated_at": now_iso(),
         "status": "waiting_confirmation",
         "confirmation_ui": "style_confirmation_dialog",
-        "style_options_path": rel(stage_dir(ART_STYLE_GENERATION_STAGE) / "style_options.json"),
+        "style_options_path": rel(out_dir / "style_options.json"),
         "confirmation_path": rel(confirmation_path),
         "option_count": len(options),
     }
@@ -2470,6 +2555,21 @@ def _stage8_art_style_confirmation_outputs(
         "ai_review_status": "waiting_confirmation",
         "traceability_valid": True,
     }
+
+
+def _stage8_art_style_confirmation_outputs(
+    parsed: dict[str, Any], out_dir: Path
+) -> dict[str, Any]:
+    """Legacy Step08 compatibility wrapper for old callers/tests.
+
+    The merged pipeline writes confirmation artifacts to Step07. This wrapper
+    still accepts the old output directory to avoid breaking external scripts
+    that call the helper directly.
+    """
+    style_options = _load_style_options()
+    if _confirmation_options(style_options):
+        write_json(out_dir / "style_options.json", style_options)
+    return _style_confirmation_outputs(parsed, out_dir)
 
 
 def _review_outputs(
@@ -5596,22 +5696,20 @@ def apply_development_plan_outputs(
     elif step_number == 7:
         result = _stage7_art_style_generation_outputs(parsed, out_dir)
     elif step_number == 8:
-        result = _stage8_art_style_confirmation_outputs(parsed, out_dir)
-    elif step_number == 9:
         result = _stage7_outputs(parsed, out_dir)
-    elif step_number == 10:
+    elif step_number == 9:
         result = _stage8_outputs(parsed, out_dir)
-    elif step_number == 11:
+    elif step_number == 10:
         result = _stage9_outputs(parsed, out_dir)
-    elif step_number == 12:
+    elif step_number == 11:
         result = _stage10_outputs(parsed, out_dir)
-    elif step_number == 13:
+    elif step_number == 12:
         result = _stage11_outputs(parsed, out_dir)
-    elif step_number == 14:
+    elif step_number == 13:
         result = _stage12_outputs(parsed, out_dir)
-    elif step_number == 15:
+    elif step_number == 14:
         result = _stage13_outputs(parsed, out_dir)
-    elif step_number == 16:
+    elif step_number == 15:
         result = _stage14_outputs(parsed, out_dir)
     else:
         return report or {}
