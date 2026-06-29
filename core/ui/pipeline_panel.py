@@ -688,7 +688,7 @@ class PipelinePanel(tk.Frame):
                 )
             finally:
                 sys.stdout, sys.stderr = old_stdout, old_stderr
-            self.after(0, self._on_run_done)
+                self.after(0, self._on_run_done)
 
         threading.Thread(target=_worker, daemon=True).start()
 
