@@ -320,3 +320,72 @@ def test_image_generation_manifest_is_skipped_by_default(tmp_path, monkeypatch) 
     assert manifest["status"] == "skipped"
     assert saved["task_count"] == 1
     assert saved["generated_count"] == 0
+
+
+def test_stage10_alignment_does_not_generate_images(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(
+        generation,
+        "_program_plan",
+        lambda: {"dependencies": [], "parallel_groups": []},
+    )
+    monkeypatch.setattr(
+        generation,
+        "_program_tasks",
+        lambda: [
+            {
+                "task_id": "DEV-001",
+                "requirement_id": "REQ-001",
+                "target_path": "Assets/Scripts/Core/",
+                "output_files": ["Assets/Scripts/Core/Foo.cs"],
+                "allowed_write_paths": ["Assets/Scripts/Core/"],
+                "verification_commands": ["static_contract"],
+                "source_refs": ["design.md:1"],
+                "acceptance": "passes",
+            }
+        ],
+    )
+    monkeypatch.setattr(
+        generation,
+        "_art_tasks",
+        lambda: [
+            {
+                "task_id": "ART-001",
+                "asset_id": "ASSET-001",
+                "title": "Should not generate during Step10",
+                "source_refs": ["design.md:1"],
+            }
+        ],
+    )
+    monkeypatch.setattr(
+        generation,
+        "_art_assets",
+        lambda: [
+            {
+                "asset_id": "ASSET-001",
+                "name": "Arena tower reference",
+                "source": "design.md:1",
+            }
+        ],
+    )
+    monkeypatch.setattr(
+        generation,
+        "_program_allowed_roots",
+        lambda: ["Assets/Scripts/"],
+    )
+
+    def unexpected_image_generation(*_args, **_kwargs):
+        raise AssertionError("Step10 must not call image generation.")
+
+    monkeypatch.setattr(
+        generation,
+        "_write_generated_images_manifest",
+        unexpected_image_generation,
+    )
+
+    result = generation._stage10_outputs({}, tmp_path)
+
+    assert result["blocking_issues"] == 0
+    assert (tmp_path / "asset_alignment_matrix.json").exists()
+    assert not (tmp_path / "generated_images_manifest.json").exists()
+    assert not (tmp_path / "generated_images").exists()
+    assert not (tmp_path / "skill_guidance.md").exists()

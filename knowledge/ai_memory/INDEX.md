@@ -1,11 +1,86 @@
 # AI 会话记忆索引
 
-> 最后更新：2026-06-28
+> 最后更新：2026-06-29
 > 缓存状态：✓ 有效
 
 ---
 
 ## 上次会话摘要
+
+**Date**: 2026-06-29
+**ID**: 2026-06-29-002
+**Summary**: Implemented `newplan/step10_image_generation_removal_plan.md`: Step10 asset alignment no longer performs real image generation, and the failed Clash Royale save/output residue was cleaned.
+
+**Completed**:
+- [x] Removed Step10's `write_skill_guidance(out_dir, "imagegen")` and `_write_generated_images_manifest(out_dir, art_tasks, stage=ASSET_ALIGNMENT_STAGE)` calls.
+- [x] Confirmed Step12 still owns image generation through `_write_generated_images_manifest(out_dir, tasks, stage=ART_PRODUCTION_STAGE)`.
+- [x] Updated `pipeline/step_10_asset_alignment/README.md` to state Step10 does not generate preview or production images.
+- [x] Added regression coverage proving Step10 does not call image generation or create image-generation outputs.
+- [x] Deleted Clash Royale save `save_20260628_235115_d020fa`, all five linked drafts, and untracked image residue directories `generated_assets/` and `output/`.
+
+**Verification**:
+- [x] `python -B -m pytest core\tests\unit\test_hades_quality_optimization.py -q`: 10 passed.
+- [x] `python -B -m pytest core\tests\integration\test_plugins.py -q`: 4 passed.
+- [x] `python -B -m pytest -q`: 208 passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design tools\save\repair_blank_save_progress.py`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+- [x] Confirmed the Clash Royale save, linked drafts, `generated_assets/`, and `output/` no longer exist.
+
+**Follow-up**:
+- [ ] Keep Step10 deterministic and do not reintroduce image generation there.
+- [ ] Use Step12 Art Production for real image generation.
+- [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-29
+**ID**: 2026-06-29-001
+**Summary**: Generated `newplan/11_12_update/step11_12_second_pass_optimization_plan.md`: a second-pass optimization plan for Step11/12 unattended execution.
+
+**Completed**:
+- [x] Reviewed current Step11/12 implementation, unattended recovery helpers, Step13 gating, PipelinePanel display, and prior v4 plan.
+- [x] Confirmed the v4 main line is structurally correct: `completed_with_review`, correction queues, pause/resume logs, Step13 guard, dependency skip records, and Step11 sync reduction are present.
+- [x] Identified remaining optimization areas: transactional repair writes, explicit resume controller, queue-state-based Step13 gating, UI review actions, Step12 real asset task records, and Step11 naming/log cleanup.
+- [x] Wrote the complete optimization plan to `newplan/11_12_update/step11_12_second_pass_optimization_plan.md`.
+
+**Verification**:
+- [x] Confirmed the plan file exists and is readable.
+- [x] No runtime code changes or tests were run for this planning-only task.
+
+**Follow-up**:
+- [ ] If implementing the plan, start with P0 items: two-phase repair writes, unresolved queue helper, and Step13 queue-aware gating.
+- [ ] Preserve current `completed_with_review` semantics and do not default Step13 to continue past unresolved Step11/12 queues.
+- [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
+
+---
+
+**Date**: 2026-06-28
+**ID**: 2026-06-28-021
+**Summary**: Implemented `newplan/blank_new_save_progress_bug_fix.md`: UI "new save" now creates a blank project save instead of cloning the current pipeline workspace, preventing fresh projects from inheriting old `10/17` progress.
+
+**Completed**:
+- [x] Added `create_blank_save()` for blank project saves while preserving `create_save()` / `save_current_as()` as current-state clone paths.
+- [x] Added `_reset_active_for_blank_save()` to clear old pipeline outputs, workspace files, execution-object stores, snapshots, timeline, and generated `source_artifacts/devflow_*` packages while preserving non-generated source artifacts.
+- [x] Extracted `_progress_from_workspace_root()` so save workspaces and repair tools can use the same progress calculation.
+- [x] Updated `SaveManagerDialog.on_new_save()` to call `create_blank_save()` and clarified UI comments/status text.
+- [x] Added `tools/save/repair_blank_save_progress.py` with dry-run by default and `--apply` for existing abnormal saves.
+- [x] Added regression coverage for blank save cleanup, workspace cleanup, generated source cleanup, no execution-object ownership transfer, UI API routing, save-current-as clone semantics, and repair dry-run/apply.
+
+**Verification**:
+- [x] `python -B -m compileall core\save\manager.py core\ui\save_manager_dialog.py core\tests\unit\test_draft_archive_paths.py tools\save\repair_blank_save_progress.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_draft_archive_paths.py -q`: 24 passed.
+- [x] `python -B -m pytest -q`: 207 passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design tools\save\repair_blank_save_progress.py`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+- [x] `python tools\save\repair_blank_save_progress.py --help`: passed.
+
+**Follow-up**:
+- [ ] Existing abnormal save `save_20260628_232416_bb4424` was not automatically modified; use the repair tool only after explicit confirmation.
+- [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
+
+---
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-020
@@ -30,8 +105,6 @@
 - [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-28
 **ID**: 2026-06-28-019

@@ -25,7 +25,7 @@ class SaveManagerDialog(tk.Toplevel):
 
     功能：
     - 列出所有存档（名称 / 最近工作时间 / 阶段进度 / 存档ID）
-    - 新建空白存档
+    - 新建空白项目存档
     - 保存当前设计状态到选中存档
     - 加载选中存档并恢复设计状态
     - 删除选中存档
@@ -293,7 +293,7 @@ class SaveManagerDialog(tk.Toplevel):
     # ──────────────────────────────────────────────────────────
 
     def on_new_save(self) -> None:
-        """新建存档并将当前设计状态保存进去，默认以项目名称作为存档名。"""
+        """新建空白项目存档，并保存当前设计项目对象。"""
         project_name = self.app.project_name.get().strip() or None
         name = self.ask_save_name(default=project_name)
         if not name:
@@ -306,7 +306,7 @@ class SaveManagerDialog(tk.Toplevel):
                 load_execution_object_store,
             )
 
-            save_manager.create_save(self.runtime_root, name, event="user_new_save")
+            save_manager.create_blank_save(self.runtime_root, name, event="user_new_save")
             self._save_project_config_to(
                 save_manager.current_save_id(self.runtime_root)
             )
@@ -318,7 +318,7 @@ class SaveManagerDialog(tk.Toplevel):
                 save_type="manual",
             )
             self.app.status_text.set(f"已保存: {execution_obj['execution_object_id']}")
-            self.status_var.set(f"✅ 已新建存档并保存：{name}")
+            self.status_var.set(f"✅ 已新建空白存档并保存项目：{name}")
             self.app.mark_saved()
             self.refresh()
         except Exception as exc:

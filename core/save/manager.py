@@ -42,6 +42,7 @@ EMPTY_DIRS = (
     "outputs/execution_objects",
     "workspace",
     "workspace/projects",
+    "workspace/exports",
 )
 ACTIVE_FILES = ("gate_log.yaml",)
 _SNAPSHOT_SKIP_SUFFIXES = frozenset(
@@ -213,7 +214,23 @@ def _safe_remove_tree(root: Path, target: Path) -> bool:
     """Remove a directory only when the resolved target stays under root."""
     try:
         _safe_resolve_under(root, target)
+        if not target.exists():
+            return False
         shutil.rmtree(target)
+        return True
+    except Exception:
+        return False
+
+
+def _safe_remove_file(root: Path, target: Path) -> bool:
+    """Remove a file only when the resolved target stays under root."""
+    try:
+        _safe_resolve_under(root, target)
+        if not target.exists():
+            return False
+        if target.is_dir():
+            return False
+        target.unlink()
         return True
     except Exception:
         return False
@@ -1092,10 +1109,10 @@ def _next_seq(manifest: dict[str, Any]) -> int:
     return int(manifest.get("last_transaction_seq") or 0) + 1
 
 
-def _progress(project_root: Path) -> dict[str, Any]:
+def _progress_from_workspace_root(root: Path) -> dict[str, Any]:
     from core.registry import max_step_number
 
-    root = _active_root(project_root)
+    root = Path(root)
     passed = 0
     final_step = max_step_number()
     total = final_step + 1
@@ -1118,6 +1135,10 @@ def _progress(project_root: Path) -> dict[str, Any]:
         ):
             passed += 1
     return {"passed": passed, "total": total, "label": f"已通过 {passed}/{total}"}
+
+
+def _progress(project_root: Path) -> dict[str, Any]:
+    return _progress_from_workspace_root(_active_root(project_root))
 
 
 def _load_manifest(path: Path) -> dict[str, Any]:
@@ -1172,6 +1193,46 @@ def new_save_id() -> str:
     return f"save_{stamp()}_{secrets.token_hex(3)}"
 
 
+def _blank_progress() -> dict[str, Any]:
+    from core.registry import max_step_number
+
+    total = max_step_number() + 1
+    return {"passed": 0, "total": total, "label": f"已通过 0/{total}"}
+
+
+def _reset_active_for_blank_save(project_root: Path) -> None:
+    root = _active_root(project_root)
+    for relative in (
+        Path("outputs") / "artifacts",
+        Path("outputs") / "checkpoints",
+        Path("outputs") / "run_logs",
+        Path("outputs") / "runtime_control",
+        Path("outputs") / "artifact_layer",
+        Path("outputs") / "execution_objects" / "execution_objects.json",
+        Path("workspace"),
+        Path("snapshots"),
+        Path("draft_file_map.json"),
+        Path("timeline.jsonl"),
+        Path("gate_log.yaml"),
+    ):
+        target = root / relative
+        if target.is_dir():
+            _safe_remove_tree(root, target)
+        else:
+            _safe_remove_file(root, target)
+
+    source_root = root / "source_artifacts"
+    if source_root.is_dir():
+        for path in sorted(source_root.glob("devflow_*")):
+            if path.is_dir():
+                _safe_remove_tree(root, path)
+            else:
+                _safe_remove_file(root, path)
+
+    for dirname in EMPTY_DIRS:
+        (root / dirname).mkdir(parents=True, exist_ok=True)
+
+
 def create_save(
     project_root: Path,
     display_name: str | None = None,
@@ -1214,6 +1275,43 @@ def create_save(
         source_save_id=source_save_id,
         reason=event,
     )
+    sync_current_save(project_root, event=event)
+    return _load_manifest(target / MANIFEST_NAME)
+
+
+def create_blank_save(
+    project_root: Path,
+    display_name: str | None = None,
+    *,
+    save_type: str = "manual",
+    created_by: str = "user",
+    reason: str = "",
+    event: str = "create_blank_save",
+) -> dict[str, Any]:
+    root = _formal_root(project_root)
+    ensure_save_system(root)
+    save_id = new_save_id()
+    while save_dir(root, save_id).exists():
+        save_id = new_save_id()
+    name = unique_display_name(root, display_name)
+    created_at = now_iso()
+    manifest = {
+        "schema_version": 1,
+        "save_id": save_id,
+        "display_name": name,
+        "save_type": save_type,
+        "created_by": created_by,
+        "reason": reason,
+        "created_at": created_at,
+        "last_worked_at": created_at,
+        "last_transaction_seq": 0,
+        "progress": _blank_progress(),
+    }
+    target = save_dir(root, save_id)
+    (target / "workspace").mkdir(parents=True, exist_ok=True)
+    write_json(target / MANIFEST_NAME, manifest)
+    _replace_entry(root, manifest, current=True)
+    _reset_active_for_blank_save(project_root)
     sync_current_save(project_root, event=event)
     return _load_manifest(target / MANIFEST_NAME)
 

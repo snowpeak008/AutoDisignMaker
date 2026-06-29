@@ -2472,6 +2472,7 @@ def _stage7_art_style_generation_outputs(
         result = _style_confirmation_outputs(parsed, out_dir, existing_style_options)
         result.update(
             {
+                "status": "success",
                 "style_option_count": len(_confirmation_options(existing_style_options)),
                 "generated_image_count": len(_confirmation_options(existing_style_options)),
                 "reused_generation": True,
@@ -4629,8 +4630,6 @@ def _stage10_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             "parallel_conflict_count": len(conflict_items),
         },
     )
-    write_skill_guidance(out_dir, "imagegen")
-    _write_generated_images_manifest(out_dir, art_tasks, stage=ASSET_ALIGNMENT_STAGE)
     return {
         "content_exists": bool(links) or bool(program_tasks),
         "alignment_count": len(links),

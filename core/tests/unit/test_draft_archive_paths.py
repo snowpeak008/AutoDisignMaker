@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import json
 from pathlib import Path
 
@@ -58,6 +59,17 @@ def write_execution_object_store(workspace_root: Path, save_id: str) -> Path:
 
 def read_execution_object_store(path: Path) -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def write_success_stage(workspace_root: Path, step: int = 0) -> Path:
+    stage = workspace_root / "outputs" / "artifacts" / f"stage_{step:02d}"
+    stage.mkdir(parents=True, exist_ok=True)
+    save_manager.write_json(stage / "validation_report.json", {"status": "success", "valid": True})
+    save_manager.write_json(stage / "artifact_reviews.json", {"status": "success"})
+    save_manager.write_json(stage / "artifact_validation_layer.json", {"status": "success"})
+    save_manager.write_json(stage / "artifact_index.json", {"artifacts": []})
+    save_manager.write_json(stage / "reference_manifest.json", {"files": []})
+    return stage
 
 
 def test_runtime_paths_use_current_session_draft() -> None:
@@ -549,6 +561,119 @@ def test_load_save_does_not_repair_execution_object_store_save_id_mismatch(
     assert read_execution_object_store(archive_b_store)["save_id"] == save_a
     with pytest.raises(ExecutionObjectError, match="does not match expected save_id"):
         ExecutionObjectStore(archive_b_store, expected_save_id=save_b).save()
+
+
+def test_create_blank_save_clears_pipeline_outputs_workspace_and_generated_sources(
+    isolated_project_root,
+) -> None:
+    manifest_a = save_manager.create_save(isolated_project_root, "A", event="unit_test_a")
+    save_a = manifest_a["save_id"]
+    write_success_stage(isolated_project_root, 0)
+    write_execution_object_store(isolated_project_root, save_a)
+    old_project = isolated_project_root / "workspace" / "projects" / "old_project"
+    old_project.mkdir(parents=True)
+    (old_project / "old.txt").write_text("old", encoding="utf-8")
+    old_export = isolated_project_root / "workspace" / "exports" / "old_export"
+    old_export.mkdir(parents=True)
+    generated_source = isolated_project_root / "source_artifacts" / "devflow_Design_v1"
+    generated_source.mkdir(parents=True)
+    (generated_source / "stage_input.md").write_text("old", encoding="utf-8")
+    user_source = isolated_project_root / "source_artifacts" / "user_notes"
+    user_source.mkdir(parents=True)
+    (user_source / "note.md").write_text("keep", encoding="utf-8")
+
+    manifest_b = save_manager.create_blank_save(
+        isolated_project_root,
+        "B",
+        event="user_new_save",
+    )
+    save_b = manifest_b["save_id"]
+    archive_b = save_manager.workspace_dir(isolated_project_root, save_b)
+
+    assert manifest_b["progress"]["label"] == "已通过 0/17"
+    assert not (isolated_project_root / "outputs" / "artifacts" / "stage_00").exists()
+    assert not (archive_b / "outputs" / "artifacts" / "stage_00").exists()
+    assert not (isolated_project_root / "outputs" / "execution_objects" / "execution_objects.json").exists()
+    assert not (archive_b / "outputs" / "execution_objects" / "execution_objects.json").exists()
+    assert not old_project.exists()
+    assert not (archive_b / "workspace" / "projects" / "old_project").exists()
+    assert not old_export.exists()
+    assert not (archive_b / "workspace" / "exports" / "old_export").exists()
+    assert not generated_source.exists()
+    assert not (archive_b / "source_artifacts" / "devflow_Design_v1").exists()
+    assert (user_source / "note.md").read_text(encoding="utf-8") == "keep"
+    assert (archive_b / "source_artifacts" / "user_notes" / "note.md").read_text(encoding="utf-8") == "keep"
+    assert (isolated_project_root / "workspace" / "projects").is_dir()
+    assert (archive_b / "workspace" / "exports").is_dir()
+    timeline = (isolated_project_root / "timeline.jsonl").read_text(encoding="utf-8")
+    assert "execution_object_store_ownership_transferred" not in timeline
+
+
+def test_save_current_as_still_clones_current_pipeline_outputs(
+    isolated_project_root,
+) -> None:
+    write_success_stage(isolated_project_root, 0)
+
+    manifest = save_manager.save_current_as(isolated_project_root, "Clone")
+    save_id = manifest["save_id"]
+    archive_stage = (
+        save_manager.workspace_dir(isolated_project_root, save_id)
+        / "outputs"
+        / "artifacts"
+        / "stage_00"
+    )
+
+    assert archive_stage.exists()
+    assert manifest["progress"]["label"] == "已通过 1/17"
+
+
+def test_save_manager_new_save_ui_calls_blank_save():
+    from core.ui.save_manager_dialog import SaveManagerDialog
+
+    source = inspect.getsource(SaveManagerDialog.on_new_save)
+
+    assert "create_blank_save" in source
+    assert "create_save(self.runtime_root, name" not in source
+
+
+def test_repair_blank_save_progress_dry_run_and_apply(isolated_project_root):
+    from tools.save.repair_blank_save_progress import repair_blank_save_progress
+
+    manifest = save_manager.create_save(isolated_project_root, "Broken", event="unit_test")
+    save_id = manifest["save_id"]
+    workspace_root = save_manager.workspace_dir(isolated_project_root, save_id)
+    write_success_stage(workspace_root, 0)
+    old_project = workspace_root / "workspace" / "projects" / "old_project"
+    old_project.mkdir(parents=True)
+    generated_source = workspace_root / "source_artifacts" / "devflow_Design_v1"
+    generated_source.mkdir(parents=True)
+    user_source = workspace_root / "source_artifacts" / "user_notes"
+    user_source.mkdir(parents=True)
+    (user_source / "note.md").write_text("keep", encoding="utf-8")
+    manifest["progress"] = save_manager._progress_from_workspace_root(workspace_root)
+    save_manager.write_json(save_manager.save_manifest_path(isolated_project_root, save_id), manifest)
+    save_manager._replace_entry(isolated_project_root, manifest)
+
+    dry_run = repair_blank_save_progress(isolated_project_root, save_id, apply=False)
+
+    assert dry_run["old_progress"]["label"] == "已通过 1/17"
+    assert dry_run["new_progress"]["label"] == "已通过 0/17"
+    assert (workspace_root / "outputs" / "artifacts" / "stage_00").exists()
+
+    applied = repair_blank_save_progress(isolated_project_root, save_id, apply=True)
+    repaired_manifest = save_manager.get_save(isolated_project_root, save_id)
+    index_entry = next(
+        item for item in save_manager.load_index(isolated_project_root)["saves"] if item["save_id"] == save_id
+    )
+
+    assert applied["new_progress"]["label"] == "已通过 0/17"
+    assert repaired_manifest["progress"]["label"] == "已通过 0/17"
+    assert index_entry["progress"]["label"] == "已通过 0/17"
+    assert not (workspace_root / "outputs" / "artifacts" / "stage_00").exists()
+    assert not old_project.exists()
+    assert not generated_source.exists()
+    assert (user_source / "note.md").read_text(encoding="utf-8") == "keep"
+    assert (save_manager.save_dir(isolated_project_root, save_id) / "repair_log.jsonl").exists()
 
 
 def test_delete_all_saves_clears_index_and_linked_drafts(

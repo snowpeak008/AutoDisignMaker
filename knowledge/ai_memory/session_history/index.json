@@ -1,5 +1,69 @@
 [
   {
+    "id": "2026-06-29-002",
+    "date": "2026-06-29",
+    "summary": "Implemented Step10 image generation removal: asset alignment no longer runs real image generation; cleaned Clash Royale save, linked drafts, and image residue",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_hades_quality_optimization.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-29-002.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "pipeline/step_10_asset_alignment/README.md"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-29-002.md"
+    ],
+    "next_tasks": [
+      "Keep Step10 deterministic and do not reintroduce image generation there",
+      "Use Step12 Art Production for real image generation"
+    ]
+  },
+  {
+    "id": "2026-06-29-001",
+    "date": "2026-06-29",
+    "summary": "Generated Step11/12 second-pass optimization plan covering repair transaction safety, explicit resume control, queue-aware gating, UI review actions, and Step12 asset task records",
+    "changed_files": [
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-29-001.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "newplan/11_12_update/step11_12_second_pass_optimization_plan.md"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-29-001.md",
+      "newplan/11_12_update/step11_12_second_pass_optimization_plan.md"
+    ],
+    "next_tasks": [
+      "If implementing the plan, start with P0 repair transaction safety, unresolved queue helper, and Step13 queue-aware gating",
+      "Do not commit newplan/ unless explicitly requested"
+    ]
+  },
+  {
+    "id": "2026-06-28-021",
+    "date": "2026-06-28",
+    "summary": "Implemented blank_new_save_progress_bug_fix: new-save UI now creates blank project saves instead of cloning old pipeline progress, with a dry-run repair tool",
+    "changed_files": [
+      "core/save/manager.py",
+      "core/tests/unit/test_draft_archive_paths.py",
+      "core/ui/save_manager_dialog.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-28-021.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "tools/save/repair_blank_save_progress.py"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-28-021.md",
+      "tools/save/repair_blank_save_progress.py"
+    ],
+    "next_tasks": [
+      "Do not repair existing abnormal save save_20260628_232416_bb4424 without explicit confirmation",
+      "Do not commit newplan/ unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-28-020",
     "date": "2026-06-28",
     "summary": "Implemented execution_object_save_id_ownership_fix: strict save_id validation plus explicit create/save-as ownership transfer with audit records",
