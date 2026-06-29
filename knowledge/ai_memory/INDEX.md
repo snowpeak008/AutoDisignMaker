@@ -16,7 +16,7 @@
 - [x] Confirmed Step12 still owns image generation through `_write_generated_images_manifest(out_dir, tasks, stage=ART_PRODUCTION_STAGE)`.
 - [x] Updated `pipeline/step_10_asset_alignment/README.md` to state Step10 does not generate preview or production images.
 - [x] Added regression coverage proving Step10 does not call image generation or create image-generation outputs.
-- [x] Deleted Clash Royale save `save_20260628_235115_d020fa`, all five linked drafts, and untracked image residue directories `generated_assets/` and `output/`.
+- [x] Deleted Clash Royale save `save_20260628_235115_d020fa`, all six linked drafts, and untracked image residue directories `generated_assets/` and `output/`.
 
 **Verification**:
 - [x] `python -B -m pytest core\tests\unit\test_hades_quality_optimization.py -q`: 10 passed.
@@ -24,7 +24,7 @@
 - [x] `python -B -m pytest -q`: 208 passed.
 - [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design tools\save\repair_blank_save_progress.py`: passed.
 - [x] `git diff --check`: passed with only CRLF working-copy warnings.
-- [x] Confirmed the Clash Royale save, linked drafts, `generated_assets/`, and `output/` no longer exist.
+- [x] Confirmed the Clash Royale save, all linked drafts, `generated_assets/`, and `output/` no longer exist.
 
 **Follow-up**:
 - [ ] Keep Step10 deterministic and do not reintroduce image generation there.
