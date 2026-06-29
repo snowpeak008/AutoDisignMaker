@@ -8,6 +8,29 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-29
+**ID**: 2026-06-29-004
+**Summary**: Patched a Step11 follow-up bug: execution-object fallback now matches `DEV_EXECUTION_STAGE` instead of hardcoded stage `10`, and unused Step11 helpers were removed.
+
+**Completed**:
+- [x] Fixed `_stage11_outputs()` exception fallback to find existing stage-11 program task execution objects.
+- [x] Removed unused `_previous_stage11_report()` and `_stage11_resume_read_dirs()` helpers.
+- [x] Updated the AST-shadowing test start point after removing dead code.
+- [x] Added a regression assertion that Step11 fallback uses `DEV_EXECUTION_STAGE` and no longer checks `stage == 10`.
+
+**Verification**:
+- [x] `python -B -m pytest core\tests\unit\test_unattended_recovery.py -q`: 21 passed.
+- [x] `python -B -m py_compile core\engines\generation.py core\tests\unit\test_unattended_recovery.py`: passed.
+- [x] `python -B -m pytest -q`: 218 passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] Keep Step11 execution-object lookups tied to `DEV_EXECUTION_STAGE`.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-29
 **ID**: 2026-06-29-003
 **Summary**: Implemented `newplan/step11_standardization_bugfix_plan.md`: Step11 Development Execution now uses Step11-owned recovery paths, run-state semantics, save history lookup, and development-execution messages.
 
@@ -34,8 +57,6 @@
 - [ ] Do not reintroduce Step11 `stage10`/`Stage12` naming in recovery state.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-29
 **ID**: 2026-06-29-002

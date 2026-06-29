@@ -3804,10 +3804,6 @@ def _stage11_legacy_resume_dirs() -> list[Path]:
     ]
 
 
-def _stage11_resume_read_dirs() -> list[Path]:
-    return [_stage11_resume_dir(), *_stage11_legacy_resume_dirs()]
-
-
 def _current_save_stage_dir(stage: int) -> Path | None:
     workspace = save_manager.current_save_workspace_dir(BASE_DIR)
     if workspace is None:
@@ -3832,21 +3828,6 @@ def _legacy_save_stage_dir(stage: int) -> Path | None:
         / "artifacts"
         / f"stage_{stage:02d}"
     )
-
-
-def _previous_stage11_report() -> dict[str, Any]:
-    candidates = [stage_dir(DEV_EXECUTION_STAGE) / "devexecution.json"]
-    current_save_stage = _current_save_stage_dir(DEV_EXECUTION_STAGE)
-    if current_save_stage is not None:
-        candidates.append(current_save_stage / "devexecution.json")
-    legacy_save_stage = _legacy_save_stage_dir(DEV_EXECUTION_STAGE)
-    if legacy_save_stage is not None:
-        candidates.append(legacy_save_stage / "devexecution.json")
-    for path in candidates:
-        report = read_json(path, {})
-        if isinstance(report, dict) and report.get("records"):
-            return report
-    return {}
 
 
 def _write_stage11_task_record(
@@ -4900,7 +4881,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 matching_objects = [
                     obj
                     for obj in execution_store.list_objects()
-                    if obj.get("metadata", {}).get("stage") == 10
+                    if obj.get("metadata", {}).get("stage") == DEV_EXECUTION_STAGE
                     and obj.get("metadata", {}).get("business_id")
                     == task.get("task_id")
                 ]

@@ -113,7 +113,7 @@ def test_stage11_has_no_local_import_shadowing_module_names():
             module_names.update(alias.asname or alias.name.split(".")[0] for alias in node.names)
 
     functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
-    start = next(node.lineno for node in functions if node.name == "_previous_stage11_report")
+    start = next(node.lineno for node in functions if node.name == "_stage11_checkpoint_root")
     end = next(node.lineno for node in functions if node.name == "_stage12_outputs")
 
     class Scanner(ast.NodeVisitor):
@@ -284,6 +284,13 @@ def test_stage11_stop_report_uses_stage_11(tmp_path):
     assert report["successful_task_count"] == 1
     saved = read_json(tmp_path / "devexecution_stop_report.json", {})
     assert saved["stage"] == 11
+
+
+def test_stage11_execution_object_fallback_uses_stage11_constant():
+    source = inspect.getsource(generation._stage11_outputs)
+
+    assert 'obj.get("metadata", {}).get("stage") == DEV_EXECUTION_STAGE' in source
+    assert 'obj.get("metadata", {}).get("stage") == 10' not in source
 
 
 def test_step13_development_blocker_messages_reference_step11():
