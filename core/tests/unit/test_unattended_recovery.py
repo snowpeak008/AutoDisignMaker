@@ -191,6 +191,11 @@ def test_stage11_task_records_write_to_stage11_resume_dir(tmp_path, monkeypatch)
 
 def test_stage11_previous_records_read_legacy_stage12_resume_dir(tmp_path, monkeypatch):
     _patch_stage11_stage_dir(monkeypatch, tmp_path)
+    monkeypatch.setattr(
+        generation.save_manager,
+        "current_save_workspace_dir",
+        lambda _root: None,
+    )
     legacy = tmp_path / "outputs" / "checkpoints" / "stage_12_resume_records"
     _write_task_record(legacy, "DEV-001", "legacy")
 

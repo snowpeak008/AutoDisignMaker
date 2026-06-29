@@ -14,6 +14,7 @@ class ModelTask:
     allowed_write_paths: list[str] = field(default_factory=list)
     timeout_seconds: int = 1800
     sandbox: str = "workspace-write"
+    cwd: str = ""
 
 
 @dataclass

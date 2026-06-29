@@ -8,6 +8,32 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-29
+**ID**: 2026-06-29-005
+**Summary**: Implemented `newplan/step11_codex_cwd_bug_plan.md`: Step11 Codex tasks now execute from the configured Unity project path instead of the AutoDesignMaker repository root.
+
+**Completed**:
+- [x] Added `ModelTask.cwd` with an empty-string default to preserve existing adapter behavior.
+- [x] Updated `CodexAdapter.generate()` to use `task.cwd` when present and fall back to the adapter root otherwise.
+- [x] Set `model_task.cwd` and `repair_task.cwd` to `project_path` in Step11 main execution and auto-repair paths.
+- [x] Added Codex cwd regression tests and isolated a Step11 legacy-resume test from the current formal save workspace.
+
+**Verification**:
+- [x] `python -B -m py_compile core\adapters\base.py core\adapters\codex_adapter.py core\engines\generation.py`: passed.
+- [x] `python -B -m pytest core\tests\unit\test_model_adapters.py -q`: 8 passed.
+- [x] `python -B -m pytest core\tests\unit\test_unattended_recovery.py -q`: 21 passed.
+- [x] `python -B -m pytest core\tests\integration\test_plugins.py -q`: 4 passed.
+- [x] `python -B -m pytest -q`: 221 passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] To recover the failed Factorio draft, clear `drafts/20260629_231411_38176/outputs/artifacts/stage_11/` after stopping any active run, then rerun Step11.
+- [ ] Keep Step11 Codex execution and repair tasks rooted at the configured Unity `development_path`.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-29
 **ID**: 2026-06-29-004
 **Summary**: Patched a Step11 follow-up bug: execution-object fallback now matches `DEV_EXECUTION_STAGE` instead of hardcoded stage `10`, and unused Step11 helpers were removed.
 
@@ -27,8 +53,6 @@
 - [ ] Keep Step11 execution-object lookups tied to `DEV_EXECUTION_STAGE`.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-29
 **ID**: 2026-06-29-003

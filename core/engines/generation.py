@@ -4284,6 +4284,7 @@ def _attempt_auto_repair_task(
             allowed_write_paths=allowed_write_paths,
         )
         repair_task.timeout_seconds = config.repair_timeout_seconds
+        repair_task.cwd = str(project_path)
         started_at = now_iso()
         attempt_record: dict[str, Any] = {
             "attempt_id": attempt_id,
@@ -5016,6 +5017,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         allowed_write_paths=allowed_write_paths,
                     )
                     model_task.timeout_seconds = 720
+                    model_task.cwd = str(project_path)
                     task_prompt_for_repair = model_task.prompt
                     adapter_name = "unknown"
                     try:

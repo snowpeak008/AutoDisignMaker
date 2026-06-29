@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-29T23:03:32",
+  "generated_at": "2026-06-29T23:38:11",
   "files": {
     "core/main.py": {
       "sha256": "967bda69c6bd2e2882aa6bb607343ea4694a74ebd3082019f7c66d3d645bc330",
       "size": 11588
     },
     "core/engines/generation.py": {
-      "sha256": "2e127a2bf394f16a8f9c795efc9b4865b5ec4e38ecc3bf6beef524e38c8e31ea",
-      "size": 246054
+      "sha256": "4785d2f113bff8d0238ca2545eb65dd316ee50446ac6c1adb2fd2c445945f69e",
+      "size": 246153
     },
     "core/registry.py": {
       "sha256": "162f14baf14727439cdeea0c004cc403703ecbfb659e2d78d24f6902f5584a1c",
@@ -38,8 +38,8 @@
       "size": 3741
     },
     "core/adapters/base.py": {
-      "sha256": "e0f25984bf8a3438653d1a88f85d495812bff923217dc8199f418f5b685e6ab8",
-      "size": 750
+      "sha256": "8488217320f812f6488f716d47e686e58484ee72444b45ccbc83e2c961134065",
+      "size": 768
     },
     "core/adapters/registry.py": {
       "sha256": "856e90e69d96deb392bfd7bbe802d437fd2c8156c4b9a4b46d3f0277aa6c1313",
@@ -50,8 +50,8 @@
       "size": 2737
     },
     "core/adapters/codex_adapter.py": {
-      "sha256": "6b9027d96fa21bd4bf29861d064021d65db7ed3278d9f2901bd36fcfbe749483",
-      "size": 939
+      "sha256": "fcf0f7b3a55f06bb16823f76a8d82415d9350cf5faa6c08a1e209c3763f73e6c",
+      "size": 1002
     },
     "core/artifact/graph.py": {
       "sha256": "b2ef454758c01b374749a7d8846e304eade357257ac75d847bf54ea117e31ab1",

@@ -1,5 +1,29 @@
 [
   {
+    "id": "2026-06-29-005",
+    "date": "2026-06-29",
+    "summary": "Implemented Step11 Codex cwd fix: ModelTask can carry a working directory, CodexAdapter honors it, and Step11 execution/repair tasks run from the configured Unity project path",
+    "changed_files": [
+      "core/adapters/base.py",
+      "core/adapters/codex_adapter.py",
+      "core/engines/generation.py",
+      "core/tests/unit/test_model_adapters.py",
+      "core/tests/unit/test_unattended_recovery.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-29-005.md",
+      "knowledge/ai_memory/session_history/index.json"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-29-005.md"
+    ],
+    "next_tasks": [
+      "Stop any active Factorio Step11 run, clear drafts/20260629_231411_38176/outputs/artifacts/stage_11/, then rerun Step11",
+      "Keep Step11 Codex execution and repair tasks rooted at the configured Unity development_path",
+      "Do not commit newplan/ unless explicitly requested"
+    ]
+  },
+  {
     "id": "2026-06-29-004",
     "date": "2026-06-29",
     "summary": "Patched Step11 execution-object fallback to match DEV_EXECUTION_STAGE instead of hardcoded stage 10, and removed two unused Step11 helpers",

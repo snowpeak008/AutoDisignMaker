@@ -22,4 +22,5 @@ class CodexAdapter(ModelAdapter):
         return self
 
     def generate(self, task: ModelTask) -> ModelResult:
-        return run_codex_exec(task, cwd=self.root, cli_path=self.cli_path)
+        cwd = Path(task.cwd).expanduser() if task.cwd else self.root
+        return run_codex_exec(task, cwd=cwd, cli_path=self.cli_path)

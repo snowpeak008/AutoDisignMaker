@@ -5,6 +5,7 @@ from types import SimpleNamespace
 from core.adapters.base import ModelResult, ModelTask
 from core.adapters.claude_code_model_adapter import ClaudeCodeModelAdapter
 from core.adapters.codex import executor as codex_executor
+from core.adapters.codex_adapter import CodexAdapter
 from core.adapters.codex.executor import run_codex_exec
 from pipeline.step_02_design_review_freeze.supplement import EntitySupplementAdapter
 
@@ -77,6 +78,63 @@ def test_codex_exec_uses_task_sandbox(tmp_path, monkeypatch) -> None:
     assert captured["stdin"] is None
     assert captured["encoding"] == "utf-8"
     assert captured["errors"] == "replace"
+
+
+def test_model_task_cwd_defaults_empty() -> None:
+    task = ModelTask(task_id="default_cwd", prompt="return json")
+
+    assert task.cwd == ""
+
+
+def test_codex_adapter_uses_task_cwd_when_set(tmp_path, monkeypatch) -> None:
+    captured: dict[str, object] = {}
+    unity_project = tmp_path / "unity_project"
+
+    def fake_run_codex_exec(
+        task: ModelTask, cwd, *, cli_path: str = "codex"
+    ) -> ModelResult:
+        captured["cwd"] = cwd
+        captured["cli_path"] = cli_path
+        return ModelResult(task_id=task.task_id, status="success")
+
+    monkeypatch.setattr(
+        "core.adapters.codex_adapter.run_codex_exec",
+        fake_run_codex_exec,
+    )
+
+    adapter = CodexAdapter(root=tmp_path / "wrong_root")
+    task = ModelTask(
+        task_id="cwd_override",
+        prompt="return json",
+        cwd=str(unity_project),
+    )
+    result = adapter.generate(task)
+
+    assert result.status == "success"
+    assert captured["cwd"] == unity_project
+
+
+def test_codex_adapter_falls_back_to_root_when_cwd_empty(tmp_path, monkeypatch) -> None:
+    captured: dict[str, object] = {}
+    adapter_root = tmp_path / "adapter_root"
+
+    def fake_run_codex_exec(
+        task: ModelTask, cwd, *, cli_path: str = "codex"
+    ) -> ModelResult:
+        captured["cwd"] = cwd
+        return ModelResult(task_id=task.task_id, status="success")
+
+    monkeypatch.setattr(
+        "core.adapters.codex_adapter.run_codex_exec",
+        fake_run_codex_exec,
+    )
+
+    adapter = CodexAdapter(root=adapter_root)
+    task = ModelTask(task_id="cwd_default", prompt="return json")
+    result = adapter.generate(task)
+
+    assert result.status == "success"
+    assert captured["cwd"] == adapter_root
 
 
 def test_step02_supplement_uses_stdout_only_codex_sandbox(tmp_path) -> None:
