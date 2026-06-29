@@ -1,5 +1,26 @@
 [
   {
+    "id": "2026-06-29-003",
+    "date": "2026-06-29",
+    "summary": "Implemented Step11 standardization: fixed local import shadowing, renamed Step11 recovery helpers, moved resume records to stage_11, read history from saves workspace, corrected run-state and development messages",
+    "changed_files": [
+      "core/engines/generation.py",
+      "core/tests/unit/test_unattended_recovery.py",
+      "knowledge/ai_memory/INDEX.md",
+      "knowledge/ai_memory/project_understanding/freshness.json",
+      "knowledge/ai_memory/session_history/2026-06-29-003.md",
+      "knowledge/ai_memory/session_history/index.json",
+      "newplan/step11_standardization_bugfix_plan.md"
+    ],
+    "artifacts_created": [
+      "knowledge/ai_memory/session_history/2026-06-29-003.md"
+    ],
+    "next_tasks": [
+      "Keep legacy stage_12_resume_records and legacy save reads as compatibility-only paths",
+      "Do not reintroduce Step11 stage10/Stage12 naming in recovery state"
+    ]
+  },
+  {
     "id": "2026-06-29-002",
     "date": "2026-06-29",
     "summary": "Implemented Step10 image generation removal: asset alignment no longer runs real image generation; cleaned Clash Royale save, linked drafts, and image residue",

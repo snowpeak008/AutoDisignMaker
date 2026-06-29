@@ -95,6 +95,11 @@ PROGRAM_PLAN_STAGE = 8
 ART_PLAN_STAGE = 9
 ASSET_ALIGNMENT_STAGE = 10
 DEV_EXECUTION_STAGE = 11
+DEV_EXECUTION_STAGE_LABEL = "Step 11"
+DEV_EXECUTION_STAGE_NAME = "Development Execution"
+DEV_EXECUTION_TASK_UNIT_TYPE = "stage11_task"
+DEV_EXECUTION_RESUME_DIR_NAME = "stage_11_resume_records"
+LEGACY_DEV_EXECUTION_RESUME_DIR_NAMES = ("stage_12_resume_records",)
 ART_PRODUCTION_STAGE = 12
 INTEGRATION_STAGE = 13
 BUILD_PACKAGE_STAGE = 14
@@ -3784,24 +3789,59 @@ def _run_task_verification(
     return results
 
 
-def _previous_stage10_report() -> dict[str, Any]:
-    candidates = [
-        stage_dir(DEV_EXECUTION_STAGE) / "devexecution.json",
+def _stage11_checkpoint_root() -> Path:
+    return stage_dir(DEV_EXECUTION_STAGE).parent.parent / "checkpoints"
+
+
+def _stage11_resume_dir() -> Path:
+    return _stage11_checkpoint_root() / DEV_EXECUTION_RESUME_DIR_NAME
+
+
+def _stage11_legacy_resume_dirs() -> list[Path]:
+    return [
+        _stage11_checkpoint_root() / dirname
+        for dirname in LEGACY_DEV_EXECUTION_RESUME_DIR_NAMES
     ]
-    save_index = read_json(BASE_DIR / "save" / "save_index.json", {})
-    if isinstance(save_index, dict):
-        save_id = str(save_index.get("current_save_id") or "")
-        if save_id:
-            candidates.append(
-                BASE_DIR
-                / "save"
-                / save_id
-                / "workspace"
-                / "outputs"
-                / "artifacts"
-                / f"stage_{DEV_EXECUTION_STAGE:02d}"
-                / "devexecution.json"
-            )
+
+
+def _stage11_resume_read_dirs() -> list[Path]:
+    return [_stage11_resume_dir(), *_stage11_legacy_resume_dirs()]
+
+
+def _current_save_stage_dir(stage: int) -> Path | None:
+    workspace = save_manager.current_save_workspace_dir(BASE_DIR)
+    if workspace is None:
+        return None
+    return workspace / "outputs" / "artifacts" / f"stage_{stage:02d}"
+
+
+def _legacy_save_stage_dir(stage: int) -> Path | None:
+    # Legacy read-only fallback: older builds used save/ instead of saves/.
+    index = read_json(BASE_DIR / "save" / "save_index.json", {})
+    if not isinstance(index, dict):
+        return None
+    save_id = str(index.get("current_save_id") or "")
+    if not save_id:
+        return None
+    return (
+        BASE_DIR
+        / "save"
+        / save_id
+        / "workspace"
+        / "outputs"
+        / "artifacts"
+        / f"stage_{stage:02d}"
+    )
+
+
+def _previous_stage11_report() -> dict[str, Any]:
+    candidates = [stage_dir(DEV_EXECUTION_STAGE) / "devexecution.json"]
+    current_save_stage = _current_save_stage_dir(DEV_EXECUTION_STAGE)
+    if current_save_stage is not None:
+        candidates.append(current_save_stage / "devexecution.json")
+    legacy_save_stage = _legacy_save_stage_dir(DEV_EXECUTION_STAGE)
+    if legacy_save_stage is not None:
+        candidates.append(legacy_save_stage / "devexecution.json")
     for path in candidates:
         report = read_json(path, {})
         if isinstance(report, dict) and report.get("records"):
@@ -3809,57 +3849,67 @@ def _previous_stage10_report() -> dict[str, Any]:
     return {}
 
 
-def _stage10_resume_dir() -> Path:
-    return BASE_DIR / "outputs" / "checkpoints" / "stage_12_resume_records"
-
-
-def _write_stage10_task_record(
+def _write_stage11_task_record(
     out_dir: Path, task_id: Any, record: dict[str, Any]
 ) -> None:
     filename = f"{task_id}_execution.json"
     write_json(out_dir / filename, record)
-    write_json(_stage10_resume_dir() / filename, record)
+    write_json(_stage11_resume_dir() / filename, record)
 
 
 def _stage11_record_successful(record: dict[str, Any]) -> bool:
     return str(record.get("status")) in {"success", "auto_repaired"}
 
 
-def _previous_records_by_task() -> dict[str, dict[str, Any]]:
-    report = _previous_stage10_report()
+def _records_from_devexecution_report(stage_path: Path | None) -> list[dict[str, Any]]:
+    if stage_path is None:
+        return []
+    report = read_json(stage_path / "devexecution.json", {})
     records = report.get("records", []) if isinstance(report, dict) else []
-    result = {
-        str(record.get("task_id")): record
-        for record in records
-        if isinstance(record, dict) and record.get("task_id")
-    }
-    stage10 = stage_dir(DEV_EXECUTION_STAGE)
-    for path in stage10.glob("DEV-*_execution.json"):
+    return [record for record in records if isinstance(record, dict)]
+
+
+def _task_records_from_dir(stage_path: Path | None) -> list[dict[str, Any]]:
+    if stage_path is None:
+        return []
+    records: list[dict[str, Any]] = []
+    for path in sorted(stage_path.glob("DEV-*_execution.json")):
         record = read_json(path, {})
-        if isinstance(record, dict) and record.get("task_id"):
-            result[str(record.get("task_id"))] = record
-    for path in _stage10_resume_dir().glob("DEV-*_execution.json"):
-        record = read_json(path, {})
-        if isinstance(record, dict) and record.get("task_id"):
-            result[str(record.get("task_id"))] = record
-    save_index = read_json(BASE_DIR / "save" / "save_index.json", {})
-    if isinstance(save_index, dict):
-        save_id = str(save_index.get("current_save_id") or "")
-        if save_id:
-            saved_stage10 = (
-                BASE_DIR
-                / "save"
-                / save_id
-                / "workspace"
-                / "outputs"
-                / "artifacts"
-                / f"stage_{DEV_EXECUTION_STAGE:02d}"
-            )
-            for path in saved_stage10.glob("DEV-*_execution.json"):
-                record = read_json(path, {})
-                if isinstance(record, dict) and record.get("task_id"):
-                    result.setdefault(str(record.get("task_id")), record)
-    return result
+        if isinstance(record, dict):
+            records.append(record)
+    return records
+
+
+def _merge_task_records(sources: list[list[dict[str, Any]]]) -> dict[str, dict[str, Any]]:
+    merged: dict[str, dict[str, Any]] = {}
+    for records in sources:
+        for record in records:
+            task_id = str(record.get("task_id") or "")
+            if not task_id or task_id in merged:
+                continue
+            merged[task_id] = record
+    return merged
+
+
+def _previous_records_by_task() -> dict[str, dict[str, Any]]:
+    active_stage = stage_dir(DEV_EXECUTION_STAGE)
+    current_save_stage = _current_save_stage_dir(DEV_EXECUTION_STAGE)
+    legacy_save_stage = _legacy_save_stage_dir(DEV_EXECUTION_STAGE)
+    legacy_resume_records: list[dict[str, Any]] = []
+    for resume_dir in _stage11_legacy_resume_dirs():
+        legacy_resume_records.extend(_task_records_from_dir(resume_dir))
+    return _merge_task_records(
+        [
+            _task_records_from_dir(active_stage),
+            _records_from_devexecution_report(active_stage),
+            _task_records_from_dir(_stage11_resume_dir()),
+            _task_records_from_dir(current_save_stage),
+            _records_from_devexecution_report(current_save_stage),
+            legacy_resume_records,
+            _task_records_from_dir(legacy_save_stage),
+            _records_from_devexecution_report(legacy_save_stage),
+        ]
+    )
 
 
 def _can_reuse_existing_task_output(task: dict[str, Any], project_path: Path) -> bool:
@@ -3869,7 +3919,7 @@ def _can_reuse_existing_task_output(task: dict[str, Any], project_path: Path) ->
     return all((project_path / str(output)).is_file() for output in outputs)
 
 
-def _write_stage10_progress(
+def _write_stage11_progress(
     out_dir: Path,
     *,
     project_path: Path,
@@ -3912,9 +3962,9 @@ def _write_stage10_progress(
         "package_change_reports": package_reports,
         "blocking_issues": [],
         "note": (
-            "Stage 12 stopped at a resumable task boundary."
+            "Step 11 stopped at a resumable task boundary."
             if status == "stopped"
-            else "Stage 12 is still executing. Final success is written only after all tasks and group Unity validation complete."
+            else "Step 11 is still executing. Final success is written only after all tasks and group Unity validation complete."
         ),
     }
     write_json(out_dir / "devexecution_progress.json", progress)
@@ -3982,12 +4032,12 @@ def _write_stage10_progress(
         current_execution_object_id=current_execution_object_id,
         next_task_id=next_task_id,
         completed_units=completed_units,
-        unit_type="stage12_task",
+        unit_type=DEV_EXECUTION_TASK_UNIT_TYPE,
         stop_reason=stop_reason,
     )
 
 
-def _sync_stage10_checkpoint(out_dir: Path, *, event: str, message: str = "") -> None:
+def _sync_stage11_checkpoint(out_dir: Path, *, event: str, message: str = "") -> None:
     try:
         save_manager.ensure_current_save(BASE_DIR)
         save_manager.retry_sync(
@@ -4013,7 +4063,7 @@ def _sync_stage10_checkpoint(out_dir: Path, *, event: str, message: str = "") ->
         )
 
 
-def _ordered_stage10_task_ids(parallel_groups: list[Any]) -> list[str]:
+def _ordered_stage11_task_ids(parallel_groups: list[Any]) -> list[str]:
     ordered: list[str] = []
     for group in parallel_groups:
         if not isinstance(group, dict):
@@ -4025,7 +4075,7 @@ def _ordered_stage10_task_ids(parallel_groups: list[Any]) -> list[str]:
     return ordered
 
 
-def _next_stage10_task_id(ordered_task_ids: list[str], current_task_id: Any) -> str:
+def _next_stage11_task_id(ordered_task_ids: list[str], current_task_id: Any) -> str:
     current = str(current_task_id or "")
     if current not in ordered_task_ids:
         return ""
@@ -4033,7 +4083,7 @@ def _next_stage10_task_id(ordered_task_ids: list[str], current_task_id: Any) -> 
     return ordered_task_ids[index] if index < len(ordered_task_ids) else ""
 
 
-def _write_stage10_stop_report(
+def _write_stage11_stop_report(
     out_dir: Path,
     *,
     expected_count: int,
@@ -4044,13 +4094,13 @@ def _write_stage10_stop_report(
     stop_reason: str,
 ) -> dict[str, Any]:
     successful_count = sum(
-        1 for record in execution_records if record.get("status") == "success"
+        1 for record in execution_records if _stage11_record_successful(record)
     )
     report = {
         "schema_version": 1,
         "generated_at": now_iso(),
         "status": "stopped",
-        "stage": 10,
+        "stage": DEV_EXECUTION_STAGE,
         "boundary": "after_current_task" if current_task_id else "before_next_task",
         "executed_task_count": len(execution_records),
         "successful_task_count": successful_count,
@@ -4083,7 +4133,7 @@ class _Stage11SyncTracker:
         self.force(event=event, message=message)
 
     def force(self, *, event: str, message: str = "") -> None:
-        _sync_stage10_checkpoint(self.out_dir, event=event, message=message)
+        _sync_stage11_checkpoint(self.out_dir, event=event, message=message)
         self.completed_since_sync = 0
         self.last_sync_at = time.monotonic()
 
@@ -4411,13 +4461,13 @@ def _append_jsonl(path: Path, payload: dict[str, Any]) -> None:
         handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
 
-def _stage10_active_execution_object_id(execution_store: Any, task_id: Any) -> str:
+def _stage11_active_execution_object_id(execution_store: Any, task_id: Any) -> str:
     task_id_text = str(task_id or "")
     if not task_id_text:
         return ""
     for obj in reversed(execution_store.list_objects()):
         if (
-            obj.get("metadata", {}).get("stage") == 10
+            obj.get("metadata", {}).get("stage") == DEV_EXECUTION_STAGE
             and obj.get("metadata", {}).get("business_id") == task_id_text
             and obj.get("state") in {"approved", "executing", "cancellation_requested"}
         ):
@@ -4676,7 +4726,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             "preflight_status": preflight.get("status"),
             "records": [],
             "blocking_issues": blocking_before_execution,
-            "rule": "Stage 12 must not fabricate development success when preflight or Stage 09 topology is invalid.",
+            "rule": "Step 11 must not fabricate development success when preflight or Stage 09 topology is invalid.",
         }
         write_json(out_dir / "devexecution.json", result)
         write_json(out_dir / "actual_development_blocked.json", result)
@@ -4686,7 +4736,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             out_dir / "devexecution.md",
             "# Development Execution\n\n"
             "- Status: blocked\n"
-            "- No Unity project files were modified by Stage 12.\n",
+            "- No Unity project files were modified by Step 11.\n",
         )
         return {
             "content_exists": True,
@@ -4712,7 +4762,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     parallel_groups = plan.get("parallel_groups", [])
     if not isinstance(parallel_groups, list):
         parallel_groups = []
-    ordered_task_ids = _ordered_stage10_task_ids(parallel_groups)
+    ordered_task_ids = _ordered_stage11_task_ids(parallel_groups)
 
     execution_records: list[dict[str, Any]] = []
     package_reports: list[dict[str, Any]] = []
@@ -4726,7 +4776,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     skipped_task_info: dict[str, dict[str, Any]] = {}
     skipped_records: list[dict[str, Any]] = []
     expected_count = len(tasks_by_id)
-    _write_stage10_progress(
+    _write_stage11_progress(
         out_dir,
         project_path=project_path,
         editor_path=editor_path,
@@ -4765,14 +4815,14 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 }
                 execution_records.append(record)
                 skipped_records.append(record)
-                _write_stage10_task_record(out_dir, task_id, record)
+                _write_stage11_task_record(out_dir, task_id, record)
                 continue
             if runtime_control.stop_requested(BASE_DIR):
                 stopped = True
                 soft_stopped = True
                 resume_next_task_id = str(task_id)
                 stop_reason = f"Operator requested soft stop before {task_id}."
-                _write_stage10_progress(
+                _write_stage11_progress(
                     out_dir,
                     project_path=project_path,
                     editor_path=editor_path,
@@ -4785,7 +4835,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     stop_reason=stop_reason,
                     status="stopped",
                 )
-                _write_stage10_stop_report(
+                _write_stage11_stop_report(
                     out_dir,
                     expected_count=expected_count,
                     execution_records=execution_records,
@@ -4794,9 +4844,9 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     next_task_id=resume_next_task_id,
                     stop_reason=stop_reason,
                 )
-                _sync_stage10_checkpoint(
+                _sync_stage11_checkpoint(
                     out_dir,
-                    event="stage10_soft_stopped",
+                    event="stage11_soft_stopped",
                     message=stop_reason,
                 )
                 break
@@ -4820,7 +4870,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             if package_changes:
                 allowed_changed_files.add("Packages/manifest.json")
 
-            execution_object_id = _stage10_active_execution_object_id(
+            execution_object_id = _stage11_active_execution_object_id(
                 execution_store, task.get("task_id")
             )
             try:
@@ -4834,7 +4884,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     execution_object_id = str(
                         execution_object.get("execution_object_id") or ""
                     )
-                _write_stage10_progress(
+                _write_stage11_progress(
                     out_dir,
                     project_path=project_path,
                     editor_path=editor_path,
@@ -4895,8 +4945,8 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         "execution_object_id": execution_object_id,
                     }
                 )
-                _write_stage10_task_record(out_dir, task.get("task_id"), record)
-                _write_stage10_progress(
+                _write_stage11_task_record(out_dir, task.get("task_id"), record)
+                _write_stage11_progress(
                     out_dir,
                     project_path=project_path,
                     editor_path=editor_path,
@@ -4990,7 +5040,6 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     try:
                         from core.adapters.registry import get_adapter
                         from core.config.ai_config import AI_CONFIG_PATH, get_active_profile
-                        from core.runtime.preflight import load_project_settings
 
                         if AI_CONFIG_PATH.exists():
                             _profile = get_active_profile()
@@ -5089,7 +5138,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     else ""
                 ),
                 "execution_note": (
-                    "Reused existing Codex-generated outputs from the previous Stage 12 attempt."
+                    "Reused existing Codex-generated outputs from the previous Step 11 attempt."
                     if reused_existing_output
                     else "Executed serially inside the Stage 09 declared parallel group for post-run audit isolation."
                 ),
@@ -5166,8 +5215,8 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 }
             )
             status = str(record.get("status"))
-            _write_stage10_task_record(out_dir, task.get("task_id"), record)
-            _write_stage10_progress(
+            _write_stage11_task_record(out_dir, task.get("task_id"), record)
+            _write_stage11_progress(
                 out_dir,
                 project_path=project_path,
                 editor_path=editor_path,
@@ -5205,13 +5254,13 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
             if runtime_control.stop_requested(BASE_DIR):
                 stopped = True
                 soft_stopped = True
-                resume_next_task_id = _next_stage10_task_id(
+                resume_next_task_id = _next_stage11_task_id(
                     ordered_task_ids, task.get("task_id")
                 )
                 stop_reason = (
                     f"Operator requested soft stop after {task.get('task_id')}."
                 )
-                _write_stage10_progress(
+                _write_stage11_progress(
                     out_dir,
                     project_path=project_path,
                     editor_path=editor_path,
@@ -5226,7 +5275,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     stop_reason=stop_reason,
                     status="stopped",
                 )
-                _write_stage10_stop_report(
+                _write_stage11_stop_report(
                     out_dir,
                     expected_count=expected_count,
                     execution_records=execution_records,
@@ -5235,9 +5284,9 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     next_task_id=resume_next_task_id,
                     stop_reason=stop_reason,
                 )
-                _sync_stage10_checkpoint(
+                _sync_stage11_checkpoint(
                     out_dir,
-                    event="stage10_soft_stopped",
+                    event="stage11_soft_stopped",
                     message=stop_reason,
                 )
                 break
@@ -5338,8 +5387,8 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                         record["execution_object_state"] = execution_store.get(
                             execution_object_id
                         ).get("state")
-                _write_stage10_task_record(out_dir, record.get("task_id"), record)
-                _write_stage10_progress(
+                _write_stage11_task_record(out_dir, record.get("task_id"), record)
+                _write_stage11_progress(
                     out_dir,
                     project_path=project_path,
                     editor_path=editor_path,
@@ -5375,13 +5424,13 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                 last_task_id = str(
                     execution_records[group_record_indexes[-1]].get("task_id") or ""
                 )
-                resume_next_task_id = _next_stage10_task_id(
+                resume_next_task_id = _next_stage11_task_id(
                     ordered_task_ids, last_task_id
                 )
                 stop_reason = (
                     f"Operator requested soft stop after {group_id} validation."
                 )
-                _write_stage10_progress(
+                _write_stage11_progress(
                     out_dir,
                     project_path=project_path,
                     editor_path=editor_path,
@@ -5395,7 +5444,7 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     stop_reason=stop_reason,
                     status="stopped",
                 )
-                _write_stage10_stop_report(
+                _write_stage11_stop_report(
                     out_dir,
                     expected_count=expected_count,
                     execution_records=execution_records,
@@ -5404,9 +5453,9 @@ def _stage11_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
                     next_task_id=resume_next_task_id,
                     stop_reason=stop_reason,
                 )
-                _sync_stage10_checkpoint(
+                _sync_stage11_checkpoint(
                     out_dir,
-                    event="stage10_soft_stopped",
+                    event="stage11_soft_stopped",
                     message=stop_reason,
                 )
                 break
@@ -5779,7 +5828,7 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         blockers.append(
             {
                 "id": "ACTUAL-DEV-NO-RECORDS",
-                "message": "Stage 12 produced no real development records.",
+                "message": "Step 11 produced no real development records.",
             }
         )
     if not actual_changed_files:
@@ -5797,7 +5846,7 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         blockers.append(
             {
                 "id": "UNITY-VALIDATION-MISSING",
-                "message": "Stage 12 did not record Unity batchmode validation.",
+                "message": "Step 11 did not record Unity batchmode validation.",
             }
         )
     if failed_unity_results:
@@ -5824,7 +5873,7 @@ def _stage13_outputs(parsed: dict[str, Any], out_dir: Path) -> dict[str, Any]:
         blockers.append(
             {
                 "id": "EXECUTION-OBJECTS-NOT-VERIFIED",
-                "message": "Stage 12/13 execution objects must be verified before integration.",
+                "message": "Step 11/12 execution objects must be verified before integration.",
                 "details": execution_object_validation,
             }
         )

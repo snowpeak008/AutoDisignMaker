@@ -8,6 +8,36 @@
 ## 上次会话摘要
 
 **Date**: 2026-06-29
+**ID**: 2026-06-29-003
+**Summary**: Implemented `newplan/step11_standardization_bugfix_plan.md`: Step11 Development Execution now uses Step11-owned recovery paths, run-state semantics, save history lookup, and development-execution messages.
+
+**Completed**:
+- [x] Removed the Step11 `load_project_settings` local import shadowing issue.
+- [x] Renamed Step11 execution helpers from `_stage10_*` to `_stage11_*` while preserving real Step10 asset alignment.
+- [x] Moved new Step11 task checkpoints to `outputs/checkpoints/stage_11_resume_records/`.
+- [x] Kept read-only compatibility for legacy `stage_12_resume_records/`.
+- [x] Reworked previous task record loading into explicit priority merging: active stage, active Step11 checkpoint, current `saves/` workspace, legacy checkpoint, then legacy `save/` workspace.
+- [x] Updated Step11 run state to `unit_type="stage11_task"` and stop reports to `stage=11`.
+- [x] Corrected Step11 and Step13 development-execution messages that incorrectly referred to Stage12.
+- [x] Added regression tests for shadowing, resume paths, save workspace reads, merge priority, run state, stop report, and Step13 text.
+
+**Verification**:
+- [x] `python -B -m pytest core\tests\unit\test_unattended_recovery.py -q`: 20 passed.
+- [x] `python -B -m pytest core\tests\integration\test_plugins.py -q`: 4 passed.
+- [x] `python -B -m pytest core\tests\unit\test_manual_style_confirmation.py -q`: 27 passed.
+- [x] `python -B -m pytest -q`: 217 passed.
+- [x] `python -B -m compileall -q core pipeline tools\validators\pipeline_quality.py tools\asset_production tools\config tools\design tools\save\repair_blank_save_progress.py`: passed.
+- [x] `git diff --check`: passed with only CRLF working-copy warnings.
+
+**Follow-up**:
+- [ ] Keep legacy `stage_12_resume_records/` and legacy `save/` reads compatibility-only.
+- [ ] Do not reintroduce Step11 `stage10`/`Stage12` naming in recovery state.
+
+---
+
+## 历史会话摘要
+
+**Date**: 2026-06-29
 **ID**: 2026-06-29-002
 **Summary**: Implemented `newplan/step10_image_generation_removal_plan.md`: Step10 asset alignment no longer performs real image generation, and the failed Clash Royale save/output residue was cleaned.
 
@@ -32,8 +62,6 @@
 - [ ] `newplan/` remains local planning material and should not be committed unless explicitly requested.
 
 ---
-
-## 历史会话摘要
 
 **Date**: 2026-06-29
 **ID**: 2026-06-29-001
